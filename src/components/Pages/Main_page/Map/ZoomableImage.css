@@ -1,0 +1,18 @@
+.zoomable-image-container {
+    display: flex;
+}
+
+.zoom-controls {
+    margin: 10px;
+}
+
+.image-wrapper {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.image-wrapper img {
+    transition: transform 0.3s ease;
+}

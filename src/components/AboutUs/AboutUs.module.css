@@ -1,0 +1,36 @@
+.about-us {
+    font-family: Arial, sans-serif;
+}
+
+.about-us h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.about-us h3 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.about-us p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.about-us ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.about-us li {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 5px;
+}
+
+.about-us .contact-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}

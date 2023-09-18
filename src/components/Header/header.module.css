@@ -1,0 +1,52 @@
+.navbar {
+    background: #232222;
+    color: white;
+}
+
+.nav_link{
+    color: white !important;
+}
+
+.page_logo {
+    width: 200px;
+}
+.drlink a{
+    color: black !important;
+    padding: 5px 15px;
+}
+
+
+.active {
+    color: #DF7788 !important;
+}
+
+.navbar_toggler {
+    background: transparent;
+    border: none;
+}
+
+.menu_icon {
+    width: 36px;
+}
+.navigation {
+    padding: 15px 0 !important;
+}
+
+.text_white {
+    color: white;
+}
+
+@media (max-width: 576px) {
+    .dropdown__item::before{
+        transform: rotate(-90deg);
+    }
+    .dropdown__item:active {
+        background-color: white !important;
+        color: black !important;
+    }
+}
+
+.dropdown-menu {
+    left: -50px;
+    background: #000;
+}

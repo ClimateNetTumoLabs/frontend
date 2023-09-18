@@ -1,0 +1,23 @@
+* {
+    font-family: 'Quicksand', sans-serif;
+
+    letter-spacing: 1.4px;
+    font-weight: 300;
+}
+
+.carousel-control-prev,
+.carousel-control-next,
+.carousel-indicators{
+    display: none;
+}
+
+.App {
+    background: #232222
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,116 @@
+/* Banner.css */
+.carousel {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex;
+  flex-direction: row;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 300px;
+}
+
+.carousel-item img {
+  width: 100%;
+}
+
+/* If you want to control the spacing between slides */
+.carousel-item:not(:last-child) {
+  margin-right: 15px;
+}
+
+/* Adjust slide appearance if needed */
+.carousel-item img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Banner.module.css */
+.carouselContainer {
+  overflow: hidden;
+}
+
+.carousel_text_section {
+  top: 50%;
+  transform: translateY(-50%);
+  width: fit-content;
+}
+
+.carouselCaption {
+  left: 72px !important;
+}
+
+.carouselItem {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  width: 100%;
+}
+.carouselItem img {
+  width: 100%;
+}
+
+.typing-animation {
+  animation: typing 4s steps(40) 1s forwards, blink-caret 0.75s steps(2) infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-right-color: transparent;
+  }
+  50% {
+    border-right-color: white;
+  }
+}
+
+.carouselItem.active {
+  opacity: 1;
+  z-index: 1;
+  position: relative;
+}
+
+.static_name, .animated_text {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Media query for desktop */
+@media (min-width: 768px) {
+  .carouselCaption {
+    text-align: left;
+  }
+}
+
+/* Media query for mobile */
+@media (max-width: 767px) {
+  .carouselCaption {
+    text-align: center;
+  }
+  /*.carouselContainer {*/
+  /*  height: 276px;*/
+
+  /*}*/
+  /*.carouselContainer * {*/
+  /*  height: inherit;*/
+  /*}*/
+}
