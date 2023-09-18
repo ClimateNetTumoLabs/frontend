@@ -4,6 +4,8 @@ import data from './weather_data.json'
 import {ReactComponent as DeviceImage} from "../../assets/images/device_image.svg";
 import Chart from "../Chart/Chart";
 import {useLocation} from "react-router-dom";
+import AirQuality from "../AirQuality/AirQuality";
+import PointDescription from "../PointDescription/PointDescription";
 
 function componentDidMount() {
     const url = window.location.pathname;
@@ -111,6 +113,8 @@ function InnerPage() {
         <div className={styles.inner_page}>
             <DeviceImage />
             <Chart/>
+            <AirQuality/>
+            <PointDescription/>
         </div>
     )
 }

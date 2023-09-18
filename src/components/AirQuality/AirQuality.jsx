@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { AgChartsReact } from "ag-charts-react";
 import weatherdata from "../InnerPage/weather_data.json";
-import styles from './Chart.module.css'
+import styles from './AirQuality.module.css'
 
-const Chart = () => {
+const AirQuality = () => {
   const [options, setOptions] = useState({
     autoSize: true,
     series: [
       {
-        data: [], // Placeholder for Lounge Temperature data
+        data: [], // Placeholder for Pm1 data
         xKey: "time",
         yKey: "sensor",
-        yName: "Temperature(°C)",
+        yName: "Pm1",
         stroke: "#03a9f4",
         marker: {
           fill: "#03a9f4",
@@ -19,14 +19,25 @@ const Chart = () => {
         },
       },
       {
-        data: [], // Placeholder for Office Humidity data
+        data: [], // Placeholder for Pm2_5 data
         xKey: "time",
         yKey: "sensor",
-        yName: "Humidity(%)",
+        yName: "Pm2_5",
         stroke: "rgb(202, 122, 122)",
         marker: {
           fill: " #660000",
           stroke: "#658d36",
+        },
+      },
+      {
+        data: [], // Placeholder for Pm10 data
+        xKey: "time",
+        yKey: "sensor",
+        yName: "Pm10",
+        stroke: "#ff0000",
+        marker: {
+          fill: " #ff0000",
+          stroke: "#6a5acd",
         },
       },
     ],
@@ -47,21 +58,28 @@ const Chart = () => {
 
   useEffect(() => {
     if (weatherdata) {
-      const loungeTemperatureData = weatherdata.map(entry => ({
+      const loungePm10Data = weatherdata.map(entry => ({
         time: new Date(entry.time),
-        sensor: entry.temperature
+        sensor: entry.pm1
       }));
 
-      const officeHumidityData = weatherdata.map(entry => ({
+      const officePm2_5Data = weatherdata.map(entry => ({
         time: new Date(entry.time),
-        sensor: entry.humidity
+        sensor: entry.pm2_5
+      }));
+
+      const officePm10Data = weatherdata.map(entry => ({
+        time: new Date(entry.time),
+        sensor: entry.pm10
       }));
 
       setOptions(prevOptions => ({
         ...prevOptions,
         series: [
-          { ...prevOptions.series[0], data: loungeTemperatureData },
-          { ...prevOptions.series[1], data: officeHumidityData }
+          { ...prevOptions.series[0], data: loungePm10Data },
+          { ...prevOptions.series[1], data: officePm2_5Data },
+          { ...prevOptions.series[2], data: officePm10Data },
+
         ]
       }));
     }
@@ -69,9 +87,9 @@ const Chart = () => {
 
   return (
     <div className={styles.chart_div}> 
-      <AgChartsReact options={options} />;
+      <AgChartsReact options={options} />
     </div>
   )
 };
 
-export default Chart;
+export default AirQuality;
