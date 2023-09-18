@@ -10,6 +10,7 @@ import ScrollingDiv from "../Pages/Main_page/About_project/about";
 import MapArmenia from "../Pages/Main_page/Map/map";
 import InnerPage from "../InnerPage/inner_page";
 import AboutUs from '../AboutUs/AboutUs';
+import ContactUs from "../ContactUs/ContactUs";
 
 const Navigation = () => {
     const [isNavExpanded, setIsNavExpanded] = useState(false);
@@ -172,8 +173,8 @@ const About = () => (
 );
 
 const Contact = () => (
-    <div className="d-none">
-        Contact Page
+    <div className="">
+        <ContactUs/>
     </div>
 );
 

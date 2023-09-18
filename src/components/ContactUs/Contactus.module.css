@@ -1,0 +1,15 @@
+.contactus {
+    padding: 15px;
+}
+.contactus h2, .contactus label{
+    color: #DF7788;
+}
+
+
+.contactus .submit {
+    background: #DF7788;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    width: 100px;
+}
