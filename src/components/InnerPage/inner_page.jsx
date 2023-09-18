@@ -6,6 +6,7 @@ import Chart from "../Chart/Chart";
 import {useLocation} from "react-router-dom";
 import AirQuality from "../AirQuality/AirQuality";
 import PointDescription from "../PointDescription/PointDescription";
+import PressureCo2 from "../PressureCo2/PressureCo2";
 
 function componentDidMount() {
     const url = window.location.pathname;
@@ -114,6 +115,7 @@ function InnerPage() {
             <DeviceImage />
             <Chart/>
             <AirQuality/>
+            <PressureCo2/>
             <PointDescription/>
         </div>
     )
