@@ -3,7 +3,7 @@ import styles from './AboutUs.module.css';
 
 const AboutUs = () => {
     return (
-        <div className={styles['about-us']}>
+        <div className={styles.aboutus}>
             <h2>About Tumo Labs Armenia</h2>
             <p>Welcome to Tumo Labs Armenia, where innovation knows no bounds.</p>
 
@@ -70,17 +70,17 @@ const AboutUs = () => {
                 Ready to embark on a journey of innovation? Get in touch with us today:
             </p>
             <ul className={styles['contact-list']}>
-                <li>
-                    <strong>Address:</strong> [Include Address]
+                <li className={styles.li_item}>
+                    <strong>Email:</strong>
+                    <a href="mailto:info@example.com">
+                    eutumocc@tumo.org
+                </a>
                 </li>
-                <li>
-                    <strong>Email:</strong> [Include Email]
-                </li>
-                <li>
-                    <strong>Phone:</strong> [Include Phone Number]
-                </li>
-                <li>
-                    <strong>Social Media:</strong> [Include Social Media Links]
+                <li className={styles.li_item}>
+                    <strong>Phone:</strong>
+                    <a href="tel:+123456789">
+                    +374 10 398413
+                </a>
                 </li>
             </ul>
 

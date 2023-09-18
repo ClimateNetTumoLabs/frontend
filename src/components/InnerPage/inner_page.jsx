@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import styles from './innder_page.module.css'
 import data from './weather_data.json'
 import {ReactComponent as DeviceImage} from "../../assets/images/device_image.svg";
+import Chart from "../Chart/Chart";
+import {useLocation} from "react-router-dom";
 
 function componentDidMount() {
     const url = window.location.pathname;
@@ -10,6 +12,12 @@ function componentDidMount() {
 }
 
 const ShowHoverData = (data) => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to the top of the page
+    }, [pathname]);
+
     const last_element = data[data.length - 1]
     const alldata = {
         'Temperature': last_element['temperature'],
@@ -102,6 +110,7 @@ function InnerPage() {
 
         <div className={styles.inner_page}>
             <DeviceImage />
+            <Chart/>
         </div>
     )
 }

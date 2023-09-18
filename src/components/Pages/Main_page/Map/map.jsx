@@ -1,8 +1,8 @@
 import React from 'react';
-import { MapContainer, TileLayer, GeoJSON, Marker, Popup, ZoomControl} from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, Marker, Popup} from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import iconUrl from '../../../../assets/icons/marker-icon-2x.png'; // Replace with the actual path to your icon
+import iconUrl from '../../../../assets/icons/map-marker.svg'; // Replace with the actual path to your icon
 
 import armeniaGeoJSON from './test.json'
 import {Link, Route, Routes} from "react-router-dom";
@@ -24,25 +24,27 @@ const MapArmenia = () => {
         popupAnchor: [0, -15],
     });
 
-    const center = [40.3486, 45.0247]; // Initial map center coordinates
+    const center = [40.19185102418464, 44.47937321283996]; // Initial map center coordinates
 
     return (
-        <MapContainer
-            center={[40.159120, 45.002717]} // Center of Armenia
-            zoom={8}
-            style={{ height: '600px', width: '100%' }}>
-            <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'/>
-            <ZoomControl position="bottomright" />
-            <Marker position={center} icon={customIcon}>
-                <Popup><Link to="/device/1">Details Page</Link></Popup>
-            </Marker>
-            <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle}/>
-            <Routes>
-                <Route path="/device/:id" element={<InnerPage />} />
-            </Routes>
-        </MapContainer>
+        <div id={"Map"}>
+            <MapContainer
+                center={[40.159120, 45.002717]} // Center of Armenia
+                zoom={8}
+                style={{ height: '600px', width: '100%' }}>
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'/>
+                <Marker position={center} icon={customIcon}>
+                    <Popup><Link to="/device/1">Yerevan</Link></Popup>
+                </Marker>
+                <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle}/>
+                <Routes>
+                    <Route path="/device/:id" element={<InnerPage />} />
+                </Routes>
+            </MapContainer>
+        </div>
+
     );
 };
 

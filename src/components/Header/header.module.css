@@ -10,9 +10,15 @@
 .page_logo {
     width: 200px;
 }
+
 .drlink a{
     color: black !important;
     padding: 5px 15px;
+}
+
+.map_name {
+    color: white ;
+    padding: 8px;
 }
 
 

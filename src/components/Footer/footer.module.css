@@ -1,6 +1,10 @@
 .footer {
     background: #333232;
 }
+.footer_inner {
+    height: 200px;
+    padding: 15px;
+}
 
 .social_icons_block {
     display: flex;
@@ -72,4 +76,12 @@
 .company_information img {
     margin-right: 20px;
 }
+
+
+.map_section {
+    height: 100px;
+    width: 100%;
+}
+
+div.leaflet-control-attribution a[title="A JavaScript library for interactive maps"] { display: none }
 

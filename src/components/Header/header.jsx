@@ -13,6 +13,16 @@ import AboutUs from '../AboutUs/AboutUs';
 
 const Navigation = () => {
     const [isNavExpanded, setIsNavExpanded] = useState(false);
+    const GoToSection = () => {
+        const targetElement = document.getElementById('Map');
+
+        if (targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    };
 
     const handleNavToggle = () => {
         setIsNavExpanded(!isNavExpanded);
@@ -77,41 +87,42 @@ const Navigation = () => {
                             <NavItem to="/" label="Home" key="home" />
                             <NavItem to="/about" label="About" key="about" />
                             <NavItem to="/contact" label="Contact" key="contact" />
-                            <li className="nav-item dropdown" key="dropdown">
-                                <div
-                                    className={`${styles.nav_link} nav-link dropdown-toggle`}
-                                    id="navbarDropdown"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                    data-bs-auto-close="outside">
-                                    Devices
-                                </div>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    {menuData.map((menu, menuIndex) => (
-                                        <li key={menuIndex} className="dropstart">
-                                            <div
-                                                className={` ${styles.dropdown__item} dropdown-item dropdown-toggle`}
-                                                data-bs-toggle="dropdown">
-                                                {menu.title}
-                                                <ul className={`dropdown-menu ${styles.drlink}`}>
-                                                    {menu.submenus.map((submenu, submenuIndex) => (
-                                                        // <li  key={submenuIndex}>
-                                                        //
-                                                        //     <Link onClick={handleDrLinkClick}
-                                                        //         to={`/about`}
-                                                        //         className="">
-                                                        //         {submenu.title}
-                                                        //     </Link>
-                                                        // </li>
-                                                        <NavItem to={`device/${submenu.device_id}`} label={`${submenu.title}`} key={submenuIndex} />
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
+                            <li className={styles.map_name} onClick={GoToSection}>Map</li>
+                            {/*<li className="nav-item dropdown" key="dropdown">*/}
+                            {/*    <div*/}
+                            {/*        className={`${styles.nav_link} nav-link dropdown-toggle`}*/}
+                            {/*        id="navbarDropdown"*/}
+                            {/*        role="button"*/}
+                            {/*        data-bs-toggle="dropdown"*/}
+                            {/*        aria-expanded="false"*/}
+                            {/*        data-bs-auto-close="outside">*/}
+                            {/*        Devices*/}
+                            {/*    </div>*/}
+                            {/*    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">*/}
+                            {/*        {menuData.map((menu, menuIndex) => (*/}
+                            {/*            <li key={menuIndex} className="dropstart">*/}
+                            {/*                <div*/}
+                            {/*                    className={` ${styles.dropdown__item} dropdown-item dropdown-toggle`}*/}
+                            {/*                    data-bs-toggle="dropdown">*/}
+                            {/*                    {menu.title}*/}
+                            {/*                    <ul className={`dropdown-menu ${styles.drlink}`}>*/}
+                            {/*                        {menu.submenus.map((submenu, submenuIndex) => (*/}
+                            {/*                            // <li  key={submenuIndex}>*/}
+                            {/*                            //*/}
+                            {/*                            //     <Link onClick={handleDrLinkClick}*/}
+                            {/*                            //         to={`/about`}*/}
+                            {/*                            //         className="">*/}
+                            {/*                            //         {submenu.title}*/}
+                            {/*                            //     </Link>*/}
+                            {/*                            // </li>*/}
+                            {/*                            <NavItem to={`device/${submenu.device_id}`} label={`${submenu.title}`} key={submenuIndex} />*/}
+                            {/*                        ))}*/}
+                            {/*                    </ul>*/}
+                            {/*                </div>*/}
+                            {/*            </li>*/}
+                            {/*        ))}*/}
+                            {/*    </ul>*/}
+                            {/*</li>*/}
                         </ul>
                     </div>
                 </div>
