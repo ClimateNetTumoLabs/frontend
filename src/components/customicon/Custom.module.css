@@ -1,0 +1,14 @@
+.hovering {
+  width: 100px;
+  display: flex;
+  background: white;
+  border-radius: 5px;
+  visibility: hidden;
+  transition: visibility 0s ease 0s, opacity 0.5s linear 0s;
+  color: black;
+  font-size: 14px;
+  padding: 5px;
+}
+ellipse {
+  cursor: pointer;
+}

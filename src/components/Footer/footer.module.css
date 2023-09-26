@@ -1,10 +1,6 @@
 .footer {
     background: #333232;
 }
-.footer_inner {
-    height: 200px;
-    padding: 15px;
-}
 
 .social_icons_block {
     display: flex;
@@ -29,15 +25,7 @@
 /* Apply the animation on hover */
 .social_icons_block a:hover {
     animation: wave 1s infinite;
-}
-
-
-.social_icons_block svg {
-    transition: color 0.4s;
-}
-
-.social_icons_block a:hover svg{
-    color : #DF7788;
+    color: #ff8000; /* Change color on hover */
 }
 
 .social_icons_block a:last-of-type {
@@ -66,7 +54,7 @@
 .company_information a, .company_information{
     color: white;
     text-decoration: none;
-    transition: color 0.4s;
+    transition: color 0.6s;
 }
 
 .company_information a:hover, .company_information:hover {
@@ -76,12 +64,4 @@
 .company_information img {
     margin-right: 20px;
 }
-
-
-.map_section {
-    height: 100px;
-    width: 100%;
-}
-
-div.leaflet-control-attribution a[title="A JavaScript library for interactive maps"] { display: none }
 
