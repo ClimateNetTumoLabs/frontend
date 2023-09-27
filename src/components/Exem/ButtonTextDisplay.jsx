@@ -4,6 +4,37 @@ import DataChart from "../test/ChartContainer";
 import weatherData from "../../weather_data.json";
 import styles from "./ButtonStyles.module.css";
 
+const show_data_function = (some_array, need_data) => {
+  let local_array = [];
+  let axis = [];
+
+  some_array.forEach((item) => {
+    let a = {};
+    need_data.forEach((value) => {
+      if (value === "time" && item[value]) {
+        const date = new Date(item[value]);
+        a[value] = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+      } else {
+        a[value] = item[value];
+      }
+    });
+    local_array.push(a);
+  });
+
+  need_data.slice(0, -1).forEach((item) => {
+    axis.push({
+      xKey: "time",
+      yKey: item,
+    });
+  });
+
+  const returned_value = { data: local_array, name: axis };
+  return returned_value;
+};
+
+
+
+
 const ButtonTextDisplay = () => {
   const [selectedChart, setSelectedChart] = useState(null);
 
@@ -11,41 +42,9 @@ const ButtonTextDisplay = () => {
     setSelectedChart(chartNumber);
   };
 
-  const yNameMappings = {
-    1: ["Pm1", "Pm2_5", "Pm10"],
-    2: ["temperature", "humidity"],
-    3: ["co2", "pressure"]
-  };
-
-  const chartConfig = {
-    autoSize: true,
-    series: [
-      {
-        data: [], // Placeholder for data
-        xKey: "time",
-        yKey: "sensor",
-        yName: "", // Will be dynamically set based on selectedChart
-        stroke: "#03a9f4",
-        marker: {
-          fill: "#03a9f4",
-          stroke: "#0276ab",
-        },
-      },
-    ],
-    axes: [
-      {
-        type: "time",
-        position: "bottom",
-      },
-      {
-        type: "number",
-        position: "left",
-        label: {
-          format: "#{.1f}",
-        },
-      },
-    ],
-  };
+  const chartData1 = show_data_function(weatherData, ["humidity", "temperature", "time"]);
+  const chartData2 = show_data_function(weatherData, ["pm1", "pm2_5", "pm10", "time"]);
+  const chartData3 = show_data_function(weatherData, ["pressure", "co2", "time"]);
 
   return (
     <div>
@@ -66,26 +65,17 @@ const ButtonTextDisplay = () => {
           className={`${styles.button} ${styles.button3}`}
           onClick={() => handleChartClick(3)}
         >
-          Co2 & Pressure
+          Pressure & CO2 Chart
         </button>
       </div>
-      {selectedChart !== null && (
-        <DataChart
-          chartType={selectedChart}
-          data={weatherData}
-          chartConfig={{
-            ...chartConfig,
-            series: [
-              {
-                ...chartConfig.series[0],
-                yName: yNameMappings[selectedChart].join(", ")
-              }
-            ]
-          }}
-        />
-      )}
+
+      {selectedChart === 1 && <DataChart information={chartData1} />}
+      {selectedChart === 2 && <DataChart information={chartData2} />}
+      {selectedChart === 3 && <DataChart information={chartData3} />}
     </div>
   );
 };
 
 export default ButtonTextDisplay;
+
+
