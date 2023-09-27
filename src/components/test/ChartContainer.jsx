@@ -9,35 +9,41 @@ const DataChart = ({ chartType, data, chartConfig }) => {
     if (data) {
       let chartData = [];
 
-      switch (chartType) {
-        case 1:
-          chartData = data.map(entry => ({
-            time: new Date(entry.time),
-            sensor: entry.pm1,
-          }));
-          console.log(chartData);
-          break;
-        case 2:
-          chartData = data.map(entry => ({
-            time: new Date(entry.time),
-            sensor: entry.pressure,
-          }));
-          break;
-        case 3:
-          chartData = data.map(entry => ({
-            time: new Date(entry.time),
-            sensor: entry.humidity,
-          }));
-          break;
-        default:
-          chartData = [];
+      for (let i = 0; i < data.length; i++) {
+        const entry = data[i];
+        const time = new Date(entry.time);
+        let sensor = {};
+
+        switch (chartType) {
+          case 1:
+            sensor = {
+              pm1: entry.pm1,
+              pm2_5: entry.pm2_5,
+              pm10: entry.pm10
+            };
+            break;
+          case 2:
+            sensor = {
+              co2: entry.co2,
+              pressure: entry.pressure
+            };
+            break;
+          case 3:
+            sensor = {
+              temperature: entry.temperature,
+              humidity: entry.humidity
+            };
+            break;
+          default:
+            sensor = {};
+        }
+
+        chartData.push({ time, sensor });
       }
 
       setOptions(prevOptions => ({
         ...prevOptions,
-        series: [
-          { ...prevOptions.series[0], data: chartData }
-        ]
+        series: [{ ...prevOptions.series[0], data: chartData }]
       }));
     }
   }, [chartType, data]);
@@ -48,5 +54,4 @@ const DataChart = ({ chartType, data, chartConfig }) => {
     </div>
   );
 };
-
-export default DataChart;
+ export default DataChart

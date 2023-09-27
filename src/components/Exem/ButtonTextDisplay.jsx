@@ -11,14 +11,20 @@ const ButtonTextDisplay = () => {
     setSelectedChart(chartNumber);
   };
 
+  const yNameMappings = {
+    1: ["Pm1", "Pm2_5", "Pm10"],
+    2: ["temperature", "humidity"],
+    3: ["co2", "pressure"]
+  };
+
   const chartConfig = {
     autoSize: true,
     series: [
       {
-        data: [], 
+        data: [], // Placeholder for data
         xKey: "time",
         yKey: "sensor",
-        yName: "", 
+        yName: "", // Will be dynamically set based on selectedChart
         stroke: "#03a9f4",
         marker: {
           fill: "#03a9f4",
@@ -45,29 +51,37 @@ const ButtonTextDisplay = () => {
     <div>
       <div className={styles.buttonContainer}>
         <button
-          className={styles.button}
+          className={`${styles.button} ${styles.button1}`}
           onClick={() => handleChartClick(1)}
         >
-          Pm1 Chart
+          Dust Chart
         </button>
         <button
-          className={styles.button}
+          className={`${styles.button} ${styles.button2}`}
           onClick={() => handleChartClick(2)}
         >
-          CO2 Chart
+          Weather Chart
         </button>
         <button
-          className={styles.button}
+          className={`${styles.button} ${styles.button3}`}
           onClick={() => handleChartClick(3)}
         >
-          Temperature Chart
+          Co2 & Pressure
         </button>
       </div>
       {selectedChart !== null && (
         <DataChart
           chartType={selectedChart}
           data={weatherData}
-          chartConfig={chartConfig}
+          chartConfig={{
+            ...chartConfig,
+            series: [
+              {
+                ...chartConfig.series[0],
+                yName: yNameMappings[selectedChart].join(", ")
+              }
+            ]
+          }}
         />
       )}
     </div>
