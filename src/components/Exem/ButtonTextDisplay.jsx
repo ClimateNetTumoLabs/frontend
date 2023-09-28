@@ -13,7 +13,9 @@ const show_data_function = (some_array, need_data) => {
     need_data.forEach((value) => {
       if (value === "time" && item[value]) {
         const date = new Date(item[value]);
-        a[value] = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+        const hours = date.getHours().toString().padStart(2, '0'); // Use padStart to ensure 2 digits
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        a[value] = `${hours}:${minutes}`;
       } else {
         a[value] = item[value];
       }
@@ -35,8 +37,10 @@ const show_data_function = (some_array, need_data) => {
 
 
 
+
+
 const ButtonTextDisplay = () => {
-  const [selectedChart, setSelectedChart] = useState(null);
+  const [selectedChart, setSelectedChart] = useState(1);
 
   const handleChartClick = (chartNumber) => {
     setSelectedChart(chartNumber);
@@ -69,7 +73,7 @@ const ButtonTextDisplay = () => {
         </button>
       </div>
 
-      {selectedChart === 1 && <DataChart information={chartData1} />}
+       <DataChart information={chartData1} />
       {selectedChart === 2 && <DataChart information={chartData2} />}
       {selectedChart === 3 && <DataChart information={chartData3} />}
     </div>

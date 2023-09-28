@@ -6,6 +6,8 @@ import Test from '../../components/test/Test';
 import DustChart from '../../components/dustchart/DustChart';
 import ChartContainer from '../../components/test/ChartContainer';
 import ButtonTextDisplay from '../../components/Exem/ButtonTextDisplay';
+import BookingCalendar from '../../components/calendar/BookingCalendar';
+
 
 const About = () => {
 
@@ -19,6 +21,8 @@ const About = () => {
         {/* <DustChart /> */}
 
 
+
+       <BookingCalendar />
 
 
         <ButtonTextDisplay/>
