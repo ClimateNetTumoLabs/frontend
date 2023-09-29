@@ -11,22 +11,22 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(2px)" },
-  "100%": { opacity: 1, transform: "translateY(0)" }
+  "100%": { opacity: 1, transform: "translateY(0)" },
 });
 
 const slideRightAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateX(-2px)" },
-  "100%": { opacity: 1, transform: "translateX(0)" }
+  "100%": { opacity: 1, transform: "translateX(0)" },
 });
 
 const slideDownAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(-2px)" },
-  "100%": { opacity: 1, transform: "translateY(0)" }
+  "100%": { opacity: 1, transform: "translateY(0)" },
 });
 
 const slideLeftAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateX(2px)" },
-  "100%": { opacity: 1, transform: "translateX(0)" }
+  "100%": { opacity: 1, transform: "translateX(0)" },
 });
 const StyledContent = styled(PopoverPrimitive.Content, {
   borderRadius: 4,
@@ -43,16 +43,16 @@ const StyledContent = styled(PopoverPrimitive.Content, {
       '&[data-side="top"]': { animationName: slideDownAndFade },
       '&[data-side="right"]': { animationName: slideLeftAndFade },
       '&[data-side="bottom"]': { animationName: slideUpAndFade },
-      '&[data-side="left"]': { animationName: slideRightAndFade }
-    }
+      '&[data-side="left"]': { animationName: slideRightAndFade },
+    },
   },
   "&:focus": {
-    boxShadow: `hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px, 0 0 0 2px ${violet.violet7}`
-  }
+    boxShadow: `hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px, 0 0 0 2px ${violet.violet7}`,
+  },
 });
 
 const StyledArrow = styled(PopoverPrimitive.Arrow, {
-  fill: "white"
+  fill: "white",
 });
 
 const StyledClose = styled(PopoverPrimitive.Close, {
@@ -70,7 +70,7 @@ const StyledClose = styled(PopoverPrimitive.Close, {
   right: 5,
 
   "&:hover": { backgroundColor: violet.violet4 },
-  "&:focus": { boxShadow: `0 0 0 2px ${violet.violet7}` }
+  "&:focus": { boxShadow: `0 0 0 2px ${violet.violet7}` },
 });
 
 // Exports
@@ -82,9 +82,7 @@ export const PopoverClose = StyledClose;
 
 // Your app...
 const Flex = styled("div", { display: "flex" });
-function Valod (){
-    return <div>Show Calendar</div>
-}
+
 
 const IconButton = styled("button", {
   all: "unset",
@@ -99,19 +97,19 @@ const IconButton = styled("button", {
   backgroundColor: "white",
   boxShadow: `0 2px 10px ${blackA.blackA7}`,
   "&:hover": { backgroundColor: violet.violet3 },
-  "&:focus": { boxShadow: `0 0 0 2px black` }
+  "&:focus": { boxShadow: `0 0 0 2px black` },
 });
 const Fieldset = styled("fieldset", {
   all: "unset",
   display: "flex",
   gap: 20,
-  alignItems: "center"
+  alignItems: "center",
 });
 
 const Label = styled("label", {
   fontSize: 13,
   color: violet.violet11,
-  width: 75
+  width: 75,
 });
 
 const Input = styled("input", {
@@ -129,7 +127,7 @@ const Input = styled("input", {
   boxShadow: `0 0 0 1px ${violet.violet7}`,
   height: 25,
 
-  "&:focus": { boxShadow: `0 0 0 2px ${violet.violet8}` }
+  "&:focus": { boxShadow: `0 0 0 2px ${violet.violet8}` },
 });
 
 const Text = styled("div", {
@@ -139,12 +137,12 @@ const Text = styled("div", {
   lineHeight: "19px",
   variants: {
     faded: {
-      true: { color: mauve.mauve10 }
+      true: { color: mauve.mauve10 },
     },
     bold: {
-      true: { fontWeight: 500 }
-    }
-  }
+      true: { fontWeight: 500 },
+    },
+  },
 });
 
 const PopoverDemo = () => {
@@ -152,16 +150,16 @@ const PopoverDemo = () => {
     {
       startDate: new Date(),
       endDate: null,
-      key: "selection"
-    }
+      key: "selection",
+    },
   ]);
   useEffect(() => {
     console.log(state);
   }, [state]);
   return (
     <Popover>
-      <PopoverTrigger as={Valod} aria-label="Update dimensions">
-        <Valod />
+      <PopoverTrigger as={IconButton} aria-label="Update dimensions">
+        
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>
         <Flex css={{ flexDirection: "column", gap: 10 }}>
@@ -181,4 +179,4 @@ const PopoverDemo = () => {
   );
 };
 
-export default PopoverDemo
+export default PopoverDemo;

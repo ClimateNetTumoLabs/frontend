@@ -73,7 +73,8 @@ const ButtonTextDisplay = () => {
         </button>
       </div>
 
-       <DataChart information={chartData1} />
+       {/* <DataChart information={chartData1} /> */}
+       {selectedChart === 1 && <DataChart information={chartData1} />}
       {selectedChart === 2 && <DataChart information={chartData2} />}
       {selectedChart === 3 && <DataChart information={chartData3} />}
     </div>
