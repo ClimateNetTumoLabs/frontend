@@ -1,27 +1,34 @@
-// frontend/src/components/Tasks.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 
-const Tasks = () => {
-  const [tasks, setTasks] = useState([]);
+const DeviceComponent = () => {
+  const [devices, setDevices] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/device/3/') // Use Axios to make a GET request
-      .then(response => {
-        setTasks(response.data); // Update state with response data
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/device/2/');
+        console.log(response.data); // Add this line to check the response data
+        setDevices(response.data);
+      } catch (error) {
+        console.error('Error fetching device data:', error);
+      }
+    };
+  
+    fetchData();
   }, []);
-
+  console.log(devices);
   return (
     <div>
-      {tasks.map(task => (
-        <div key={task.id}>{task.title}</div>
-      ))}
+      <h1>List of Devices</h1>
+      <ul>
+        {devices.map(device => (
+          <li key={device.id}>{device.time}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default Tasks;
+export default DeviceComponent;
+

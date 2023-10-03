@@ -7,7 +7,6 @@ import Tasks from "../../components/devices/Devices";
 
 
 function Contact() {
-  console.log(Custom);
   return (
     <div>
       <Test />

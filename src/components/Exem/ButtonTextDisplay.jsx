@@ -1,7 +1,8 @@
 // ButtonTextDisplay.js
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import DataChart from "../test/ChartContainer";
-import weatherData from "../../weather_data.json";
+// import weatherData from "../../weather_data.json";
+import axios from "axios";
 import styles from "./ButtonStyles.module.css";
 
 const show_data_function = (some_array, need_data) => {
@@ -46,9 +47,30 @@ const ButtonTextDisplay = () => {
     setSelectedChart(chartNumber);
   };
 
-  const chartData1 = show_data_function(weatherData, ["humidity", "temperature", "time"]);
-  const chartData2 = show_data_function(weatherData, ["pm1", "pm2_5", "pm10", "time"]);
-  const chartData3 = show_data_function(weatherData, ["pressure", "co2", "time"]);
+
+  /////////////////////////
+  const [devices, setDevices] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/device/1  /');
+        console.log(response.data); // Add this line to check the response data
+        setDevices(response.data);
+      } catch (error) {
+        console.error('Error fetching device data:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+
+  //////////////////
+
+  const chartData1 = show_data_function(devices, ["humidity", "temperature", "time"]);
+  const chartData2 = show_data_function(devices, ["pm1", "pm2_5", "pm10", "time"]);
+  const chartData3 = show_data_function(devices, ["pressure", "co2", "time"]);
 
   return (
     <div>
