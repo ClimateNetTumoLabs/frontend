@@ -3,6 +3,7 @@ import React from "react";
 import Custom  from "../../components/customicon/CustomSVG";
 import Test from "../../components/test/Test";
 import Tasks from "../../components/devices/Devices";
+import InnerPage from "../inner_page/InnerPage";
 // import PressureCo2 from "../../components/test/PressureCo2";
 
 
@@ -12,7 +13,8 @@ function Contact() {
       <Test />
       {/* <Custom /> */}
       {/* <PressureCo2 /> */}
-      <Tasks/>
+      {/* <Tasks/> */}
+      <InnerPage/>
     </div>
   );
 }

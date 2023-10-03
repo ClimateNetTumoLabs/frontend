@@ -39,7 +39,7 @@ const MapArmenia = () => {
                 </Marker>
                 <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle}/>
                 <Routes>
-                    <Route path="/device/:id" element={<InnerPage />} />
+                    <Route path="/device/:id" element={<InnerPage/>} />
                 </Routes>
             </MapContainer>
         </div>
