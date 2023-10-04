@@ -8,6 +8,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import Contact from "./Pages/contact/Contact";
 import Home from "./Pages/home/Home";
 import About from "./Pages/about/About";
+import InnerPage from "./Pages/inner_page/InnerPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/device/:id" element={<InnerPage/>} />
         </Routes>
         <Footer />
       </Router>

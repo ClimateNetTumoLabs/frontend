@@ -3,6 +3,8 @@ import styles from "./InnerPage.module.css";
 import data from "../../weather_data.json";
 import { ReactComponent as DeviceImage } from "../../assets/images/device_image.svg";
 import { useLocation } from "react-router-dom";
+import WeatherDataGraphs from "../../components/weatherdatagraphs/WeatherDataGraphs";
+import Datepickertofrom from "../../components/calendar/Datepickertofrom";
 
 function componentDidMount() {
   const url = window.location.pathname;
@@ -10,11 +12,12 @@ function componentDidMount() {
   return endOfUrl;
 }
 
+
 const ShowHoverData = (data) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo(0, 0); 
   }, [pathname]);
 
   const last_element = data[data.length - 1];
@@ -81,7 +84,7 @@ function InnerPage() {
 
     const ids = ["direction", "speed", "rain", "alldata"];
 
-    ids.forEach((id) => {
+    ids.map((id) => {
       const element = document.getElementById(id);
 
       if (element) {
@@ -91,7 +94,7 @@ function InnerPage() {
     });
 
     return () => {
-      ids.forEach((id) => {
+      ids.map((id) => {
         const element = document.getElementById(id);
 
         if (element) {
@@ -105,10 +108,8 @@ function InnerPage() {
   return (
     <div className={styles.inner_page}>
       <DeviceImage />
-      {/* <Chart/> */}
-      {/* <AirQuality/> */}
-      {/* <PressureCo2/> */}
-      {/* <PointDescription/> */}
+      <Datepickertofrom/>
+     <WeatherDataGraphs/>
     </div>
   );
 }

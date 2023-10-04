@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./Home.module.css";
 import Banner from "../../components/Banner/banner";
-import ScrollableSection from "../../components/Project_description/project_description";
-import MapArmenia from "../../components/Map/map";
-import Description from "../../components/About_project/Description";
+import ScrollableSection from "../../components/scrollablesection/ScrollableSection";
+import MapArmenia from "../../components/map/Map";
+import Description from "../../components/description_project/Description";
 
 function Home() {
   return (
@@ -11,7 +11,6 @@ function Home() {
       <Banner />
       <ScrollableSection />
       <MapArmenia />
-      {/*<ZoomableImage/>*/}
       <Description />
     </div>
   );
