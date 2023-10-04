@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel } from 'react-bootstrap';
-import styles from './banner.module.css'
+import styles from './Banner.module.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import { TypeAnimation } from 'react-type-animation';
 

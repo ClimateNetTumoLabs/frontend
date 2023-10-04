@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./components/navbar/Navbar";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
-import Footer from "./components/Footer/footer";
+import Footer from "./components/footer/Footer";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css"; // Import Bootstrap CSS
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -19,7 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/device/:id" element={<InnerPage/>} />
+          <Route path="/device/:id" element={<InnerPage />} />
         </Routes>
         <Footer />
       </Router>

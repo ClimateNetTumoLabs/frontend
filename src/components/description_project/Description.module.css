@@ -1,20 +1,14 @@
 .about_us_section {
-    color: white;
+  color: white;
 }
 
 .boxes {
-    overflow: hidden;
-    max-height: 350px;
-    margin-top: 20px;
+  overflow: hidden;
+  max-height: 350px;
+  margin-top: 20px;
 }
-
-/* .boxes:last-of-type {
-} */
 
 .title {
-    font-size: 18px;
-    color: #DF7788;
+  font-size: 18px;
+  color: #df7788;
 }
-
-
-

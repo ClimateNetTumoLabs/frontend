@@ -1,7 +1,6 @@
-// DataChart.js
 import React, { useState, useEffect } from "react";
 import { AgChartsReact } from "ag-charts-react";
-import styles from './DataChart.module.css';
+import styles from "./DataChart.module.css";
 
 const DataChart = ({ information }) => {
   const [options, setOptions] = useState({
@@ -13,14 +12,14 @@ const DataChart = ({ information }) => {
       text: information.subtitle,
     },
     data: information.data,
-    series: information.name
+    series: information.name,
   });
 
   useEffect(() => {
-    setOptions(prevOptions => ({
+    setOptions((prevOptions) => ({
       ...prevOptions,
       data: information.data,
-      series: information.name
+      series: information.name,
     }));
   }, [information]);
 
@@ -32,4 +31,3 @@ const DataChart = ({ information }) => {
 };
 
 export default DataChart;
-

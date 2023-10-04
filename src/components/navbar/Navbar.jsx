@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import styles from "./Navbar.module.css"; // Your custom CSS module
+import styles from "./Navbar.module.css";
 import logo from "../../assets/logo/tumolabslogo.svg";
 import navigation_item_logo from "../../assets/logo/menu.svg";
-import Banner from "../Banner/banner";
+import Banner from "../banner/Banner";
 
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
@@ -30,14 +30,14 @@ const Navbar = () => {
       ],
     },
     {
-      title: "Menu 2",
+      title: "Gegharkunik",
       submenus: [
         {
-          title: "Submenu 2.1",
+          title: "Sevan",
           options: ["Option 2.1.1", "Option 2.1.2"],
         },
         {
-          title: "Submenu 2.2",
+          title: "Gavar",
           options: ["Option 2.2.1", "Option 2.2.2"],
         },
       ],

@@ -3,35 +3,6 @@ import DataChart from "../datachart/DataChart";
 import axios from "axios";
 import styles from "./WeatherDataGraphs.module.css";
 
-// const show_data_function = (some_array, need_data) => {
-//   let local_array = [];
-//   let axis = [];
-
-//   some_array.map((item) => {
-//     let a = {};
-//     need_data.map((value) => {
-//       if (value === "time" && item[value]) {
-//         const date = new Date(item[value]);
-//         const hours = date.getHours().toString().padStart(2, "0"); // Use padStart to ensure 2 digits
-//         const minutes = date.getMinutes().toString().padStart(2, "0");
-//         a[value] = `${hours}:${minutes}`;
-//       } else {
-//         a[value] = item[value];
-//       }
-//     });
-//     local_array.push(a);
-//   });
-
-//   need_data.slice(0, -1).map((item) => {
-//     axis.push({
-//       xKey: "time",
-//       yKey: item,
-//     });
-//   });
-
-//   const returned_value = { data: local_array, name: axis };
-//   return returned_value;
-// };
 const show_data_function = (some_array, need_data) => {
   let local_array = [];
   let axis = [];
@@ -61,8 +32,6 @@ const show_data_function = (some_array, need_data) => {
   const returned_value = { data: local_array, name: axis };
   return returned_value;
 };
-
-
 
 const WeatherDataGraphs = () => {
   const [selectedChart, setSelectedChart] = useState(1);
@@ -123,7 +92,6 @@ const WeatherDataGraphs = () => {
         </button>
       </div>
 
-      {/* <DataChart information={chartData1} /> */}
       {selectedChart === 1 && <DataChart information={chartData1} />}
       {selectedChart === 2 && <DataChart information={chartData2} />}
       {selectedChart === 3 && <DataChart information={chartData3} />}

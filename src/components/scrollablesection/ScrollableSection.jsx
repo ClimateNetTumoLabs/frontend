@@ -2,12 +2,10 @@ import React from "react";
 import {
   Animator,
   batch,
-  MoveOut,
   ScrollContainer,
   ScrollPage,
   Sticky,
   Fade,
-  StickyIn,
   FadeIn,
   ZoomIn,
   FadeOut,
