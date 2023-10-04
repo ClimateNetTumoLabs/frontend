@@ -2,11 +2,8 @@ import React, {useEffect, useState} from "react";
 import styles from './innder_page.module.css'
 import data from './weather_data.json'
 import {ReactComponent as DeviceImage} from "../../assets/images/device_image.svg";
-import Chart from "../Chart/Chart";
+import InnerTabs from "../InnerTabs/InnerTabs";
 import {useLocation} from "react-router-dom";
-import AirQuality from "../AirQuality/AirQuality";
-import PointDescription from "../PointDescription/PointDescription";
-import PressureCo2 from "../PressureCo2/PressureCo2";
 
 function componentDidMount() {
     const url = window.location.pathname;
@@ -54,7 +51,6 @@ function customStringify(obj) {
         }
     } else {
         return String(obj);
-
     }
 }
 
@@ -113,10 +109,7 @@ function InnerPage() {
 
         <div className={styles.inner_page}>
             <DeviceImage />
-            <Chart/>
-            <AirQuality/>
-            <PressureCo2/>
-            <PointDescription/>
+            <InnerTabs/>
         </div>
     )
 }

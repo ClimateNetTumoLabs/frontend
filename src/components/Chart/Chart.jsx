@@ -1,77 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { AgChartsReact } from "ag-charts-react";
-import weatherdata from "../InnerPage/weather_data.json";
-import styles from './Chart.module.css'
+import React, { useState } from 'react';
+import { AgChartsReact } from 'ag-charts-react';
+import styles from './chart.module.css'
 
-const Chart = () => {
-  const [options, setOptions] = useState({
-    autoSize: true,
-    series: [
-      {
-        data: [], // Placeholder for Lounge Temperature data
-        xKey: "time",
-        yKey: "sensor",
-        yName: "Temperature(°C)",
-        stroke: "#03a9f4",
-        marker: {
-          fill: "#03a9f4",
-          stroke: "#0276ab",
+
+
+const ChartExample = (props) => {
+
+    const [options, setOptions] = useState({
+        autoSize: true,
+        title: {
+            text: props.text,
         },
-      },
-      {
-        data: [], // Placeholder for Office Humidity data
-        xKey: "time",
-        yKey: "sensor",
-        yName: "Humidity(%)",
-        stroke: "rgb(202, 122, 122)",
-        marker: {
-          fill: " #660000",
-          stroke: "#658d36",
+        subtitle: {
+            text: props.subtitle,
+
         },
-      },
-    ],
-    axes: [
-      {
-        type: "time",
-        position: "bottom",
-      },
-      {
-        type: "number",
-        position: "left",
-        label: {
-          format: "#{.1f}",
-        },
-      },
-    ],
-  });
+        data: props.information.data,
 
-  useEffect(() => {
-    if (weatherdata) {
-      const loungeTemperatureData = weatherdata.map(entry => ({
-        time: new Date(entry.time),
-        sensor: entry.temperature
-      }));
+        series: props.information.name
+    });
 
-      const officeHumidityData = weatherdata.map(entry => ({
-        time: new Date(entry.time),
-        sensor: entry.humidity
-      }));
-
-      setOptions(prevOptions => ({
-        ...prevOptions,
-        series: [
-          { ...prevOptions.series[0], data: loungeTemperatureData },
-          { ...prevOptions.series[1], data: officeHumidityData }
-        ]
-      }));
-    }
-  }, []);
-
-  return (
-    <div className={styles.chart_div}> 
-      <AgChartsReact options={options} />;
-    </div>
-  )
+    return<div className={styles.chart_section}><AgChartsReact options={options} /></div>;
 };
 
-export default Chart;
+export default ChartExample
