@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import styles from "./Navbar.module.css";
+import styles from "./Header.module.css";
 import logo from "../../assets/logo/tumolabslogo.svg";
 import navigation_item_logo from "../../assets/logo/menu.svg";
-import Banner from "../Banner/Banner";
 
-const Navbar = () => {
+const Header = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
 
   const handleNavToggle = () => {
@@ -45,9 +44,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav
-      className={`navbar navbar-expand-lg navbar-light ${styles.navigation}`}
-    >
+    <nav className={`navbar navbar-expand-lg navbar-light ${styles.navigation}`}>
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <img src={logo} alt="Logo" className={styles.page_logo} />
@@ -64,54 +61,50 @@ const Navbar = () => {
           aria-label="Toggle navigation"
           onClick={handleNavToggle}
         >
-          <img
-            className={`${styles.menu_icon}`}
-            src={navigation_item_logo}
-            alt={"Menu Bar"}
-          />
+          <img className={`${styles.menu_icon}`} src={navigation_item_logo} alt={"Menu Bar"}/>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <NavItem to="/" label="Home" />
             <NavItem to="/about" label="About" />
             <NavItem to="/contact" label="Contact" />
-            <li className="nav-item dropdown">
-              <a
-                className={`${styles.nav_link} nav-link dropdown-toggle`}
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                data-bs-auto-close="outside"
-              >
-                Devices
-              </a>
-              <ul
-                className={`dropdown-menu ${styles.valod}`}
-                aria-labelledby="navbarDropdown"
-              >
-                {menuData.map((menu, menuIndex) => (
-                  <li className="dropstart" key={menuIndex}>
-                    <div
-                      className={` ${styles.dropdown__item} dropdown-item dropdown-toggle`}
-                      data-bs-toggle="dropdown"
-                    >
-                      {menu.title}
-                      <ul className={"dropdown-menu"}>
-                        {menu.submenus.map((submenu, submenuIndex) => (
-                          <li key={submenuIndex}>
-                            <Link className="dropdown-item">
-                              {submenu.title}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </li>
+            {/*<li className="nav-item dropdown">*/}
+            {/*  <a*/}
+            {/*    className={`${styles.nav_link} nav-link dropdown-toggle`}*/}
+            {/*    href="#"*/}
+            {/*    id="navbarDropdown"*/}
+            {/*    role="button"*/}
+            {/*    data-bs-toggle="dropdown"*/}
+            {/*    aria-expanded="false"*/}
+            {/*    data-bs-auto-close="outside"*/}
+            {/*  >*/}
+            {/*    Devices*/}
+            {/*  </a>*/}
+            {/*  <ul*/}
+            {/*    className={`dropdown-menu ${styles.valod}`}*/}
+            {/*    aria-labelledby="navbarDropdown"*/}
+            {/*  >*/}
+            {/*    {menuData.map((menu, menuIndex) => (*/}
+            {/*      <li className="dropstart" key={menuIndex}>*/}
+            {/*        <div*/}
+            {/*          className={` ${styles.dropdown__item} dropdown-item dropdown-toggle`}*/}
+            {/*          data-bs-toggle="dropdown"*/}
+            {/*        >*/}
+            {/*          {menu.title}*/}
+            {/*          <ul className={"dropdown-menu"}>*/}
+            {/*            {menu.submenus.map((submenu, submenuIndex) => (*/}
+            {/*              <li key={submenuIndex}>*/}
+            {/*                <Link className="dropdown-item">*/}
+            {/*                  {submenu.title}*/}
+            {/*                </Link>*/}
+            {/*              </li>*/}
+            {/*            ))}*/}
+            {/*          </ul>*/}
+            {/*        </div>*/}
+            {/*      </li>*/}
+            {/*    ))}*/}
+            {/*  </ul>*/}
+            {/*</li>*/}
           </ul>
         </div>
       </div>
@@ -136,4 +129,4 @@ const NavItem = ({ to, label }) => {
   );
 };
 
-export default Navbar;
+export default Header;

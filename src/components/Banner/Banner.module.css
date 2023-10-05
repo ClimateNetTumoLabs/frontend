@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: row;
   transition: transform 0.5s ease-in-out;
+  height: 100%;
 }
 
 .carousel-item {
@@ -39,7 +40,9 @@
 /* Banner.module.css */
 .carouselContainer {
   overflow: hidden;
+  height: 450px;
 }
+
 
 .carousel_text_section {
   top: 50%;
@@ -92,6 +95,10 @@
 .static_name, .animated_text {
   display: flex;
   justify-content: flex-start;
+}
+
+.carousel_section  {
+  height: 100%;
 }
 
 /* Media query for desktop */
