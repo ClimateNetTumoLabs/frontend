@@ -11,17 +11,22 @@
   cursor: pointer;
 }
 
-.button1 {
-  background-color: #007bff;
-  color: #fff;
+.chart_div {
+  height: 400px;
 }
 
-.button2 {
-  background-color: #28a745;
-  color: #fff;
+.tabs_section button[aria-selected='true'] {
+  color: #DF7788 !important;
+  background-color: #232222 !important;
+  margin: 0 !important;
 }
 
-.button3 {
-  background-color: #dc3545;
-  color: #fff;
+.tabs_section button:hover {
+  color: #DF7788;
 }
+
+.tabs_section button {
+  border: none !important;
+  color: white;
+}
+
