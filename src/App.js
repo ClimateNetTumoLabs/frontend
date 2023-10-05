@@ -1,14 +1,14 @@
 import React from "react";
-import Navbar from "./components/navbar/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css"; // Import Bootstrap CSS
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Contact from "./components/contact/Contact";
-import Home from "./components/home/Home";
-import About from "./components/about/About";
-import InnerPage from "./components/inner_page/InnerPage";
+import Home from "./components/Home/Home";
+import About from "./components/About/About";
+import InnerPage from "./components/InnerPage/InnerPage";
 
 function App() {
   return (

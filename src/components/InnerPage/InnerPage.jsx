@@ -3,14 +3,14 @@ import styles from "./InnerPage.module.css";
 import data from "../../weather_data.json";
 import { ReactComponent as DeviceImage } from "../../assets/images/device_image.svg";
 import { useLocation } from "react-router-dom";
-import WeatherDataGraphs from "../../components/weatherdatagraphs/WeatherDataGraphs";
-import Datepickertofrom from "../../components/calendar/Datepickertofrom";
+import WeatherDataGraphs from "../../components/Weatherdatagraphs/WeatherDataGraphs";
+import Datepickertofrom from "../Calendar/Datepickertofrom";
 
-function componentDidMount() {
-  const url = window.location.pathname;
-  const endOfUrl = url.substring(url.lastIndexOf("/") + 1);
-  return endOfUrl;
-}
+// function componentDidMount() {
+//   const url = window.location.pathname;
+//   const endOfUrl = url.substring(url.lastIndexOf("/") + 1);
+//   return endOfUrl;
+// }
 
 const ShowHoverData = (data) => {
   const { pathname } = useLocation();

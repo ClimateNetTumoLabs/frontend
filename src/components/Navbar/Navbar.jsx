@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Navbar.module.css";
 import logo from "../../assets/logo/tumolabslogo.svg";
 import navigation_item_logo from "../../assets/logo/menu.svg";
-import Banner from "../banner/Banner";
 
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);

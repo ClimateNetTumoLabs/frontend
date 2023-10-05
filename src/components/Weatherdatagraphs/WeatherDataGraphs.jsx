@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import ChartExample from "../datachart/DataChart";
+import ChartExample from "../Chart/DataChart";
 import styles from './WeatherDataGraphs.module.css'
 import axios from 'axios';
 
