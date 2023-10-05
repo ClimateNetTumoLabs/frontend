@@ -8,7 +8,7 @@
 .carousel-control-prev,
 .carousel-control-next,
 .carousel-indicators{
-    display: none;
+    display: none !important;
 }
 
 .App {
@@ -20,4 +20,9 @@ html, body {
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+}
+
+
+.carousel-inner {
+    height: 100%;
 }

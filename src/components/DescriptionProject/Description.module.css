@@ -1,0 +1,14 @@
+.about_us_section {
+  color: white;
+}
+
+.boxes {
+  overflow: hidden;
+  max-height: 350px;
+  margin-top: 20px;
+}
+
+.title {
+  font-size: 18px;
+  color: #df7788;
+}
