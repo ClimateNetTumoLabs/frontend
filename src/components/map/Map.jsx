@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import iconUrl from "../../assets/icons/map-marker.svg";
 import armeniaGeoJSON from "../../test.json";
 import { Link, Route, Routes } from "react-router-dom";
-import InnerPage from "../../Pages/inner_page/InnerPage";
+import InnerPage from "../inner_page/InnerPage";
 
 const MapArmenia = () => {
   const geoJSONStyle = {
