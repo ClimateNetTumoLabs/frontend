@@ -1,102 +1,76 @@
-import React, { useState, useEffect } from "react";
-import DataChart from "../datachart/DataChart";
-import axios from "axios";
-import styles from "./WeatherDataGraphs.module.css";
+import React, {useEffect, useState} from "react";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import ChartExample from "../datachart/DataChart";
+import styles from './WeatherDataGraphs.module.css'
+import axios from 'axios';
+
 
 const show_data_function = (some_array, need_data) => {
-  let local_array = [];
-  let axis = [];
+  let local_array = []
+  let axis = []
 
-  some_array.map((item) => {
-    let a = {};
+  some_array.map(item => {
+    let a = {}
     need_data.map((value) => {
-      if (value === "time" && item[value]) {
-        const date = new Date(item[value]);
-        const hours = date.getHours().toString().padStart(2, "0");
-        const minutes = date.getMinutes().toString().padStart(2, "0");
-        a[value] = `${hours}:${minutes}`;
-      } else {
-        a[value] = item[value];
-      }
-    });
-    return local_array.push(a); // Make sure to return a value here
+      a[value] = item[value]
+    })
+    local_array.push(a)
   });
+  need_data.splice(-1)
+  need_data.map((item) => {
+    axis.push({
+      xKey : "time",
+      yKey : item
+    })
+  })
+  const returned_value = { data : local_array, name : axis}
+  return returned_value
+}
 
-  need_data.slice(0, -1).map((item) => {
-    return axis.push({
-      xKey: "time",
-      yKey: item,
-    }); // Make sure to return a value here
-  });
 
-  const returned_value = { data: local_array, name: axis };
-  return returned_value;
-};
-
-const WeatherDataGraphs = () => {
-  const [selectedChart, setSelectedChart] = useState(1);
-
-  const handleChartClick = (chartNumber) => {
-    setSelectedChart(chartNumber);
-  };
-
-  const [devices, setDevices] = useState([]);
-
+const InnerTabs = () => {
+  //TODO change request to dinamic link
+  const [weather_data, change_weather_data] = useState([])
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/device/0/");
-        console.log(response.data); // Add this line to check the response data
-        setDevices(response.data);
+        const response = await axios.get('http://localhost:8000/api/device/0/');
+        change_weather_data(response.data);
       } catch (error) {
-        console.error("Error fetching device data:", error);
+        console.error('Error fetching data:', error);
       }
     };
-
     fetchData();
   }, []);
 
-  const chartData1 = show_data_function(devices, [
-    "humidity",
-    "temperature",
-    "time",
-  ]);
-  const chartData2 = show_data_function(devices, [
-    "pm1",
-    "pm2_5",
-    "pm10",
-    "time",
-  ]);
-  const chartData3 = show_data_function(devices, ["pressure", "co2", "time"]);
-
   return (
-    <div>
-      <div className={styles.buttonContainer}>
-        <button
-          className={`${styles.button} ${styles.button1}`}
-          onClick={() => handleChartClick(1)}
-        >
-          Dust Chart
-        </button>
-        <button
-          className={`${styles.button} ${styles.button2}`}
-          onClick={() => handleChartClick(2)}
-        >
-          Weather Chart
-        </button>
-        <button
-          className={`${styles.button} ${styles.button3}`}
-          onClick={() => handleChartClick(3)}
-        >
-          Pressure & CO2 Chart
-        </button>
-      </div>
-
-      {selectedChart === 1 && <DataChart information={chartData1} />}
-      {selectedChart === 2 && <DataChart information={chartData2} />}
-      {selectedChart === 3 && <DataChart information={chartData3} />}
-    </div>
+      <Tabs defaultActiveKey="hum_temp"  id="uncontrolled-tab-example"  className={styles.tabs_section}>
+        <Tab className={styles.tab} eventKey="hum_temp" title="Temperature & Humidity" >
+          <ChartExample
+              text = "Temperature & Humidity Info"
+              subtitle = "We show default 24 pints, if you want you can change it from filter"
+              information = {show_data_function(weather_data, ["humidity", "temperature", "time"])}
+          />
+        </Tab>
+        <Tab eventKey="air_quality" title="Air Quality">
+          <ChartExample
+              text = "Air Quality Info"
+              subtitle = "We show default 24 pints, if you want you can change it from filter"
+              information = {show_data_function(weather_data, ["pm1", "pm2_5", "pm10", "time"])}
+          />
+        </Tab>
+        <Tab eventKey="wind_and_rain" title="Wind & Rain">
+          <ChartExample
+              text = "Wind & Rain Info"
+              subtitle = "We show default 24 pints, if you want you can change it from filter"
+              information = {show_data_function(weather_data, ["direction", "speed", "rain", "time"])}
+          />
+        </Tab>
+      </Tabs>
   );
-};
+}
 
-export default WeatherDataGraphs;
+export default InnerTabs;
+
+

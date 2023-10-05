@@ -57,7 +57,6 @@ function customStringify(obj) {
 
 function InnerPage() {
   const [popupContent] = useState(ShowHoverData(data));
-  console.log(popupContent);
 
   useEffect(() => {
     const handleMouseEnter = (event) => {
