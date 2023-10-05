@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import ChartExample from "../Chart/DataChart";
+import ChartExample from "../Chart/Chart";
 import styles from './WeatherDataGraphs.module.css'
-import axios from 'axios';
 
 
 const show_data_function = (some_array, need_data) => {
@@ -30,19 +29,8 @@ const show_data_function = (some_array, need_data) => {
 
 
 const InnerTabs = () => {
-  //TODO change request to dinamic link
-  const [weather_data, change_weather_data] = useState([])
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/device/0/');
-        change_weather_data(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+
+
 
   return (
       <Tabs defaultActiveKey="hum_temp"  id="uncontrolled-tab-example"  className={styles.tabs_section}>

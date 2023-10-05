@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
-import { AgChartsReact } from 'ag-charts-react';
-import styles from './chart.module.css'
+import React, { useState, useEffect } from "react";
+import { AgChartsReact } from "ag-charts-react";
+import styles from "./Chart.module.css";
 
+const Chart = ({ information }) => {
+  const [options, setOptions] = useState({
+    autoSize: true,
+    title: {
+      text: information.text,
+    },
+    subtitle: {
+      text: information.subtitle,
+    },
+    data: information.data,
+    series: information.name,
+  });
 
+  useEffect(() => {
+    setOptions((prevOptions) => ({
+      ...prevOptions,
+      data: information.data,
+      series: information.name,
+    }));
+  }, [information]);
 
-const ChartExample = (props) => {
-
-    const [options, setOptions] = useState({
-        autoSize: true,
-        title: {
-            text: props.text,
-        },
-        subtitle: {
-            text: props.subtitle,
-
-        },
-        data: props.information.data,
-
-        series: props.information.name
-    });
-
-    return<div className={styles.chart_section}><AgChartsReact options={options} /></div>;
+  return (
+    <div className={styles.chart_div}>
+      <AgChartsReact options={options} />
+    </div>
+  );
 };
 
-export default ChartExample
+export default Chart;
