@@ -1,0 +1,32 @@
+.buttonContainer {
+  display: flex;
+}
+
+.button {
+  font-size: 16px;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chart_div {
+  height: 400px;
+}
+
+.tabs_section button[aria-selected='true'] {
+  color: #DF7788 !important;
+  background-color: #232222 !important;
+  margin: 0 !important;
+}
+
+.tabs_section button:hover {
+  color: #DF7788;
+}
+
+.tabs_section button {
+  border: none !important;
+  color: white;
+}
+
