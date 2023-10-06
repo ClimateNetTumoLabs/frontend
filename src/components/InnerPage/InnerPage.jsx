@@ -3,7 +3,7 @@ import styles from "./InnerPage.module.css";
 import { ReactComponent as DeviceImage } from "../../assets/images/device_image.svg";
 import {useParams} from "react-router-dom";
 import WeatherDataGraphs from "../../components/Weatherdatagraphs/WeatherDataGraphs";
-import Datepickertofrom from "../Calendar/Datepickertofrom";
+import DatePickerToFrom from "../Calendar/DatePickerToFrom";
 import axios from "axios";
 import Loader from "react-js-loader";
 import HoverToDevice from "../HoverToDevice/HoverToDevice";
@@ -22,7 +22,7 @@ function InnerPage() {
           .catch((error) => {
             console.error('Error fetching data:', error);
           });
-      }, []
+      },
     );
     if(isLoading) {
         return  <div className={styles.loading}>
@@ -34,7 +34,7 @@ function InnerPage() {
     <div className={styles.inner_page}>
         <DeviceImage />
         <HoverToDevice data={weather_data}/>
-        <Datepickertofrom />
+        <DatePickerToFrom />
         <WeatherDataGraphs data={weather_data}/>
     </div>
   );
