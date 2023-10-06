@@ -28,11 +28,10 @@ const show_data_function = (some_array, need_data) => {
 }
 
 
-const InnerTabs = () => {
+const InnerTabs = (props) => {
 
-
-
-  return (
+    const weather_data = props.data
+    return (
       <Tabs defaultActiveKey="hum_temp"  id="uncontrolled-tab-example"  className={styles.tabs_section}>
         <Tab className={styles.tab} eventKey="hum_temp" title="Temperature & Humidity" >
           <ChartExample
