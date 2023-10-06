@@ -3,10 +3,11 @@ import styles from "./InnerPage.module.css";
 import { ReactComponent as DeviceImage } from "../../assets/images/device_image.svg";
 import {useParams} from "react-router-dom";
 import WeatherDataGraphs from "../../components/Weatherdatagraphs/WeatherDataGraphs";
-import DatePickerToFrom from "../Calendar/DatePickerToFrom";
 import axios from "axios";
 import Loader from "react-js-loader";
 import HoverToDevice from "../HoverToDevice/HoverToDevice";
+
+import Counter from '../Test/test'
 
 function InnerPage() {
     const params = useParams();
@@ -14,7 +15,7 @@ function InnerPage() {
     const [weather_data, change_weather_data] = useState([])
 
     useEffect(() => {
-      axios.get("http://localhost:8000/device/" + params["id"])
+      axios.get(`http://localhost:8000/device/${params["id"]}`)
           .then((response) => {
             change_weather_data(response.data);
             setLoading(false)
@@ -30,14 +31,14 @@ function InnerPage() {
         </div>
     }
 
-  return (
-    <div className={styles.inner_page}>
-        <DeviceImage />
-        <HoverToDevice data={weather_data}/>
-        <DatePickerToFrom />
-        <WeatherDataGraphs data={weather_data}/>
-    </div>
-  );
+    return (
+        <div className={styles.inner_page}>
+            <DeviceImage />
+            <HoverToDevice data={weather_data}/>
+            <WeatherDataGraphs data={weather_data}/>
+
+        </div>
+    );
 }
 
 export default InnerPage;
