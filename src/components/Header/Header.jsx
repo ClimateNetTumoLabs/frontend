@@ -1,15 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Header.module.css";
 import logo from "../../assets/logo/tumolabslogo.svg";
 import navigation_item_logo from "../../assets/logo/menu.svg";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
+  const navigate = useNavigate();
 
   const handleNavToggle = () => {
     setIsNavExpanded(!isNavExpanded);
+  };
+
+  const GoToSection = ({ to }) => {
+    if (to !== "/") {
+      navigate("/");
+    }
+    const targetElement = document.getElementById("Map");
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop,
+        behavior: "smooth",
+      });
+    }
   };
 
   const menuData = [
@@ -44,7 +60,9 @@ const Header = () => {
   ];
 
   return (
-    <nav className={`navbar navbar-expand-lg navbar-light ${styles.navigation}`}>
+    <nav
+      className={`navbar navbar-expand-lg navbar-light ${styles.navigation}`}
+    >
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <img src={logo} alt="Logo" className={styles.page_logo} />
@@ -61,13 +79,21 @@ const Header = () => {
           aria-label="Toggle navigation"
           onClick={handleNavToggle}
         >
-          <img className={`${styles.menu_icon}`} src={navigation_item_logo} alt={"Menu Bar"}/>
+          <img
+            className={`${styles.menu_icon}`}
+            src={navigation_item_logo}
+            alt={"Menu Bar"}
+          />
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <NavItem to="/" label="Home" />
             <NavItem to="/about" label="About" />
             <NavItem to="/contact" label="Contact" />
+            {/* <NavItem to='' label='Map' /> */}
+            <li className={styles.map_name} onClick={GoToSection}>
+              Map
+            </li>
             {/*<li className="nav-item dropdown">*/}
             {/*  <a*/}
             {/*    className={`${styles.nav_link} nav-link dropdown-toggle`}*/}

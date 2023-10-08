@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./components/Header/Header";
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css"; // Import Bootstrap CSS
@@ -13,16 +13,14 @@ import InnerPage from "./components/InnerPage/InnerPage";
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/device/:id" element={<InnerPage />} />
-        </Routes>
-        <Footer />
-      </Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/device/:id" element={<InnerPage />} />
+      </Routes>
+      <Footer />
     </div>
   );
 }
