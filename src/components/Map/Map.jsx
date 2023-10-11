@@ -6,6 +6,8 @@ import iconUrl from "../../assets/icons/map-marker.svg";
 import armeniaGeoJSON from "../../test.json";
 import { Link, Route, Routes } from "react-router-dom";
 import InnerPage from "../InnerPage/InnerPage";
+import "react-leaflet-fullscreen/styles.css";
+import { FullscreenControl } from "react-leaflet-fullscreen";
 
 const MapArmenia = () => {
   const geoJSONStyle = {
@@ -41,6 +43,7 @@ const MapArmenia = () => {
           </Popup>
         </Marker>
         <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle} />
+        <FullscreenControl forceSeparateButton={true} position={"topright"} />
         <Routes>
           <Route path="/device/:id" element={<InnerPage />} />
         </Routes>
