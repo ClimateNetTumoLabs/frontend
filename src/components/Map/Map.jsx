@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect ,useState} from "react";
 import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from "react-leaflet";
+import axios from "axios";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import iconUrl from "../../assets/icons/map-marker.svg";
@@ -10,11 +11,12 @@ import "react-leaflet-fullscreen/styles.css";
 import { FullscreenControl } from "react-leaflet-fullscreen";
 
 const MapArmenia = () => {
+  const [devices, setDevices] = useState([]);
   const geoJSONStyle = {
     fillColor: "green",
     fillOpacity: "0.1",
     color: "black",
-    weight: 3,
+    weight: 3,  
   };
 
   const customIcon = new L.Icon({
@@ -24,10 +26,17 @@ const MapArmenia = () => {
     popupAnchor: [0, -15],
   });
 
-  const center = [40.19185102418464, 44.47937321283996];
-
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/devices/')
+      .then(response => {
+        setDevices(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
   return (
-    <div id={"Map"}>
+    <div id="Map">
       <MapContainer
         center={[40.15912, 45.002717]}
         zoom={8}
@@ -37,11 +46,17 @@ const MapArmenia = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Marker position={center} icon={customIcon}>
-          <Popup>
-            <Link to="/device/1">Yerevan</Link>
-          </Popup>
-        </Marker>
+        {devices.map(device => (
+          <Marker
+            key={device.id}
+            position={[parseFloat(device.latitude), parseFloat(device.longitude)]}
+            icon={customIcon}
+          >
+            <Popup>
+              <Link to={`/device/${device.id}`}>{device.parent_name}</Link>
+            </Popup>
+          </Marker>
+        ))}
         <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle} />
         <FullscreenControl forceSeparateButton={true} position={"topright"} />
         <Routes>

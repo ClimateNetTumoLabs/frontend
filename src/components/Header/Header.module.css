@@ -33,7 +33,7 @@
 .dropdown__item {
   cursor: pointer;
 }
-.valod {
+.dropdown_item {
   --bs-dropdown-min-width: 0;
 }
 

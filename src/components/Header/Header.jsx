@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Header.module.css";
 import logo from "../../assets/logo/tumolabslogo.svg";
 import navigation_item_logo from "../../assets/logo/menu.svg";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import InnerPage from "../InnerPage/InnerPage";
 
 const Header = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
@@ -28,36 +30,33 @@ const Header = () => {
     }
   };
 
-  const menuData = [
-    {
-      title: "Yerevan",
-      submenus: [
-        {
-          title: "Tumo Labs",
-          options: ["Option 1.1.1", "Option 1.1.2"],
-          device_id: "a345ds3",
-        },
-        {
-          title: "Davtashen",
-          options: ["Option 1.2.1", "Option 1.2.2"],
-          device_id: "s12dd3",
-        },
-      ],
-    },
-    {
-      title: "Gegharkunik",
-      submenus: [
-        {
-          title: "Sevan",
-          options: ["Option 2.1.1", "Option 2.1.2"],
-        },
-        {
-          title: "Gavar",
-          options: ["Option 2.2.1", "Option 2.2.2"],
-        },
-      ],
-    },
-  ];
+  const [devices, setDevices] = useState([]);
+
+  const GoToInnerPage = (device_id) => {
+    navigate(`/device/${device_id}`);
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/devices/")
+      .then((response) => {
+        setDevices(response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
+
+  const menuData = devices.map((data) => ({
+    title: data.name,
+    submenus: [
+      {
+        title: data.parent_name,
+        options: ["Option 1.1.1", "Option 1.1.2"],
+        device_id: data.id,
+      },
+    ],
+  }));
 
   return (
     <nav
@@ -90,47 +89,48 @@ const Header = () => {
             <NavItem to="/" label="Home" />
             <NavItem to="/about" label="About" />
             <NavItem to="/contact" label="Contact" />
-            {/* <NavItem to='' label='Map' /> */}
-            <li className={styles.map_name} onClick={GoToSection}>
+            <li
+              className={`nav-link ${styles.nav_link} nav-item `}
+              onClick={GoToSection}
+            >
               Map
             </li>
-            {/*<li className="nav-item dropdown">*/}
-            {/*  <a*/}
-            {/*    className={`${styles.nav_link} nav-link dropdown-toggle`}*/}
-            {/*    href="#"*/}
-            {/*    id="navbarDropdown"*/}
-            {/*    role="button"*/}
-            {/*    data-bs-toggle="dropdown"*/}
-            {/*    aria-expanded="false"*/}
-            {/*    data-bs-auto-close="outside"*/}
-            {/*  >*/}
-            {/*    Devices*/}
-            {/*  </a>*/}
-            {/*  <ul*/}
-            {/*    className={`dropdown-menu ${styles.valod}`}*/}
-            {/*    aria-labelledby="navbarDropdown"*/}
-            {/*  >*/}
-            {/*    {menuData.map((menu, menuIndex) => (*/}
-            {/*      <li className="dropstart" key={menuIndex}>*/}
-            {/*        <div*/}
-            {/*          className={` ${styles.dropdown__item} dropdown-item dropdown-toggle`}*/}
-            {/*          data-bs-toggle="dropdown"*/}
-            {/*        >*/}
-            {/*          {menu.title}*/}
-            {/*          <ul className={"dropdown-menu"}>*/}
-            {/*            {menu.submenus.map((submenu, submenuIndex) => (*/}
-            {/*              <li key={submenuIndex}>*/}
-            {/*                <Link className="dropdown-item">*/}
-            {/*                  {submenu.title}*/}
-            {/*                </Link>*/}
-            {/*              </li>*/}
-            {/*            ))}*/}
-            {/*          </ul>*/}
-            {/*        </div>*/}
-            {/*      </li>*/}
-            {/*    ))}*/}
-            {/*  </ul>*/}
-            {/*</li>*/}
+
+            <li className="nav-item dropdown">
+              <a
+                className={`${styles.nav_link} nav-link dropdown-toggle`}
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-bs-auto-close="outside"
+              >
+                Devices
+              </a>
+              <ul className="dropdown-menu">
+                {menuData.map((menu, menuIndex) => (
+                  <li className="dropstart" key={menuIndex}>
+                    <div
+                      className="dropdown-item dropdown-toggle"
+                      data-bs-toggle="dropdown"
+                      onClick={() => GoToInnerPage(menu.submenus[0].device_id)}
+                    >
+                      {menu.title}
+                      <ul className="dropdown-menu">
+                        {menu.submenus.map((submenu, submenuIndex) => (
+                          <li key={submenuIndex}>
+                            <Link className="dropdown-item" to={`/devices/${submenu.device_id}`} >
+                              {submenu.title}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </li>
           </ul>
         </div>
       </div>

@@ -7,7 +7,6 @@ import axios from "axios";
 import Loader from "react-js-loader";
 import HoverToDevice from "../HoverToDevice/HoverToDevice";
 
-import Counter from '../Test/test'
 
 function InnerPage() {
     const params = useParams();
