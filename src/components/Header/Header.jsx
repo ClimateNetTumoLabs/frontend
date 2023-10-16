@@ -11,23 +11,23 @@ import InnerPage from "../InnerPage/InnerPage";
 const Header = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const navigate = useNavigate();
+  const [message, setMessage] = useState('');
+
 
   const handleNavToggle = () => {
     setIsNavExpanded(!isNavExpanded);
   };
 
-  const GoToSection = ({ to }) => {
-    if (to !== "/") {
-      navigate("/");
-    }
-    const targetElement = document.getElementById("Map");
-
-    if (targetElement) {
-      window.scrollTo({
-        top: targetElement.offsetTop,
-        behavior: "smooth",
-      });
-    }
+  const GoToSection = () => {
+    setTimeout(() => {
+      const targetElement = document.getElementById("Map");
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop,
+          behavior: "smooth",
+        });
+      }
+    }, 100); // Delay to Rendering page
   };
 
   const [devices, setDevices] = useState([]);
@@ -35,6 +35,9 @@ const Header = () => {
   const GoToInnerPage = (device_id) => {
     navigate(`/device/${device_id}`);
   };
+
+
+
 
   useEffect(() => {
     axios
@@ -46,6 +49,7 @@ const Header = () => {
         console.error("Error:", error);
       });
   }, []);
+
 
   const menuData = devices.map((data) => ({
     title: data.name,
@@ -89,11 +93,9 @@ const Header = () => {
             <NavItem to="/" label="Home" />
             <NavItem to="/about" label="About" />
             <NavItem to="/contact" label="Contact" />
-            <li
-              className={`nav-link ${styles.nav_link} nav-item `}
-              onClick={GoToSection}
-            >
-              Map
+            <li>
+
+              <Link className={`nav-link ${styles.nav_link} nav-item `} to="/#Map" onClick={GoToSection} >Map</Link>
             </li>
 
             <li className="nav-item dropdown">

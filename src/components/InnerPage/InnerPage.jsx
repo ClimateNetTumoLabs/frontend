@@ -35,7 +35,6 @@ function InnerPage() {
             <DeviceImage />
             <HoverToDevice data={weather_data}/>
             <WeatherDataGraphs data={weather_data}/>
-
         </div>
     );
 }
