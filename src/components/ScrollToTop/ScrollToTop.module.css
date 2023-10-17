@@ -1,0 +1,27 @@
+/* ScrollToTopButton.module.css */
+.button_scroll_top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    height: 60px;
+    width: 60px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    z-index: 999;
+    background: #232222;
+}
+
+.button_scroll_top:hover {
+    background-color: #df7788; /* Darker blue on hover, you can change this */
+}
+
+.button_scroll_top:hover svg{
+    fill: white; /* Darker blue on hover, you can change this */
+}
+.button_scroll_top svg {
+    height: 100%;
+    width: 100%;
+}

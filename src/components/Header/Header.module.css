@@ -1,6 +1,10 @@
 .navbar {
-  background: #232222;
   color: white;
+}
+
+.drop {
+  left : -100px !important;
+  max-width: 200px;
 }
 
 .nav_link {
