@@ -12,6 +12,11 @@
     transition: background-color 0.3s;
     z-index: 999;
     background: #232222;
+
+}
+
+.button_scroll_top {
+    transition: visibility 0.2s;
 }
 
 .button_scroll_top:hover {
@@ -24,4 +29,12 @@
 .button_scroll_top svg {
     height: 100%;
     width: 100%;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.show {
+    visibility: visible;
 }

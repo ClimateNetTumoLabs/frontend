@@ -23,7 +23,7 @@ function InnerPage() {
           .catch((error) => {
             console.error('Error fetching data:', error);
           });
-      },[]
+      },[params]
     );
     if(isLoading) {
         return  <div className={styles.loading}>
