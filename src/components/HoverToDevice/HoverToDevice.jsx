@@ -1,9 +1,9 @@
+import { all } from "axios";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 
 const ShowHoverData = (data) => {
   const { pathname } = useLocation();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);

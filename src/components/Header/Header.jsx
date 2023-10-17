@@ -5,6 +5,7 @@ import styles from "./Header.module.css";
 import logo from "../../assets/logo/tumolabslogo.svg";
 import navigation_item_logo from "../../assets/logo/menu.svg";
 import axios from "axios";
+import Basic from "../Test/test";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -38,8 +39,7 @@ const Header = () => {
             .catch((error) => {
                 console.error("Error:", error);
             });
-    }, []
-    );
+    }, []);
 
 
     const menuData = devices.reduce((acc, data) => {
@@ -77,7 +77,7 @@ const Header = () => {
             className={`navbar navbar-expand-lg navbar-light ${styles.navigation}`}
         >
             <div className="container-fluid">
-                <Link className="navbar-brand" to="/*">
+                <Link className="navbar-brand" to="/">
                     <img src={logo} alt="Logo" className={styles.page_logo} />
                 </Link>
                 <button
@@ -100,9 +100,8 @@ const Header = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
-                        <NavItem to="/*" label="Home" />
+                        <NavItem to="/" label="Home" />
                         <NavItem to="/about" label="About" />
-                        <NavItem to="/contact" label="Contact" />
                         <li>
                             <Link className={`nav-link ${styles.nav_link} nav-item `} to="/#Map" onClick={GoToSection}>Map</Link>
                         </li>
@@ -136,7 +135,7 @@ const Header = () => {
                                                         {/*    {submenu.title} {submenu.device_id}*/}
                                                         {/*</Link>*/}
                                                         <Link onClick={SubMenuClick} to={`/device/${submenu.device_id}`} className="dropdown-item">
-                                                            {submenu.title}
+                                                            {submenu.title} {submenu.device_id}
                                                         </Link>
                                                     </li>
                                                 ))}

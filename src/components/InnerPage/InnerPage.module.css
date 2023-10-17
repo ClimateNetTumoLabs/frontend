@@ -14,3 +14,12 @@
     justify-content: center;
     align-items: center;
 }
+.not_data{
+    height: 100%;
+    color: white;
+    min-height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    font-size: 90px;
+}
