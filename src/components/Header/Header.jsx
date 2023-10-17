@@ -1,170 +1,173 @@
 import React, { useState, useEffect } from "react";
-import {Link, Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Header.module.css";
 import logo from "../../assets/logo/tumolabslogo.svg";
 import navigation_item_logo from "../../assets/logo/menu.svg";
 import axios from "axios";
+import Basic from "../Test/test";
 
 const Header = () => {
-  const navigate = useNavigate();
-  const [isNavExpanded, setIsNavExpanded] = useState(false);
+    const navigate = useNavigate();
+    const [isNavExpanded, setIsNavExpanded] = useState(false);
 
-  const handleNavToggle = () => {
-    setIsNavExpanded(!isNavExpanded);
-  };
+    const handleNavToggle = () => {
+        setIsNavExpanded(!isNavExpanded);
+    };
 
-  const GoToSection = () => {
-    setTimeout(() => {
-      const targetElement = document.getElementById("Map");
-      if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop,
-          behavior: "smooth",
-        });
-      }
-    }, 100); // Delay to Rendering page
-  };
+    const GoToSection = () => {
+        setTimeout(() => {
+            const targetElement = document.getElementById("Map");
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop,
+                    behavior: "smooth",
+                });
+            }
+        }, 100); // Delay to Rendering page
+    };
 
-  const [devices, setDevices] = useState([]);
-
-
-  useEffect(() => {
-    axios
-        .get("http://127.0.0.1:8000/devices/")
-        .then((response) => {
-          setDevices(response.data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-  }, []);
+    const [devices, setDevices] = useState([]);
 
 
-  const menuData = devices.reduce((acc, data) => {
-    const existingMenu = acc.find(menu => menu.title === data.name);
+    useEffect(() => {
+        axios
+            .get("http://127.0.0.1:8000/devices/")
+            .then((response) => {
+                setDevices(response.data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }, []);
 
-    if (existingMenu) {
-      existingMenu.submenus.push({
-        title: data.parent_name,
-        options: ["Option 1.1.1", "Option 1.1.2"],
-        device_id: data.id,
-      });
-    } else {
-      acc.push({
-        title: data.name,
-        submenus: [
-          {
-            title: data.parent_name,
-            options: ["Option 1.1.1", "Option 1.1.2"],
-            device_id: data.id,
-          },
-        ],
-      });
+
+    const menuData = devices.reduce((acc, data) => {
+        const existingMenu = acc.find(menu => menu.title === data.name);
+
+        if (existingMenu) {
+            existingMenu.submenus.push({
+                title: data.parent_name,
+                options: ["Option 1.1.1", "Option 1.1.2"],
+                device_id: data.id,
+            });
+        } else {
+            acc.push({
+                title: data.name,
+                submenus: [
+                    {
+                        title: data.parent_name,
+                        options: ["Option 1.1.1", "Option 1.1.2"],
+                        device_id: data.id,
+                    },
+                ],
+            });
+        }
+        return acc;
+    }, []);
+
+    const SubMenuClick = (e) => {
+        const toAttribute = e.target.getAttribute('href');
+        navigate(toAttribute);
+        window.location.reload(false);
     }
-    return acc;
-  }, []);
 
-  const SubMenuClick = (e) => {
-    const toAttribute = e.target.getAttribute('href');
-    navigate(toAttribute);
-
-  }
-
-  return (
-      <nav
-          className={`navbar navbar-expand-lg navbar-light ${styles.navigation}`}
-      >
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            <img src={logo} alt="Logo" className={styles.page_logo} />
-          </Link>
-          <button
-              className={`d-lg-none ${isNavExpanded ? styles.navExpanded : ""} ${
-                  styles.navbar_toggler
-              }`}
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              onClick={handleNavToggle}
-          >
-            <img
-                className={`${styles.menu_icon}`}
-                src={navigation_item_logo}
-                alt={"Menu Bar"}
-            />
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <NavItem to="/" label="Home" />
-              <NavItem to="/about" label="About" />
-              <NavItem to="/contact" label="Contact" />
-              <li>
-
-                <Link className={`nav-link ${styles.nav_link} nav-item `} to="/#Map" onClick={GoToSection} >Map</Link>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                    className={`${styles.nav_link} nav-link dropdown-toggle`}
-                    href="#"
-                    id="navbarDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
+    return (
+        <nav
+            className={`navbar navbar-expand-lg navbar-light ${styles.navigation}`}
+        >
+            <div className="container-fluid">
+                <Link className="navbar-brand" to="/">
+                    <img src={logo} alt="Logo" className={styles.page_logo} />
+                </Link>
+                <button
+                    className={`d-lg-none ${isNavExpanded ? styles.navExpanded : ""} ${
+                        styles.navbar_toggler
+                    }`}
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
                     aria-expanded="false"
-                    data-bs-auto-close="outside"
+                    aria-label="Toggle navigation"
+                    onClick={handleNavToggle}
                 >
-                  Devices
-                </a>
-                <ul
-                    className={`dropdown-menu ${styles.drop}`}
-                    aria-labelledby="navbarDropdown"
-                >
-                  {menuData.map((menu, menuIndex) => (
-                      <li className="dropstart" key={menuIndex}>
-                        <div
-                            className={` ${styles.dropdown__item} dropdown-item dropdown-toggle`}
-                            data-bs-toggle="dropdown"
-                        >
-                          {menu.title}
-                          <ul className={"dropdown-menu"}>
-                            {menu.submenus.map((submenu, submenuIndex) => (
-                                <li key={submenuIndex}>
-                                  <Link onClick={SubMenuClick} to={`/device/${submenu.device_id}`} className="dropdown-item">
-                                    {submenu.title} {submenu.device_id}
-                                  </Link>
-                                </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </li>
-                  ))}
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-  );
+                    <img
+                        className={`${styles.menu_icon}`}
+                        src={navigation_item_logo}
+                        alt={"Menu Bar"}
+                    />
+                </button>
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav ms-auto">
+                        <NavItem to="/" label="Home" />
+                        <NavItem to="/about" label="About" />
+                        <NavItem to="/contact" label="Contact" />
+                        <li>
+                            <Link className={`nav-link ${styles.nav_link} nav-item `} to="/#Map" onClick={GoToSection}>Map</Link>
+                        </li>
+                        <li className="nav-item dropdown">
+                            <a
+                                className={`${styles.nav_link} nav-link dropdown-toggle`}
+                                href="/#"
+                                id="navbarDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                data-bs-auto-close="outside"
+                            >
+                                Devices
+                            </a>
+                            <ul
+                                className={`dropdown-menu ${styles.drop}`}
+                                aria-labelledby="navbarDropdown"
+                            >
+                                {menuData.map((menu, menuIndex) => (
+                                    <li className="dropstart" key={menuIndex}>
+                                        <div
+                                            className={` ${styles.dropdown__item} dropdown-item dropdown-toggle`}
+                                            data-bs-toggle="dropdown"
+                                        >
+                                            {menu.title}
+                                            <ul className={"dropdown-menu"}>
+                                                {menu.submenus.map((submenu, submenuIndex) => (
+                                                    <li key={submenuIndex}>
+                                                        {/*<Link to={`/device/${submenu.device_id}`} className="dropdown-item">*/}
+                                                        {/*    {submenu.title} {submenu.device_id}*/}
+                                                        {/*</Link>*/}
+                                                        <Link onClick={SubMenuClick} to={`/device/${submenu.device_id}`} className="dropdown-item">
+                                                            {submenu.title} {submenu.device_id}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    );
 };
 
 const NavItem = ({ to, label }) => {
-  const location = useLocation();
+    const location = useLocation();
 
-  return (
-      <li className="nav-item">
-        <Link
-            to={to}
-            className={`nav-link ${styles.nav_link} ${
-                location.pathname === to ? styles.active : ""
-            }`}
-        >
-          {label}
-        </Link>
-      </li>
-  );
+    return (
+        <li className="nav-item">
+            <Link
+                to={to}
+                className={`nav-link ${styles.nav_link} ${
+                    location.pathname === to ? styles.active : ""
+                }`}
+            >
+                {label}
+            </Link>
+        </li>
+    );
 };
 
 export default Header;

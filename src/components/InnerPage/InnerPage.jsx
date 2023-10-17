@@ -17,12 +17,13 @@ function InnerPage() {
       axios.get(`http://localhost:8000/device/${params["id"]}`)
           .then((response) => {
             change_weather_data(response.data);
+            console.log(response.data)
             setLoading(false)
           })
           .catch((error) => {
             console.error('Error fetching data:', error);
           });
-      },
+      },[]
     );
     if(isLoading) {
         return  <div className={styles.loading}>
