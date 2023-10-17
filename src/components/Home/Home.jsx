@@ -10,8 +10,8 @@ function Home() {
     <div className={styles.text_white}>
       <Banner />
       <ScrollableSection />
-      <MapArmenia />
       <Description />
+      <MapArmenia />
     </div>
   );
 }

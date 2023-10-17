@@ -101,7 +101,6 @@ const Header = () => {
             <ul className="navbar-nav ms-auto">
               <NavItem to="/" label="Home" />
               <NavItem to="/about" label="About" />
-              <NavItem to="/contact" label="Contact" />
               <li>
 
                 <Link className={`nav-link ${styles.nav_link} nav-item `} to="/#Map" onClick={GoToSection} >Map</Link>
