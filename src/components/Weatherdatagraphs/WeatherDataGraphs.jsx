@@ -18,25 +18,33 @@ function ConvertDate(inputDate) {
 
 
 const show_data_function = (some_array, need_data) => {
-    let local_array = []
-    let axis = []
-    some_array.map(item => {
+    let local_array = some_array.map(item => {
         let a = {}
-        need_data.map((value) => {
-          a[value] = item[value]
-        })
-        local_array.push(a)
+        need_data.forEach((value) => {
+            if (value === "time") {
+                const date = new Date(item[value]);
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                a[value] = `${hours}:${minutes}`;
+            } else {
+                a[value] = item[value]
+            }
+            return a
+        });
+        return a;
     });
-    need_data.splice(-1)
-    need_data.map((item) => {
-        axis.push({
-          xKey : "time",
-          yKey : item
-        })
-    })
-    return { data : local_array, name : axis}
 
+    need_data.splice(-1);
+
+    let axis = need_data.map((item) => ({
+        xKey: "time",
+        yKey: item
+    }));
+
+    return { data: local_array, name: axis }
 }
+
+
 
 
 const InnerTabs = (props) => {
