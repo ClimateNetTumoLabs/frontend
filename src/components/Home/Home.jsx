@@ -4,6 +4,7 @@ import Banner from "../Banner/Banner";
 import ScrollableSection from "../../components/Scrollablesection/ScrollableSection";
 import MapArmenia from "../Map/Map";
 import Description from "../DescriptionProject/Description";
+import ContactForm from "../Contact/Contact";
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
       <ScrollableSection />
       <Description />
       <MapArmenia />
+      <ContactForm/>
     </div>
   );
 }
