@@ -10,7 +10,7 @@ const Description = () => {
   }, []);
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid mb-5 mt-5">
       <div className={styles.about_us_section}>
         <div data-aos="fade-up" className={`${styles.boxes}`}>
           <h2 className={styles.title}>What is Lorem Ipsum?</h2>
