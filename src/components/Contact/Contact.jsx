@@ -12,6 +12,8 @@ const ContactForm = () => {
       email: email.value,
       message: message.value,
     };
+
+    console.log(conFom)
   };
   return (
     <div className="container mt-5 mb-5 col-md-6 col-8">

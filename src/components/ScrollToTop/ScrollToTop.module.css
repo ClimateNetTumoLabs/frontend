@@ -11,7 +11,7 @@
     font-size: 16px;
     transition: background-color 0.3s;
     z-index: 999;
-    background: #232222;
+    background: none;
 
 }
 
@@ -20,12 +20,23 @@
 }
 
 .button_scroll_top:hover {
-    background-color: #df7788; /* Darker blue on hover, you can change this */
+    animation: wave 0.8s;
+    animation-iteration-count: infinite;
 }
 
-.button_scroll_top:hover svg{
-    fill: white; /* Darker blue on hover, you can change this */
+@keyframes wave {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-5px);
+    }
+    75% {
+        transform: translateY(5px);
+    }
 }
+
+
 .button_scroll_top svg {
     height: 100%;
     width: 100%;
