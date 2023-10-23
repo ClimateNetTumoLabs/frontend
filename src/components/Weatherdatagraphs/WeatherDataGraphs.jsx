@@ -79,7 +79,6 @@ const InnerTabs = (props) => {
           )}&end_time_str=${ConvertDate(endDate)}`
         )
         .then((response) => {
-          console.log(response.data);
           ChangeWeatherState(response.data);
         })
         .catch((error) => {

@@ -6,9 +6,10 @@ const ContactForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const { name, email, message } = e.target.elements;
+    const { name, surname, email, message } = e.target.elements;
     let conFom = {
       name: name.value,
+      surname : surname.value,
       email: email.value,
       message: message.value,
     };

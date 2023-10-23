@@ -11,11 +11,15 @@
   color: white !important;
 }
 
+.drop_item,  .drop_item a, .drop_item.active a  {
+  color : #232222 !important;
+}
+
 .page_logo {
   width: 200px;
 }
 
-.active {
+.active, .nav_link.active .root_item  {
   color: #df7788 !important;
 }
 

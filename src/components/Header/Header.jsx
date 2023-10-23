@@ -8,6 +8,7 @@ import axios from "axios";
 import Basic from "../Test/test";
 
 const Header = () => {
+    const location = useLocation();
     const navigate = useNavigate();
     const [isNavExpanded, setIsNavExpanded] = useState(false);
 
@@ -69,7 +70,8 @@ const Header = () => {
     const SubMenuClick = (e) => {
         const toAttribute = e.target.getAttribute('href');
         navigate(toAttribute);
-        window.location.reload(false);
+        console.log(location.pathname.indexOf('device'))
+        // window.location.reload(false);
     }
 
     return (
@@ -100,14 +102,14 @@ const Header = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
-                        <NavItem to="/" label="Home" />
-                        <NavItem to="/about" label="About" />
+                        <NavItem to="/" label="Home" location={location}/>
+                        <NavItem to="/about" label="About" location={location}/>
                         <li>
                             <Link className={`nav-link ${styles.nav_link} nav-item `} to="/#Map" onClick={GoToSection}>Map</Link>
                         </li>
-                        <li className="nav-item dropdown">
+                        <li className={`nav-item dropdown ${styles.nav_link} ${ location.pathname.indexOf('device') === 1 ? styles.active : ""}`}>
                             <a
-                                className={`${styles.nav_link} nav-link dropdown-toggle`}
+                                className={`${styles.nav_link} ${styles.root_item} nav-link dropdown-toggle`}
                                 href="/#"
                                 id="navbarDropdown"
                                 role="button"
@@ -131,10 +133,7 @@ const Header = () => {
                                             <ul className={"dropdown-menu"}>
                                                 {menu.submenus.map((submenu, submenuIndex) => (
                                                     <li key={submenuIndex}>
-                                                        {/*<Link to={`/device/${submenu.device_id}`} className="dropdown-item">*/}
-                                                        {/*    {submenu.title} {submenu.device_id}*/}
-                                                        {/*</Link>*/}
-                                                        <Link onClick={SubMenuClick} to={`/device/${submenu.device_id}`} className="dropdown-item">
+                                                        <Link onClick={SubMenuClick} to={`/device/${submenu.device_id}`} className={`dropdown-item ${styles.drop_item}`}>
                                                             {submenu.title} {submenu.device_id}
                                                         </Link>
                                                     </li>
@@ -152,8 +151,7 @@ const Header = () => {
     );
 };
 
-const NavItem = ({ to, label }) => {
-    const location = useLocation();
+const NavItem = ({ to, label, location}) => {
 
     return (
         <li className="nav-item">
