@@ -48,17 +48,15 @@ const Header = () => {
 
         if (existingMenu) {
             existingMenu.submenus.push({
-                title: data.parent_name,
-                options: ["Option 1.1.1", "Option 1.1.2"],
+                title: data.name,
                 device_id: data.id,
             });
         } else {
             acc.push({
-                title: data.name,
+                title: data.parent_name,
                 submenus: [
                     {
-                        title: data.parent_name,
-                        options: ["Option 1.1.1", "Option 1.1.2"],
+                        title: data.name,
                         device_id: data.id,
                     },
                 ],
@@ -134,7 +132,7 @@ const Header = () => {
                                                 {menu.submenus.map((submenu, submenuIndex) => (
                                                     <li key={submenuIndex}>
                                                         <Link onClick={SubMenuClick} to={`/device/${submenu.device_id}`} className={`dropdown-item ${styles.drop_item}`}>
-                                                            {submenu.title} {submenu.device_id}
+                                                            {submenu.title} 
                                                         </Link>
                                                     </li>
                                                 ))}
