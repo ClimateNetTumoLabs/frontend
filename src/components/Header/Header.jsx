@@ -32,7 +32,7 @@ const Header = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/devices/")
+      .get(`http://${window.location.hostname}/devices/`)
       .then((response) => {
         setDevices(response.data);
       })
@@ -72,7 +72,7 @@ const Header = () => {
     const toAttribute = e.target.getAttribute("href");
     navigate(toAttribute);
     console.log(location.pathname.indexOf("device"));
-    // window.location.reload(false);
+    window.location.reload(false);
   };
 
   return (
