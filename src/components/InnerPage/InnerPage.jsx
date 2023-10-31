@@ -5,7 +5,7 @@ import axios from "axios";
 import Loader from "react-js-loader";
 import HoverToDevice from "../HoverToDevice/HoverToDevice";
 import styles from "./InnerPage.module.css";
-import { ReactComponent as DeviceImage } from "../../assets/images/Tumo.svg";
+import { ReactComponent as DeviceImage } from "../../assets/images/device.svg";
 
 function InnerPage() {
   const params = useParams();
@@ -14,7 +14,7 @@ function InnerPage() {
 
   useEffect(() => {
     axios
-      .get(`https://${window.location.hostname}:8000/device/${params.id}`)
+      .get(`http://${window.location.hostname}:8000/device/${params.id}`)
       .then((response) => {
         change_weather_data(response.data);
         setLoading(false);

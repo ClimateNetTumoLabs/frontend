@@ -32,7 +32,7 @@ const Header = () => {
 
   useEffect(() => {
     axios
-      .get(`https://${window.location.hostname}/devices/`)
+      .get(`http://${window.location.hostname}:8000/devices/`)
       .then((response) => {
         setDevices(response.data);
       })
