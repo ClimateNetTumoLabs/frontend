@@ -7,7 +7,6 @@ import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
-import DownloadFile from "../DownloadFile/DownloadFile";
 
 function ConvertDate(inputDate) {
   const year = inputDate.getFullYear();
@@ -119,11 +118,6 @@ const InnerTabs = (props) => {
         <button className={styles.filter_button} onClick={handleFilterClick}>
           Filter
         </button>
-        {isDateRangeSelected && (
-        <button className={styles.filter_button} onClick={handleDownloadClick}>
-          Download Data
-        </button>
-      )}
       </div>
       <Tabs
         defaultActiveKey="hum_temp"
