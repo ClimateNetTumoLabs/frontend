@@ -7,6 +7,8 @@ import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import DownloadButton from "../DownloadButton/DownloadButton";
+
 
 function ConvertDate(inputDate) {
   const year = inputDate.getFullYear();
@@ -44,6 +46,10 @@ const InnerTabs = (props) => {
   const today = new Date();
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
+
+  const [showDownloadButton, setShowDownloadButton] = useState(false);
+
+
   const handleStartDateChange = (date) => {
     setStartDate(date);
     if (endDate && date > endDate) {
@@ -118,6 +124,9 @@ const InnerTabs = (props) => {
         <button className={styles.filter_button} onClick={handleFilterClick}>
           Filter
         </button>
+        {showDownloadButton && (
+         <DownloadButton startDate={startDate} endDate={endDate} />
+         )}
       </div>
       <Tabs
         defaultActiveKey="hum_temp"
