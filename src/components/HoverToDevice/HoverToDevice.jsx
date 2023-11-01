@@ -4,9 +4,7 @@ import { useLocation } from "react-router-dom";
 
 const ShowHoverData = (data) => {
   const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+
 
   const last_element = data[data.length - 1];
   if (last_element) {
