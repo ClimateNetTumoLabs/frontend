@@ -32,7 +32,7 @@ const Header = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/devices/")
+      .get(`http://127.0.0.1:8000/devices/`)
       .then((response) => {
         setDevices(response.data);
       })
@@ -71,8 +71,7 @@ const Header = () => {
   const SubMenuClick = (e) => {
     const toAttribute = e.target.getAttribute("href");
     navigate(toAttribute);
-    console.log(location.pathname.indexOf("device"));
-    // window.location.reload(false);
+    window.location.reload(false);
   };
 
   return (
@@ -146,7 +145,7 @@ const Header = () => {
                           <li key={submenuIndex}>
                             <Link
                               onClick={SubMenuClick}
-                              to={`/device/${submenu.device_id}`}
+                              to={`/device_cl/${submenu.device_id}`}
                               className={`dropdown-item ${styles.drop_item}`}
                             >
                               {submenu.title}

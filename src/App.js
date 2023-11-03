@@ -19,7 +19,7 @@ function App() {
             <Routes>
                 <Route path="/*" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/device/:id" element={<InnerPage />} />
+                <Route path="/device_cl/:id" element={<InnerPage />} />
             </Routes>
             <Footer />
         </div>
