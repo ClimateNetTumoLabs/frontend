@@ -7,14 +7,15 @@ import HoverToDevice from "../HoverToDevice/HoverToDevice";
 import styles from "./InnerPage.module.css";
 import { ReactComponent as DeviceImage } from "../../assets/images/device.svg";
 
+
 function InnerPage() {
   const params = useParams();
   const [isLoading, setLoading] = useState(true);
   const [weather_data, change_weather_data] = useState(null);
   useEffect(() => {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     axios
-      .get(`http://127.0.0.1:8000/device/${params.id}`)
+      .get(`https://${window.location.hostname}/device/${params.id}`, { withCredentials: true })
       .then((response) => {
         change_weather_data(response.data);
         setLoading(false);

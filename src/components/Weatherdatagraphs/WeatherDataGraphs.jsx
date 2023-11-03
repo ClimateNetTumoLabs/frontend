@@ -12,7 +12,7 @@ function ConvertDate(inputDate) {
   const year = inputDate.getFullYear();
   const month = String(inputDate.getMonth() + 1).padStart(2, "0");
   const day = String(inputDate.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}T00:00:00`;
+  return `${year}-${month}-${day}`;
 }
 
 const show_data_function = (some_array, need_data) => {
@@ -68,13 +68,13 @@ const InnerTabs = (props) => {
       const endOfLocation = path.substring(path.lastIndexOf("/") + 1);
 
       console.log(
-        `http://localhost:8000/device/${endOfLocation}?start_time_str${ConvertDate(
+        `https://climatenet.am/device/${endOfLocation}?start_time_str=${ConvertDate(
           startDate
-        )}&end_time_str${ConvertDate(endDate)}`
+        )}&end_time_str=${ConvertDate(endDate)}`
       );
       axios
         .get(
-          `http://localhost:8000/device/${endOfLocation}?start_time_str=${ConvertDate(
+          `https://climatenet.am/device/${endOfLocation}?start_time_str=${ConvertDate(
             startDate
           )}&end_time_str=${ConvertDate(endDate)}`
         )
