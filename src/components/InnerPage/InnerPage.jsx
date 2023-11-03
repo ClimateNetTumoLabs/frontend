@@ -15,7 +15,7 @@ function InnerPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
     axios
-      .get(`https://${window.location.hostname}/device/${params.id}`, { withCredentials: true })
+      .get(`http://127.0.0.1:8000/device/${params.id}`, { withCredentials: true })
       .then((response) => {
         change_weather_data(response.data);
         setLoading(false);
