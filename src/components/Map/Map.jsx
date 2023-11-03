@@ -27,7 +27,7 @@ const MapArmenia = () => {
   });
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/devices/`)
+    axios.get(`/devices/`)
       .then(response => {
         setDevices(response.data);
       })
