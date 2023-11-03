@@ -5,12 +5,8 @@ import axios from "axios";
 import Loader from "react-js-loader";
 import HoverToDevice from "../HoverToDevice/HoverToDevice";
 import styles from "./InnerPage.module.css";
-<<<<<<< HEAD
-import { ReactComponent as DeviceImage } from "../../assets/images/Tumo.svg";
-import DownloadButton from "../DownloadButton/DownloadButton";
-=======
 import { ReactComponent as DeviceImage } from "../../assets/images/device.svg";
->>>>>>> origin/main
+import DownloadButton from "../DownloadButton/DownloadButton";
 
 function InnerPage() {
   const params = useParams();
