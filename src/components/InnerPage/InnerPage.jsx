@@ -46,7 +46,7 @@ function InnerPage() {
   return (
     <div className={styles.inner_page}>
       <DeviceImage />
-      <DownloadButton/>
+      {/* <DownloadButton/> */}
       <HoverToDevice data={weather_data} />
       <WeatherDataGraphs data={weather_data} />
     </div>

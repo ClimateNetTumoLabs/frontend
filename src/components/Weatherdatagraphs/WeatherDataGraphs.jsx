@@ -13,7 +13,7 @@ function ConvertDate(inputDate) {
   const year = inputDate.getFullYear();
   const month = String(inputDate.getMonth() + 1).padStart(2, "0");
   const day = String(inputDate.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}T00:00:00`;
+  return `${year}-${month}-${day}`;
 }
 
 const show_data_function = (some_array, need_data) => {
@@ -22,11 +22,11 @@ const show_data_function = (some_array, need_data) => {
   some_array.map((item) => {
     let a = {};
     need_data.map((value) => {
-      const date = new Date(item[value]);
-      const hours = date.getHours().toString().padStart(2, "0");
-      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const date = item && new Date(item[value]);
+      const hours = date && date.getHours().toString().padStart(2, "0");
+      const minutes = date && date.getMinutes().toString().padStart(2, "0");
       a[value] = `${hours}:${minutes}`;
-      a[value] = item[value];
+      a[value] = item && item[value];
     });
     local_array.push(a);
   });
@@ -71,11 +71,7 @@ const InnerTabs = (props) => {
       const path = window.location.pathname;
       const endOfLocation = path.substring(path.lastIndexOf("/") + 1);
 
-      console.log(
-        `http://localhost:8000/device/${endOfLocation}?start_time_str${ConvertDate(
-          startDate
-        )}&end_time_str${ConvertDate(endDate)}`
-      );
+      console.log(startDate, endDate, "PPPPPPPPPPPPP");
       axios
         .get(
           `http://localhost:8000/device/${endOfLocation}?start_time_str=${ConvertDate(
@@ -84,6 +80,7 @@ const InnerTabs = (props) => {
         )
         .then((response) => {
           ChangeWeatherState(response.data);
+          setShowDownloadButton(true);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
