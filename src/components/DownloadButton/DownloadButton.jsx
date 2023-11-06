@@ -12,7 +12,7 @@ const DownloadButton = ({ startDate, endDate }) => {
     const endOfLocation = path.substring(path.lastIndexOf("/") + 1);
     axios
       .get(
-        `http://localhost:8000/device/${endOfLocation}?start_time_str=${startDate}&end_time_str=${endDate}`
+        `/device/${endOfLocation}?start_time_str=${startDate}&end_time_str=${endDate}`
       )
       .then((response) => {
         setDevices(response.data);
