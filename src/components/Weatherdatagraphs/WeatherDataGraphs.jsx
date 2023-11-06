@@ -46,8 +46,6 @@ const InnerTabs = (props) => {
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
 
-  const [showDownloadButton, setShowDownloadButton] = useState(false);
-
   const handleStartDateChange = (date) => {
     setStartDate(date);
     if (endDate && date > endDate) {
@@ -71,13 +69,20 @@ const InnerTabs = (props) => {
       const path = window.location.pathname;
       const endOfLocation = path.substring(path.lastIndexOf("/") + 1);
 
-      console.log(`/device/${endOfLocation}?start_time_str=${ConvertDate(startDate)}&end_time_str=${ConvertDate(endDate)}`);
+      console.log(
+        `/device/${endOfLocation}?start_time_str=${ConvertDate(
+          startDate
+        )}&end_time_str=${ConvertDate(endDate)}`
+      );
       console.log(startDate, endDate, "PPPPPPPPPPPPP");
       axios
-        .get(`/device/${endOfLocation}?start_time_str=${ConvertDate(startDate)}&end_time_str=${ConvertDate(endDate)}`)
+        .get(
+          `/device/${endOfLocation}?start_time_str=${ConvertDate(
+            startDate
+          )}&end_time_str=${ConvertDate(endDate)}`
+        )
         .then((response) => {
           ChangeWeatherState(response.data);
-          setShowDownloadButton(true);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -86,7 +91,7 @@ const InnerTabs = (props) => {
       alert("Please input Start and End dates");
     }
   };
-
+  console.log(weather_data);
   return (
     <div>
       <div className={styles.filter_section}>
@@ -116,8 +121,12 @@ const InnerTabs = (props) => {
         <button className={styles.filter_button} onClick={handleFilterClick}>
           Filter
         </button>
-        {showDownloadButton && (
-          <DownloadButton startDate={startDate} endDate={endDate} />
+        {weather_data && weather_data.length > 0 && (
+          <DownloadButton
+            startDate={startDate}
+            endDate={endDate}
+            weather_data={weather_data}
+          />
         )}
       </div>
       <Tabs

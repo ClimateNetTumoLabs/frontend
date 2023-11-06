@@ -4,9 +4,10 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import style from "./DownloadButton.module.css";
 
-const DownloadButton = ({ startDate, endDate }) => {
+const DownloadButton = ({ startDate, endDate ,weather_data}) => {
   const [devices, setDevices] = useState([]);
 
+  console.log(devices);
   useEffect(() => {
     const path = window.location.pathname;
     const endOfLocation = path.substring(path.lastIndexOf("/") + 1);
@@ -16,6 +17,7 @@ const DownloadButton = ({ startDate, endDate }) => {
       )
       .then((response) => {
         setDevices(response.data);
+
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -25,7 +27,7 @@ const DownloadButton = ({ startDate, endDate }) => {
   return (
     <div className={style.download_button}>
       <Button variant="outline-primary">
-        <CSVLink data={devices}>Download File</CSVLink>
+        <CSVLink data={weather_data}>Download File</CSVLink>
       </Button>
     </div>
   );
