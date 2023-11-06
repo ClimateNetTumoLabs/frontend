@@ -71,18 +71,10 @@ const InnerTabs = (props) => {
       const path = window.location.pathname;
       const endOfLocation = path.substring(path.lastIndexOf("/") + 1);
 
-      console.log(
-        `https://climatenet.am/device/${endOfLocation}?start_time_str=${ConvertDate(
-          startDate
-        )}&end_time_str=${ConvertDate(endDate)}`
-      );
+      console.log(`/device/${endOfLocation}?start_time_str=${ConvertDate(startDate)}&end_time_str=${ConvertDate(endDate)}`);
       console.log(startDate, endDate, "PPPPPPPPPPPPP");
       axios
-        .get(
-          `https://climatenet.am/device/${endOfLocation}?start_time_str=${ConvertDate(
-            startDate
-          )}&end_time_str=${ConvertDate(endDate)}`
-        )
+        .get(`/device/${endOfLocation}?start_time_str=${ConvertDate(startDate)}&end_time_str=${ConvertDate(endDate)}`)
         .then((response) => {
           ChangeWeatherState(response.data);
           setShowDownloadButton(true);
