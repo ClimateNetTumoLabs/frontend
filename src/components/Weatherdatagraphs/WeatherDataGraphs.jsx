@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import DownloadButton from "../DownloadButton/DownloadButton";
 
 function ConvertDate(inputDate) {
   const year = inputDate.getFullYear();
@@ -21,11 +22,11 @@ const show_data_function = (some_array, need_data) => {
   some_array.map((item) => {
     let a = {};
     need_data.map((value) => {
-      const date = new Date(item[value]);
-      const hours = date.getHours().toString().padStart(2, "0");
-      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const date = item && new Date(item[value]);
+      const hours = date && date.getHours().toString().padStart(2, "0");
+      const minutes = date && date.getMinutes().toString().padStart(2, "0");
       a[value] = `${hours}:${minutes}`;
-      a[value] = item[value];
+      a[value] = item && item[value];
     });
     local_array.push(a);
   });
@@ -44,6 +45,9 @@ const InnerTabs = (props) => {
   const today = new Date();
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
+
+  const [showDownloadButton, setShowDownloadButton] = useState(false);
+
   const handleStartDateChange = (date) => {
     setStartDate(date);
     if (endDate && date > endDate) {
@@ -72,6 +76,7 @@ const InnerTabs = (props) => {
           startDate
         )}&end_time_str=${ConvertDate(endDate)}`
       );
+      console.log(startDate, endDate, "PPPPPPPPPPPPP");
       axios
         .get(
           `https://climatenet.am/device/${endOfLocation}?start_time_str=${ConvertDate(
@@ -80,6 +85,7 @@ const InnerTabs = (props) => {
         )
         .then((response) => {
           ChangeWeatherState(response.data);
+          setShowDownloadButton(true);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -118,6 +124,9 @@ const InnerTabs = (props) => {
         <button className={styles.filter_button} onClick={handleFilterClick}>
           Filter
         </button>
+        {showDownloadButton && (
+          <DownloadButton startDate={startDate} endDate={endDate} />
+        )}
       </div>
       <Tabs
         defaultActiveKey="hum_temp"
