@@ -12,11 +12,17 @@ import { FullscreenControl } from "react-leaflet-fullscreen";
 
 const MapArmenia = () => {
   const [devices, setDevices] = useState([]);
+  const [mapClicked, setMapClicked] = useState(false);
+
+  const handleMapClick = () => {
+    setMapClicked(true);
+    console.log(mapClicked)
+  }
   const geoJSONStyle = {
     fillColor: "green",
     fillOpacity: "0.1",
     color: "black",
-    weight: 3,  
+    weight: 3,
   };
 
   const customIcon = new L.Icon({
@@ -36,11 +42,13 @@ const MapArmenia = () => {
       });
   }, []);
   return (
-    <div id="Map">
+    <div id="Map" >
       <MapContainer
-        center={[40.15912, 45.002717]}
-        zoom={8}
-        style={{ height: "600px", width: "100%" }}
+          center={[40.15912, 45.002717]}
+          zoom={8}
+          style={{ height: "600px", width: "100%" }}
+          scrollWheelZoom={mapClicked}
+          onClick={handleMapClick} // Set up click event handler
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
