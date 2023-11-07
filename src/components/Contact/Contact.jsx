@@ -26,7 +26,6 @@ const ContactForm = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  console.log(formData);
   return (
     <div className="container mt-5 mb-5 col-md-6 col-8">
       <h2 className={`mb-3 ${styles.contact_us_title}`}> Contact Us</h2>
