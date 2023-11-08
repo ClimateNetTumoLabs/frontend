@@ -28,4 +28,5 @@ jobs:
                 source venv/bin/activate &&
                 git pull origin main &&
                 sudo systemctl restart ScriptRun.service
+
               '
