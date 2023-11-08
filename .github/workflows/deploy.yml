@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main
+      - deploy_test
 
 name: Deploy on push
 
