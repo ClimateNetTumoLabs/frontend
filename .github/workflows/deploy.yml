@@ -27,6 +27,8 @@ jobs:
                 git checkout main &&
                 source venv/bin/activate &&
                 git pull origin main &&
-                sudo systemctl restart ScriptRun.service
-
+                sudo systemctl restart ScriptRun.service &&
+                sudo n latest &&
+                sudo npm install -g n &&
+                npm install
               '
