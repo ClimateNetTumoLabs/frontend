@@ -3,7 +3,6 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import ChartExample from "../Chart/Chart";
 import styles from "./WeatherDataGraphs.module.css";
-import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
@@ -19,9 +18,9 @@ function ConvertDate(inputDate) {
 const show_data_function = (some_array, need_data) => {
   let local_array = [];
   let axis = [];
-  some_array.map((item) => {
+  some_array.forEach((item) => {
     let a = {};
-    need_data.map((value) => {
+    need_data.forEach((value) => {
       const date = item && new Date(item[value]);
       const hours = date && date.getHours().toString().padStart(2, "0");
       const minutes = date && date.getMinutes().toString().padStart(2, "0");
@@ -31,7 +30,7 @@ const show_data_function = (some_array, need_data) => {
     local_array.push(a);
   });
   need_data.splice(-1);
-  need_data.map((item) => {
+  need_data.forEach((item) => {
     axis.push({
       xKey: "time",
       yKey: item,
@@ -58,10 +57,6 @@ const InnerTabs = (props) => {
     if (date < startDate) {
       setStartDate(date);
     }
-  };
-
-  const formatDate = (date) => {
-    return format(date, "EEEE, MMMM d, y");
   };
 
   const handleFilterClick = () => {

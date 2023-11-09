@@ -22,6 +22,7 @@ const ContactForm = () => {
         });
   };
 
+
   return (
       <div className="container mt-5 mb-5 col-md-6 col-12">
         <h2 className={`mb-3 ${styles.contact_us_title}`}> Contact Us</h2>

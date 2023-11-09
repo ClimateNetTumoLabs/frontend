@@ -16,9 +16,27 @@ const Chart = ({ text, subtitle, information }) => {
   });
 
   useEffect(() => {
+    const formattedData = information.data.map((item) => {
+      let formattedTime = item.time;
+
+      if (formattedTime.includes("T")) {
+        const date = new Date(formattedTime);
+        const hours = date.getHours().toString().padStart(2, "0");
+        const minutes = date.getMinutes().toString().padStart(2, "0");
+        formattedTime = `${hours}:${minutes}`;
+      } else {
+        formattedTime = formattedTime.substring(0, 10); // Extract YYYY-MM-DD
+      }
+
+      return {
+        ...item,
+        time: formattedTime,
+      };
+    });
+
     setOptions((prevOptions) => ({
       ...prevOptions,
-      data: information.data,
+      data: formattedData,
       series: information.name,
     }));
   }, [information]);
