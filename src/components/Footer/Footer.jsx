@@ -24,7 +24,7 @@ const Footer = () => {
     return (
         <footer className="text-light py-2 pb-3">
             <div className={`${styles.footer_inner} "container-fluid d-flex justify-content-center"`}>
-                <div className='col-4'>
+                <div className='col-md-4 col-12'>
                     <h3 className='mb-4 d-flex '>Social Media</h3>
                     <div className={`social-icon ${styles.social_icons_block}`}>
                         <a className={styles.social_icon} href="https://www.facebook.com/tumolabs/"><FontAwesomeIcon icon={faFacebook} /></a>
@@ -32,7 +32,7 @@ const Footer = () => {
                         <a className={styles.social_icon} href="https://www.instagram.com/tumolabs/"><FontAwesomeIcon icon={faInstagram} /></a>
                     </div>
                 </div>
-                <div className="col-4 justify-content-center d-flex">
+                <div className="col-md-4 col-12 justify-content-center d-flex">
                     <div className="col">
                         <p className={styles.company_information}>
                             <img src={location} alt="Map Icon" className="icon" />
@@ -53,7 +53,6 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className={`${styles.map_section} col-4"`}>
-
                     <MapContainer center={center} zoom={13} style={{ width: '100%', height: '200px' }}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

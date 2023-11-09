@@ -4,7 +4,6 @@
     background-color: #232222;
     color: white;
     background-size: 100% 100%;
-
 }
 
 .animation {
@@ -21,4 +20,17 @@
         transform: translate(-50%, -50%);
     }
 
+}
+
+
+/*Mobile*/
+@media (max-width: 767px) {
+
+    .first_animation div{
+        top: 230px !important;
+    }
+    .animation_block h1{
+        min-width: 300px;
+        font-size : 24px
+    }
 }

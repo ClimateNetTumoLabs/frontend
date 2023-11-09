@@ -12,3 +12,10 @@
   font-size: 18px;
   color: #df7788;
 }
+
+
+@media (max-width: 767px) {
+  .boxes {
+    max-height: none;
+  }
+}
