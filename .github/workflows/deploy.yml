@@ -25,10 +25,9 @@ jobs:
                  ${{ env.USER_NAME }}@${{ env.HOSTNAME }} '
                 cd /home/ubuntu/frontend &&
                 git checkout main &&
-                source venv/bin/activate &&
                 git pull origin main &&
-                sudo systemctl restart ScriptRun.service &&
                 sudo n latest &&
                 sudo npm install -g n &&
                 npm install
+                npm run build
               '
