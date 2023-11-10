@@ -26,8 +26,6 @@ jobs:
                 cd /home/ubuntu/frontend &&
                 git checkout deploy_test &&
                 git pull origin deploy_test &&
-                sudo n latest &&
-                sudo npm install -g n &&
-                npm install
+                npm install &&
                 npm run build
               '
