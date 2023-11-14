@@ -102,10 +102,7 @@ const Header = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-<<<<<<< HEAD
             <NavItem to="/" label="TUN" location={location} />
-=======
->>>>>>> 9570b77975c39e12ed693df22a26a720ba3ac4d2
             <NavItem to="/about" label="About" location={location} />
             <li>
               <Link
