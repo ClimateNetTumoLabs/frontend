@@ -1,8 +1,18 @@
-.name_field {
+.contact_us_section input, .contact_us_section select {
+    padding: 15px;
+    background: none !important;
+}
+
+.contact_us_section label {
+    margin-bottom: 0px;
+}
+
+
+.name_field, .subject_input {
     padding-right: 5px;
 }
 
-.surname_field {
+.surname_field, .email_section {
     padding-left: 5px;
 }
 
@@ -50,8 +60,9 @@
     border: 1px solid #df7788 ;
 }
 
+/*.contact_block:focus-within label*/
 
-.contact_block:hover label, .contact_block:focus-within label {
+.contact_block:hover label {
     animation: wave 0.8s;
     animation-iteration-count: infinite;
 }
@@ -70,7 +81,7 @@
 
 
 @media only screen and (max-width: 600px) {
-    .name_field,.surname_field {
+    .name_field,.surname_field, .email_section, .subject_input {
         padding: 0;
     }
 }
