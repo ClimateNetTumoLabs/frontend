@@ -27,5 +27,9 @@ jobs:
                 git checkout deploy_test &&
                 git pull origin deploy_test &&
                 npm install &&
-                npm run build
+                npm run build &&
+                cd &&
+                cd django-app/climatenet &&
+                source venv/bin/activate &&
+                sudo systemctl restart gunicorn.service
               '
