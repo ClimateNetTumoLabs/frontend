@@ -40,7 +40,10 @@
 /* Banner.module.css */
 .carouselContainer {
   overflow: hidden;
-  height: 50vh
+  height: 50vh;
+  background : #232222;
+  z-index: 1;
+  position: relative;
 }
 
 
