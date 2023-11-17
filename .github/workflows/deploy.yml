@@ -9,39 +9,27 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+
     steps:
-      - name: Set up Git
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
+          - name: Deploy in EC2
+            env:
+                PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
+                HOSTNAME : ${{ secrets.EC2_IP  }}
+                USER_NAME : ${{ secrets.EC2_USERNAME  }}
 
-      - name: Checkout Repository
-        uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-
-      - name: Set up Private Key
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
-
-      - name: Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i private_key.pem \
-            ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP }} '
-              cd /home/ubuntu/frontend &&
-              git checkout deploy_test &&
-              git pull origin deploy_test &&
-              npm install &&
-              npm run build
-            '
-
-      - name: Deploy Django App
-        run: |
-          cd ~/django-app/climatenet &&
-          echo yes | python3 manage.py collectstatic &&
-          sudo systemctl restart gunicorn.service
-
+            run: |
+              echo "${{ env.PRIVATE_KEY }}" > private_key.pem && \
+                 chmod 600 private_key.pem
+              ssh -o StrictHostKeyChecking=no -i private_key.pem \
+                 ${{ env.USER_NAME }}@${{ env.HOSTNAME }} '
+                cd /home/ubuntu/frontend &&
+                git checkout deploy_test &&
+                git pull origin deploy_test &&
+                npm install &&
+                npm run build &&
+                cd &&
+                cd django-app/climatenet &&
+                echo yes | python3 manage.py collectstatic &&
+                sudo systemctl restart gunicorn.service
+              '
