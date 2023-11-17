@@ -3,7 +3,6 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import ChartExample from "../Chart/Chart";
 import styles from "./WeatherDataGraphs.module.css";
-import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
@@ -19,9 +18,9 @@ function ConvertDate(inputDate) {
 const show_data_function = (some_array, need_data) => {
   let local_array = [];
   let axis = [];
-  some_array.map((item) => {
+  some_array.forEach((item) => {
     let a = {};
-    need_data.map((value) => {
+    need_data.forEach((value) => {
       const date = item && new Date(item[value]);
       const hours = date && date.getHours().toString().padStart(2, "0");
       const minutes = date && date.getMinutes().toString().padStart(2, "0");
@@ -31,7 +30,7 @@ const show_data_function = (some_array, need_data) => {
     local_array.push(a);
   });
   need_data.splice(-1);
-  need_data.map((item) => {
+  need_data.forEach((item) => {
     axis.push({
       xKey: "time",
       yKey: item,
@@ -45,8 +44,6 @@ const InnerTabs = (props) => {
   const today = new Date();
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
-
-  const [showDownloadButton, setShowDownloadButton] = useState(false);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -62,22 +59,25 @@ const InnerTabs = (props) => {
     }
   };
 
-  const formatDate = (date) => {
-    return format(date, "EEEE, MMMM d, y");
-  };
-
   const handleFilterClick = () => {
     if (startDate && endDate) {
       const path = window.location.pathname;
       const endOfLocation = path.substring(path.lastIndexOf("/") + 1);
 
-      console.log(`/device/${endOfLocation}?start_time_str=${ConvertDate(startDate)}&end_time_str=${ConvertDate(endDate)}`);
+      console.log(
+        `/device/${endOfLocation}?start_time_str=${ConvertDate(
+          startDate
+        )}&end_time_str=${ConvertDate(endDate)}`
+      );
       console.log(startDate, endDate, "PPPPPPPPPPPPP");
       axios
-        .get(`/device/${endOfLocation}?start_time_str=${ConvertDate(startDate)}&end_time_str=${ConvertDate(endDate)}`)
+        .get(
+          `/device/${endOfLocation}?start_time_str=${ConvertDate(
+            startDate
+          )}&end_time_str=${ConvertDate(endDate)}`
+        )
         .then((response) => {
           ChangeWeatherState(response.data);
-          setShowDownloadButton(true);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -86,7 +86,7 @@ const InnerTabs = (props) => {
       alert("Please input Start and End dates");
     }
   };
-
+  console.log(weather_data);
   return (
     <div>
       <div className={styles.filter_section}>
@@ -116,8 +116,12 @@ const InnerTabs = (props) => {
         <button className={styles.filter_button} onClick={handleFilterClick}>
           Filter
         </button>
-        {showDownloadButton && (
-          <DownloadButton startDate={startDate} endDate={endDate} />
+        {weather_data && weather_data.length > 0 && (
+          <DownloadButton
+            startDate={startDate}
+            endDate={endDate}
+            weather_data={weather_data}
+          />
         )}
       </div>
       <Tabs

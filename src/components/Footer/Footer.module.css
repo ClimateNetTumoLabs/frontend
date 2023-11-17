@@ -1,8 +1,23 @@
+@media (max-width: 767px) {
+    .footer_inner {
+        flex-wrap: wrap;
+        height: fit-content;
+    }
+
+    .social_icons_block {
+        margin-bottom: 20px;
+    }
+
+    .map_section {
+        margin-top: 20px;
+    }
+}
+
 .footer {
     background: #333232;
 }
 .footer_inner {
-    height: 200px;
+    min-height: 200px;
     padding: 15px;
 }
 
@@ -79,7 +94,7 @@
 
 
 .map_section {
-    height: 100px;
+    height: 100%;
     width: 100%;
 }
 

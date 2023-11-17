@@ -110,7 +110,26 @@
 
 /* Media query for mobile */
 @media (max-width: 767px) {
+  .carouselContainer {
+    height: 30vh;
+  }
   .carouselCaption {
-    text-align: center;
+    text-align: left;
+    left: 30px !important;
+  }
+  .carouselCaption h3 {
+    font-size: 20px;
+    max-width: 290px;
+  }
+  .carousel_section  div, .carousel_section img {
+    height: 100%;
+    object-fit: cover;
+  }
+  .animated_text {
+    margin-top: 50px;
+  }
+
+  .animated_text span {
+    font-size: 18px !important;
   }
 }

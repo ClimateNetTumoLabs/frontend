@@ -18,22 +18,21 @@ const ScrollableSection = () => {
   return (
     <div className={styles.animation_block}>
       <ScrollContainer>
-        <ScrollPage className={styles.animation}>
+        <ScrollPage className={`${styles.animation} ${styles.first_animation}`}>
           <Animator animation={batch(Sticky(), Fade(), Move())}>
             <h1>Unlock the Power of Weather Insights</h1>
           </Animator>
         </ScrollPage>
         <ScrollPage className={styles.animation}>
           <Animator
-            animation={batch(Sticky(), FadeIn(), ZoomIn(), Move(0, -200))}
-          >
+            animation={batch(Sticky(), FadeIn(), ZoomIn(), Move(0, -200))}>
             <h1>TUMO Labs</h1>
           </Animator>
         </ScrollPage>
         <ScrollPage className={styles.animation}>
           <Animator
             className={styles.third_animation}
-            animation={batch(StickyOut(), FadeOut(), Move())}
+            animation={batch(StickyOut(), FadeOut(), Move(0, -200))}
           >
             <h1>Get Ready to Explore Weather in a Whole New Way</h1>
           </Animator>
