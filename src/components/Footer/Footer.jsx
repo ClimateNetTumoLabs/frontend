@@ -69,7 +69,7 @@ const Footer = () => {
             </div>
             <div className="row mt-4 mb-0">
                 <div className="col-md-12 text-center">
-                    <p className="mb-0">© {currentYear} TUMO Labs. All Rights Reserved.</p>
+                    <p className="mb-0">© {currentYear} Testing server of TUMO Labs. All Rights Reserved.</p>
                 </div>
             </div>
         </footer>
