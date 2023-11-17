@@ -23,7 +23,8 @@ jobs:
           USER_NAME: ${{ secrets.EC2_USERNAME }}
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key.pem \
-            ${{ env.USER_NAME }}@${{ env.HOSTNAME }} 'cd /home/ubuntu/frontend && \
+            ${{ env.USER_NAME }}@${{ env.HOSTNAME }} '
+            cd /home/ubuntu/frontend && \
             git checkout deploy_test && git pull origin deploy_test'
 
       - name: Install and Build
@@ -32,7 +33,8 @@ jobs:
           USER_NAME: ${{ secrets.EC2_USERNAME }}
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key.pem \
-            ${{ env.USER_NAME }}@${{ env.HOSTNAME }} 'cd /home/ubuntu/frontend && \
+            ${{ env.USER_NAME }}@${{ env.HOSTNAME }} '
+            cd /home/ubuntu/frontend && \
             npm install && npm run build'
 
       - name: Collect Static and Restart Gunicorn
@@ -41,7 +43,9 @@ jobs:
           USER_NAME: ${{ secrets.EC2_USERNAME }}
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key.pem \
-            ${{ env.USER_NAME }}@${{ env.HOSTNAME }} 'cd && cd django-app/climatenet && \
+            ${{ env.USER_NAME }}@${{ env.HOSTNAME }} '
+            cd && \
+            cd django-app/climatenet && \
             echo yes | python3 manage.py collectstatic && \
             sudo systemctl restart gunicorn.service'
 
