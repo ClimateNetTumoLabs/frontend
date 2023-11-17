@@ -13,7 +13,7 @@ jobs:
       - name: Set up Git
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: '3.9'
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -34,14 +34,10 @@ jobs:
             ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP }} '
               cd /home/ubuntu/frontend &&
               git checkout deploy_test &&
-              git pull origin deploy_test
+              git pull origin deploy_test &&
+              npm install &&
+              npm run build
             '
-
-      - name: Install Dependencies and Build
-        run: |
-          cd /home/ubuntu/frontend &&
-          npm install &&
-          npm run build
 
       - name: Deploy Django App
         run: |
