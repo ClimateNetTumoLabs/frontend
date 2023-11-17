@@ -30,6 +30,6 @@ jobs:
                 npm run build &&
                 cd &&
                 cd django-app/climatenet &&
-                echo yes | python333 manage.py collectstatic &&
+                echo yes | python3 manage.py collectstatic &&
                 sudo systemctl restart gunicorn.service
               '
