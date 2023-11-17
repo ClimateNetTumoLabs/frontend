@@ -9,23 +9,40 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-
     steps:
-          - name: Deploy in EC2
-            env:
-                PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
-                HOSTNAME : ${{ secrets.EC2_IP  }}
-                USER_NAME : ${{ secrets.EC2_USERNAME  }}
+      - name: Set up SSH
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          echo "${{ env.PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+      - name: Git Checkout and Pull
+        env:
+          HOSTNAME: ${{ secrets.EC2_IP }}
+          USER_NAME: ${{ secrets.EC2_USERNAME }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -i private_key.pem \
+            ${{ env.USER_NAME }}@${{ env.HOSTNAME }} '
+            cd /home/ubuntu/frontend && \
+            git checkout deploy_test && git pull origin deploy_test'
+      - name: Install and Build
+        env:
+          HOSTNAME: ${{ secrets.EC2_IP }}
+          USER_NAME: ${{ secrets.EC2_USERNAME }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -i private_key.pem \
+            ${{ env.USER_NAME }}@${{ env.HOSTNAME }} '
+            cd /home/ubuntu/frontend && \
+            npm install && npm run build'
+      - name: Collect Static and Restart Gunicorn
+        env:
+          HOSTNAME: ${{ secrets.EC2_IP }}
+          USER_NAME: ${{ secrets.EC2_USERNAME }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -i private_key.pem \
+            ${{ env.USER_NAME }}@${{ env.HOSTNAME }} '
+            cd && \
+            cd django-app/climatenet && \
+            echo yes | python3 manage.py collectstatic && \
+            sudo systemctl restart gunicorn.service'
 
-
-            run: |
-              echo "${{ env.PRIVATE_KEY }}" > private_key.pem && \
-                 chmod 600 private_key.pem
-              ssh -o StrictHostKeyChecking=no -i private_key.pem \
-                 ${{ env.USER_NAME }}@${{ env.HOSTNAME }} '
-                cd /home/ubuntu/frontend &&
-                git checkout main &&
-                source venv/bin/activate &&
-                git pull origin main &&
-                sudo systemctl restart ScriptRun.service
-              '
