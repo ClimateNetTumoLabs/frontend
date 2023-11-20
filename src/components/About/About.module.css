@@ -1,6 +1,22 @@
-.text_white h1{
-    color: white
+.about_us_page {
+    padding: 0 15px 23px;
+    color: white;
 }
-h1{
-    color: aliceblue;
+
+.welcome_to {
+    font-size: 24px;
+    color: #df7788;
+}
+
+.about_section {
+    padding-top: 15px
+}
+
+.link {
+    color: #df7788;
+    transition: color 0.4s ease-in-out;
+}
+
+.link:hover {
+    color: #0a53be;
 }
