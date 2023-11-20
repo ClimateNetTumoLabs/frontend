@@ -40,7 +40,7 @@ const ContactForm = () => {
 
   return (
       <div className={`container mt-5 mb-5 col-md-6 col-12 ${styles.contact_us_section}`}>
-        <h2 className={`mb-3 ${styles.contact_us_title}`}> Contact Us</h2>
+        <h2 className={`${styles.contact_us_title}`}> Contact Us</h2>
         <form onSubmit={handleSubmit}>
           <div className={`d-flex flex-wrap`}>
             <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} ${styles.contact_block}`}>
@@ -79,7 +79,7 @@ const ContactForm = () => {
                   className={`form-control ${styles.input_block}`}
                   id="subject" name="subject" value={subject} onChange={handleSubjectChange} required
               >
-                <option value="" disabled selected>Need Data</option>
+                <option value="" selected>Need Data</option>
                 <option value="Join To Project">Join To Project</option>
                 <option value="Technical Support">Technical Support</option>
                 <option value="Feedback">Feedback</option>

@@ -26,7 +26,7 @@ const ScrollableSection = () => {
         <ScrollPage className={styles.animation}>
           <Animator
             animation={batch(Sticky(), FadeIn(), ZoomIn(), Move(0, -200))}>
-            <h1>TUMO Labs</h1>
+            <h1>Powered by TUMO Labs</h1>
           </Animator>
         </ScrollPage>
         <ScrollPage className={styles.animation}>
@@ -34,7 +34,7 @@ const ScrollableSection = () => {
             className={styles.third_animation}
             animation={batch(StickyOut(), FadeOut(), Move(0, -200))}
           >
-            <h1>Get Ready to Explore Weather in a Whole New Way</h1>
+            <h1>Explore Climate Data</h1>
           </Animator>
         </ScrollPage>
       </ScrollContainer>

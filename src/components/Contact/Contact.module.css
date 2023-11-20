@@ -18,6 +18,7 @@
 
 .contact_us_title {
     color : #df7788;
+    font-size: 28px;
 }
 
 .input_block {
@@ -27,6 +28,15 @@
     border-radius: 0;
     color : white;
     padding-left: 3px;
+}
+
+.input_block:-webkit-autofill,
+.input_block:-webkit-autofill:hover,
+.input_block:-webkit-autofill:focus,
+.input_block:-webkit-autofill:active{
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .input_block:focus {
