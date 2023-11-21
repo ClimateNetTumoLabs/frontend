@@ -24,7 +24,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key.pem \
             ${{ env.USER_NAME }}@${{ env.HOSTNAME }} '
             cd /home/ubuntu/frontend && \
-            git checkout deploy_test && git pull origin deploy_test'
+            git checkout main && git pull origin main'
       - name: Install and Build
         env:
           HOSTNAME: ${{ secrets.EC2_IP }}
