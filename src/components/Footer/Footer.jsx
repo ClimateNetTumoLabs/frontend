@@ -25,11 +25,28 @@ const Footer = () => {
         <footer className="text-light py-2 pb-3">
             <div className={`${styles.footer_inner} "container-fluid d-flex justify-content-center"`}>
                 <div className='col-md-4 col-12'>
-                    <h3 className='mb-4 d-flex '>Social Media</h3>
+                    <h3 className='mb-4 d-flex'>Social Media</h3>
                     <div className={`social-icon ${styles.social_icons_block}`}>
-                        <a className={styles.social_icon} href="https://www.facebook.com/tumolabs/"><FontAwesomeIcon icon={faFacebook} /></a>
-                        <a className={styles.social_icon} href="https://www.youtube.com/channel/UC1spAfywefFdHxrKWLZaDuA"><FontAwesomeIcon icon={faYoutube} /></a>
-                        <a className={styles.social_icon} href="https://www.instagram.com/tumolabs/"><FontAwesomeIcon icon={faInstagram} /></a>
+                        {/*<a className={styles.social_icon} href="https://www.facebook.com/tumolabs/"><FontAwesomeIcon icon={faFacebook} /></a>*/}
+                        {/*<a className={styles.social_icon} href="https://www.youtube.com/channel/UC1spAfywefFdHxrKWLZaDuA"><FontAwesomeIcon icon={faYoutube} /></a>*/}
+                        {/*<a className={styles.social_icon} href="https://www.instagram.com/tumolabs/"><FontAwesomeIcon icon={faInstagram} /></a>*/}
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <i className="fab fa-facebook-f icon"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i className="fab fa-instagram icon"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i className="fab fa-youtube icon"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div className="col-md-4 col-12 justify-content-center d-flex">
