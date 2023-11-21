@@ -54,6 +54,7 @@ const MapArmenia = () => {
           zoom={8}
           style={{ height: "600px", width: "100%" }}
           scrollWheelZoom={mapClicked}
+
            // Set up click event handler
       >
         <TileLayer

@@ -22,7 +22,7 @@ const Footer = () => {
         popupAnchor: [0, -15],
     });
     return (
-        <footer className="text-light py-2 pb-3">
+        <footer className={`text-light" py-2 pb-3 ${styles.footer}`}>
             <div className={`${styles.footer_inner} "container-fluid d-flex justify-content-center"`}>
                 <div className='col-md-4 col-12'>
                     <h3 className='mb-4 d-flex'>Social Media</h3>
@@ -32,17 +32,17 @@ const Footer = () => {
                         {/*<a className={styles.social_icon} href="https://www.instagram.com/tumolabs/"><FontAwesomeIcon icon={faInstagram} /></a>*/}
                         <ul>
                             <li>
-                                <a href="#">
+                                <a href="https://www.facebook.com/tumolabs/">
                                     <i className="fab fa-facebook-f icon"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="https://www.instagram.com/tumolabs/">
                                     <i className="fab fa-instagram icon"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="https://www.youtube.com/channel/UC1spAfywefFdHxrKWLZaDuA">
                                     <i className="fab fa-youtube icon"></i>
                                 </a>
                             </li>
