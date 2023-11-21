@@ -40,15 +40,15 @@ function Banner() {
                             alt={`Slide ${idx + 1}`}
                         />
                         <Carousel.Caption className={`${styles.carouselCaption} ${styles.carousel_text_section}`}>
-                            <h3 className={`${styles.static_name}`}>TUMO Labs Weather Station : </h3>
+                            <h3 className={`${styles.static_name}`}>Climate Network: Connecting Armenia through a growing network of real-time climate data. </h3>
                             <p className={`${styles.animated_text}`}>{
                                 <TypeAnimation
                                     sequence={[
-                                        "Monitor weather conditions in real-time.",
+                                        "Monitor climate changes in real-time.",
                                         1000,
-                                        " Accurate temperature and humidity measurements.",
+                                        "Accurate temperature and humidity measurements.",
                                         1000,
-                                        "Visualize weather data with interactive charts.",
+                                        "Detect the real time climate changes in the regions of Armenia.",
                                         1000,
                                     ]}
                                     speed={60}

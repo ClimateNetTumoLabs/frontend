@@ -9,9 +9,47 @@
 }
 
 .title {
-  font-size: 18px;
+  font-size: 28px;
   color: #df7788;
 }
+
+.partners {
+  margin-right: 30px;
+}
+
+.partner_logo {
+  width : 59px
+}
+
+.partner_link img{
+  transition: transform .2s ease-in-out;
+}
+
+.partner_link:hover img{
+  color : #df7788;
+  transform: scale(1.1);
+}
+
+.magnifying-glass {
+  position: relative;
+  display: inline-block;
+  cursor: zoom-in;
+}
+
+.magnifiedText {
+  white-space: nowrap;
+}
+
+.magnified .magnifiedText {
+  transform: scale(1.5); /* You can adjust the scale factor */
+  transform-origin: top left;
+}
+
+/* Add transition for a smooth effect */
+.magnifiedText {
+  transition: transform 0.3s ease-in-out;
+}
+
 
 
 @media (max-width: 767px) {

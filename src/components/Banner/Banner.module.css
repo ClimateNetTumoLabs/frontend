@@ -40,13 +40,16 @@
 /* Banner.module.css */
 .carouselContainer {
   overflow: hidden;
-  height: 50vh
+  height: 50vh;
+  background : #232222;
+  z-index: 1;
+  position: relative;
 }
 
 
 .carousel_text_section {
-  top: 50%;
-  transform: translateY(-50%);
+  top: 30%;
+  transform: translateY(-30%);
   width: fit-content;
 }
 
@@ -101,6 +104,10 @@
   height: 100%;
 }
 
+.carouselCaption p {
+  margin-top: 80px;
+}
+
 /* Media query for desktop */
 @media (min-width: 768px) {
   .carouselCaption {
@@ -131,5 +138,8 @@
 
   .animated_text span {
     font-size: 18px !important;
+  }
+  .carouselCaption p {
+    margin-top: 30px;
   }
 }

@@ -13,7 +13,7 @@ const DownloadButton = ({ startDate, endDate ,weather_data}) => {
     const endOfLocation = path.substring(path.lastIndexOf("/") + 1);
     axios
       .get(
-        `/device/${endOfLocation}?start_time_str=${startDate}&end_time_str=${endDate}`
+        `/download_data_excel/${endOfLocation}?start_time_str=${startDate}&end_time_str=${endDate}`
       )
       .then((response) => {
         setDevices(response.data);
