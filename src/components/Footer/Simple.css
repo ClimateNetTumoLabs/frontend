@@ -1,1 +1,73 @@
-div.leaflet-control-attribution  { display: none }
+div.leaflet-control-attribution  {
+    display: none
+}
+
+footer ul {
+    display: flex;
+    padding-left: 0 !important;
+}
+
+footer ul li {
+    list-style: none;
+}
+
+footer ul li:nth-child(1) a {
+
+    margin-left: 0;
+}
+
+footer ul li a {
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    text-align: center;
+    font-size: 35px;
+    margin: 0 30px;
+    display: block;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #fff;
+    z-index: 1;
+}
+
+footer ul li a .icon {
+    position: relative;
+    color: #262626;
+    transition: .5s;
+    z-index: 3;
+}
+
+footer ul li a:hover .icon {
+    color: #fff;
+    transform: rotateY(360deg);
+}
+
+footer ul li a:before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f00;
+    transition: .5s;
+    z-index: 2;
+}
+
+footer ul li a:hover:before {
+    top: 0;
+}
+
+footer ul li:nth-child(1) a:before{
+    background: #df7788;
+}
+
+footer ul li:nth-child(2) a:before{
+    background: #df7788;
+}
+
+footer ul li:nth-child(3) a:before {
+    background: #df7788;
+}
+

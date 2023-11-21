@@ -29,6 +29,7 @@
     "latest-version": "^7.0.0",
     "leaflet": "^1.9.4",
     "mdb-react-ui-kit": "^6.3.0",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "node-sass": "^7.0.3",
     "pg": "^8.11.3",
     "popper.js": "^1.16.1",

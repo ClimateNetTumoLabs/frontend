@@ -1,11 +1,17 @@
+.download_button_block {
+    border: white;
+    margin-left: 25px;
+}
+
 .download_button {
-  padding-left: 20px;
+    color : white;
+    border : 1px solid white;
+    transition: 0.4s;
+    padding: 5px 15px;
 }
 
-a {
-  text-decoration: none;
-}
-
-a:hover {
-  color: white;
+.download_button:hover {
+    color: white;
+    background-color: #df7788;
+    border : 1px solid #df7788;
 }

@@ -9,6 +9,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import InnerPage from "../InnerPage/InnerPage";
 import "react-leaflet-fullscreen/styles.css";
 import { FullscreenControl } from "react-leaflet-fullscreen";
+import styles from "./Map.module.css";
 
 const MapArmenia = () => {
   const [devices, setDevices] = useState([]);
@@ -18,6 +19,7 @@ const MapArmenia = () => {
     setMapClicked(true);
     console.log(mapClicked)
   }
+
   const geoJSONStyle = {
     fillColor: "green",
     fillOpacity: "0.1",
@@ -42,13 +44,17 @@ const MapArmenia = () => {
       });
   }, []);
   return (
-    <div id="Map" >
+    <div id="Map" onClick={handleMapClick} >
+      <div className={styles.map_section}>
+        <h2 className={styles.map_header}>Map</h2>
+        <p>The highlighted locations indicate the current active climate devices. Click on a location to access the dataset specific to that device.</p>
+      </div>
       <MapContainer
           center={[40.15912, 45.002717]}
           zoom={8}
           style={{ height: "600px", width: "100%" }}
           scrollWheelZoom={mapClicked}
-          onClick={handleMapClick} // Set up click event handler
+           // Set up click event handler
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -3,34 +3,41 @@ import axios from "axios";
 import styles from "./Contact.module.css";
 
 const ContactForm = () => {
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
+  const [focusedInput, setFocusedInput] = useState(null);
 
-  const handleSubjectChange = (event) => {
-    setSubject(event.target.value);
+  const [formData, setFormData] = useState({
+    name: '',
+    surname: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleFocus = (event) => {
+    setFocusedInput(event.target.name);
   };
 
-  const handleMessageChange = (event) => {
-    setMessage(event.target.value);
-  };
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-  const handleSurnameChange = (event) => {
-    setSurname(event.target.value);
+  const handleBlur = () => {
+    setFocusedInput(null);
   };
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
+  const labelClass = (inputName) =>
+      `${styles.label_for_input} ${focusedInput === inputName || formData[inputName] ? styles.focused : ""}`;
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Build the mailto link with template message
+    // Destructure formData for easier access
+    const { name, surname, email, subject, message } = formData;
+
+    // Build the mailto link with a template message
     const templateMessage = `Hello TUMO Labs Team, \n\n ${message} \n\n Regards, \n\n${name} ${surname}`;
     const mailtoLink = `mailto:erik.saryan@tumo.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(templateMessage)}`;
 
@@ -44,7 +51,10 @@ const ContactForm = () => {
         <form onSubmit={handleSubmit}>
           <div className={`d-flex flex-wrap`}>
             <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} ${styles.contact_block}`}>
-              <label className="form-label" htmlFor="name">
+              <label
+                  className={`form-label ${labelClass("name")}`}
+                  htmlFor="name"
+              >
                 Name
               </label>
               <input
@@ -52,12 +62,15 @@ const ContactForm = () => {
                   type="text"
                   id="name"
                   name="name"
-                  onChange={handleNameChange}
+                  onChange={handleChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                   required
+                  value={formData.name}
               />
             </div>
             <div className={`col-12 mb-3 col-sm-6 ${styles.surname_field} ${styles.contact_block}`}>
-              <label className="form-label" htmlFor="surname">
+              <label className={`form-label ${labelClass("surname")}`} htmlFor="surname">
                 Surname
               </label>
               <input
@@ -65,29 +78,39 @@ const ContactForm = () => {
                   type="text"
                   id="surname"
                   name="surname"
-                  onChange={handleSurnameChange}
+                  onChange={handleChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                   required
+                  value={formData.surname}
               />
             </div>
           </div>
           <div className={`d-flex flex-wrap mb-3`}>
             <div className={`col-12 mb-3 col-sm-6 ${styles.subject_input} ${styles.contact_block}`}>
-              <label className="form-label" htmlFor="subject">
+              <label className={`form-label ${styles.focused} ${labelClass("subject")}`} htmlFor="subject">
                 Subject
               </label>
-              <select
-                  className={`form-control ${styles.input_block}`}
-                  id="subject" name="subject" value={subject} onChange={handleSubjectChange} required
-              >
-                <option value="" selected>Need Data</option>
-                <option value="Join To Project">Join To Project</option>
-                <option value="Technical Support">Technical Support</option>
-                <option value="Feedback">Feedback</option>
-              </select>
+              {/*<select*/}
+              {/*    required*/}
+              {/*    className={`form-control ${styles.input_block}`}*/}
+              {/*    id="subject"*/}
+              {/*    name="subject"*/}
+              {/*    value={formData.subject}*/}
+              {/*    onFocus={handleFocus}*/}
+              {/*    onBlur={handleBlur}*/}
+              {/*    onChange={handleChange}*/}
+
+              {/*>*/}
+              {/*  <option value="" selected>Need Data</option>*/}
+              {/*  <option value="Join To Project">Join To Project</option>*/}
+              {/*  <option value="Technical Support">Technical Support</option>*/}
+              {/*  <option value="Feedback">Feedback</option>*/}
+              {/*</select>*/}
             </div>
 
             <div className={`col-12 mb-3 col-sm-6 ${styles.email_section} ${styles.contact_block}`}>
-              <label className="form-label" htmlFor="email">
+              <label className={`form-label ${labelClass("email")}`} htmlFor="email">
                 Email
               </label>
               <input
@@ -95,18 +118,27 @@ const ContactForm = () => {
                   type="email"
                   id="email"
                   name="email"
-                  onChange={handleEmailChange}
+                  onChange={handleChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                   required
+                  value={formData.email}
               />
             </div>
           </div>
           <div className={`mb-3 ${styles.contact_block}`}>
-            <label className="form-label" htmlFor="message">
+            <label className={`form-label ${labelClass("message")}`} htmlFor="message">
               Message
             </label>
             <textarea
                 className={`form-control ${styles.input_block}`}
-                id="message" name="message" value={message} onChange={handleMessageChange} required
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                required
             />
           </div>
           <button type="submit" value="Send" className={`mt-3 btn  ${styles.contact_us_button}`}>

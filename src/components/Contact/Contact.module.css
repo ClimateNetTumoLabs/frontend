@@ -1,10 +1,25 @@
-.contact_us_section input, .contact_us_section select {
+.label_for_input {
+    position: relative;
+    top: 39px;
+    left: 15px;
+}
+
+.label_for_input {
+    transition: all 0.3s ease-in-out;
+}
+
+.label_for_input.focused, .label_for_input:focus-within {
+    top: 10px;
+    left: 0px;
+}
+
+.contact_us_section input, .contact_us_section select, .contact_us_section textarea {
     padding: 15px;
     background: none !important;
 }
 
 .contact_us_section label {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 
@@ -48,14 +63,6 @@
     color : white
 }
 
-.input_block:focus + label {
-    /* Запустите анимацию встряхивания и сделайте так, чтобы анимация длилась 0,5 секунды */
-    animation: wave 0.8s;
-
-    /* Когда анимация будет закончена, начните снова */
-    animation-iteration-count: infinite;
-}
-
 .contact_us_button {
     min-width: 150px;
     background: #df7788;
@@ -69,26 +76,6 @@
     color : #df7788;
     border: 1px solid #df7788 ;
 }
-
-/*.contact_block:focus-within label*/
-
-.contact_block:hover label {
-    animation: wave 0.8s;
-    animation-iteration-count: infinite;
-}
-
-@keyframes wave {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    25% {
-        transform: translateY(-5px);
-    }
-    75% {
-        transform: translateY(5px);
-    }
-}
-
 
 @media only screen and (max-width: 600px) {
     .name_field,.surname_field, .email_section, .subject_input {

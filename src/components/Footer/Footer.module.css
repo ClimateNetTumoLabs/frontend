@@ -38,13 +38,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    animation: wave 1s infinite;
 }
 
-/* Apply the animation on hover */
-.social_icons_block a:hover {
-    animation: wave 1s infinite;
-}
 
 
 .social_icons_block svg {

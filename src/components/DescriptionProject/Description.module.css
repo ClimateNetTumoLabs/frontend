@@ -25,11 +25,6 @@
   transition: transform .2s ease-in-out;
 }
 
-.partner_link:hover img{
-  color : #df7788;
-  transform: scale(1.1);
-}
-
 .magnifying-glass {
   position: relative;
   display: inline-block;
