@@ -1,5 +1,5 @@
 import React, { useEffect ,useState} from "react";
-import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from "react-leaflet";
+import {MapContainer, TileLayer, GeoJSON, Marker, Popup, useMapEvents} from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -13,12 +13,25 @@ import styles from "./Map.module.css";
 
 const MapArmenia = () => {
   const [devices, setDevices] = useState([]);
-  const [mapClicked, setMapClicked] = useState(false);
+  const [scrollEnabled, setScrollEnabled] = useState(false);
 
-  const handleMapClick = () => {
-    setMapClicked(true);
-    console.log(mapClicked)
-  }
+  const ToggleScroll = () => {
+    const map = useMapEvents({
+      click: () => {
+        setScrollEnabled((prev) => !prev);
+      },
+      zoom: () => {
+        if (!scrollEnabled) {
+          map.setZoom(map.getZoom());
+        }
+      },
+    });
+
+    map.scrollWheelZoom.disable();
+    map.scrollWheelZoom[scrollEnabled ? "enable" : "disable"]();
+    return null;
+  };
+
 
   const geoJSONStyle = {
     fillColor: "green",
@@ -44,7 +57,7 @@ const MapArmenia = () => {
       });
   }, []);
   return (
-    <div id="Map" onClick={handleMapClick} >
+    <div id="Map" >
       <div className={styles.map_section}>
         <h2 className={styles.map_header}>Map</h2>
         <p>The highlighted locations indicate the current active climate devices. Click on a location to access the dataset specific to that device.</p>
@@ -53,10 +66,8 @@ const MapArmenia = () => {
           center={[40.15912, 45.002717]}
           zoom={8}
           style={{ height: "600px", width: "100%" }}
-          scrollWheelZoom={mapClicked}
-
-           // Set up click event handler
       >
+        <ToggleScroll />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -1,7 +1,7 @@
 .label_for_input {
     position: relative;
     top: 39px;
-    left: 15px;
+    left: 10px;
 }
 
 .label_for_input {
@@ -9,17 +9,23 @@
 }
 
 .label_for_input.focused, .label_for_input:focus-within {
-    top: 10px;
-    left: 0px;
+    top: 5px;
+    left: 0;
 }
 
 .contact_us_section input, .contact_us_section select, .contact_us_section textarea {
-    padding: 15px;
+    padding: 15px 15px 15px 10px;
     background: none !important;
 }
 
 .contact_us_section label {
     margin-bottom: 0;
+}
+
+.contact_us_section textarea {
+    height: 145px;
+    max-height: 145px;
+    overflow: auto;
 }
 
 

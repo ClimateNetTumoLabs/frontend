@@ -5,7 +5,6 @@ import styles from "./Header.module.css";
 import logo from "../../assets/logo/tumolabslogo.svg";
 import navigation_item_logo from "../../assets/logo/menu.svg";
 import axios from "axios";
-import Basic from "../Test/test";
 
 const Header = () => {
   const location = useLocation();
