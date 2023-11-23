@@ -1,0 +1,192 @@
+.team_section {
+    color: white;
+    padding-top: 20px;
+}
+
+
+.team_section  div {
+    height: inherit;
+}
+
+.team_item {
+    padding : 0 15px
+}
+.team_item:first-of-type {
+    padding-left: 0;
+}
+
+.info {
+    padding : 10px 0
+}
+
+.info h3 {
+    color : #df7788;
+}
+
+.team_member_image_block {
+    position: relative;
+    display: flex;
+}
+
+.team_member_image_block img {
+    width: 100%;
+    transition: transform 0.7s;
+}
+
+.img_container {
+    overflow: hidden;
+}
+
+.icon_section a {
+    margin-right: 20px;
+}
+
+.icon_section a:last-of-type {
+    margin-right: 0;
+}
+
+.icon_section {
+    position: absolute;
+    z-index: 1;
+    transition: transform 0.7s;
+    display: flex;
+    visibility: hidden;
+    left: 50%;
+    bottom : 5%;
+    -ms-transform: translate(-50%, -50% );
+    transform: translate(-50%, -50% );
+}
+
+.team_member_image_block:hover .icon_section {
+    visibility: visible;
+}
+
+.team_member_image_block:hover img {
+    transform: scale(1.1);
+}
+
+.hovicon {
+    display: inline-block;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    position: relative;
+    text-decoration: none;
+    z-index: 1;
+    color: #fff;
+}
+
+.hovicon:after {
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    content:'';
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.hovicon:before {
+    speak: none;
+    font-size: 20px;
+    line-height: 30px;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    display: block;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Effect 8 */
+.hovicon.effect {
+    /*background: rgba(255, 255, 255, 0.1);*/
+    -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
+    -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
+    transition: transform ease-out 0.1s, background 0.2s;
+}
+.hovicon.effect:after {
+    top: 0;
+    left: 0;
+    padding: 0;
+    z-index: -1;
+    /*box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);*/
+    opacity: 0;
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+}
+.hovicon.effect:hover {
+    /*background: rgba(255, 255, 255, 0.05);*/
+    -webkit-transform: scale(0.93);
+    -moz-transform: scale(0.93);
+    -ms-transform: scale(0.93);
+    transform: scale(0.93);
+    color: #fff;
+}
+
+
+.hovicon.effect:hover i {
+    color: #fff;
+}
+.hovicon.effect:hover:after {
+    -webkit-animation: sonarEffect 1.3s ease-out 75ms;
+    -moz-animation: sonarEffect 1.3s ease-out 75ms;
+    animation: sonarEffect 1.3s ease-out 75ms;
+}
+@-webkit-keyframes sonarEffect {
+    0% {
+        opacity: 0.3;
+    }
+    40% {
+        opacity: 0.5;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), 0 0 10px 10px #df7788, 0 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), 0 0 10px 10px #df7788, 0 0 0 10px rgba(255, 255, 255, 0.5);
+        -webkit-transform: scale(1.5);
+        opacity: 0;
+    }
+}
+@-moz-keyframes sonarEffect {
+    0% {
+        opacity: 0.3;
+    }
+    40% {
+        opacity: 0.5;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), 0 0 10px 10px #df7788, 0 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), 0 0 10px 10px #df7788, 0 0 0 10px rgba(255, 255, 255, 0.5);
+        -moz-transform: scale(1.5);
+        opacity: 0;
+    }
+}
+@keyframes sonarEffect {
+    0% {
+        opacity: 0.3;
+    }
+    40% {
+        opacity: 0.5;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), 0 0 10px 10px #df7788, 0 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), 0 0 10px 10px #df7788, 0 0 0 10px rgba(255, 255, 255, 0.5);
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+
+
+
+
+@media (max-width: 576px) {
+    .team_member_image_block img {
+        width: 100%;
+    }
+}

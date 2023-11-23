@@ -10,18 +10,20 @@ import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import InnerPage from "./components/InnerPage/InnerPage";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import Team from "./components/Team/Team";
 
 function App() {
     return (
         <div className="App">
-            <Header />
+            <Header/>
             <ScrollToTop/>
             <Routes>
-                <Route path="/*" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/device_cl/:id" element={<InnerPage />} />
+                <Route path="/*" element={<Home/>}/>
+                <Route path="/about" element={<About/>}/>
+                <Route path="/device_cl/:id" element={<InnerPage/>}/>
+                <Route path="our_team" element={<Team/>}/>
             </Routes>
-            <Footer />
+            <Footer/>
         </div>
     );
 }

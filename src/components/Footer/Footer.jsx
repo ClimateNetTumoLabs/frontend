@@ -2,8 +2,6 @@ import React from 'react';
 import mail from '../../assets/icons/mail.svg'
 import location from '../../assets/icons/location.svg'
 import phone from '../../assets/icons/phone.svg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faYoutube, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import styles from './Footer.module.css'
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import './Simple.css'

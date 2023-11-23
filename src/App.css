@@ -34,3 +34,12 @@ html, body {
 .carousel-inner {
     height: 100%;
 }
+
+.team_member_dot_section {
+    padding-bottom: 20px !important;
+    bottom: -20px !important;
+}
+
+.team-member-carousel-container {
+    padding-bottom: 30px;
+}

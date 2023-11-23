@@ -86,7 +86,7 @@ const ContactForm = () => {
               />
             </div>
           </div>
-          <div className={`d-flex flex-wrap mb-3`}>
+          <div className={`d-flex flex-wrap`}>
             <div className={`col-12 mb-3 col-sm-6 ${styles.subject_input} ${styles.contact_block}`}>
               <label className={`form-label ${styles.focused} ${labelClass("subject")}`} htmlFor="subject">
                 Subject
