@@ -40,12 +40,15 @@
 /* Banner.module.css */
 .carouselContainer {
     overflow: hidden;
-    height: 50vh;
+    height: 55vh;
     background : #232222;
     z-index: 1;
     position: relative;
 }
 
+.carouselItem, .carouselItem img {
+    height: 100%;
+}
 
 .carousel_text_section {
     top: 30%;

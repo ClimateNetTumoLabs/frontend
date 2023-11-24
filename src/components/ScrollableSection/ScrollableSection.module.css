@@ -22,10 +22,22 @@
 
 }
 
+.zero_animation h1{
+    font-size: 1.75rem !important;
+    width : 70%;
+    margin : 0 auto;
+    line-height: 1.2;
+    padding-top: 60px;
+    font-weight: 500;
+
+}
+
 
 /*Mobile*/
 @media (max-width: 767px) {
-
+    .zero_animation h1{
+        font-size: 20px !important;
+    }
     .first_animation div{
         top: 230px !important;
     }

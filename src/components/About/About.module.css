@@ -1,6 +1,7 @@
 .about_us_page {
     padding: 0 15px 23px;
     color: white;
+    min-height: inherit;
 }
 
 .welcome_to {
