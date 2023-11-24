@@ -6,13 +6,41 @@ import logo from "../../assets/logo/tumolabslogo.svg";
 import navigation_item_logo from "../../assets/logo/menu.svg";
 import axios from "axios";
 
+
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [isNavExpanded, setIsNavExpanded] = useState(false);
+  const [isNavExpanded, setIsNavExpanded] = useState(true);
+  console.log(isNavExpanded)
+  const [devices, setDevices] = useState([]);
 
   const handleNavToggle = () => {
     setIsNavExpanded(!isNavExpanded);
+  };
+
+  const handleCloseHeader = () => {
+    setIsNavExpanded(true);
+    console.log("Some")
+    if (isNavExpanded) {
+
+
+    }
+  }
+
+  const NavItem = ({ to, label, location }) => {
+    return (
+        <li className="nav-item">
+          <Link
+              to={to}
+              onClick={handleCloseHeader}
+              className={`nav-link ${styles.nav_link} ${
+                  location.pathname === to ? styles.active : ""
+              }`}
+          >
+            {label}
+          </Link>
+        </li>
+    );
   };
 
   const GoToSection = () => {
@@ -27,7 +55,7 @@ const Header = () => {
     }, 100); // Delay to Rendering page
   };
 
-  const [devices, setDevices] = useState([]);
+
 
   useEffect(() => {
     axios
@@ -81,25 +109,26 @@ const Header = () => {
         <Link className="navbar-brand" to="/">
           <img src={logo} alt="Logo" className={styles.page_logo} />
         </Link>
-        <button
-          className={`d-lg-none ${isNavExpanded ? styles.navExpanded : ""} ${
-            styles.navbar_toggler
-          }`}
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          onClick={handleNavToggle}
+        <div
+            className={`d-lg-none ${styles.burgermenu} ${isNavExpanded ? styles.navExpanded : ""} ${
+                styles.navbar_toggler
+            }`}
+
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded={isNavExpanded}
+            aria-label="Toggle navigation"
+            onClick={handleNavToggle}
         >
-          <img
-            className={`${styles.menu_icon}`}
-            src={navigation_item_logo}
-            alt={"Menu Bar"}
-          />
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+          <label htmlFor="check" className={styles.label}>
+            <input type="checkbox" className={styles.check} id={"check"}/>
+            <span className={styles.line_item}></span>
+            <span className={styles.line_item}></span>
+            <span className={styles.line_item}></span>
+          </label>
+        </div>
+        <div className={`collapse navbar-collapse ${styles.navigation_bar_for_mobile}`} id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <NavItem to="/" label="Home" location={location} />
             <NavItem to="/about" label="About" location={location} />
@@ -118,7 +147,7 @@ const Header = () => {
               }`}
             >
               <a
-                className={`${styles.nav_link} ${styles.root_item} nav-link dropdown-toggle`}
+                className={`${styles.nav_link} ${styles.root_item}  nav-link dropdown-toggle`}
                 href="/#"
                 id="navbarDropdown"
                 role="button"
@@ -164,19 +193,6 @@ const Header = () => {
   );
 };
 
-const NavItem = ({ to, label, location }) => {
-  return (
-    <li className="nav-item">
-      <Link
-        to={to}
-        className={`nav-link ${styles.nav_link} ${
-          location.pathname === to ? styles.active : ""
-        }`}
-      >
-        {label}
-      </Link>
-    </li>
-  );
-};
+
 
 export default Header;

@@ -56,8 +56,6 @@ const MapArmenia = () => {
         console.error('Error fetching data:', error);
       });
   }, []);
-  console.log(devices)
-  console.log("Erik")
 
   return (
     <div id="Map" >

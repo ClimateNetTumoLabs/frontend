@@ -27,7 +27,7 @@
     border-radius : 5px
 "></foreignObject>
   <ellipse data-popup="popup_for_speed" style="fill: rgb(202, 122, 122); stroke: rgb(202, 122, 122);" cx="2650" cy="500" rx="60" ry="60" id='speed'/>
-  <foreignObject id="popup_for_speed" width="800" height="400" y="500" x="2560" style="
+  <foreignObject id="popup_for_speed" width="800" height="400" y="570" x="2685" style="
     display: flex;
     background: white;
     border-radius: 5px;
