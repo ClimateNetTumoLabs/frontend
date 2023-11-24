@@ -56,6 +56,9 @@ const MapArmenia = () => {
         console.error('Error fetching data:', error);
       });
   }, []);
+  console.log(devices)
+  console.log("Erik")
+
   return (
     <div id="Map" >
       <div className={styles.map_section}>
@@ -79,7 +82,7 @@ const MapArmenia = () => {
             icon={customIcon}
           >
             <Popup>
-              <Link to={`/device_cl/${device.generated_id}`}>{device.parent_name}</Link>
+              <Link to={`/device_cl/${device.generated_id}`}>{device.name}</Link>
             </Popup>
           </Marker>
         ))}

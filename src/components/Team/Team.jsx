@@ -2,7 +2,7 @@ import React from "react";
 import styles from './Team.module.css'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import erikImage from '../../assets/images/team_members/erik.png';
+// import erikImage from '../../assets/images/team_members/erik.png';
 import hovoImage from '../../assets/images/team_members/hovo.png';
 import marinaImage from '../../assets/images/team_members/marina.png';
 import arsenImage from '../../assets/images/team_members/arsen.png';
@@ -29,15 +29,15 @@ const responsive = {
 };
 
 const list_of_members = {
-    "1" : {
-        "Name": "Erik",
-        "Social": [
-            { "icon": "fa-github", "link": "https://github.com/eriktumosaryan" },
-            { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/erik-saryan-88383a169/" }
-        ],
-        "Position": "IoT Specialist",
-        "Image" : erikImage
-    },
+    // "1" : {
+    //     "Name": "Erik",
+    //     "Social": [
+    //         { "icon": "fa-github", "link": "https://github.com/eriktumosaryan" },
+    //         { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/erik-saryan-88383a169/" }
+    //     ],
+    //     "Position": "IoT Specialist",
+    //     "Image" : erikImage
+    // },
     "2" : {
         "Name": "Hovhannes",
         "Social": [
@@ -50,8 +50,8 @@ const list_of_members = {
     "3" : {
         "Name": "Marina",
         "Social": [
-            { "icon": "fa-github", "link": "facebook-hov" },
-            { "icon": " fa-linkedin", "link": "instagram-hov" }
+            { "icon": "fa-github", "link": "https://github.com/M-Marina4" },
+            { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/marina-melkonyan-650586245/, " }
         ],
         "Position": "Backend Developer",
         "Image" : marinaImage
@@ -100,7 +100,7 @@ const Team = () => {
                              </div>
                              <div className={styles.icon_section}>
                                  {list_of_members[key].Social.map((socialItem, item) => (
-                                     <a href={socialItem.link}>
+                                     <a href={socialItem.link} target="_blank" rel="noreferrer">
                                          <i key={socialItem.icon} className={`fab ${socialItem.icon.toLowerCase()} icon ${styles.hovicon} ${styles.effect}`}></i>
                                      </a>
                                  ))}
