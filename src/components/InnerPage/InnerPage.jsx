@@ -7,6 +7,7 @@ import HoverToDevice from "../HoverToDevice/HoverToDevice";
 import styles from "./InnerPage.module.css";
 import { ReactComponent as DeviceImage } from "../../assets/images/device.svg";
 // import DownloadButton from "../DownloadButton/DownloadButton";
+import gif from '../../assets/icons/nodata.gif'
 
 
 function InnerPage() {
@@ -41,7 +42,9 @@ function InnerPage() {
   }
 
   if (!weather_data || weather_data.length === 0) {
-    return <div className={styles.not_data}>Data not found</div>;
+    return <div className={styles.not_data}>
+        Data Not Found
+    </div>;
   }
 
   return (

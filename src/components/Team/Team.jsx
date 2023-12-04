@@ -68,8 +68,8 @@ const list_of_members = {
     "5" : {
         "Name": "Vahe",
         "Social": [
-            { "icon": "fa-github", "link": "facebook-hov" },
-            { "icon": " fa-linkedin", "link": "instagram-hov" }
+            { "icon": "fa-github", "link": "https://github.com/vahkhachatryan" },
+            { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/vahe-khachatryan-711a2823a/" }
         ],
         "Position": "FronEnd Developer",
         "Image" : vaheImage

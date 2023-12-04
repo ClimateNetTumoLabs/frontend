@@ -1,7 +1,9 @@
 .about_us_page {
     padding: 0 15px 23px;
     color: white;
-    min-height: inherit;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .welcome_to {
@@ -10,7 +12,8 @@
 }
 
 .about_section {
-    padding-top: 15px
+    padding-top: 15px;
+    font-size : 16px
 }
 
 .link {

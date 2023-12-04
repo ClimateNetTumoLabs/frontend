@@ -17,9 +17,18 @@
 .not_data{
     height: 100%;
     color: white;
-    min-height: inherit;
     display: flex;
     justify-content: center;
     align-items: center; 
     font-size: 90px;
+    flex-direction: column;
+    flex: 1;
+
+}
+
+
+@media (max-width: 767px) {
+    .not_data {
+        font-size: 35px;
+    }
 }
