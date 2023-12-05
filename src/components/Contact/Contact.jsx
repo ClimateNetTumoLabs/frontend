@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import styles from "./Contact.module.css";
 
 const ContactForm = () => {
@@ -35,7 +34,7 @@ const ContactForm = () => {
     event.preventDefault();
 
     // Destructure formData for easier access
-    const { name, surname, email, subject, message } = formData;
+    const { name, surname, subject, message } = formData;
 
     // Build the mailto link with a template message
     const templateMessage = `Hello TUMO Labs Team, \n\n ${message} \n\n Regards, \n\n${name} ${surname}`;

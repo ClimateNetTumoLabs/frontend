@@ -6,8 +6,6 @@ import Loader from "react-js-loader";
 import HoverToDevice from "../HoverToDevice/HoverToDevice";
 import styles from "./InnerPage.module.css";
 import { ReactComponent as DeviceImage } from "../../assets/images/device.svg";
-// import DownloadButton from "../DownloadButton/DownloadButton";
-import gif from '../../assets/icons/nodata.gif'
 
 
 function InnerPage() {

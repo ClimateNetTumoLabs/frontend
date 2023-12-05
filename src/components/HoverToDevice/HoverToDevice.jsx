@@ -1,11 +1,6 @@
-import { all } from "axios";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 const ShowHoverData = (data) => {
-  const { pathname } = useLocation();
-
-
   const last_element = data[data.length - 1];
   if (last_element) {
     const alldata = {
@@ -73,7 +68,7 @@ const HoverToDevice = (props) => {
 
     const ids = ["direction", "speed", "rain", "alldata"];
 
-    ids.map((id) => {
+    ids.forEach((id) => {
       const element = document.getElementById(id);
 
       if (element) {
@@ -83,7 +78,7 @@ const HoverToDevice = (props) => {
     });
 
     return () => {
-      ids.map((id) => {
+      ids.forEach((id) => {
         const element = document.getElementById(id);
 
         if (element) {

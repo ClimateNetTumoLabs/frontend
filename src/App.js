@@ -5,7 +5,6 @@ import Footer from "./components/Footer/Footer";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css"; // Import Bootstrap CSS
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import Contact from "./components/Contact/Contact";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import InnerPage from "./components/InnerPage/InnerPage";

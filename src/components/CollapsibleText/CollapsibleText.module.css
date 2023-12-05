@@ -1,0 +1,79 @@
+.collapse_section {
+    background-color: transparent;
+    border: none;
+}
+
+.cart_body button{
+    padding-left: 0;
+}
+.cart_body {
+    padding: 10px 0px;
+}
+
+.cart_body > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.point {
+    font-size: 20px;
+    color: #df7788;
+    margin-right: 30px;
+    font-weight: 500;
+}
+
+/*.point:before {*/
+/*    content: '';*/
+/*    display: inline-block;*/
+/*    width: 10px;*/
+/*    height: 10px;*/
+/*    -moz-border-radius: 50%;*/
+/*    -webkit-border-radius: 50%;*/
+/*    border-radius: 50%;*/
+/*    background-color: #df7788;*/
+/*    margin-right: 15px;*/
+/*}*/
+
+.description {
+
+}
+
+.icon{
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    float: right;
+}
+
+.icon:before, .icon:after {
+    content: "";
+    display: block;
+    background-color: #df7788;
+    position: absolute;
+    top: 50%; left: 0;
+    transition: .35s;
+    width: 100%;
+    height: 3px;
+}
+
+.icon:before {
+    transform: translatey(-50%);
+}
+
+.icon:after {
+    transform: translatey(-50%) rotate(90deg);
+}
+
+.hide:before {
+    transform: translatey(-50%) rotate(-90deg);
+    opacity: 0;
+}
+.hide:after {
+    transform: translatey(-50%) rotate(0);
+}
+
+
+
