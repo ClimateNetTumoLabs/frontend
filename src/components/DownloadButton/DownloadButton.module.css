@@ -15,3 +15,23 @@
     background-color: #df7788;
     border : 1px solid #df7788;
 }
+
+@media (max-width: 480px) {
+    .download_button_block {
+        width: 100%;
+        margin-left: 0;
+    }
+    .download_button_block button {
+        width: 100%;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 992px) {
+    .download_button_block  {
+        width: calc(50% - 10px);
+        margin-left: 20px;
+    }
+    .download_button_block button {
+        width : 100%
+    }
+}

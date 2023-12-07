@@ -41,7 +41,6 @@ function customStringify(obj) {
 
 const HoverToDevice = (props) => {
   const weather_data = props.data;
-
   const [popupContent] = useState(ShowHoverData(weather_data));
 
   useEffect(() => {
@@ -50,10 +49,11 @@ const HoverToDevice = (props) => {
       const elementId = targetElement.id;
       const popupId = targetElement.dataset.popup;
       const popup = document.getElementById(popupId);
+      const  elementWithClass = popup.querySelector(".hover_inner");
       const popupText = popupContent[elementId];
-      if (popup) {
-        popup.innerHTML = customStringify(popupText);
-        popup.style.visibility = "visible";
+      if (elementWithClass) {
+        elementWithClass.innerHTML = customStringify(popupText);
+        elementWithClass.style.opacity = "1";
       }
     };
 
@@ -61,8 +61,9 @@ const HoverToDevice = (props) => {
       const targetElement = event.target;
       const popupId = targetElement.dataset.popup;
       const popup = document.getElementById(popupId);
-      if (popup) {
-        popup.style.visibility = "hidden";
+      const  elementWithClass = popup.querySelector(".hover_inner");
+      if (elementWithClass) {
+        elementWithClass.style.opacity = "0";
       }
     };
 

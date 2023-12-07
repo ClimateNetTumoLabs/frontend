@@ -108,13 +108,14 @@ const InnerTabs = (props) => {
                 <button className={styles.filter_button} onClick={handleFilterClick}>
                     Filter
                 </button>
-                {weather_data && weather_data.length > 0 && (
-                    <DownloadButton
-                        startDate={startDate}
-                        endDate={endDate}
-                        weather_data={weather_data}
-                    />
-                )}
+                {/*{weather_data && weather_data.length > 0 && (*/}
+                <DownloadButton
+                    startDate={startDate}
+                    endDate={endDate}
+                    weather_data={weather_data}
+
+                />
+                {/*)}*/}
             </div>
             <Tabs
                 defaultActiveKey="hum_temp"
