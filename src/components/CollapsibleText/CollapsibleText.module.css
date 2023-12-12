@@ -16,6 +16,10 @@
     justify-content: space-between;
 }
 
+.card > *{
+    padding-left: 15px;
+}
+
 .point {
     font-size: 20px;
     color: #df7788;

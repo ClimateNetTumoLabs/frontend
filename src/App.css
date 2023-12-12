@@ -61,3 +61,41 @@ html, body {
     opacity: 0;
     padding: 30px;
 }
+
+table {
+    border-collapse: collapse;
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid white;
+    border-radius: 20px;
+}
+
+caption {
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    color: white !important;
+}
+
+tr {
+    border-bottom: 1px solid #444746 !important;
+    border-left: 1px solid white !important;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    text-align: left;
+    border-spacing: 0;
+    border-collapse: separate;
+    color : white;
+    padding : 18.5px 16px;
+}
+
+th {
+    background-color: #444746;
+    color:white;
+    padding : 18.5px 16px;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+}
