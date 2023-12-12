@@ -20,7 +20,7 @@ const About = () => {
             <div class="d-flex align-items-center">
                 <img class=${styles.icon} src=${temp} alt="Temperature"/>
                 <span class="text-light d-flex align-content-center">
-                    We can measure temperatures ranging from -40°C to 85°C.<br/>
+                    The temperatures measuring ranging from -40°C to 85°C.<br/>
                     Over the temperature range of 0 to 65°C, the accuracy is ±1.0°C; outside of that range, the accuracy drops to ±1.5°C.</span> 
             </div>
         </div>
@@ -31,7 +31,7 @@ const About = () => {
             <div class="d-flex align-items-center">
                 <img class=${styles.icon} src=${hum} alt="Humidity"/>
                 <span class="text-light d-flex align-content-center">
-                    We can measure relative humidity over a range of 0 to 100% with an accuracy of ±3%.<br/>
+                    The relative humidity measured of the  over a range of 0 to 100% with an accuracy of ±3%.<br/>
                     According to the datasheet, the sensor can measure up to 100% humidity over a temperature range of 0 to 60°C. However, the maximum measurable humidity decreases at extremely high and low temperature
                 </span> 
             </div>
@@ -44,7 +44,7 @@ const About = () => {
             <div class="d-flex align-items-center">
                 <img class=${styles.icon} src=${pressure} alt="Pressure"/>
                 <span class="text-light d-flex align-content-center">
-                    We can measure pressure between 300Pa to 1100 hPa with an absolute accuracy of ±1 hPa. <br/>
+                    The pressure measured between 300Pa to 1100 hPa with an absolute accuracy of ±1 hPa. <br/>
                     Over the temperature range of 0 to 65°C, full accuracy is obtained, resulting in an altitude measurement accuracy of approximately ±1 meter. Outside of that range, the accuracy drops to 1.7 hPa.
                 </span> 
             </div>
@@ -53,7 +53,7 @@ const About = () => {
     const air_quality_intro= `
         <div class="mt-4">
             <span class="text-light d-flex align-content-center">
-                We high-precision particulate matter (PM) sensor with a sensitivity of 50% for 0.3 μm particles and 98% for 0.5 μm and larger particles. <br/>
+                The high-precision particulate matter (PM) sensor with a sensitivity of 50% for 0.3 μm particles and 98% for 0.5 μm and larger particles. <br/>
                 It provides a resolution of 1 μg/m³ and operates in temperatures ranging from -10 °C to 60 °C. <br/> 
                 The sensor is designed to work effectively in humidity levels from 0% to 99%, making it suitable for diverse environmental conditions.
             </span> 
