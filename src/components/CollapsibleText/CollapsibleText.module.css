@@ -14,10 +14,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid #df7788;
+    padding-bottom: 10px;
 }
 
 .card > *{
     padding-left: 15px;
+    padding-right: 15px;
 }
 
 .point {
