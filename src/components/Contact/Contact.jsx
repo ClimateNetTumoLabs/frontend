@@ -90,22 +90,21 @@ const ContactForm = () => {
               <label className={`form-label ${styles.focused} ${labelClass("subject")}`} htmlFor="subject">
                 Subject
               </label>
-              <select
-                  required
-                  className={`form-control ${styles.input_block}`}
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-
-              >
-                <option value="" selected>Need Data</option>
-                <option value="Join To Project">Join To Project</option>
-                <option value="Technical Support">Technical Support</option>
-                <option value="Feedback">Feedback</option>
-              </select>
+                <select
+                    required
+                    className={`form-control ${styles.input_block}`}
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                >
+                    <option value="">Need Data</option>
+                    <option value="Join To Project">Join To Project</option>
+                    <option value="Technical Support">Technical Support</option>
+                    <option value="Feedback">Feedback</option>
+                </select>
             </div>
 
             <div className={`col-12 mb-3 col-sm-6 ${styles.email_section} ${styles.contact_block}`}>

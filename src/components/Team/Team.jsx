@@ -99,9 +99,9 @@ const Team = () => {
                                  <img src={list_of_members[key].Image} alt={list_of_members[key].Name} />
                              </div>
                              <div className={styles.icon_section}>
-                                 {list_of_members[key].Social.map((socialItem, item) => (
-                                     <a href={socialItem.link} target="_blank" rel="noreferrer">
-                                         <i key={socialItem.icon} className={`fab ${socialItem.icon.toLowerCase()} icon ${styles.hovicon} ${styles.effect}`}></i>
+                                 {list_of_members[key].Social.map((socialItem) => (
+                                     <a key={socialItem.icon} href={socialItem.link} target="_blank" rel="noreferrer">
+                                         <i className={`fab ${socialItem.icon.toLowerCase()} icon ${styles.hovicon} ${styles.effect}`}></i>
                                      </a>
                                  ))}
                              </div>

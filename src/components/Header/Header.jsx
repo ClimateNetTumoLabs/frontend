@@ -11,7 +11,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const button = useRef(null);
-  console.log(isNavExpanded)
   const [devices, setDevices] = useState([]);
   useEffect(() => window.addEventListener('click', ev => {
     if(button.current && button.current.contains(ev.target)) {setIsNavExpanded(!isNavExpanded)}
