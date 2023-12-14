@@ -22,7 +22,7 @@ const Description = () => {
                     <div className={`d-flex mb-3`}>
                         <p className={`${styles.partners} ${styles.partner_link}`}>
                             <a href='https://aws.amazon.com/' >
-                                <img className={`${styles.partner_logo}`} src={aws} alt={"AWS Logo"}/>
+                                <img loading="lazy" className={`${styles.partner_logo}`} src={aws} alt={"AWS Logo"}/>
                             </a>
                         </p>
                         <p>The Amazon Web Services provides us with cloud credits to help us store and manage our data with high standards.</p>
@@ -30,7 +30,7 @@ const Description = () => {
                     <div className={`d-flex `}>
                         <p className={`${styles.partners} ${styles.partner_link}`}>
                             <a href='https://armenia.tumo.org/'>
-                                <img className={`${styles.partner_logo}`} src={tumo} alt={"TUMO Logo"}/>
+                                <img  loading="lazy" className={`${styles.partner_logo}`} src={tumo} alt={"TUMO Logo"}/>
                             </a>
                         </p>
                         <p>

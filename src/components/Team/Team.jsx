@@ -96,7 +96,7 @@ const Team = () => {
                     <div key={key} className={styles.team_item}>
                          <div className={styles.team_member_image_block}>
                              <div className={styles.img_container}>
-                                 <img src={list_of_members[key].Image} alt={list_of_members[key].Name} />
+                                 <img loading="lazy" src={list_of_members[key].Image} alt={list_of_members[key].Name} />
                              </div>
                              <div className={styles.icon_section}>
                                  {list_of_members[key].Social.map((socialItem) => (

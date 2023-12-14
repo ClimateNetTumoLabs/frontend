@@ -111,7 +111,7 @@ const Header = () => {
       >
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            <img src={logo} alt="Logo" className={styles.page_logo} />
+            <img loading="lazy" src={logo} alt="Logo" className={styles.page_logo} />
           </Link>
           <div
               className={`d-lg-none ${styles.burgermenu} ${isNavExpanded ? styles.navExpanded : ""} ${

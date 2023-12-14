@@ -35,6 +35,7 @@ function Banner() {
                 {images.map((images, idx) => (
                     <Carousel.Item key={idx} className={styles.carouselItem}>
                         <img
+                            loading="lazy"
                             className={styles.carouselImg}
                             src={`${images}`} // Use the path relative to the public folder
                             alt={`Slide ${idx + 1}`}

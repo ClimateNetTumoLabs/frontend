@@ -50,18 +50,18 @@ const Footer = () => {
                 <div className="col-md-4 col-12 justify-content-center d-flex">
                     <div className="col">
                         <p className={styles.company_information}>
-                            <img src={location} alt="Map Icon" className="icon" />
+                            <img loading="lazy" src={location} alt="Map Icon" className="icon" />
                             Halabyan 2a, Yerevan, Armenia
                         </p>
                         <p className={styles.company_information}>
                             <a href="tel:+123456789">
-                                <img src={phone} alt="Phone Icon" className="icon" />
+                                <img  loading="lazy" src={phone} alt="Phone Icon" className="icon" />
                                 +374 10 398413
                             </a>
                         </p>
                         <p className={styles.company_information}>
                             <a href="mailto:info@example.com">
-                                <img src={mail} alt="Email Icon" className="icon" />
+                                <img loading="lazy" src={mail} alt="Email Icon" className="icon" />
                                 eutumocc@tumo.org
                             </a>
                         </p>

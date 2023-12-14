@@ -18,7 +18,7 @@ const About = () => {
         <div class="mt-4">
             <h2 class=${styles.measure_title}>Measuring Temperature</h2>
             <div class="d-flex align-items-center">
-                <img class=${styles.icon} src=${temp} alt="Temperature"/>
+                <img loading="lazy" class=${styles.icon} src=${temp} alt="Temperature"/>
                 <span class="text-light d-flex align-content-center">
                     The temperatures measuring ranging from -40°C to 85°C.<br/>
                     Over the temperature range of 0 to 65°C, the accuracy is ±1.0°C; outside of that range, the accuracy drops to ±1.5°C.</span> 
@@ -29,7 +29,7 @@ const About = () => {
         <div class="mt-4">
             <h2 class=${styles.measure_title} >Measuring Humidity</h2>
             <div class="d-flex align-items-center">
-                <img class=${styles.icon} src=${hum} alt="Humidity"/>
+                <img loading="lazy" class=${styles.icon} src=${hum} alt="Humidity"/>
                 <span class="text-light d-flex align-content-center">
                     The relative humidity measured of the  over a range of 0 to 100% with an accuracy of ±3%.<br/>
                     According to the datasheet, the sensor can measure up to 100% humidity over a temperature range of 0 to 60°C. However, the maximum measurable humidity decreases at extremely high and low temperature
@@ -42,7 +42,7 @@ const About = () => {
         <div class="mt-4">
             <h2 class=${styles.measure_title} >Measuring Pressure</h2>
             <div class="d-flex align-items-center">
-                <img class=${styles.icon} src=${pressure} alt="Pressure"/>
+                <img loading="lazy" class=${styles.icon} src=${pressure} alt="Pressure"/>
                 <span class="text-light d-flex align-content-center">
                     The pressure measured between 300Pa to 1100 hPa with an absolute accuracy of ±1 hPa. <br/>
                     Over the temperature range of 0 to 65°C, full accuracy is obtained, resulting in an altitude measurement accuracy of approximately ±1 meter. Outside of that range, the accuracy drops to 1.7 hPa.
@@ -64,7 +64,7 @@ const About = () => {
         <div class="mt-4">
             <h2 class=${styles.measure_title} >PM 1.0</h2>
             <div class="d-flex align-items-center">
-                <img class=${styles.icon} src=${pm_1} alt="PM1.0"/>
+                <img loading="lazy" class=${styles.icon} src=${pm_1} alt="PM1.0"/>
                 <span class="text-light d-flex align-content-center">
                     These particles are so small they can bypass the body's natural defenses and penetrate deep into the lungs and bloodstream. <br/>
                     They can cause respiratory problems, heart disease, and even cancer.<br/>
@@ -77,7 +77,7 @@ const About = () => {
         <div class="mt-4">
             <h2 class=${styles.measure_title} >PM 2.5</h2>
             <div class="d-flex align-items-center">
-                <img class=${styles.icon} src=${pm_2} alt="PM2.5"/>
+                <img loading="lazy" class=${styles.icon} src=${pm_2} alt="PM2.5"/>
                 <span class="text-light d-flex align-content-center">
                     These particles are also small enough to cause respiratory problems, but their larger size prevents them from reaching the deepest parts of the lungs. <br/>
                     However, they can still irritate the airways and trigger asthma attacks.<br/>
@@ -90,7 +90,7 @@ const About = () => {
         <div class="mt-4">
             <h2 class=${styles.measure_title} >PM 10.0</h2>
             <div class="d-flex align-items-center">
-                <img class=${styles.icon} src=${pm_10} alt="PM2.5"/>
+                <img loading="lazy" class=${styles.icon} src=${pm_10} alt="PM2.5"/>
                 <span class="text-light d-flex align-content-center">
                     These particles are larger and less likely to be inhaled deeply. <br/>
                     However, they can still irritate the eyes, nose, and throat.<br/>
@@ -154,7 +154,7 @@ const About = () => {
         <div class="mt-4">
             <h2 class=${styles.measure_title} >Wind Speed</h2>
             <div class="d-flex align-items-center">
-                <img class=${styles.icon} src=${anemometer} alt="Anemometer"/>
+                <img  loading="lazy" class=${styles.icon} src=${anemometer} alt="Anemometer"/>
                 <span class="text-light d-flex align-content-center">
                     A rotating cup anemometer with magnets passes by a stationary reed switch. As the wind blows faster, the cup spins faster, triggering the reed switch more frequently, allowing the system to calculate wind speed.<br/>
                     Sensor can measure wind speeds from 0.4 m/s to 45 m/s.
@@ -166,7 +166,7 @@ const About = () => {
         <div class="mt-4">
             <h2 class=${styles.measure_title} >Wind Direction</h2>
             <div class="d-flex align-items-center">
-                <img class=${styles.icon} src=${arrow} alt="Direction"/>
+                <img  loading="lazy" class=${styles.icon} src=${arrow} alt="Direction"/>
                 <span class="text-light d-flex align-content-center">
                     A wind vane with a magnet rotates based on the wind direction. This triggers different reed switches positioned around the vane, allowing the system to determine the wind direction.<br/>
                     The rain sensor can register rainfall amounts as small as 0.2794 mm (0.011 inches) per tip.      
@@ -188,7 +188,7 @@ const About = () => {
         <div class="mt-4">
             <h2 class=${styles.measure_title} >UVA</h2>
             <div class="d-flex align-items-center ">
-                <img class=${styles.icon} src=${uv_a} alt="UVA"/>
+                <img loading="lazy" class=${styles.icon} src=${uv_a} alt="UVA"/>
                 <span class="text-light d-flex align-content-center">
                     Wavelength 315-400nm <br/>
                     UVA rays are the longest-wavelength UV radiation reaching Earth's surface. They penetrate deep into the skin, reaching the dermis layer<br/>
@@ -202,7 +202,7 @@ const About = () => {
         <div class="mt-4">
             <h2 class=${styles.measure_title} >UVB</h2>
             <div class="d-flex align-items-center">
-                <img class=${styles.icon} src=${uv_b} alt="UVB"/>
+                <img loading="lazy" class=${styles.icon} src=${uv_b} alt="UVB"/>
                 <span class="text-light d-flex align-content-center">
                     Wavelength 315-400nm <br/>
                     UVA rays are the longest-wavelength UV radiation reaching Earth's surface. They penetrate deep into the skin, reaching the dermis layer<br/>
