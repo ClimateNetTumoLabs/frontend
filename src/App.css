@@ -100,3 +100,7 @@ th {
     line-height: 1.25rem;
     max-width: 170px;
 }
+
+* {
+    color : white
+}

@@ -1,16 +1,16 @@
 import React from "react";
 import styles from  "./About.module.css";
 import CollapsibleText from "../CollapsibleText/CollapsibleText";
-import temp from "../../assets/about_icons/temperature.png"
-import hum from "../../assets/about_icons/humidity.png"
-import pressure from "../../assets/about_icons/pressure.png"
-import pm_1 from "../../assets/about_icons/lungs.png"
-import pm_2 from "../../assets/about_icons/pm2.png"
-import pm_10 from "../../assets/about_icons/dust.png"
-import anemometer from "../../assets/about_icons/anemometer.png"
-import arrow from "../../assets/about_icons/arrow.png"
-import uv_a from "../../assets/about_icons/uva.png"
-import uv_b from "../../assets/about_icons/uv.png"
+import temp from "../../assets/AboutIcons/temperature.png"
+import hum from "../../assets/AboutIcons/humidity.png"
+import pressure from "../../assets/AboutIcons/pressure.png"
+import pm_1 from "../../assets/AboutIcons/lungs.png"
+import pm_2 from "../../assets/AboutIcons/pm2.png"
+import pm_10 from "../../assets/AboutIcons/dust.png"
+import anemometer from "../../assets/AboutIcons/anemometer.png"
+import arrow from "../../assets/AboutIcons/arrow.png"
+import uv_a from "../../assets/AboutIcons/uva.png"
+import uv_b from "../../assets/AboutIcons/uv.png"
 
 
 const About = () => {

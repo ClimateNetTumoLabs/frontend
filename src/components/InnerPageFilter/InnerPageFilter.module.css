@@ -1,0 +1,21 @@
+.InnerPageFilterSection {
+    padding: 5px 15px;
+}
+.filterItemBlock {
+    padding: 10px;
+    display : flex;
+    flex-direction: row;
+    border-top: 1px solid #C2C2C3;;
+}
+
+.filterItemBlock svg {
+    height: 20px;
+    width: 20px;
+    fill: white;
+    margin-right: 25px;
+}
+
+.active > *{
+    fill: #4A8AFA !important;
+    color: #4A8AFA;
+}

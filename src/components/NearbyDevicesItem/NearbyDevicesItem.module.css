@@ -1,0 +1,29 @@
+.NearbyDevicesItem {
+    width: 100%;
+    padding: 10px;
+    min-height: 50px;
+    margin-bottom : 5px;
+    transition: background-color 0.4s;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.NearbyDevicesItem:hover {
+    background-color: #18181A;
+}
+
+.weather_icon {
+    height: 35px;
+}
+
+.distance_display {
+    display: flex;
+    flex-direction: column;
+}
+
+.distance_display span {
+    font-size: 12px;
+    line-height: 1.5;
+}

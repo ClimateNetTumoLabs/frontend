@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import WeatherDataGraphs from "../../components/Weatherdatagraphs/WeatherDataGraphs";
 import axios from "axios";
 import Loader from "react-js-loader";
-import HoverToDevice from "../HoverToDevice/HoverToDevice";
 import styles from "./InnerPage.module.css";
-import { ReactComponent as DeviceImage } from "../../assets/images/device.svg";
+import InnerPageLeftNav from "../InnerPageLeftNav/InnerPageLeftNav";
+import InnerPageContent from "../InnerPageContent/InnerPageContent";
 
 
 function InnerPage() {
   const params = useParams();
   const [isLoading, setLoading] = useState(true);
   const [weather_data, change_weather_data] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     axios
@@ -47,10 +47,12 @@ function InnerPage() {
 
   return (
     <div className={styles.inner_page}>
-      <DeviceImage />
-      {/* <DownloadButton/> */}
-      <HoverToDevice data={weather_data} />
-      <WeatherDataGraphs data={weather_data} />
+        <InnerPageLeftNav />
+        <InnerPageContent />
+      {/*<DeviceImage />*/}
+      {/*/!* <DownloadButton/> *!/*/}
+      {/*<HoverToDevice data={weather_data} />*/}
+      {/*<WeatherDataGraphs data={weather_data} />*/}
     </div>
   );
 }
