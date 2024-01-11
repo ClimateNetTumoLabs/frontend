@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from "./ScrollToTop.module.css";
-import {ReactComponent as Arrow} from "../../assets/icons/up-arrow.svg";
+import {ReactComponent as Arrow} from "../../assets/Icons/up-arrow.svg";
 
 const ScrollToTop = () => {
     const [showButton, setShowButton] = useState(true);

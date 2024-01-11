@@ -3,9 +3,9 @@ import { Carousel } from 'react-bootstrap';
 import styles from './Banner.module.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import { TypeAnimation } from 'react-type-animation';
-import banner1 from '../../assets/images/banner/banner_1.jpeg';
-import banner2 from '../../assets/images/banner/banner_2.jpeg';
-import banner3 from '../../assets/images/banner/banner_3.jpeg';
+import banner1 from '../../assets/Banner/banner_1.jpeg';
+import banner2 from '../../assets/Banner/banner_2.jpeg';
+import banner3 from '../../assets/Banner/banner_3.jpeg';
 
 function Banner() {
     const images = useMemo(() => [banner1, banner2, banner3], []);

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './NearbyDevicesItem.module.css'
-import sun from '../../assets/weather/sun.png'
-import distance from '../../assets/weather/arrows.png'
+import sun from '../../assets/Weather/sun.png'
+import distance from '../../assets/Weather/arrows.png'
 
 function NearbyDevicesItem() {
     return (

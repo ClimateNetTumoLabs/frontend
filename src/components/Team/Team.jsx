@@ -2,11 +2,11 @@ import React from "react";
 import styles from './Team.module.css'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-// import erikImage from '../../assets/images/team_members/erik.png';
-import hovoImage from '../../assets/images/team_members/hovo.png';
-import marinaImage from '../../assets/images/team_members/marina.png';
-import arsenImage from '../../assets/images/team_members/arsen.png';
-import vaheImage from '../../assets/images/team_members/vahe.png';
+// import erikImage from '../../assets/images/TeamMembers/erik.png';
+import hovoImage from '../../assets/TeamMembers/hovo.png';
+import marinaImage from '../../assets/TeamMembers/marina.png';
+import arsenImage from '../../assets/TeamMembers/arsen.png';
+import vaheImage from '../../assets/TeamMembers/vahe.png';
 
 const responsive = {
     superLargeDesktop: {

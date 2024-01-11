@@ -3,7 +3,7 @@ import {MapContainer, TileLayer, GeoJSON, Marker, Popup, useMapEvents} from "rea
 import axios from "axios";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import iconUrl from "../../assets/icons/map-marker.svg";
+import iconUrl from "../../assets/Icons/map-marker.svg";
 import armeniaGeoJSON from "../../armenia.json";
 import { Link, Route, Routes } from "react-router-dom";
 import InnerPage from "../InnerPage/InnerPage";

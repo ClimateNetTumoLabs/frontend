@@ -3,8 +3,8 @@ import "aos/dist/aos.css";
 import AOS from "aos";
 import styles from "./Description.module.css";
 
-import aws from '../../assets/logo/aws.png'
-import tumo from '../../assets/logo/tumo.png'
+import aws from '../../assets/Logo/aws.png'
+import tumo from '../../assets/Logo/tumo.png'
 import Team from "../Team/Team";
 
 const Description = () => {

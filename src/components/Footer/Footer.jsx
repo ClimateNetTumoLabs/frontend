@@ -1,13 +1,13 @@
 import React from 'react';
-import mail from '../../assets/icons/mail.svg'
-import location from '../../assets/icons/location.svg'
-import phone from '../../assets/icons/phone.svg'
+import mail from '../../assets/Icons/mail.svg'
+import location from '../../assets/Icons/location.svg'
+import phone from '../../assets/Icons/phone.svg'
 import styles from './Footer.module.css'
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import './Simple.css'
 
 import L from "leaflet";
-import iconUrl from "../../assets/icons/map-marker.svg";
+import iconUrl from "../../assets/Icons/map-marker.svg";
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();

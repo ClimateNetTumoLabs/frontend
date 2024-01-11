@@ -1,5 +1,5 @@
 .animation_block {
-    background-image: url("/public/images/bg_lines.png");
+    /*background-image: url("bg_lines.png");*/
     background-repeat: no-repeat;
     background-color: #232222;
     color: white;
