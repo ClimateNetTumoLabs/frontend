@@ -7,7 +7,7 @@ function InnerPageLeftNav(props) {
     return (
         <div className={`${styles.innerLeftNav} name`}>
             <InnerPageNearbyDevices />
-            <InnerPageFilter filterState={props.filterState}/>
+            <InnerPageFilter filterState={props.filterState} filterChange={props.filterChange}/>
         </div>
     )
 }

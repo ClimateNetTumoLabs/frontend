@@ -17,11 +17,11 @@ footer ul li:nth-child(1) a {
 }
 
 footer ul li a {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     background-color: #fff;
     text-align: center;
-    font-size: 35px;
+    font-size: 23px;
     margin: 0 30px;
     display: block;
     border-radius: 50%;

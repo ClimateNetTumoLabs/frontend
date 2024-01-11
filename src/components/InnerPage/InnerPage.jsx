@@ -11,7 +11,7 @@ function InnerPage() {
   const params = useParams();
   const [isLoading, setLoading] = useState(true);
   const [weather_data, change_weather_data] = useState(null);
-  const [filterState, setSelectedOption] = useState('Hourly');
+  const [filterState, filterStateChange] = useState('Hourly');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -48,7 +48,7 @@ function InnerPage() {
 
   return (
     <div className={styles.inner_page}>
-        <InnerPageLeftNav filterState={filterState} />
+        <InnerPageLeftNav filterState={filterState} filterChange={filterStateChange} />
         <InnerPageContent content={filterState}/>
       {/*<DeviceImage />*/}
       {/*/!* <DownloadButton/> *!/*/}
