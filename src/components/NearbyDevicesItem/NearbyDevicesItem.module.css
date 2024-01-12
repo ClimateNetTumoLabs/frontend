@@ -14,16 +14,51 @@
     background-color: #18181A;
 }
 
+.near_device_name {
+    min-width: 100px;
+    width: 100px;
+    overflow: hidden; /* make sure it hides the content that overflows */
+    white-space: nowrap; /* don't break the line */
+    text-overflow: ellipsis; /* give the beautiful '...' effect */
+}
+
 .weather_icon {
-    height: 35px;
+    height: 25px;
 }
 
 .distance_display {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    max-width: 50px;
 }
 
 .distance_display span {
     font-size: 12px;
-    line-height: 1.5;
+    line-height: 1.8;
+    max-width: 100%;
+    overflow: hidden; /* make sure it hides the content that overflows */
+    white-space: nowrap; /* don't break the line */
+    text-overflow: ellipsis; /* give the beautiful '...' effect */
 }
+
+.distance_icon {
+    max-width: 32px;
+}
+
+.temperature_measure {
+    font-size: 20px;
+    min-width: 51px;
+    width: 51px;
+    max-width: 51px;
+    font-weight: 600;
+}
+
+.temperature_measure sup{
+    top : -0.5em;
+    font-weight: 600;
+}
+
+

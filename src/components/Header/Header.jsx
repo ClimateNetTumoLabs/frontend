@@ -177,7 +177,7 @@ const Header = () => {
                                 <li key={submenuIndex}>
                                   <Link
                                       onClick={SubMenuClick}
-                                      to={`/device_cl/${submenu.device_id}`}
+                                      to={`/device_cl/${submenu.device_id}?${submenu.title}`}
                                       className={`dropdown-item ${styles.drop_item}`}
                                   >
                                     {submenu.title}

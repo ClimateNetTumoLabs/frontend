@@ -1,0 +1,81 @@
+.InnerPageStaticContent {
+    background-color: #1B1B1D;
+
+}
+
+.InnerPageStaticContent h2 {
+    padding: 30px 0px 0px 30px;
+    font-weight: 600;
+}
+
+.nameAndDevice svg{
+    height: 100px;
+}
+
+
+.staticContent {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+.weatherStatusImage {
+    height : 64px;
+    width: 64px;
+}
+
+.weatherInformation {
+    display: flex;
+    flex-direction: column;
+    padding : 0px 15px
+
+}
+
+.infoTemperature {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.infoTemperature sup {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.recommendation {
+    max-width: 200px;
+    font-size: 11px;
+    opacity: 0.8;
+    top: -1em;
+}
+
+
+.windTitle {
+    margin-top: 10px;
+    font-size: 18px;
+    opacity: 0.4;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.windInfo {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.feelslike {
+    line-height: 0.5;
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.feelslike sup {
+    font-weight: 600;
+    top : -0.5em
+}
+
+.feelslike span {
+    opacity: 0.4;
+    font-weight: 600;
+}
