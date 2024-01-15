@@ -80,7 +80,7 @@ const MapArmenia = () => {
             icon={customIcon}
           >
             <Popup>
-              <Link to={`/device_cl/${device.generated_id}`}>{device.name}</Link>
+              <Link to={`/device_cl/${device.generated_id}?${device.name}`}>{device.name}</Link>
             </Popup>
           </Marker>
         ))}

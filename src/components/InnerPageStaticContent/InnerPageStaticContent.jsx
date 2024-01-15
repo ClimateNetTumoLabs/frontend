@@ -1,18 +1,57 @@
 import React from "react";
 import styles from './InnerPageStaticContent.module.css'
-import {ReactComponent as Device} from "../../assets/Images/device.svg";
 import Weather from '../../assets/Weather/cloudy.png'
 import {useLocation} from "react-router-dom";
+import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
+import WindDirection from "../WindDirection/WindDirection";
 
 const WeatherState = () => {
     return (
-        <img src={Weather} alt={"image"} className={styles.weatherStatusImage}/>
+        <img src={Weather} alt="Weather status" className={styles.weatherStatusImage}/>
+    )
+}
+
+const DataTable = (props) => {
+    return (
+        <table className={styles.dataTable}>
+            <tbody>
+            <tr className={styles.tr}>
+                <td className={styles.td}>
+                    <span className={styles.title}>Humidity</span><br/>
+                    <span className={styles.value}>{props.data.humidity} %</span>
+                </td>
+                <td className={styles.td}>
+                    <span className={styles.title}>Barometric P.</span><br/>
+                    <span className={styles.value}>{props.data.pressure} hPa</span>
+                </td>
+                <td className={styles.td}>
+                    <span className={styles.title}>Light</span><br/>
+                    <span className={styles.value}>{props.data.light} Lux</span>
+                </td>
+            </tr>
+            <tr className={styles.tr}>
+                <td className={styles.td}>
+                    <span className={styles.title}>Rain</span><br/>
+                    <span className={styles.value}>{props.data.rain} mm</span>
+                </td>
+                <td className={styles.td}>
+                    <span className={styles.title}>PM 1</span><br/>
+                    <span className={styles.value}>{props.data.pm1}</span>
+                </td>
+                <td className={styles.td}>
+                    <span className={styles.title}>PM 10</span><br/>
+                    <span className={styles.value}>{props.data.pm10}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     )
 }
 
 const WeatherInformation = (props) => {
     const temperature = props.temp
     const windSpeed = props.windspeed
+    console.log(props)
     let feelsLikeTemperature = -8.78469475556 +
         1.61139411 * temperature +
         2.33854883889 * windSpeed +
@@ -29,14 +68,14 @@ const WeatherInformation = (props) => {
             <p className={styles.feelslike}><span>FEELSLIKE </span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
             <span className={styles.recommendation}>Comment section, here can be some recommendations</span>
             <span className={styles.windTitle}>Wind</span>
-            <span className={styles.windInfo}>{props.windDirection} {windSpeed} km/h</span>
+            <span className={styles.windInfo}><WindDirection direction={props.windDirection}/> {windSpeed} km/h</span>
         </div>
     )
 }
+
 function InnerPageStaticContent(props) {
     const data = props.data
     const location = useLocation();
-
     const queryString = location.search;
     const nameOfDevice = decodeURI(queryString.substring(1));
     return (
@@ -49,6 +88,10 @@ function InnerPageStaticContent(props) {
             <div className={styles.staticContent}>
                 <WeatherState />
                 <WeatherInformation temp={data["temperature"]} windspeed = {data["speed"]} windDirection = {data["direction"]}/>
+                <div className={styles.otherInformation}>
+                    <LinerStatusBar air_quality = {props.data.pm2_5}/>
+                    <DataTable data={props.data}/>
+                </div>
 
             </div>
 

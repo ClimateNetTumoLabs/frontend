@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import styles from './InnerPageFilter.module.css'
 import {ReactComponent as Clock } from '../../assets/FilterIcons/clock.svg'
 import {ReactComponent as Calendar} from '../../assets/FilterIcons/calendar.svg'
