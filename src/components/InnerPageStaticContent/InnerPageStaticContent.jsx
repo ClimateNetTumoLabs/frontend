@@ -51,7 +51,6 @@ const DataTable = (props) => {
 const WeatherInformation = (props) => {
     const temperature = props.temp
     const windSpeed = props.windspeed
-    console.log(props)
     let feelsLikeTemperature = -8.78469475556 +
         1.61139411 * temperature +
         2.33854883889 * windSpeed +
@@ -65,7 +64,7 @@ const WeatherInformation = (props) => {
     return (
         <div className={styles.weatherInformation}>
             <span className={styles.infoTemperature}>{props.temp}<sup>°C</sup></span>
-            <p className={styles.feelslike}><span>FEELSLIKE </span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
+            <p className={styles.feelslike}><span>FEELS LIKE </span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
             <span className={styles.recommendation}>Comment section, here can be some recommendations</span>
             <span className={styles.windTitle}>Wind</span>
             <span className={styles.windInfo}><WindDirection direction={props.windDirection}/> {windSpeed} km/h</span>

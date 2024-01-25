@@ -16,8 +16,6 @@ function InnerPageFilter(props) {
                 <Calendar/>
                 <span>7 Days</span>
             </div>
-
-
         </div>
     )
 }

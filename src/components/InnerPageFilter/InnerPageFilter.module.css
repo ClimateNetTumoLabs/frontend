@@ -1,11 +1,19 @@
 .InnerPageFilterSection {
     padding: 5px 15px;
 }
+
+.InnerPageFilterSection:hover {
+    cursor: pointer;
+}
 .filterItemBlock {
     padding: 10px;
     display : flex;
     flex-direction: row;
     border-top: 1px solid #C2C2C3;;
+}
+
+.filterItemBlock span:hover {
+    cursor: pointer;
 }
 
 .filterItemBlock svg {

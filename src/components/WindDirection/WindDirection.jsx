@@ -3,11 +3,9 @@ import styles from './WindDirection.module.css';
 import arrow from "../../assets/Icons/wind_arrow.png"
 
 const WindDirection = ({ direction }) => {
-    console.log(direction)
     const [rotation, setRotation] = useState(0);
 
     useEffect(() => {
-        // Calculate rotation based on the provided wind direction
         const getRotation = () => {
             switch (direction) {
                 case 'N':
