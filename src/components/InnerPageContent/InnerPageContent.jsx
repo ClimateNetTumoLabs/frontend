@@ -5,6 +5,7 @@ import InnerPageStaticContent from "../InnerPageStaticContent/InnerPageStaticCon
 
 function InnerPageContent(props) {
     const last_data = props.weather_data[props.weather_data.length - 1]
+    debugger
     return (
         <div className={`${styles.innerContent}`}>
             <InnerPageStaticContent  data = {last_data}/>

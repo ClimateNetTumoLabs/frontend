@@ -108,3 +108,11 @@ th {
 *:hover {
     cursor: default;
 }
+
+.apexcharts-tooltip-title *, .apexcharts-tooltip *, .apexcharts-xaxistooltip *, .apexcharts-menu * {
+    color: black !important;
+}
+
+.apexcharts-menu-item.exportPNG {
+    display: none;
+}

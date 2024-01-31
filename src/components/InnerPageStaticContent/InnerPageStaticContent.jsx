@@ -77,6 +77,7 @@ function InnerPageStaticContent(props) {
     const location = useLocation();
     const queryString = location.search;
     const nameOfDevice = decodeURI(queryString.substring(1));
+    console.log("brjwebr")
     return (
         <div className={`${styles.InnerPageStaticContent}`}>
             <div className={`${styles.nameAndDevice} d-flex`}>

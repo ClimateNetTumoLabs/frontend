@@ -1,25 +1,26 @@
-import React, {Component, useState} from "react";
+import React, {useState} from "react";
 import ReactApexChart from 'react-apexcharts';
+import styles from './WeatherDataGraphs.module.css'
 
-const ApexChart = () => {
-    const [chartState, setChartState] = useState({
+const formatData = (names, dataArray) => {
+    return names.map((name, index) => ({
+        name: name,
+        data: dataArray[index]
+    }));
+};
 
-        series: [
-            {
-                name: "High - 2013",
-                data: [28, 29, 33, 36, 32, 32, 33]
-            },
-            {
-                name: "Low - 2013",
-                data: [12, 11, 14, 18, 17, 13, 13]
-            }
-        ],
+const WeatherDataGraphs = (props) => {
+    const seriesData = formatData(props.types, props.data);
+    const datetimeCategories = props.time.map(time => new Date(time).getTime());
+
+    const [chartState] = useState({
+        series: seriesData,
         options: {
             chart: {
                 height: 350,
                 type: 'line',
                 dropShadow: {
-                    enabled: true,
+                    enabled: false,
                     color: '#000',
                     top: 18,
                     left: 7,
@@ -27,61 +28,59 @@ const ApexChart = () => {
                     opacity: 0.2
                 },
                 toolbar: {
-                    show: false
+                    show: true
                 }
             },
-            colors: ['#77B6EA', '#545454'],
+
+            colors: props.colors,
             dataLabels: {
-                enabled: true,
+                enabled: false,
             },
             stroke: {
                 curve: 'smooth'
             },
             title: {
-                text: 'Average High & Low Temperature',
+                // text: 'Average High & Low Temperature',
                 align: 'left'
-            },
-            grid: {
-                borderColor: '#e7e7e7',
-                row: {
-                    colors: ['#f3f3f3', 'transparent'],
-                    opacity: 0.5
-                },
             },
             markers: {
                 size: 1
             },
             xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-                title: {
-                    text: 'Month'
-                }
+                categories: datetimeCategories,
+                type: 'datetime',
+                labels: {
+                    format: 'MM-dd HH:mm', // Customize the label format as needed
+                },
             },
             yaxis: {
-                title: {
-                    text: 'Temperature'
-                },
-                min: 5,
-                max: 40
+                // title: {
+                //     text: "Value"
+                // },
+                // min: 5,
+                // max: 40
             },
             legend: {
                 position: 'top',
-                horizontalAlign: 'right',
+                horizontalAlign: 'center',
                 floating: true,
                 offsetY: -25,
-                offsetX: -5
-            }
-        }
+            },
+            tooltip: {
+                x: {
+                    format: 'yyyy-MM-dd HH:mm', // Customize the tooltip date format
+                },
+            },
+        },
     });
 
     return (
-        <div>
-            <div id="chart">
-                <ReactApexChart options={chartState.options} series={chartState.series} type="line" height={350} />
+        <div className={styles.chart_section}>
+            <div>
+                <ReactApexChart options={chartState.options} series={chartState.series} type="line" height={500} />
             </div>
-            <div id="html-dist"></div>
         </div>
     );
 };
 
-export default ApexChart;
+export default WeatherDataGraphs;

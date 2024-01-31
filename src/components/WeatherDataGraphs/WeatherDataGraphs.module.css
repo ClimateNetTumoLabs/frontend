@@ -61,6 +61,25 @@
     color: #df7788;
     background-color: #232222;
 }
+
+#chart svg{
+        height:inherit;
+}
+
+#chart text, tspan, span {
+    fill: white;
+    color : white !important;
+}
+
+#chart .apexcharts-tooltip {
+    color : black
+}
+
+.chart_section {
+    height: 10px;
+    padding: 30px;
+}
+
 @media (min-width: 481px) and (max-width: 992px) {
     .date_format input {
         width: 130px;
@@ -113,4 +132,5 @@
         text-overflow: ellipsis;
     }
 }
+
 
