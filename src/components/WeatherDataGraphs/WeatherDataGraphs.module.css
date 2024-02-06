@@ -80,6 +80,10 @@
     padding: 30px;
 }
 
+.chart_section text {
+    fill : white
+}
+
 @media (min-width: 481px) and (max-width: 992px) {
     .date_format input {
         width: 130px;

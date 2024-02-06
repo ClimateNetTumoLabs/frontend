@@ -116,3 +116,7 @@ th {
 .apexcharts-menu-item.exportPNG {
     display: none;
 }
+
+.apexcharts-toolbar svg {
+    height: auto;
+}

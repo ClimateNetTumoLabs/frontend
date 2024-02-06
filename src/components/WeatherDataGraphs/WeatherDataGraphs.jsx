@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import ReactApexChart from 'react-apexcharts';
 import styles from './WeatherDataGraphs.module.css'
 
@@ -12,15 +12,14 @@ const formatData = (names, dataArray) => {
 const WeatherDataGraphs = (props) => {
     const seriesData = formatData(props.types, props.data);
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
-
-    const [chartState] = useState({
+    const [chartState, setChartState] = useState({
         series: seriesData,
         options: {
             chart: {
                 height: 350,
                 type: 'line',
                 dropShadow: {
-                    enabled: false,
+                    enabled: true,
                     color: '#000',
                     top: 18,
                     left: 7,
@@ -40,7 +39,7 @@ const WeatherDataGraphs = (props) => {
                 curve: 'smooth'
             },
             title: {
-                // text: 'Average High & Low Temperature',
+                text: `Data per ${props.timeline}`,
                 align: 'left'
             },
             markers: {
@@ -74,10 +73,35 @@ const WeatherDataGraphs = (props) => {
         },
     });
 
+    const chartRef = useRef(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                const datetimeCategories = props.time.map(time => new Date(time).getTime());
+                setChartState({
+                    series: formatData(props.types, props.data),
+                    options: {
+                        ...chartState.options,
+                        xaxis: {
+                            ...chartState.options.xaxis,
+                            categories: datetimeCategories,
+                        },
+                    },
+                });
+                chartRef.current?.render();
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, [props.types, props.data, props.time]);
     return (
         <div className={styles.chart_section}>
             <div>
-                <ReactApexChart options={chartState.options} series={chartState.series} type="line" height={500} />
+                <ReactApexChart ref = {chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
             </div>
         </div>
     );
