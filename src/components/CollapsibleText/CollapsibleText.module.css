@@ -10,11 +10,14 @@
     padding: 10px 0px;
 }
 
+.cart_body span:hover {
+    cursor: pointer;
+}
+
 .cart_body > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #df7788;
     padding-bottom: 10px;
 }
 
@@ -25,7 +28,7 @@
 
 .point {
     font-size: 20px;
-    color: #df7788;
+    color: #df7788 !important;
     margin-right: 30px;
     font-weight: 500;
 }

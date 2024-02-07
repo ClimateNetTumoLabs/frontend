@@ -184,6 +184,46 @@ const About = () => {
         </div>
     `
 
+    const api_info = `
+        <p>Welcome, developers! Our Weather Data API provides you with access to weather information based on specific parameters. Follow the instructions below to integrate this API into your application.</p>
+
+        <h2 class=${styles.measure_title}>API Endpoint:</h2>
+        <pre>https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData</pre>
+
+        <h2 class=${styles.measure_title}>Parameters:</h2>
+        <ul>
+            <li><strong>device_id</strong> (required): Unique identifier for the device.</li>
+            <li><strong>start_time</strong> (Not required): Start date and time for the weather data retrieval (format: <code>YYYY-MM-DD</code>).</li>
+            <li><strong>end_time</strong> (Not required): End date and time for the weather data retrieval (format: <code>YYYY-MM-DD</code>).</li>
+        </ul>
+
+        <h2 class=${styles.measure_title} >Example Requests:</h2>
+        <div class=${styles.examples}>
+            <pre>GET <a class=${styles.link} target="_blank" href="https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8">https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8</a></pre>
+            
+            <h3 class=${styles.sub_title_3}>Retrieve Last 24 Hours Data:</h3>
+            <p>If you use the following link without specifying <code>start_time</code> and <code>end_time</code>, you will receive the weather data for the last 24 hours.</p>
+            <pre><a class=${styles.link} target="_blank" href="https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData?device_id=8">https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData?device_id=8</a></pre>
+
+            <h3 class=${styles.sub_title_3} >Response:</h3>
+            <p>The API returns weather data in JSON format, containing relevant information based on the provided parameters.</p>
+        
+        </div>
+
+        <h2 class=${styles.measure_title}>Usage:</h2>
+        <ul>
+            <li>Make a GET request to the API endpoint (<code>https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData</code>) with the parameters (<code>device_id</code>, <code>start_time</code>, <code>end_time</code>).</li>
+            <li>Parse the JSON response to extract the weather data.</li>
+            <li>Utilize the retrieved weather data in your application as needed, such as displaying it to users, performing analysis, or integrating it with other services.</li>
+        </ul>
+
+        <p><strong>Note:</strong> Ensure that you handle any errors gracefully, such as invalid parameters or network issues, to provide a seamless experience for your users.</p>
+
+        <p>For further assistance or inquiries, contact our support team at <a class=${styles.link} href="mailto:eutumocc@tumo.org">eutumocc@tumo.org</a>.</p>
+        <h2 class=${styles.measure_title}>Tagging Requirement: When using the Weather Data API, please include the appropriate tag to acknowledge the data source. Example: <code>&lt;source&gt;Weather Data provided by TUMO Labs &lt;/source&gt;</code></h2>
+        <p>Happy coding!</p>
+    `
+
     const uva= `
         <div class="mt-4">
             <h2 class=${styles.measure_title} >UVA</h2>
@@ -243,6 +283,11 @@ const About = () => {
                 <CollapsibleText text={air_quality_intro + pm1 + pm2 + pm10 + table} point={"Air Quality"}/>
                 <CollapsibleText text={windSpeed + windDirection} point={"Air Speed, Direction and Rain"}/>
                 <CollapsibleText text={uv_intro + uva + uvb} point={"UV index"}/>
+            </div>
+
+            <div className={styles.API_section}>
+                <CollapsibleText text={api_info} point={"Weather Data: API Documentation"} />
+
             </div>
 
 

@@ -8,7 +8,7 @@
 
 .welcome_to {
     font-size: 24px;
-    color: #df7788;
+    color: #df7788 !important;
 }
 
 .about_section {
@@ -18,11 +18,11 @@
 
 .link {
     color: #df7788;
-    transition: color 0.4s ease-in-out;
+    transition: color 0.3s ease-in-out;
 }
 
 .link:hover {
-    color: #0a53be;
+    color: #4A8AFA;;
 }
 
 .measurement_description {
@@ -41,6 +41,20 @@
     margin-bottom: 20px;
 }
 
+.sub_title_3 {
+    color: #df7788;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
 .table_block {
     overflow-x: auto;
+}
+
+.API_section ul, ol, .examples{
+    padding-left: 60px;
+}
+
+.link {
+    text-decoration:  none;
 }
