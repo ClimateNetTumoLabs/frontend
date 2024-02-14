@@ -86,11 +86,11 @@ function InnerPageDynamicContent(props) {
 
     return (
         <div ref = {ChartsRef} className={`${styles.InnerPageDynamicContent}`}>
-            <div className={styles.FullScreenButtonSection}>
-                <FullScreen className={`fas fa-expand ${styles.fullscreen_button}`} />
+            <div onClick={toggleFullScreen} className={styles.FullScreenButtonSection}>
+                <FullScreen  className={`fas fa-expand ${styles.fullscreen_button}`} />
             </div>
             <div className={styles.chart}>
-                <Tabs  defaultActiveKey="tem_and_hum" className="mb-3">
+                <Tabs  defaultActiveKey="tem_and_hum" className={styles.tabs_section}>
                     <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
                         <WeatherDataGraphs timeline = {props.period} types = {["Temperature", "Humidity"]} data = {[temperature, humidity]} time={time} colors = {['#77B6EA', '#59a824']}/>
                     </Tab>

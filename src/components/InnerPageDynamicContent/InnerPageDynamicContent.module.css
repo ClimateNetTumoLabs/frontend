@@ -7,7 +7,7 @@
     float: right;
     position: relative;
     right : 20px;
-    top: 8px;
+    top: 24px;
 }
 
 .fullscreen_button {
@@ -18,4 +18,23 @@
 
 .chart button.active{
     background-color: #4a8afa;
+}
+
+.tabs_section {
+    padding: 15px 0 ;
+}
+
+.tabs_section button[aria-selected='true'] {
+    color: #DF7788 !important;
+    background-color: #232222 !important;
+    margin: 0 !important;
+}
+
+.tabs_section button:hover {
+    color: #DF7788;
+}
+
+.tabs_section button {
+    border: none !important;
+    color: white;
 }
