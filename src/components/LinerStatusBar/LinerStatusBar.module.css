@@ -65,5 +65,9 @@
     font-weight: 600;
     align-items: center;
     color: black;
+}
 
+.datetime {
+    font-size: 14px;
+    color: #C2C2C3;
 }

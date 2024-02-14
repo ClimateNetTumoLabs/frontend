@@ -31,14 +31,17 @@ const ColoredProgressBar = (props) => {
         return () => {
             clearInterval(progressInterval);
         };
-    }, []);
+    },);
 
     const { color, status, number } = getColorAndStatusForAirQuality(airQuality);
 
     return (
         <div className={styles.progressBarContent}>
             <div>
-                <p className={styles.airQualityTitle}>Air Quality (PM2.5)</p>
+                <div className={"d-flex flex-row justify-content-between align-items-center"}>
+                    <p className={styles.airQualityTitle}>Air Quality (PM2.5)</p>
+                    <span className={styles.datetime}>{new Date(props.datetime.time).toLocaleString('en-US', { hour12: false, hour: 'numeric', minute: 'numeric', year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/,/g, '')}</span>
+                </div>
                 <div  className={styles.airQualityStatus} >
                     <span>{status}</span>
                     <span style={{ background : color }} className={styles.circle}>{number}</span>

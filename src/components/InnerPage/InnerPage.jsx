@@ -16,10 +16,12 @@ function InnerPage(props) {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        console.log(`/device/${params.id}`)
         axios
             .get(`/device/${params.id}`, { withCredentials: true })
             .then((response) => {
                 change_weather_data(response.data);
+                console.log(response.data)
                 setLoading(false);
             })
             .catch((error) => {

@@ -1,2 +1,21 @@
 .InnerPageDynamicContent {
 }
+
+.FullScreenButtonSection {
+    width: 20px;
+    height: 100%;
+    float: right;
+    position: relative;
+    right : 20px;
+    top: 8px;
+}
+
+.fullscreen_button {
+    height: 20px;
+    width: 20px;
+    /*float: right;*/
+}
+
+.chart button.active{
+    background-color: #4a8afa;
+}

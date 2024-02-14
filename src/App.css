@@ -117,6 +117,47 @@ th {
     display: none;
 }
 
+.apexcharts-menu-item {
+    padding: 6px 2px !important;
+}
+
+.apexcharts-toolbar div{
+    transform: scale(1);
+    margin-right: 5px;
+}
+
+.apexcharts-toolbar div:hover {
+    cursor: pointer;
+}
+
 .apexcharts-toolbar svg {
     height: auto;
 }
+
+.apexcharts-toolbar div:hover svg{
+    color : #4A8AFA !important;
+    fill : #4a8afa !important;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+/* Tooltip text */
+.tooltiptext {
+    visibility: hidden;
+    text-align: center;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    background: white;
+    color: black !important;
+    font-size: 12px;
+    padding: 5px;
+}
+
+
+
+

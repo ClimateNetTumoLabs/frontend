@@ -9,7 +9,7 @@ function InnerPageContent(props) {
     return (
         <div className={`${styles.innerContent}`}>
             <InnerPageStaticContent  data = {last_data}/>
-            <InnerPageDynamicContent changeable_date = {props.content} weather_data = {props.weather_data}/>
+            <InnerPageDynamicContent period = {props.content} weather_data = {props.weather_data}/>
         </div>
     )
 }

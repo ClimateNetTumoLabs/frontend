@@ -26,7 +26,7 @@ const DataTable = (props) => {
                 </td>
                 <td className={styles.td}>
                     <span className={styles.title}>Light</span><br/>
-                    <span className={styles.value}>{props.data.light} Lux</span>
+                    <span className={styles.value}>{props.data.light_uv} Lux</span>
                 </td>
             </tr>
             <tr className={styles.tr}>
@@ -36,11 +36,15 @@ const DataTable = (props) => {
                 </td>
                 <td className={styles.td}>
                     <span className={styles.title}>PM 1</span><br/>
-                    <span className={styles.value}>{props.data.pm1}</span>
+                    <div className={styles.value}>{props.data.pm1} μm
+                        <span className= {`${styles.tooltiptext} tooltiptext`}>micro = 10<sup>-6</sup></span>
+                    </div>
                 </td>
                 <td className={styles.td}>
                     <span className={styles.title}>PM 10</span><br/>
-                    <span className={styles.value}>{props.data.pm10}</span>
+                    <div className={styles.value}>{props.data.pm10} μm
+                        <span className= {`${styles.tooltiptext} tooltiptext`}>micro = 10<sup>-6</sup></span>
+                    </div>
                 </td>
             </tr>
             </tbody>
@@ -77,7 +81,6 @@ function InnerPageStaticContent(props) {
     const location = useLocation();
     const queryString = location.search;
     const nameOfDevice = decodeURI(queryString.substring(1));
-    console.log("brjwebr")
     return (
         <div className={`${styles.InnerPageStaticContent}`}>
             <div className={`${styles.nameAndDevice} d-flex`}>
@@ -89,7 +92,7 @@ function InnerPageStaticContent(props) {
                 <WeatherState />
                 <WeatherInformation temp={data["temperature"]} windspeed = {data["speed"]} windDirection = {data["direction"]}/>
                 <div className={styles.otherInformation}>
-                    <LinerStatusBar air_quality = {props.data.pm2_5}/>
+                    <LinerStatusBar air_quality = {props.data.pm2_5} datetime = {props.data}/>
                     <DataTable data={props.data}/>
                 </div>
 
