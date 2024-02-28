@@ -20,7 +20,7 @@ const Footer = () => {
     //     popupAnchor: [0, -15],
     // });
     return (
-        <footer className={`text-light" py-3 pb-3 ${styles.footer}`}>
+        <footer className={`text-light" ${styles.footer}`}>
             <div className={`${styles.footer_inner} "container-fluid d-flex justify-content-center"`}>
                 <div className='col-md-4 col-12'>
                     <h3 className='mb-4 d-flex'>Follow Us</h3>

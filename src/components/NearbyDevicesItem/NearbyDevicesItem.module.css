@@ -16,8 +16,8 @@
 }
 
 .near_device_name {
-    min-width: 100px;
-    width: 100px;
+    min-width: 120px;
+    width: 120px;
     overflow: hidden; /* make sure it hides the content that overflows */
     white-space: nowrap; /* don't break the line */
     text-overflow: ellipsis; /* give the beautiful '...' effect */
@@ -49,12 +49,22 @@
     max-width: 32px;
 }
 
-.temperature_measure {
+.measure {
     font-size: 20px;
-    min-width: 51px;
-    width: 51px;
+    min-width: 100px;
+    width: 100px;
     max-width: 51px;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.measurement_icon {
+    /*position: relative;*/
+    /*max-width: 20px;*/
+    margin-left : 5px;
+    max-width: 30px;
 }
 
 .temperature_measure sup{

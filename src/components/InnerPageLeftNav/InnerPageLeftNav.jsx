@@ -6,7 +6,7 @@ import InnerPageNearbyDevices from "../InnerPageNearbyDevices/InnerPageNearbyDev
 function InnerPageLeftNav(props) {
     return (
         <div className={`${styles.innerLeftNav} name`}>
-            <InnerPageNearbyDevices />
+            <InnerPageNearbyDevices selected_device_id = {props.selected_device_id}/>
             <InnerPageFilter filterState={props.filterState} filterChange={props.filterChange}/>
         </div>
     )

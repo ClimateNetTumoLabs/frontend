@@ -4,6 +4,8 @@ import Weather from '../../assets/Weather/cloudy.png'
 import {useLocation} from "react-router-dom";
 import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+
 
 const WeatherState = () => {
     return (
@@ -36,19 +38,23 @@ const DataTable = (props) => {
                 </td>
                 <td className={styles.td}>
                     <span className={styles.title}>PM 1</span><br/>
-                    <div className={styles.value}>{props.data.pm1} μm
-                        <span className= {`${styles.tooltiptext} tooltiptext`}>micro = 10<sup>-6</sup></span>
-                    </div>
+                    <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm1} μm</div>
                 </td>
                 <td className={styles.td}>
                     <span className={styles.title}>PM 10</span><br/>
-                    <div className={styles.value}>{props.data.pm10} μm
-                        <span className= {`${styles.tooltiptext} tooltiptext`}>micro = 10<sup>-6</sup></span>
+                    <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm10} μm
                     </div>
+                    <ReactTooltip
+                        id="micro_meter"
+                        place="bottom"
+                        content= {<span dangerouslySetInnerHTML={{ __html: 'micro = 10<sup>-6</sup>' }} />}
+                    />
                 </td>
             </tr>
             </tbody>
         </table>
+
+
     )
 }
 

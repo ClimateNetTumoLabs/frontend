@@ -287,10 +287,7 @@ const About = () => {
 
             <div className={styles.API_section}>
                 <CollapsibleText text={api_info} point={"Weather Data: API Documentation"} />
-
             </div>
-
-
         </div>
     );
 };

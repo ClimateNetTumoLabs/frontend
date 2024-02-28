@@ -97,9 +97,9 @@ function InnerPageDynamicContent(props) {
                     <Tab eventKey="pm" title="Air Qulaity">
                         <WeatherDataGraphs timeline = {props.period} types = {["PM 1", "PM 2.5", "PM 10"]} data = {[pm1, pm2_5, pm10]} time={time} colors = {['#f80000', '#e1d816', '#49B618']}/>
                     </Tab>
-                    <Tab eventKey="light"  title="Light">
-                        <WeatherDataGraphs timeline = {props.period} types = {["UV Index", "Infrared", "Visible Light"]} data = {[UV, VisibleLight, IRLight]} time={time} colors = {["#F7CAC9", "#9CCC65", "#00BFFF"]}/>
-                    </Tab>
+                    {/*<Tab eventKey="light"  title="Light">*/}
+                    {/*    <WeatherDataGraphs timeline = {props.period} types = {["UV Index", "Infrared", "Visible Light"]} data = {[UV, VisibleLight, IRLight]} time={time} colors = {["#F7CAC9", "#9CCC65", "#00BFFF"]}/>*/}
+                    {/*</Tab>*/}
                     <Tab eventKey="pressure"  title="Pressure">
                         <WeatherDataGraphs timeline = {props.period} types = {["Pressure"]} data = {[pressure]} time={time} colors = {["#FFFF00"]}/>
                     </Tab>
