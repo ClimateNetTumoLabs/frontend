@@ -1,19 +1,23 @@
-import React, { useEffect ,useState} from "react";
-import {MapContainer, TileLayer, GeoJSON, Marker, Popup, useMapEvents} from "react-leaflet";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { MapContainer, TileLayer, GeoJSON, Popup, useMapEvents, Marker } from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import iconUrl from "../../assets/Icons/map-marker.svg";
+import location from "../../assets/Icons/circle.jpeg"
 import armeniaGeoJSON from "../../armenia.json";
 import { Link, Route, Routes } from "react-router-dom";
 import InnerPage from "../InnerPage/InnerPage";
 import "react-leaflet-fullscreen/styles.css";
 import { FullscreenControl } from "react-leaflet-fullscreen";
 import styles from "./Map.module.css";
+import { PositionContext } from "../../context/PositionContext";
 
 const MapArmenia = () => {
   const [devices, setDevices] = useState([]);
   const [scrollEnabled, setScrollEnabled] = useState(false);
+  const { position} = useContext(PositionContext);
+
 
   const ToggleScroll = () => {
     const map = useMapEvents({
@@ -42,9 +46,17 @@ const MapArmenia = () => {
 
   const customIcon = new L.Icon({
     iconUrl,
-    iconSize: [30, 30],
+    iconSize: [25, 25],
     iconAnchor: [15, 15],
     popupAnchor: [0, -15],
+  });
+
+  const blinkIcon = new L.Icon({
+    iconUrl: location,
+    iconSize: [10, 10],
+    iconAnchor: [18, 18],
+    popupAnchor: [0, -15],
+    className: `${styles.blinking}`
   });
 
   useEffect(() => {
@@ -64,9 +76,10 @@ const MapArmenia = () => {
         <p>The highlighted locations indicate the current active climate devices. Click on a location to access the dataset specific to that device.</p>
       </div>
       <MapContainer
-          center={[40.15912, 45.002717]}
-          zoom={8}
-          style={{ height: "600px", width: "100%" }}
+        center={[40.15912, 45.002717]}
+        zoom={8}
+        style={{ height: "600px", width: "100%"}}
+        className={styles.mapContainer}
       >
         <ToggleScroll />
         <TileLayer
@@ -84,10 +97,22 @@ const MapArmenia = () => {
             </Popup>
           </Marker>
         ))}
+        {
+          position && position.latitude !== null && position.longitude !== null && (
+            <Marker
+              icon={blinkIcon}
+              position={[parseFloat(position.latitude), parseFloat(position.longitude)]}
+            >
+              <Popup>
+                <Link>Your Location </Link>
+              </Popup>
+            </Marker>
+          )
+        }
         <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle} />
         <FullscreenControl forceSeparateButton={true} position={"topright"} />
         <Routes>
-          <Route path="/device/:id" element={<InnerPage />} />
+          <Route path="/device/:id" element={<InnerPage/>} />
         </Routes>
       </MapContainer>
     </div>

@@ -91,7 +91,7 @@ function InnerPageStaticContent(props) {
         <div className={`${styles.InnerPageStaticContent}`}>
             <div className={`${styles.nameAndDevice} d-flex`}>
                 <h2>{nameOfDevice}</h2>
-                {/*<Device/>*/}
+                {/* <Device/> */}
             </div>
 
             <div className={styles.staticContent}>

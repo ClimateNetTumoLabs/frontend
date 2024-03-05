@@ -1,9 +1,42 @@
 .map_section {
-    padding: 0 15px;
+  padding: 0 15px;
 }
 
 .map_header {
-    font-size: 28px;
-    color: #df7788;
+  font-size: 28px;
+  color: #df7788;
 }
 
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0.5;
+    -moz-transform: scale(1.5);
+  }
+}
+
+.blinking {
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  animation: blink 1s infinite;
+}
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+}
+
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover {
+  background-color: #0056b3;
+}

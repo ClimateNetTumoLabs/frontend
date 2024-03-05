@@ -12,17 +12,18 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Team from "./components/Team/Team";
 
 function App() {
+
     return (
         <div className="App">
-            <Header/>
-            <ScrollToTop/>
+            <Header />
+            <ScrollToTop />
             <Routes>
-                <Route path="/*" element={<Home/>}/>
-                <Route path="/about" element={<About/>}/>
-                <Route path="/device_cl/:id" element={<InnerPage/>}/>
-                <Route path="our_team" element={<Team/>}/>
+                <Route path="/*" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/device_cl/:id" element={<InnerPage/>} />
+                <Route path="our_team" element={<Team />} />
             </Routes>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

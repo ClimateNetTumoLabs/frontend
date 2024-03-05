@@ -7,7 +7,6 @@ import temp from "../../assets/AboutIcons/temperature.png"
 
 const NearbyDeviceItem = (props) => {
     const [data, setData] = useState(null);
-    console.log(props)
 
     useEffect(() => {
         const fetchData = async () => {

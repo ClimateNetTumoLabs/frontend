@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import styles from './InnerPageNearbyDevices.module.css'
 import NearbyDevicesItem from "../NearbyDevicesItem/NearbyDevicesItem";
 import axios from "axios";
+import { PositionContext } from "../../context/PositionContext";
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radius of the Earth in kilometers
@@ -11,11 +13,11 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
         Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in kilometers
+    const distance = R * c;
     return Math.round(distance);
 }
 
-function receive_nearby_devices(referencePoint, devices) {
+function receive_nearby_devices(referencePoint, devices, permissionGranted) {
     if (referencePoint) {
         // Calculate distances from the reference point to all other points
         const distances = devices.map(device => {
@@ -31,11 +33,13 @@ function receive_nearby_devices(referencePoint, devices) {
             };
         });
 
+        console.log("distances", distances);
         // Sort distances in ascending order
-        distances.sort((a, b) => a.distance - b.distance);
+        distances.sort((a, b) => (a.distance - b.distance));
 
         // Display the 3 nearest points
-        const nearestPoints = distances.slice(1, 3); // Exclude the reference point itself
+        const nearestPoints = permissionGranted ? distances.slice(0, 3) : distances.slice(1, 3); // Exclude the reference point itself
+        console.log("nearestPoints", nearestPoints);
         return nearestPoints
     } else {
         return []
@@ -43,10 +47,10 @@ function receive_nearby_devices(referencePoint, devices) {
 
 }
 
-
 function InnerPageNearbyDevices(props) {
     const [devices, setDevices] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const { permissionGranted, position } = useContext(PositionContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,21 +67,29 @@ function InnerPageNearbyDevices(props) {
         fetchData()
     }, []);
 
-    // Get the reference point
-    const referencePoint = devices.find(devices => devices.generated_id === props.selected_device_id);
-    const nearby_list = receive_nearby_devices(referencePoint, devices)
+    let referencePoint;
+    if (permissionGranted && position) {
+        referencePoint = position;
+    } else {
+        referencePoint = devices.find(devices => devices.generated_id === props.selected_device_id);
+    }
+    console.log(JSON.stringify(devices))
+    const nearby_list = useMemo(() => receive_nearby_devices(referencePoint, devices), [referencePoint, permissionGranted]);
 
     return (
         <div className={`${styles.NearDeviceSection}`}>
-            <span className={styles.nearTitle}>Devices Near You</span>
+            <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>
             {nearby_list.map(device => (
-                <NearbyDevicesItem
-                    key={device.id}
-                    id={device.id}
-                    name={device.name}
-                    distance={device.distance}
-                    value={device.value}
-                />
+                
+                <Link to={`/device_cl/${device.id}?${device.name}`} key={device.generated_id}>
+                    <NearbyDevicesItem
+                        key={device.id}
+                        id={device.id}
+                        name={device.name}
+                        distance={device.distance}
+                        value={device.value}
+                    />
+                </Link>
             ))}
         </div>
     )
