@@ -1,9 +1,9 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from './InnerPageDynamicContent.module.css'
 import WeatherDataGraphs from "../WeatherDataGraphs/WeatherDataGraphs";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import {ReactComponent as FullScreen} from "../../assets/Icons/full-screen.svg";
+import { ReactComponent as FullScreen } from "../../assets/Icons/full-screen.svg";
 
 
 function InnerPageDynamicContent(props) {
@@ -83,30 +83,31 @@ function InnerPageDynamicContent(props) {
         setWindSpeed(WindSpeedArray)
         setWindDirection(WindDirectionArray)
     }, [props.weather_data]);
-
     return (
-        <div ref = {ChartsRef} className={`${styles.InnerPageDynamicContent}`}>
+        <div ref={ChartsRef} className={`${styles.InnerPageDynamicContent}`}>
             <div onClick={toggleFullScreen} className={styles.FullScreenButtonSection}>
-                <FullScreen  className={`fas fa-expand ${styles.fullscreen_button}`} />
+                <FullScreen className={`fas fa-expand ${styles.fullscreen_button}`} />
             </div>
             <div className={styles.chart}>
-                <Tabs  defaultActiveKey="tem_and_hum" className={styles.tabs_section}>
-                    <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
-                        <WeatherDataGraphs timeline = {props.period} types = {["Temperature", "Humidity"]} data = {[temperature, humidity]} time={time} colors = {['#77B6EA', '#59a824']}/>
-                    </Tab>
-                    <Tab eventKey="pm" title="Air Qulaity">
-                        <WeatherDataGraphs timeline = {props.period} types = {["PM 1", "PM 2.5", "PM 10"]} data = {[pm1, pm2_5, pm10]} time={time} colors = {['#f80000', '#e1d816', '#49B618']}/>
-                    </Tab>
-                    {/*<Tab eventKey="light"  title="Light">*/}
-                    {/*    <WeatherDataGraphs timeline = {props.period} types = {["UV Index", "Infrared", "Visible Light"]} data = {[UV, VisibleLight, IRLight]} time={time} colors = {["#F7CAC9", "#9CCC65", "#00BFFF"]}/>*/}
-                    {/*</Tab>*/}
-                    <Tab eventKey="pressure"  title="Pressure">
-                        <WeatherDataGraphs timeline = {props.period} types = {["Pressure"]} data = {[pressure]} time={time} colors = {["#FFFF00"]}/>
-                    </Tab>
-                    <Tab eventKey="rain_wind"  title="Rain and Wind">
-                        <WeatherDataGraphs timeline = {props.period} types = {["Rain", "Wind Speed", "Wind Direction"]} data = {[RainCount, WindSpeed, WindDirection]} time={time} colors = {["#6688aa", "#BA9593", "#EDAFFB"]}/>
-                    </Tab>
-                </Tabs>
+                <div className={styles.tabContainer}>
+                    <Tabs defaultActiveKey="tem_and_hum" className={styles.tabs_section}>
+                        <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
+                            <WeatherDataGraphs className = {styles.graph} timeline={props.period} types={["Temperature", "Humidity"]} data={[temperature, humidity]} time={time} colors={['#77B6EA', '#59a824']} />
+                        </Tab>
+                        <Tab eventKey="pm" title="Air Qulaity">
+                            <WeatherDataGraphs className = {styles.graph} timeline={props.period} types={["PM 1", "PM 2.5", "PM 10"]} data={[pm1, pm2_5, pm10]} time={time} colors={['#f80000', '#e1d816', '#49B618']} />
+                        </Tab>
+                        {/*<Tab eventKey="light"  title="Light">*/}
+                        {/*    <WeatherDataGraphs timeline = {props.period} types = {["UV Index", "Infrared", "Visible Light"]} data = {[UV, VisibleLight, IRLight]} time={time} colors = {["#F7CAC9", "#9CCC65", "#00BFFF"]}/>*/}
+                        {/*</Tab>*/}
+                        <Tab eventKey="pressure" title="Pressure">
+                            <WeatherDataGraphs className = {styles.graph} timeline={props.period} types={["Pressure"]} data={[pressure]} time={time} colors={["#FFFF00"]} />
+                        </Tab>
+                        <Tab eventKey="rain_wind" title="Rain and Wind">
+                            <WeatherDataGraphs className = {styles.graph} timeline={props.period} types={["Rain", "Wind Speed", "Wind Direction"]} data={[RainCount, WindSpeed, WindDirection]} time={time} colors={["#6688aa", "#BA9593", "#EDAFFB"]} />
+                        </Tab>
+                    </Tabs>
+                </div>
             </div>
         </div>
     )

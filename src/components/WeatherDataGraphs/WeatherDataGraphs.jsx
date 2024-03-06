@@ -81,6 +81,11 @@ const WeatherDataGraphs = (props) => {
                     format: 'yyyy-MM-dd HH:mm', // Customize the tooltip date format
                 },
             },
+            chart: {
+                redrawOnParentResize: true,
+                offsetX: 10, // Add padding to the left
+                offsetY: 10, // Add padding to the top
+            },
         },
     });
 
@@ -93,6 +98,10 @@ const WeatherDataGraphs = (props) => {
                     series: formatData(props.types, props.data),
                     options: {
                         ...chartState.options,
+                        title: {
+                            text: `Data per ${props.timeline}`,
+                            align: 'left'
+                        },
                         xaxis: {
                             ...chartState.options.xaxis,
                             categories: datetimeCategories,
@@ -106,10 +115,11 @@ const WeatherDataGraphs = (props) => {
         };
 
         fetchData();
-    }, [props.types, props.data, props.time]);
+    }, [props.types, props.data, props.time, props.timeline]);
+   
     return (
         <div className={styles.chart_section}>
-            <div>
+            <div style={{ height: "100%" }}>
                 <ReactApexChart ref = {chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
             </div>
         </div>

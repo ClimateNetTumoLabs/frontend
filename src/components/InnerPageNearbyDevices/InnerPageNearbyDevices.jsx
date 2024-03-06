@@ -33,13 +33,11 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
             };
         });
 
-        console.log("distances", distances);
         // Sort distances in ascending order
         distances.sort((a, b) => (a.distance - b.distance));
 
         // Display the 3 nearest points
         const nearestPoints = permissionGranted ? distances.slice(0, 3) : distances.slice(1, 3); // Exclude the reference point itself
-        console.log("nearestPoints", nearestPoints);
         return nearestPoints
     } else {
         return []
@@ -73,12 +71,12 @@ function InnerPageNearbyDevices(props) {
     } else {
         referencePoint = devices.find(devices => devices.generated_id === props.selected_device_id);
     }
-    console.log(JSON.stringify(devices))
-    const nearby_list = useMemo(() => receive_nearby_devices(referencePoint, devices), [referencePoint, permissionGranted]);
+
+    const nearby_list = useMemo(() => receive_nearby_devices(referencePoint, devices));
 
     return (
         <div className={`${styles.NearDeviceSection}`}>
-            <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>
+            {nearby_list.length > 0  && <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>}
             {nearby_list.map(device => (
                 
                 <Link to={`/device_cl/${device.id}?${device.name}`} key={device.id}>

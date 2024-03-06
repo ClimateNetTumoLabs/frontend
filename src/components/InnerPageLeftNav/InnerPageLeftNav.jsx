@@ -7,7 +7,13 @@ function InnerPageLeftNav(props) {
     return (
         <div className={`${styles.innerLeftNav} name`}>
             <InnerPageNearbyDevices selected_device_id = {props.selected_device_id}/>
-            <InnerPageFilter filterState={props.filterState} filterChange={props.filterChange}/>
+            <InnerPageFilter filterState={props.filterState} filterChange={props.filterChange} 
+                startDate={props.startDate}
+                setStartDate={props.setStartDate}
+                endDate={props.endDate}
+                setEndDate={props.setEndDate}
+                error = {props.error}    
+            />
         </div>
     )
 }
