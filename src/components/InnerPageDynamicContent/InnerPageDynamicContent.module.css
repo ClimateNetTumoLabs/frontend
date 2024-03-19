@@ -38,3 +38,18 @@
     border: none !important;
     color: white;
 }
+
+@media (max-width: 480px) {
+    .tabs_section {
+        display: grid;
+        grid-template-columns: repeat(1, auto);
+    }
+}
+
+@media (max-width: 767px) {
+    .tabs_section {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+ 
+    }
+}

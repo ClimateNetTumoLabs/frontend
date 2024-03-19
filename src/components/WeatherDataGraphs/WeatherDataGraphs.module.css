@@ -76,7 +76,7 @@
 }
 
 .chart_section {
-    height: 10px;
+    height: 100%;
     padding: 30px;
 }
 
@@ -125,6 +125,7 @@
     .tabs_section {
         display: flex;
         flex-wrap: nowrap;
+        border: 1px solid red;
     }
     .tabs_section li {
         width: calc(100% / 3);
@@ -141,5 +142,4 @@
     height: 15px;
     width: 15px;
 }
-
 

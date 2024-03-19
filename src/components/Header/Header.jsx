@@ -26,8 +26,7 @@ const Header = () => {
     return () => {
       window.removeEventListener('click', handleClickOutside);
     };
-  }, [isNavExpanded]); // Add isNavExpanded as a dependency
-  
+  }, [isNavExpanded]);
   
 
   const handleNavToggle = () => {

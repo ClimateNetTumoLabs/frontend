@@ -5,11 +5,13 @@
 .InnerPageFilterSection:hover {
     cursor: pointer;
 }
+
 .filterItemBlock {
     padding: 10px;
-    display : flex;
+    display: flex;
     flex-direction: row;
-    border-top: 1px solid #C2C2C3;;
+    border-top: 1px solid #C2C2C3;
+    ;
 }
 
 .filterItemBlock span:hover {
@@ -23,7 +25,37 @@
     margin-right: 25px;
 }
 
-.active > *{
+.active>* {
     fill: #4A8AFA !important;
     color: #4A8AFA;
+}
+
+@media (max-width: 767px) {
+    .InnerPageFilterSection {
+        display: grid;
+        grid-template-columns: repeat(4, auto);
+        width: 100%;
+        background-color: black;
+        position: fixed;
+        top: 100;
+        bottom: 0;
+        z-index: 1000;
+        align-items: start;
+        height: 120px;
+    }
+
+    .filterItemBlock {
+        display: flex;
+        max-width:fit-content;
+        flex-direction: column;
+        align-items: start;
+        justify-content: space-between;
+        text-align: center;
+    }   
+
+    .filterItemBlock svg,
+    .filterItemBlock span {
+        align-self: center;
+        margin-right: 0;
+    }
 }

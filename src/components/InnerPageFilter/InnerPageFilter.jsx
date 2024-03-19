@@ -12,6 +12,12 @@ const StyledDatePicker = styled(DatePicker)`
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    @media (max-width: 768px) {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 `;
 
 function InnerPageFilter(props) {
@@ -37,7 +43,7 @@ function InnerPageFilter(props) {
                 <Calendar />
                 <div>
                     <span>Range</span>
-                    <div>
+                    {/* <div>
                         <StyledDatePicker
                             selected={props.startDate}
                             onChange={date => props.setStartDate(date)}
@@ -47,7 +53,7 @@ function InnerPageFilter(props) {
                             onChange={date => props.setEndDate(date)}
                         />
                     </div>
-                    {props.error}
+                    // {props.error} */}
                 </div>
             </div>
         </div>

@@ -1,4 +1,7 @@
 /* Banner.css */
+.carouselContainer{
+    padding-top: 70px
+}
 .carousel {
     display: flex;
     flex-direction: row;

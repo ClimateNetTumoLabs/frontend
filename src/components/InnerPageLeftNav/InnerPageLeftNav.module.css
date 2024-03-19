@@ -3,3 +3,10 @@
     min-width: 320px;
     width : 320px
 }
+
+@media (max-width: 767px) {
+    .innerLeftNav {
+        order: 2;
+        width: 100vw;
+    }
+}

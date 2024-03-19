@@ -79,7 +79,7 @@ function InnerPageNearbyDevices(props) {
             {nearby_list.length > 0  && <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>}
             {nearby_list.map(device => (
                 
-                <Link to={`/device_cl/${device.id}?${device.name}`} key={device.id}>
+                <Link to={`/device_cl/${device.id}?${device.name}`} key={device.id} className={styles.link}>
                     <NearbyDevicesItem
                         id={device.id}
                         name={device.name}

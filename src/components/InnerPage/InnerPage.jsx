@@ -38,7 +38,7 @@ function InnerPage() {
   }, [permissionGranted, setPosition, setPermissionGranted]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     if (filterState === 'Range' && startDateState && endDateState) {
       if (new Date(startDateState) > new Date(endDateState)) {
         setError("Start date should be earlier than end date.");
@@ -140,7 +140,7 @@ function InnerPage() {
         setEndDate={setEndDate} 
         error = {error}  
       />
-      <InnerPageContent content={filterState} weather_data={weather_data} />x
+      <InnerPageContent content={filterState} weather_data={weather_data} />
       {/*<DeviceImage />*/}
       {/*/!* <DownloadButton/> *!/*/}
       {/*<HoverToDevice data={weather_data} />*/}
