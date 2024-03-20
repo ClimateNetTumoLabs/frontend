@@ -6,21 +6,50 @@ import { ReactComponent as Clock } from '../../assets/FilterIcons/clock.svg'
 import { ReactComponent as Calendar } from '../../assets/FilterIcons/calendar.svg'
 import styled from 'styled-components';
 
-const StyledDatePicker = styled(DatePicker)`
-    color: #555;
-    font-size: 16px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    @media (max-width: 768px) {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+
+const StyledStartDatePicker = styled(DatePicker)`
+color: black;
+background-color: white;
+padding: 20px;
+border: 1px solid #ccc;
+border-radius: 8px;
+@media (max-width: 767px) {
+    position: fixed;
+    top: calc(50% - 30px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+`;
+
+const StyledEndDatePicker = styled(DatePicker)`
+color: black;
+background-color: white;
+padding: 20px;
+border: 1px solid #ccc;
+border-radius: 8px;
+@media (max-width: 767px) {
+    position: fixed;
+    top: calc(50% + 50px);
+    left: 50%;
+    transform: translateX(-50%);
+}
 `;
 
 function InnerPageFilter(props) {
+
+    const handleClose = () => {
+        props.handleCloseDatePicker();
+    };
+
+    const handleApply = () => {
+        props.setShowDatePicker(false);
+    };
+
+    const handleRange = () => {
+        props.setShowDatePicker(true);
+        props.filterChange("Range");
+    };
+
     return (
         <div className={`${styles.InnerPageFilterSection}`}>
             <div className={`option ${styles.filterItemBlock} ${props.filterState === 'Hourly' ? styles.active : ''}`}
@@ -39,23 +68,69 @@ function InnerPageFilter(props) {
                 <span>This Month</span>
             </div>
             <div className={`option ${styles.filterItemBlock} ${props.filterState === 'Range' ? styles.active : ''}`}
-                onClick={() => props.filterChange("Range")}>
+                onClick={handleRange}>
                 <Calendar />
-                <div>
-                    <span>Range</span>
-                    {/* <div>
-                        <StyledDatePicker
-                            selected={props.startDate}
-                            onChange={date => props.setStartDate(date)}
-                        />
-                        <StyledDatePicker
-                            selected={props.endDate}
-                            onChange={date => props.setEndDate(date)}
-                        />
-                    </div>
-                    // {props.error} */}
-                </div>
+                <span>Range</span>
             </div>
+                <>
+                    {props.showDatePicker &&
+                        (
+                            <div>
+                                <div className={`${styles.pickerContainer}`}>
+                                    <StyledStartDatePicker
+                                        selected={props.startDate}
+                                        onChange={date => props.setStartDate(date)}
+                                        popperClassName="propper"
+                                        popperPlacement="top"
+                                        popperModifiers={[
+                                            {
+                                                name: "offset",
+                                                options: {
+                                                    offset: [0, 5],
+                                                },
+                                            },
+                                            {
+                                                name: "preventOverflow",
+                                                options: {
+                                                    rootBoundary: "viewport",
+                                                    tether: false,
+                                                    altAxis: true,
+                                                },
+                                            },
+                                        ]}
+
+                                    />
+                                    <StyledEndDatePicker
+                                        selected={props.endDate}
+                                        onChange={date => props.setEndDate(date)}
+                                        popperClassName="propper"
+                                        popperPlacement="top-end"
+                                        popperModifiers={[
+                                            {
+                                                name: "offset",
+                                                options: {
+                                                    offset: [100, -70],
+                                                },
+                                            },
+                                            {
+                                                name: "preventOverflow",
+                                                options: {
+                                                    rootBoundary: "viewport",
+                                                    tether: false,
+                                                    altAxis: true,
+                                                },
+                                            },
+                                        ]}
+                                    />
+                                </div>
+                                <div className={styles.btnWrapper} style={{ display: props.showDatePicker ? 'block' : 'none' }}>
+                                    <button onClick={handleApply}>Apply</button>
+                                    <button className={styles.closeBtn} onClick={handleClose}>Close</button>
+                                    {props.error && <div>{props.error}</div>}
+                                </div>
+                            </div>
+                        )}
+                </>
         </div>
     )
 }

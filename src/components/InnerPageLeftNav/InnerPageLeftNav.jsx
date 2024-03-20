@@ -12,7 +12,10 @@ function InnerPageLeftNav(props) {
                 setStartDate={props.setStartDate}
                 endDate={props.endDate}
                 setEndDate={props.setEndDate}
-                error = {props.error}    
+                error = {props.error}
+                showDatePicker={props.showDatePicker}
+                setShowDatePicker={props.setShowDatePicker} 
+                handleCloseDatePicker = {props.handleCloseDatePicker}
             />
         </div>
     )

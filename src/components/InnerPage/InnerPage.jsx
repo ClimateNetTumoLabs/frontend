@@ -16,7 +16,11 @@ function InnerPage() {
   const [startDateState, setStartDate] = useState(new Date());
   const [endDateState, setEndDate] = useState(new Date());
   const [error, setError] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
+  const handleCloseDatePicker = () => {
+    setShowDatePicker(false); 
+  };
   useEffect(() => {
     if (!permissionGranted) {
       const askForPermissionAgain = () => {
@@ -38,7 +42,7 @@ function InnerPage() {
   }, [permissionGranted, setPosition, setPermissionGranted]);
 
   useEffect(() => {
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     if (filterState === 'Range' && startDateState && endDateState) {
       if (new Date(startDateState) > new Date(endDateState)) {
         setError("Start date should be earlier than end date.");
@@ -131,6 +135,8 @@ function InnerPage() {
     </div>;
   }
 
+  console.log(showDatePicker)
+
   return (
     <div className={styles.inner_page}>
       <InnerPageLeftNav filterState={filterState} filterChange={filterStateChange} selected_device_id={params.id}
@@ -138,7 +144,10 @@ function InnerPage() {
         setStartDate={setStartDate}
         endDate={endDateState}
         setEndDate={setEndDate} 
-        error = {error}  
+        error = {error} 
+        showDatePicker={showDatePicker} 
+        setShowDatePicker={setShowDatePicker} 
+        handleCloseDatePicker = {handleCloseDatePicker}
       />
       <InnerPageContent content={filterState} weather_data={weather_data} />
       {/*<DeviceImage />*/}

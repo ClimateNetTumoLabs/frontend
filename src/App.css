@@ -158,12 +158,8 @@ th {
     padding: 5px;
 }
 
-
-
-
-
 @media (max-width: 767px) {
     .footerPadding{
-        padding-bottom: 120px;
+        padding-bottom: clamp(120px, 70px, 200x);
     }
 }
