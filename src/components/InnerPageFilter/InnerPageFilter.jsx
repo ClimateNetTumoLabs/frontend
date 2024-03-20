@@ -39,15 +39,17 @@ function InnerPageFilter(props) {
 
     const handleClose = () => {
         props.handleCloseDatePicker();
+        props.setError("")
     };
 
     const handleApply = () => {
-        props.setShowDatePicker(false);
+        props.filterChange("Range");
+        if(!props.error)
+            props.setShowDatePicker(false);
     };
 
     const handleRange = () => {
         props.setShowDatePicker(true);
-        props.filterChange("Range");
     };
 
     return (
@@ -123,10 +125,10 @@ function InnerPageFilter(props) {
                                         ]}
                                     />
                                 </div>
-                                <div className={styles.btnWrapper} style={{ display: props.showDatePicker ? 'block' : 'none' }}>
+                                <div className={styles.btnWrapper} style={{ display: props.showDatePicker ? 'block' : 'none'  }}>
                                     <button onClick={handleApply}>Apply</button>
                                     <button className={styles.closeBtn} onClick={handleClose}>Close</button>
-                                    {props.error && <div>{props.error}</div>}
+                                    {props.error && <div style={{ width: '100%', color : "red"}}>{props.error}</div>}
                                 </div>
                             </div>
                         )}
