@@ -125,7 +125,6 @@
     .tabs_section {
         display: flex;
         flex-wrap: nowrap;
-        border: 1px solid red;
     }
     .tabs_section li {
         width: calc(100% / 3);
@@ -143,3 +142,8 @@
     width: 15px;
 }
 
+@media (max-width: 767px) {
+    .chart_section {
+        padding: 15px;
+    }
+}

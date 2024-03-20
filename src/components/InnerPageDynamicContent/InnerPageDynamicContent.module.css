@@ -49,7 +49,9 @@
 @media (max-width: 767px) {
     .tabs_section {
         display: grid;
-        grid-template-columns: repeat(2, auto);
- 
+        grid-template-columns: repeat(2, auto); 
+    }
+    .tabs_section button {
+        text-align: start;
     }
 }

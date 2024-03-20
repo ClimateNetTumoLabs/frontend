@@ -162,7 +162,8 @@ th {
 
 
 
-
-.footerPadding{
-    padding-bottom: 120px;
+@media (max-width: 767px) {
+    .footerPadding{
+        padding-bottom: 120px;
+    }
 }
