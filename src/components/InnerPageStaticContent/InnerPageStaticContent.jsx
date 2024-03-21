@@ -76,8 +76,10 @@ const WeatherInformation = (props) => {
             <span className={styles.infoTemperature}>{props.temp}<sup>°C</sup></span>
             <p className={styles.feelslike}><span>FEELS LIKE </span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
             <span className={styles.recommendation}>Comment section, here can be some recommendations</span>
-            <span className={styles.windTitle}>Wind</span>
-            <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} km/h</span>
+            <div className={styles.windWrapper}>
+                <span className={styles.windTitle}>Wind</span>
+                <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} km/h</span>
+            </div>
         </div>
     )
 }
@@ -94,11 +96,15 @@ function InnerPageStaticContent(props) {
                 {/* <Device/> */}
             </div>
                 <div className={styles.staticContent}>
-                    <WeatherState />
-                    <WeatherInformation temp={data["temperature"]} windspeed={data["speed"]} windDirection={data["direction"]} />
-                    <div className={styles.otherInformation}>
-                        <LinerStatusBar air_quality={props.data.pm2_5} datetime={props.data} />
-                        <DataTable data={props.data} />
+                    <div className={styles.waeterInfo}>
+                        <WeatherState />
+                        <WeatherInformation temp={data["temperature"]} windspeed={data["speed"]} windDirection={data["direction"]} />
+                    </div>
+                    <div>
+                        <div className={styles.otherInformation}>
+                            <LinerStatusBar air_quality={props.data.pm2_5} datetime={props.data} />
+                            <DataTable data={props.data} />
+                        </div>
                     </div>
 
                 </div>

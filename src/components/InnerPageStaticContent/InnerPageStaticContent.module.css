@@ -125,3 +125,22 @@
     color: black;
 }
 
+@media (max-width: 767px) {
+    .InnerPageStaticContent {
+        width: 100%;
+        align-items: center;
+    }
+    .staticContent {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+    .waeterInfo {
+        display: flex;
+        justify-content: center;
+        padding: 50px;
+    }
+    .windWrapper{
+        display: flex;
+     }
+}

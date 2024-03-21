@@ -74,67 +74,69 @@ function InnerPageFilter(props) {
                 <Calendar />
                 <span>Range</span>
             </div>
-                <>
-                    {props.showDatePicker &&
-                        (
-                            <div>
-                                <div className={`${styles.pickerContainer}`}>
-                                    <StyledStartDatePicker
-                                        selected={props.startDate}
-                                        onChange={date => props.setStartDate(date)}
-                                        popperClassName="propper"
-                                        popperPlacement="top"
-                                        popperModifiers={[
-                                            {
-                                                name: "offset",
-                                                options: {
-                                                    offset: [0, 5],
-                                                },
-                                            },
-                                            {
-                                                name: "preventOverflow",
-                                                options: {
-                                                    rootBoundary: "viewport",
-                                                    tether: false,
-                                                    altAxis: true,
-                                                },
-                                            },
-                                        ]}
+            {props.showDatePicker &&
+                (
+                    <div className={`${styles.pickerContainer} ${styles.datePickerWrapper}`}>
 
-                                    />
-                                    <StyledEndDatePicker
-                                        selected={props.endDate}
-                                        onChange={date => props.setEndDate(date)}
-                                        popperClassName="propper"
-                                        popperPlacement="top-end"
-                                        popperModifiers={[
-                                            {
-                                                name: "offset",
-                                                options: {
-                                                    offset: [100, -70],
-                                                },
-                                            },
-                                            {
-                                                name: "preventOverflow",
-                                                options: {
-                                                    rootBoundary: "viewport",
-                                                    tether: false,
-                                                    altAxis: true,
-                                                },
-                                            },
-                                        ]}
-                                    />
-                                </div>
-                                <div className={styles.btnWrapper} style={{ display: props.showDatePicker ? 'block' : 'none'  }}>
-                                    <button onClick={handleApply}>Apply</button>
-                                    <button className={styles.closeBtn} onClick={handleClose}>Close</button>
-                                    {props.error && <div style={{ width: '100%', color : "red"}}>{props.error}</div>}
-                                </div>
+                        <StyledStartDatePicker
+                            selected={props.startDate}
+                            onChange={date => props.setStartDate(date)}
+                            popperClassName="propper"
+                            popperPlacement="top"
+                            popperModifiers={[
+                                {
+                                    name: "offset",
+                                    options: {
+                                        offset: [0, 5],
+                                    },
+                                },
+                                {
+                                    name: "preventOverflow",
+                                    options: {
+                                        rootBoundary: "viewport",
+                                        tether: false,
+                                        altAxis: true,
+                                    },
+                                },
+                            ]}
+
+                        />
+                        <StyledEndDatePicker
+                            selected={props.endDate}
+                            onChange={date => props.setEndDate(date)}
+                            popperClassName="propper"
+                            popperPlacement="top-end"
+                            popperModifiers={[
+                                {
+                                    name: "offset",
+                                    options: {
+                                        offset: [100, -70],
+                                    },
+                                },
+                                {
+                                    name: "preventOverflow",
+                                    options: {
+                                        rootBoundary: "viewport",
+                                        tether: false,
+                                        altAxis: true,
+                                    },
+                                },
+                            ]}
+                        />
+
+                        <div className={styles.btnWrapper} style={{ display: props.showDatePicker ? 'block' : 'none' }}>
+                            <div>
+                                <button className={styles.closeBtn} onClick={handleClose}>X</button>
                             </div>
-                        )}
-                </>
+                            {props.error && <div style={{ width: '100%', color: "red", paddingTop: "20px" }}>{props.error}</div>}
+                            <div>
+                                <button className={styles.applyBtn} onClick={handleApply}>Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
         </div>
     )
-}
+};
 
 export default InnerPageFilter
