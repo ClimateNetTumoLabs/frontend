@@ -49,6 +49,7 @@ function InnerPageFilter(props) {
     };
 
     const handleRange = () => {
+        handleApply();
         props.setShowDatePicker(true);
     };
 
