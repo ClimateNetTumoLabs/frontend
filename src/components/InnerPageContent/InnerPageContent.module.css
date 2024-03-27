@@ -1,11 +1,12 @@
 .innerContent {
     width: 100%;
     overflow-y: auto;
+    position:relative;
 }
 
 @media (max-width: 767px) {
     .innerContent {
         order: 1;
-        overflow-y:hidden;
+        overflow-y:auto;
     }
 }

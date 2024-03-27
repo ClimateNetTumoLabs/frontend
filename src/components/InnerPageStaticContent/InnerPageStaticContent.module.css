@@ -1,10 +1,11 @@
 .InnerPageStaticContent {
     background-color: #1B1B1D;
-
+    height: fit-content;
+    width: calc(100vw - 320px);
 }
 
 .InnerPageStaticContent h2 {
-    padding: 30px 0px 0px 30px;
+    padding: 15px 0px 0px 15px;
     font-weight: 600;
 }
 
@@ -16,7 +17,7 @@
 .staticContent {
     display: flex;
     justify-content: center;
-    padding: 50px 0;
+    padding: 25px 0;
 }
 
 .weatherStatusImage {
@@ -27,7 +28,9 @@
 .weatherInformation {
     display: flex;
     flex-direction: column;
-    padding : 0px 30px;
+    justify-content: flex-start;
+    align-items: start;
+    /* padding : 0px 30px; */
 }
 
 .infoTemperature {
@@ -125,7 +128,22 @@
     color: black;
 }
 
-@media (max-width: 767px) {
+.staticContent {
+    display: flex;
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.waeterInfo {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.windWrapper{
+    display: flex;
+}
+
+@media (max-width: 900px) {
     .InnerPageStaticContent {
         width: 100%;
         align-items: center;
@@ -142,5 +160,8 @@
     }
     .windWrapper{
         display: flex;
-     }
+    }
+    .otherInformation {
+        padding-inline: 15px;
+    }
 }

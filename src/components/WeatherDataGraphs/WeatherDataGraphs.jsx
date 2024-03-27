@@ -18,7 +18,7 @@ const WeatherDataGraphs = (props) => {
         series: seriesData,
         options: {
             chart: {
-                height: 350,
+                height: 3,
                 type: 'line',
                 dropShadow: {
                     enabled: true,
@@ -68,7 +68,7 @@ const WeatherDataGraphs = (props) => {
                     rotateAlways: true,
                     hideOverlappingLabels: true,
                     trim: false,
-                    minHeight: 190,
+                    minHeight: 1,
                     formatter: function (value) {
                         var date = new Date(value);
                         var formattedDate = ('0' + (date.getMonth() + 1)).slice(-2) + '-' +

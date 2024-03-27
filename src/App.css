@@ -24,6 +24,16 @@ html, body {
     /*min-height: 100%;*/
     /*min-width: 100%;*/
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer{
+    position:fixed;
+    width: 100vw;
 }
 
 #root {
@@ -159,6 +169,9 @@ th {
 }
 
 @media (max-width: 767px) {
+    footer {
+        position:static;
+    }
     .footerPadding {
         padding-bottom: clamp(100px, 80px, 80px);
     }
