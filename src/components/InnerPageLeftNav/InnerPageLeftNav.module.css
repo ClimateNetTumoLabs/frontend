@@ -2,8 +2,6 @@
     background-color: #282A2D;
     min-width: 320px;
     width : 320px;
-    height: calc(100vh - 254px);
-    overflow: auto;
 }
 
 @media (max-width: 767px) {

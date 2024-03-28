@@ -18,7 +18,7 @@ const WeatherDataGraphs = (props) => {
         series: seriesData,
         options: {
             chart: {
-                height: 3,
+                height: 350,
                 type: 'line',
                 dropShadow: {
                     enabled: true,
@@ -68,7 +68,7 @@ const WeatherDataGraphs = (props) => {
                     rotateAlways: true,
                     hideOverlappingLabels: true,
                     trim: false,
-                    minHeight: 1,
+                    minHeight: 109,
                     formatter: function (value) {
                         var date = new Date(value);
                         var formattedDate = ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
@@ -189,7 +189,7 @@ const WeatherDataGraphs = (props) => {
 
     return (
         <div className={styles.chart_section}>
-            <div style={{ height: "100%", alignItems: "center", margin: "0", padding: "0"}}>
+            <div style={{ height: "100%"}}>
                 {loading ? (
                     <div>Loading...</div>
                 ) : (

@@ -90,6 +90,8 @@
 }
 .navigation {
   padding: 15px 0 !important;
+  position: absolute;
+  top:0;
 }
 
 .text_white {
@@ -130,12 +132,4 @@
 .map_name{
   color: white !important;
 
-}
-
-.navigation {
-  position: fixed !important;
-  background: #232222;
-  width: 100%;
-  z-index: 13;
-  height: 70px;
 }
