@@ -38,6 +38,7 @@
 @media (max-width: 767px) {
     .InnerPageFilterSection {
         display: grid;
+        align-items: center;
         grid-template-columns: repeat(4, auto);
         width: 100%;
         background-color: black;

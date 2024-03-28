@@ -57,6 +57,7 @@
 
 .navbar {
   color: white;
+  background-color:yellow;
 }
 
 .drop {
@@ -90,8 +91,6 @@
 }
 .navigation {
   padding: 15px 0 !important;
-  position: absolute;
-  top:0;
 }
 
 .text_white {

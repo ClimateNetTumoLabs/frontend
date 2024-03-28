@@ -1,5 +1,4 @@
 .InnerPageDynamicContent {
-    /* padding-bottom: 254px; */
 }
 
 .FullScreenButtonSection {
@@ -55,4 +54,7 @@
     .tabs_section button {
         text-align: start;
     }
+    .InnerPageDynamicContent {
+        height: auto;
+    } 
 }

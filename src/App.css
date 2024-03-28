@@ -28,6 +28,7 @@ footer{
     position:relative;
     width: 100vw;
     height: auto;
+    min-height: 20vh;
 }
 
 #root {
@@ -161,9 +162,21 @@ th {
     font-size: 12px;
     padding: 5px;
 }
+body {
+    height: 100vh;
+}
+
+.footerPadding {
+    position: fixed;
+    bottom:0;
+    height: auto;
+
+}
 
 @media (max-width: 767px) {
     .footerPadding {
-        padding-bottom: 100px;
+        position: relative;
+        bottom:0;
+        padding-bottom:100px;
     }
 }

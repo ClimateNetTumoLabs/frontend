@@ -1,11 +1,6 @@
 .inner_page  {
-    height: auto;
-    max-height : fit-content;
-    position: relative;
-    min-height: auto;
     display: flex;
     flex: 1;
-    overflow-y: auto;
 }
 
 .inner_page svg {
