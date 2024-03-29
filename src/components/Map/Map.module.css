@@ -7,3 +7,71 @@
     color: #df7788;
 }
 
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0.5;
+        -moz-transform: scale(1.5);
+    }
+}
+
+.blinking {
+    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+    animation: blink 1s infinite;
+ }
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+    color: white;
+    border-radius: 4px;
+}
+
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover {
+    background-color: #0056b3;
+}
+
+.blur {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px)
+}
+
+.blur:before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: "dkfalkjf";
+
+}
+
+span {
+    font-size: large;
+    font-weight: 400;
+}
+
+.blur>span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+}
+
+.click_icon {
+    width: 24px;
+    height: 24px; 
+    margin-right: 8px; 
+}

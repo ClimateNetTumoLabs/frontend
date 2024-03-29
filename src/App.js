@@ -10,19 +10,25 @@ import About from "./components/About/About";
 import InnerPage from "./components/InnerPage/InnerPage";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Team from "./components/Team/Team";
+import { useLocation } from "react-router-dom";
 
 function App() {
+    const location = useLocation();
+    const isInnerPage = location.pathname.startsWith("/device_cl/");
+
     return (
         <div className="App">
-            <Header/>
-            <ScrollToTop/>
+            <Header />
+            <ScrollToTop />
             <Routes>
-                <Route path="/*" element={<Home/>}/>
-                <Route path="/about" element={<About/>}/>
-                <Route path="/device_cl/:id" element={<InnerPage/>}/>
-                <Route path="our_team" element={<Team/>}/>
+                <Route path="/*" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/device_cl/:id" element={<InnerPage/>} />
+                <Route path="our_team" element={<Team />} />
             </Routes>
-            <Footer/>
+            <div className={`${isInnerPage ? "footerPadding" : ""}`}>
+                <Footer />
+            </div>
         </div>
     );
 }

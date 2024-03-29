@@ -1,4 +1,13 @@
 .innerContent {
-    width: 100%;
+    width: 100%; 
     overflow-y: auto;
+    height:calc(100vh - 20vh - 70px);
+}
+
+@media (max-width: 767px) {
+    .innerContent {
+        order: 1;
+        height: 100%;
+        overflow-y: hidden;
+    }
 }

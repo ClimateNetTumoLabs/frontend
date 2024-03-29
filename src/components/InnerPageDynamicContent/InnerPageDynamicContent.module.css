@@ -8,12 +8,13 @@
     position: relative;
     right : 20px;
     top: 24px;
+    margin-left: 10px;
 }
 
 .fullscreen_button {
     height: 20px;
     width: 20px;
-    /*float: right;*/
+    float: right;
 }
 
 .chart button.active{
@@ -37,4 +38,30 @@
 .tabs_section button {
     border: none !important;
     color: white;
+}
+
+.tabs_section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+@media (max-width: 480px) {
+    .tabs_section {
+        display: grid;
+        grid-template-columns: repeat(1, auto);
+    }
+}
+
+@media (max-width: 767px) {
+    .tabs_section {
+        display: grid;
+        grid-template-columns: repeat(2, auto); 
+    }
+    .tabs_section button {
+        text-align: start;
+    }
+    .InnerPageDynamicContent {
+        height: auto;
+    } 
 }

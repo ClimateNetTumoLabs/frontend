@@ -1,5 +1,5 @@
 .animation_block {
-    /*background-image: url("bg_lines.png");*/
+    background-image: url("../../assets/Banner/bg_lines.png");
     background-repeat: no-repeat;
     background-color: #232222;
     color: white;
@@ -7,6 +7,7 @@
 }
 
 .animation {
+    height: 100vh;
     text-align: center;
 }
 
@@ -45,3 +46,4 @@
         font-size : 24px
     }
 }
+

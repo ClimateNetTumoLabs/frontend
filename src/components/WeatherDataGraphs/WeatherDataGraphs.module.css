@@ -76,7 +76,7 @@
 }
 
 .chart_section {
-    height: 10px;
+    height: 100%;
     padding: 30px;
 }
 
@@ -142,4 +142,8 @@
     width: 15px;
 }
 
-
+@media (max-width: 767px) {
+    .chart_section {
+        padding: 15px;
+    }
+}

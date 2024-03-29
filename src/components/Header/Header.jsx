@@ -12,10 +12,22 @@ const Header = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const button = useRef(null);
   const [devices, setDevices] = useState([]);
-  useEffect(() => window.addEventListener('click', ev => {
-    if(button.current && button.current.contains(ev.target)) {setIsNavExpanded(!isNavExpanded)}
-    else {setIsNavExpanded(false)}
-  }));
+  useEffect(() => {
+    const handleClickOutside = (ev) => {
+      if (button.current && button.current.contains(ev.target)) {
+        setIsNavExpanded(!isNavExpanded);
+      } else {
+        setIsNavExpanded(false);
+      }
+    };
+  
+    window.addEventListener('click', handleClickOutside);
+  
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, [isNavExpanded]);
+  
 
   const handleNavToggle = () => {
     setIsNavExpanded(!isNavExpanded);

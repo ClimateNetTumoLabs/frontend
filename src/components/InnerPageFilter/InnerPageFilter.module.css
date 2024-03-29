@@ -5,11 +5,13 @@
 .InnerPageFilterSection:hover {
     cursor: pointer;
 }
+
 .filterItemBlock {
     padding: 10px;
-    display : flex;
+    display: flex;
     flex-direction: row;
-    border-top: 1px solid #C2C2C3;;
+    border-top: 1px solid #C2C2C3;
+    ;
 }
 
 .filterItemBlock span:hover {
@@ -23,7 +25,111 @@
     margin-right: 25px;
 }
 
-.active > *{
+.active>* {
     fill: #4A8AFA !important;
     color: #4A8AFA;
 }
+
+.applyBtn, 
+.closeBtn{
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .InnerPageFilterSection {
+        display: grid;
+        align-items: center;
+        grid-template-columns: repeat(4, auto);
+        width: 100%;
+        background-color: black;
+        position: fixed;
+        top: 100;
+        bottom: 0;
+        z-index: 1000;
+        align-items: start;
+        height: clamp(100px, 80px, 80px);
+        padding: 10px;
+        justify-content: space-between;
+    }
+
+    .filterItemBlock {
+        display: flex;
+        max-width: fit-content;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        border-top: none;
+
+    }
+
+    .filterItemBlock svg,
+    .filterItemBlock span {
+        align-self: center;
+        margin-right: 0;
+    }
+
+    .filterItemBlock span {
+        font-size: clamp(12px, 14px, 20px);
+    }
+
+    .pickerContainer {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-bottom: 20px;
+        margin-right: 20px;
+        width: 80%;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 5px;
+        z-index: 9999;
+
+    }
+
+    .btnWrapper {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .closeBtn {
+        display: block;
+        position: relative;
+        align-self: flex-end;
+        color: white;
+        border: none;
+        cursor: pointer;
+        left: 80%;
+    }
+
+    .applyBtn {
+        display: block;
+        position: absolute;
+        background: rgb(151, 74, 74);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    button {
+        background: black;
+    }
+}
+
+/* @media (min-width: 768px) {
+    .applyBtn, 
+    .closeBtn{
+        display: none;
+    } */
+/* } */
