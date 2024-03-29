@@ -161,13 +161,13 @@ const WeatherDataGraphs = (props) => {
                     ...prevState,
                     series: formatData(props.types, props.data),
                     options: {
-                        ...chartState.options,
+                        ...prevState.options,
                         title: {
                             text: `Data per ${props.timeline}`,
                             align: 'left'
                         },
                         xaxis: {
-                            ...chartState.options.xaxis,
+                            ...prevState.options.xaxis,
                             categories: datetimeCategories,
                         },
                     },

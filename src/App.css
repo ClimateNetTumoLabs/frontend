@@ -20,7 +20,6 @@
 
 html, body {
     width: 100%;
-    height: 100vh;
     overflow-x: hidden;
 }
 
@@ -162,9 +161,6 @@ th {
     font-size: 12px;
     padding: 5px;
 }
-body {
-    height: 100vh;
-}
 
 .footerPadding {
     position: fixed;
@@ -178,5 +174,6 @@ body {
         position: relative;
         bottom:0;
         padding-bottom:100px;
+        background-color:#333232;
     }
 }

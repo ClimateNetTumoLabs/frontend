@@ -94,7 +94,7 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
                             <WeatherDataGraphs className = {styles.graph} timeline={props.period} types={["Temperature", "Humidity"]} data={[temperature, humidity]} time={time} colors={['#77B6EA', '#59a824']} />
                         </Tab>
-                        <Tab eventKey="pm" title="Air Qulaity">
+                        <Tab eventKey="pm" title="Air Quality">
                             <WeatherDataGraphs className = {styles.graph} timeline={props.period} types={["PM 1", "PM 2.5", "PM 10"]} data={[pm1, pm2_5, pm10]} time={time} colors={['#f80000', '#e1d816', '#49B618']} />
                         </Tab>
                         {/*<Tab eventKey="light"  title="Light">*/}

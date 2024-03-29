@@ -27,7 +27,7 @@
     width: 5px;
     height: 5px;
     animation: blink 1s infinite;
-}
+ }
 
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
