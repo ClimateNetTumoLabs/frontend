@@ -100,7 +100,7 @@ const ContactForm = () => {
                     onBlur={handleBlur}
                     onChange={handleChange}
                 >
-                    <option value="">Need Data</option>
+                    <option value="Need Data">Need Data</option>
                     <option value="Join To Project">Join To Project</option>
                     <option value="Technical Support">Technical Support</option>
                     <option value="Feedback">Feedback</option>

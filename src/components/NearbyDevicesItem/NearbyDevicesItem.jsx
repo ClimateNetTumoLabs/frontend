@@ -18,7 +18,6 @@ const NearbyDeviceItem = (props) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                props.setIsInnerLoad(true)
                 await axios
                 .get(`/device/${props.id}`)
                 .then(res => {
@@ -27,7 +26,6 @@ const NearbyDeviceItem = (props) => {
             } catch (error) {
                 console.error('Error fetching data:', error);
             }finally {
-                props.setIsInnerLoad(false)
             }
         };
         fetchData();

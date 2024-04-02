@@ -68,7 +68,7 @@ function InnerPageFilter(props) {
             <div className={`option ${styles.filterItemBlock} ${props.filterState === 'Monthly' ? styles.active : ''}`}
                 onClick={() => props.filterChange("Monthly")}>
                 <Calendar />
-                <span>This Month</span>
+                <span>Current Month</span>
             </div>
             <div className={`option ${styles.filterItemBlock} ${props.filterState === 'Range' ? styles.active : ''}`}
                 onClick={handleRange}>
