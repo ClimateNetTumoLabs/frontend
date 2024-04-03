@@ -57,7 +57,6 @@
 
 .navbar {
   color: white;
-  background-color:yellow;
 }
 
 .drop {
@@ -67,7 +66,9 @@
 
 .nav_link {
   color: white !important;
+  cursor: pointer;
 }
+
 
 .drop_item,  .drop_item a, .drop_item.active a  {
   color : #232222 !important;
@@ -130,5 +131,14 @@
 }
 .map_name{
   color: white !important;
+}
 
+.navigation a,
+.navigation button,
+.navigation label,
+.navigation .page_logo,
+.dropdown-menu a,
+.dropdown-menu button,
+.dropdown-menu label {
+  cursor: pointer;
 }

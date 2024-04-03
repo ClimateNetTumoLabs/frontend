@@ -83,6 +83,7 @@
     color: white;
     text-decoration: none;
     transition: color 0.4s;
+    cursor: pointer;
 }
 
 .company_information a:hover, .company_information:hover {
@@ -100,3 +101,7 @@
 }
 
 div.leaflet-control-attribution a[title="A JavaScript library for interactive maps"] { display: none }
+.company_information {
+    cursor: pointer !important;
+
+}

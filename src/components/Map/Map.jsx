@@ -153,9 +153,19 @@ const MapArmenia = () => {
 				console.error('Error fetching data:', error);
 			});
 	}, []);
-
+    useEffect(() => {
+        const handleScroll = () => {
+            setShowMessage(true);
+			setScrollEnabled(false);
+		};
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [])
+	
 	return (
-		<div id="Map" >
+		<div id="Map" style={{ cursor: 'pointer' }}>
 			<div className={styles.map_section}>
 				<h2 className={styles.map_header}>Map</h2>
 				<p>The highlighted locations indicate the current active climate devices. Click on a location to access the dataset specific to that device.</p>
@@ -168,6 +178,7 @@ const MapArmenia = () => {
 				}}
 				className={`${styles.mapContainer}`}
 				onMouseWheel={handleMessage}
+				scrollWheelZoom={showMessage ? "enabled" : "disabled"} 
 			>
 				<ToggleScroll />
 				<TileLayer
@@ -226,7 +237,7 @@ const MapArmenia = () => {
 				</Routes>
 				{showMessage && (
 					<div
-						className="message-box"
+						className={styles.messageBox}
 						style={{
 							position: 'absolute',
 							top: 0,
@@ -240,7 +251,7 @@ const MapArmenia = () => {
 							zIndex: 1000,
 						}}
 					>
-						<span>
+						<span >
 							Click on map to zoom in or out
 							<img className={`${styles.click_icon}`}
 								src={clickIcon} alt="Click icon"

@@ -27,7 +27,7 @@
     width: 5px;
     height: 5px;
     animation: blink 1s infinite;
- }
+}
 
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
@@ -74,4 +74,14 @@ span {
     width: 24px;
     height: 24px; 
     margin-right: 8px; 
+}
+
+a > span{
+    fill: black;
+    color: black !important;
+}
+
+.messageBox > span {
+    fill: black;
+    color: black !important;
 }

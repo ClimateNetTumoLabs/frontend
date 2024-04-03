@@ -7,22 +7,50 @@ import temp from "../../assets/AboutIcons/temperature.png"
 
 const NearbyDeviceItem = (props) => {
     const [data, setData] = useState(null);
+    const [truncatedName, setTruncatedName] = useState('');
+    const [tooltipPosition, setTooltipPosition] = useState(window.innerWidth <= 768 ? 'top' : 'bottom');
+ 
+    const calculateNewPosition = () => {
+        const newPosition = { top: window.innerWidth <= 768 ? 'top' : 'bottom' };
+        return newPosition;
+    };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                 await axios
-                    .get(`/device/${props.id}`)
-                    .then(res => {
+                await axios
+                .get(`/device/${props.id}`)
+                .then(res => {
                         setData(res.data[res.data.length - 1])
                     })
             } catch (error) {
                 console.error('Error fetching data:', error);
+            }finally {
             }
         };
         fetchData();
     }, [props.id]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setTooltipPosition(calculateNewPosition().top);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (props.name.length > 12) {
+            setTruncatedName(`${props.name.slice(0, 12)}...`);
+        } else {
+            setTruncatedName(props.name);
+        }
+    }, [props.name]);
+    
     // Return null if data is not loaded yet
     if (!data) {
         return null;
@@ -32,7 +60,8 @@ const NearbyDeviceItem = (props) => {
     }
     return (
         <div className={`${styles.NearbyDevicesItem}`}>
-            <span className={styles.near_device_name} data-tooltip-id={`${props.name + props.id}`} >{props.name}</span>
+            <span className={styles.near_device_name} data-tooltip-id={`${props.name + props.id}`} 
+            >{truncatedName}</span>
             <div className={styles.distance_display}>
                 <span>{props.distance} km</span>
                 <img className={styles.distance_icon} src={distanceIcon} alt={"Distance Icon"}/>
@@ -44,8 +73,8 @@ const NearbyDeviceItem = (props) => {
             </div>
             <ReactTooltip
                 id={`${props.name + props.id}`}
-                place="bottom"
-                content= {<span dangerouslySetInnerHTML={{ __html: props.name }} />}
+                place={tooltipPosition}
+                content={truncatedName !== props.name ? <span dangerouslySetInnerHTML={{ __html: props.name }} /> : null}
             />
         </div>
     );
