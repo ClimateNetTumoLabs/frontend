@@ -11,7 +11,7 @@ function InnerPage() {
   const params = useParams();
   const [isLoading, setLoading] = useState(true);
   const [weather_data, change_weather_data] = useState(null);
-  const [filterState, filterStateChange] = useState('Daily');
+  const [filterState, filterStateChange] = useState('Hourly');
   const { permissionGranted, setPosition, setPermissionGranted } = useContext(PositionContext);
   const [startDateState, setStartDate] = useState(new Date());
   const [endDateState, setEndDate] = useState(new Date());
@@ -135,8 +135,6 @@ function InnerPage() {
     </div>;
   }
 
-  console.log(showDatePicker)
-
   return (
     <div className={styles.inner_page}>
       <InnerPageLeftNav filterState={filterState} filterChange={filterStateChange} selected_device_id={params.id}
@@ -150,7 +148,7 @@ function InnerPage() {
         handleCloseDatePicker = {handleCloseDatePicker}
         setError = {setError}
       />
-      <InnerPageContent content={filterState} weather_data={weather_data} />
+      <InnerPageContent content={filterState} weather_data={weather_data} error={error}/>
       {/*<DeviceImage />*/}
       {/*/!* <DownloadButton/> *!/*/}
       {/*<HoverToDevice data={weather_data} />*/}
