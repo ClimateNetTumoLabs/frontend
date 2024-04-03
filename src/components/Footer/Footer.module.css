@@ -101,6 +101,7 @@
 }
 
 div.leaflet-control-attribution a[title="A JavaScript library for interactive maps"] { display: none }
-.company_information a text{
-    cursor: pointer;
+.company_information {
+    cursor: pointer !important;
+
 }
