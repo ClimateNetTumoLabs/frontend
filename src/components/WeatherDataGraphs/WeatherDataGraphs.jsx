@@ -10,10 +10,10 @@ const formatData = (names, dataArray) => {
 };
 
 const WeatherDataGraphs = (props) => {
+    console.log("In render ")
     const seriesData = formatData(props.types, props.data);
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
     const chartRef = useRef(null);
-    const [loading, setLoading] = useState(true);
     const [chartState, setChartState] = useState({
         series: seriesData,
         options: {
@@ -172,7 +172,7 @@ const WeatherDataGraphs = (props) => {
                         },
                     },
                 }));
-                setLoading(false);
+                props.setLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -182,15 +182,15 @@ const WeatherDataGraphs = (props) => {
     }, [props.types, props.data, props.time, props.timeline]);
 
     useEffect(() => {
-        if (!loading) {
+        if (!props.loading) {
             chartRef.current?.render();
         }
-    }, [loading]);
+    }, [props.loading]);
 
     return (
         <div className={styles.chart_section}>
             <div style={{ height: "100%"}}>
-                {loading ? (
+                {props.loading ? (
                     <div>Loading...</div>
                 ) : (
                     <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />

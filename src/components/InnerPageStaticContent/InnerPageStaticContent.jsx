@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from './InnerPageStaticContent.module.css'
 import Weather from '../../assets/Weather/cloudy.png'
 import { useLocation } from "react-router-dom";
@@ -70,21 +70,30 @@ const WeatherInformation = (props) => {
         0.002211732 * temperature ** 2 * windSpeed +
         0.00072546 * temperature * windSpeed ** 2 +
         -0.000003582 * temperature ** 2 * windSpeed ** 2
-
+    useEffect(()=> {
+        props.setLoading(false);
+    }, [])
     return (
         <div className={styles.weatherInformation}>
-            <span className={styles.infoTemperature}>{props.temp}<sup>°C</sup></span>
-            <p className={styles.feelslike}><span>FEELS LIKE </span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
-            <span className={styles.recommendation}>Comment section, here can be some recommendations</span>
-            <div className={styles.windWrapper}>
-                <span className={styles.windTitle}>Wind</span>
-                <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} km/h</span>
-            </div>
+                        {props.loading ? (
+                <div>Loading...</div>
+            ) : (
+                <>
+                    <span className={styles.infoTemperature}>{props.temp}<sup>°C</sup></span>
+                    <p className={styles.feelslike}><span>FEELS LIKE </span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
+                    <span className={styles.recommendation}>Comment section, here can be some recommendations</span>
+                    <div className={styles.windWrapper}>
+                        <span className={styles.windTitle}>Wind</span>
+                        <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} km/h</span>
+                    </div>                
+                </>
+            )}
         </div>
     )
 }
 
 function InnerPageStaticContent(props) {
+    // const [loading, setLoading] = useState(false);
     const data = props.data
     const location = useLocation();
     const queryString = location.search;
@@ -98,7 +107,13 @@ function InnerPageStaticContent(props) {
                 <div className={styles.staticContent}>
                     <div className={styles.waeterInfo}>
                         <WeatherState />
-                        <WeatherInformation temp={data["temperature"]} windspeed={data["speed"]} windDirection={data["direction"]} />
+                        <WeatherInformation 
+                            loading={props.loading}
+                            setLoading={props.setLoading}
+                            temp={data["temperature"]} 
+                            windspeed={data["speed"]} 
+                            windDirection={data["direction"]} 
+                        />
                     </div>
                     <div>
                         <div className={styles.otherInformation}>
