@@ -76,7 +76,8 @@ const WeatherInformation = (props) => {
     return (
         <div className={styles.weatherInformation}>
                         {props.loading ? (
-                <div>Loading...</div>
+                                <div className={styles.loadingSpinner}></div> 
+
             ) : (
                 <>
                     <span className={styles.infoTemperature}>{props.temp}<sup>°C</sup></span>
