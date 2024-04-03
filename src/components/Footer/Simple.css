@@ -36,6 +36,7 @@ footer ul li a .icon {
     color: #262626;
     transition: .5s;
     z-index: 3;
+    cursor: pointer;
 }
 
 footer ul li a:hover .icon {

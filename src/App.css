@@ -27,7 +27,7 @@ footer{
     position:relative;
     width: 100vw;
     height: auto;
-    min-height: 20vh;
+    height: 20vh;
 }
 
 #root {

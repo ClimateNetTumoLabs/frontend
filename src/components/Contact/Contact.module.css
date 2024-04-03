@@ -92,3 +92,8 @@
 #name {
     background: blue;
 }
+
+.input_block,
+.form-label {
+  cursor: pointer;
+}

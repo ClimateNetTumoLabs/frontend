@@ -2,8 +2,8 @@
     background-color: #282A2D;
     min-width: 320px;
     width : 320px;
-    height:calc(100vh - 20vh - 70px);
-    overflow-y: hidden;
+    max-height:calc(100vh - 20vh - 70px);
+    overflow-y: auto;
 }
 
 @media (max-width: 767px) {
