@@ -12,7 +12,9 @@ position: relative;
 color: black;
 background-color: white;
 padding: 5px;
+padding: 5px;
 border: 1px solid #ccc;
+margin-bottom: 10px;
 margin-bottom: 10px;
 @media (max-width: 767px) {
     top: calc(50% - 30px);
@@ -26,6 +28,7 @@ const StyledEndDatePicker = styled(DatePicker)`
 position: relative;
 color: black;
 background-color: white;
+padding: 5px;
 padding: 5px;
 border: 1px solid #ccc;
 margin-bottom: 10px;
@@ -52,7 +55,6 @@ function InnerPageFilter(props) {
 
     const handleResize = () => {
         setIsMobile(window.innerWidth <= 767);
-        // props.setShowDatePicker(true); 
       };
     
       useEffect(() => {
