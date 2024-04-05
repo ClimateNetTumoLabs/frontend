@@ -9,11 +9,9 @@ function InnerPageLeftNav(props) {
         props.setLeftLoad(false)
     }, [last_data])
 
-    console.log("in render od InnerPageLeftNav", props.leftLoad);
-
+    
     return (
         <div className={`${styles.innerLeftNav} name`}>
-            {props.leftLoad && <span>Loading</span>}
             <InnerPageNearbyDevices selected_device_id = {props.selected_device_id}
                 leftLoad = {props.leftLoad}
                 setLeftLoad = {props.setLeftLoad}

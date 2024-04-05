@@ -4,6 +4,7 @@ import styles from './InnerPageNearbyDevices.module.css'
 import NearbyDevicesItem from "../NearbyDevicesItem/NearbyDevicesItem";
 import axios from "axios";
 import { PositionContext } from "../../context/PositionContext";
+import Loader from "react-js-loader";
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radius of the Earth in kilometers

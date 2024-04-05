@@ -168,3 +168,19 @@
         padding-inline: 15px;
     }
 }
+
+.loaderContent{
+    display: flex;
+    height:40vh;
+    align-items: center;
+
+}
+
+.loaderContent {
+    height: 100%;
+    color: white;
+    min-height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

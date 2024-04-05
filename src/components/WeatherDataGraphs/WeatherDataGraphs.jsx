@@ -189,7 +189,7 @@ const WeatherDataGraphs = (props) => {
     return (
         <div className={styles.chart_section}>
             <div style={{ height: "100%"}}>
-                {props.loading ? (
+                {props.loading  || props.leftLoad? (
                     <div>Loading...</div>
                 ) : (
                     <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />

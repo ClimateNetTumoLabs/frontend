@@ -155,7 +155,10 @@ function InnerPage() {
         leftLoad={leftLoad}
         setLeftLoad={setLeftLoad}
       />
-      <InnerPageContent content={filterState} weather_data={weather_data} error={error} />
+      <InnerPageContent content={filterState} weather_data={weather_data} error={error}
+        leftLoad={leftLoad}
+        setLeftLoad={setLeftLoad}
+      />
       {/*<DeviceImage />*/}
       {/*/!* <DownloadButton/> *!/*/}
       {/*<HoverToDevice data={weather_data} />*/}

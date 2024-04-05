@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-
+import Loader from "react-js-loader";
 
 const WeatherState = () => {
     return (
@@ -70,60 +70,65 @@ const WeatherInformation = (props) => {
         0.002211732 * temperature ** 2 * windSpeed +
         0.00072546 * temperature * windSpeed ** 2 +
         -0.000003582 * temperature ** 2 * windSpeed ** 2
-    useEffect(()=> {
-        props.setLoading(false);
-    }, [])
     return (
         <div className={styles.weatherInformation}>
-                        {props.loading ? (
-                                <div className={styles.loadingSpinner}></div> 
-
-            ) : (
-                <>
-                    <span className={styles.infoTemperature}>{props.temp}<sup>°C</sup></span>
-                    <p className={styles.feelslike}><span>FEELS LIKE </span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
-                    <span className={styles.recommendation}>Comment section, here can be some recommendations</span>
-                    <div className={styles.windWrapper}>
-                        <span className={styles.windTitle}>Wind</span>
-                        <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} km/h</span>
-                    </div>                
-                </>
-            )}
+            <>
+                <span className={styles.infoTemperature}>{props.temp}<sup>°C</sup></span>
+                <p className={styles.feelslike}><span>FEELS LIKE </span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
+                <span className={styles.recommendation}>Comment section, here can be some recommendations</span>
+                <div className={styles.windWrapper}>
+                    <span className={styles.windTitle}>Wind</span>
+                    <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} km/h</span>
+                </div>
+            </>
         </div>
     )
 }
 
 function InnerPageStaticContent(props) {
-    // const [loading, setLoading] = useState(false);
     const data = props.data
     const location = useLocation();
     const queryString = location.search;
     const nameOfDevice = decodeURI(queryString.substring(1));
+
     return (
         <div className={`${styles.InnerPageStaticContent}`}>
-            <div className={`${styles.nameAndDevice} d-flex`}>
-                <h2>{nameOfDevice}</h2>
-                {/* <Device/> */}
-            </div>
-                <div className={styles.staticContent}>
-                    <div className={styles.waeterInfo}>
-                        <WeatherState />
-                        <WeatherInformation 
-                            loading={props.loading}
-                            setLoading={props.setLoading}
-                            temp={data["temperature"]} 
-                            windspeed={data["speed"]} 
-                            windDirection={data["direction"]} 
-                        />
+            {
+                props.loading || props.leftLoad ? (
+                    <div className={styles.loader}>
+                        <Loader type="spinner-circle"
+                            bgColor={"#FFFFFF"}
+                            color={"#FFFFFF"}
+                            size={100} />
                     </div>
-                    <div>
-                        <div className={styles.otherInformation}>
-                            <LinerStatusBar air_quality={props.data.pm2_5} datetime={props.data} />
-                            <DataTable data={props.data} />
+                ) : (
+                    <>
+                        <div className={`${styles.nameAndDevice} d-flex`}>
+                            <h2>{nameOfDevice}</h2>
+                            {/* <Device/> */}
                         </div>
-                    </div>
+                        <div className={styles.staticContent}>
+                            <div className={styles.waeterInfo}>
+                                <WeatherState />
+                                <WeatherInformation
+                                    loading={props.loading}
+                                    setLoading={props.setLoading}
+                                    temp={data["temperature"]}
+                                    windspeed={data["speed"]}
+                                    windDirection={data["direction"]}
+                                />
+                            </div>
+                            <div>
+                                <div className={styles.otherInformation}>
+                                    <LinerStatusBar air_quality={props.data.pm2_5} datetime={props.data} />
+                                    <DataTable data={props.data} />
+                                </div>
+                            </div>
 
-                </div>
+                        </div>
+                    </>
+                )
+            }
         </div>
     )
 }
