@@ -4,6 +4,7 @@ import styles from './InnerPageNearbyDevices.module.css'
 import NearbyDevicesItem from "../NearbyDevicesItem/NearbyDevicesItem";
 import axios from "axios";
 import { PositionContext } from "../../context/PositionContext";
+import Loader from "react-js-loader";
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radius of the Earth in kilometers
@@ -47,9 +48,10 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
 
 function InnerPageNearbyDevices(props) {
     const [devices, setDevices] = useState([]);
-    const [isLoading, setLoading] = useState(true);
     const { permissionGranted, position } = useContext(PositionContext);
-
+    useEffect(() => {
+        props.setLeftLoad(false);
+    }, [position])
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -72,19 +74,27 @@ function InnerPageNearbyDevices(props) {
         referencePoint = devices.find(devices => devices.generated_id === props.selected_device_id);
     }
 
-    const nearby_list = useMemo(() => receive_nearby_devices(referencePoint, devices));
+    const nearby_list = useMemo(() => {
+        if (referencePoint && devices.length > 0) {
+            const calculatedNearbyList = receive_nearby_devices(referencePoint, devices, permissionGranted);
+            props.setLeftLoad(true)
+            return calculatedNearbyList;
+        }
+        return [];
+    }, [referencePoint]);
 
     return (
         <div className={`${styles.NearDeviceSection}`}>
             {nearby_list.length > 0  && <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>}
             {nearby_list.map(device => (
-                
                 <Link to={`/device_cl/${device.id}?${device.name}`} key={device.id} className={styles.link}>
                     <NearbyDevicesItem
                         id={device.id}
                         name={device.name}
                         distance={device.distance}
                         value={device.value}
+                        leftLoad = {props.leftLoad}
+                        setLeftLoad = {props.setLeftLoad}
                     />
                 </Link>
             ))}

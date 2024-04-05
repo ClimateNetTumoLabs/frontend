@@ -4,6 +4,7 @@ import styles from './NearbyDevicesItem.module.css'; // Import your CSS module
 import distanceIcon from '../../assets/Weather/arrows.png'
 import {Tooltip as ReactTooltip} from "react-tooltip";
 import temp from "../../assets/AboutIcons/temperature.png"
+import Loader from "react-js-loader";
 
 const NearbyDeviceItem = (props) => {
     const [data, setData] = useState(null);
@@ -26,6 +27,7 @@ const NearbyDeviceItem = (props) => {
             } catch (error) {
                 console.error('Error fetching data:', error);
             }finally {
+                props.setLeftLoad(false);
             }
         };
         fetchData();
@@ -59,24 +61,31 @@ const NearbyDeviceItem = (props) => {
         console.log(data)
     }
     return (
-        <div className={`${styles.NearbyDevicesItem}`}>
-            <span className={styles.near_device_name} data-tooltip-id={`${props.name + props.id}`} 
-            >{truncatedName}</span>
-            <div className={styles.distance_display}>
-                <span>{props.distance} km</span>
-                <img className={styles.distance_icon} src={distanceIcon} alt={"Distance Icon"}/>
-            </div>
-            <div className={styles.measure}>
-                <span>{Math.round(data.temperature)}</span>
-                <sup>°C</sup>
-                <img className={styles.measurement_icon} src={temp} alt={"Temperature"}/>
-            </div>
-            <ReactTooltip
-                id={`${props.name + props.id}`}
-                place={tooltipPosition}
-                content={truncatedName !== props.name ? <span dangerouslySetInnerHTML={{ __html: props.name }} /> : null}
-            />
-        </div>
+        <>
+            {props.leftLoad ?(
+                <Loader type="spinner-circle" className={styles.contentLoader}/>
+            ) : (
+                <div className={`${styles.NearbyDevicesItem}`}>
+                    <span className={styles.near_device_name} data-tooltip-id={`${props.name + props.id}`} 
+                    >{truncatedName}</span>
+                    <div className={styles.distance_display}>
+                        <span>{props.distance} km</span>
+                        <img className={styles.distance_icon} src={distanceIcon} alt={"Distance Icon"}/>
+                    </div>
+                    <div className={styles.measure}>
+                        <span>{Math.round(data.temperature)}</span>
+                        <sup>°C</sup>
+                        <img className={styles.measurement_icon} src={temp} alt={"Temperature"}/>
+                    </div>
+                    <ReactTooltip
+                        id={`${props.name + props.id}`}
+                        place={tooltipPosition}
+                        content={truncatedName !== props.name ? <span dangerouslySetInnerHTML={{ __html: props.name }} /> : null}
+                    />
+                </div>
+            )
+            }
+        </>
     );
 };
 

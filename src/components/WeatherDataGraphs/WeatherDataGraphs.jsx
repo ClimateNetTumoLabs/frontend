@@ -10,7 +10,6 @@ const formatData = (names, dataArray) => {
 };
 
 const WeatherDataGraphs = (props) => {
-    console.log("In render ")
     const seriesData = formatData(props.types, props.data);
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
     const chartRef = useRef(null);
@@ -190,7 +189,7 @@ const WeatherDataGraphs = (props) => {
     return (
         <div className={styles.chart_section}>
             <div style={{ height: "100%"}}>
-                {props.loading ? (
+                {props.loading  || props.leftLoad? (
                     <div>Loading...</div>
                 ) : (
                     <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
