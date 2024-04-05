@@ -47,9 +47,10 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
 
 function InnerPageNearbyDevices(props) {
     const [devices, setDevices] = useState([]);
-    const [isLoading, setLoading] = useState(true);
     const { permissionGranted, position } = useContext(PositionContext);
-
+    useEffect(() => {
+        props.setLoading(false);
+    }, [position])
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -72,13 +73,19 @@ function InnerPageNearbyDevices(props) {
         referencePoint = devices.find(devices => devices.generated_id === props.selected_device_id);
     }
 
-    const nearby_list = useMemo(() => receive_nearby_devices(referencePoint, devices));
+    const nearby_list = useMemo(() => {
+        if (referencePoint && devices.length > 0) {
+            const calculatedNearbyList = receive_nearby_devices(referencePoint, devices, permissionGranted);
+            props.setLoading(true)
+            return calculatedNearbyList;
+        }
+        return [];
+    }, [referencePoint]);
 
     return (
         <div className={`${styles.NearDeviceSection}`}>
             {nearby_list.length > 0  && <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>}
             {nearby_list.map(device => (
-                
                 <Link to={`/device_cl/${device.id}?${device.name}`} key={device.id} className={styles.link}>
                     <NearbyDevicesItem
                         id={device.id}

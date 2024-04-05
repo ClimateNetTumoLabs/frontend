@@ -147,6 +147,9 @@ function InnerPage() {
         setShowDatePicker={setShowDatePicker} 
         handleCloseDatePicker = {handleCloseDatePicker}
         setError = {setError}
+        weather_data={weather_data} 
+        isLoading = {isLoading}
+        setLoading = {setLoading} 
       />
       <InnerPageContent content={filterState} weather_data={weather_data} error={error}/>
       {/*<DeviceImage />*/}
