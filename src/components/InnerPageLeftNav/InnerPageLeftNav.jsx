@@ -4,21 +4,19 @@ import InnerPageFilter from "../InnerPageFilter/InnerPageFilter";
 import InnerPageNearbyDevices from "../InnerPageNearbyDevices/InnerPageNearbyDevices";
 
 function InnerPageLeftNav(props) {
-    const [loading, setLoading] = useState(true);
     const last_data = props.weather_data[props.weather_data.length - 1]
-    console.log(props.content)
     useEffect(() => {
-        setLoading(false)
+        props.setLeftLoad(false)
     }, [last_data])
 
-    console.log("in render od InnerPageLeftNav", loading);
+    console.log("in render od InnerPageLeftNav", props.leftLoad);
 
     return (
         <div className={`${styles.innerLeftNav} name`}>
-            {loading && <span>Loading</span>}
+            {props.leftLoad && <span>Loading</span>}
             <InnerPageNearbyDevices selected_device_id = {props.selected_device_id}
-               loading={loading}
-               setLoading = {setLoading} 
+                leftLoad = {props.leftLoad}
+                setLeftLoad = {props.setLeftLoad}
             />
             <InnerPageFilter filterState={props.filterState} filterChange={props.filterChange} 
                 startDate={props.startDate}

@@ -5,7 +5,7 @@ import InnerPageStaticContent from "../InnerPageStaticContent/InnerPageStaticCon
 
 function InnerPageContent(props) {
     const last_data = props.weather_data[props.weather_data.length - 1]
-    console.log(props.content)
+
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         setLoading(true)

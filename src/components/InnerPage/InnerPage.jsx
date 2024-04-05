@@ -17,10 +17,12 @@ function InnerPage() {
   const [endDateState, setEndDate] = useState(new Date());
   const [error, setError] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [leftLoad, setLeftLoad] = useState(true);
 
   const handleCloseDatePicker = () => {
-    setShowDatePicker(false); 
+    setShowDatePicker(false);
   };
+
   useEffect(() => {
     if (!permissionGranted) {
       const askForPermissionAgain = () => {
@@ -74,7 +76,7 @@ function InnerPage() {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
     const currentYear = currentDate.getFullYear();
-    
+
     switch (filterState) {
       case 'Daily':
         const lastWeekDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -141,17 +143,19 @@ function InnerPage() {
         startDate={startDateState}
         setStartDate={setStartDate}
         endDate={endDateState}
-        setEndDate={setEndDate} 
-        error = {error} 
-        showDatePicker={showDatePicker} 
-        setShowDatePicker={setShowDatePicker} 
-        handleCloseDatePicker = {handleCloseDatePicker}
-        setError = {setError}
-        weather_data={weather_data} 
-        isLoading = {isLoading}
-        setLoading = {setLoading} 
+        setEndDate={setEndDate}
+        error={error}
+        showDatePicker={showDatePicker}
+        setShowDatePicker={setShowDatePicker}
+        handleCloseDatePicker={handleCloseDatePicker}
+        setError={setError}
+        weather_data={weather_data}
+        isLoading={isLoading}
+        setLoading={setLoading}
+        leftLoad={leftLoad}
+        setLeftLoad={setLeftLoad}
       />
-      <InnerPageContent content={filterState} weather_data={weather_data} error={error}/>
+      <InnerPageContent content={filterState} weather_data={weather_data} error={error} />
       {/*<DeviceImage />*/}
       {/*/!* <DownloadButton/> *!/*/}
       {/*<HoverToDevice data={weather_data} />*/}

@@ -49,7 +49,6 @@ function InnerPageFilter(props) {
         props.filterChange("Range")
         props.setStartDate(selectedStartDate);
         props.setEndDate(selectedEndDate);
-        console.log(">>>>>>>>>>>>>>>> ", props.showDatePicker);
         props.setShowDatePicker(false);
     };
 

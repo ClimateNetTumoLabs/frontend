@@ -26,6 +26,7 @@ const NearbyDeviceItem = (props) => {
             } catch (error) {
                 console.error('Error fetching data:', error);
             }finally {
+                props.setLeftLoad(false);
             }
         };
         fetchData();
@@ -55,9 +56,9 @@ const NearbyDeviceItem = (props) => {
     if (!data) {
         return null;
     }
-    if (data) {
-        console.log(data)
-    }
+    // if (data) {
+    //     console.log(data)
+    // }
     return (
         <div className={`${styles.NearbyDevicesItem}`}>
             <span className={styles.near_device_name} data-tooltip-id={`${props.name + props.id}`} 

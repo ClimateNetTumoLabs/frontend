@@ -10,7 +10,6 @@ const formatData = (names, dataArray) => {
 };
 
 const WeatherDataGraphs = (props) => {
-    console.log("In render ")
     const seriesData = formatData(props.types, props.data);
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
     const chartRef = useRef(null);
