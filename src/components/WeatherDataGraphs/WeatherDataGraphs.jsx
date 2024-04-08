@@ -171,25 +171,35 @@ const WeatherDataGraphs = (props) => {
                         },
                     },
                 }));
-                props.setLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
-            }
+            } 
         };
 
         fetchData();
     }, [props.types, props.data, props.time, props.timeline]);
 
     useEffect(() => {
-        if (!props.loading) {
+        if (!props.leftLoad) {
             chartRef.current?.render();
         }
-    }, [props.loading]);
+    }, [props.leftLoad]);
+
+    useEffect(() => {
+        console.log("Chart Data:");
+        chartState.series.forEach((series, seriesIndex) => {
+            series.data.forEach((dataPoint, dataPointIndex) => {
+                const xValue = chartState.options.xaxis.categories[dataPointIndex];
+                const yValue = dataPoint;
+                console.log(`Series ${seriesIndex + 1}: X = ${xValue}, Y = ${yValue}`);
+            });
+        });
+    }, [chartState.series, chartState.options.xaxis.categories]);
 
     return (
         <div className={styles.chart_section}>
             <div style={{ height: "100%"}}>
-                {props.loading  || props.leftLoad? (
+                {props.leftLoad ?(
                     <div>Loading...</div>
                 ) : (
                     <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
