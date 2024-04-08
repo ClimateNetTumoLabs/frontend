@@ -74,44 +74,36 @@ function InnerPage() {
 	}, [params.id, filterState, startDateState, endDateState]);
 
 	const getDataUrl = (filterState) => {
-		let url = "";
 		const currentDate = new Date();
 		const currentMonth = currentDate.getMonth();
 		const currentYear = currentDate.getFullYear();
-
+		let start, end;
+	
 		switch (filterState) {
 			case 'Daily':
-				const lastWeekDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
-				const formatEnd = formatDate(currentDate);
-				const formatStart = formatDate(lastWeekDate);
-				url = `/device/${params.id}?start_time_str=${formatStart}&end_time_str=${formatEnd}`;
+				end = formatDate(currentDate);
+				start = formatDate(new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000));
 				break;
 			case 'Monthly':
-				const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-				let lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
-				if (lastDayOfMonth > currentDate) {
-					lastDayOfMonth = currentDate;
-				}
-				const formatStartMonthly = formatDate(firstDayOfMonth);
-				const formatEndMonthly = formatDate(lastDayOfMonth);
-				url = `/device/${params.id}?start_time_str=${formatStartMonthly}&end_time_str=${formatEndMonthly}`;
+				start = formatDate(new Date(currentYear, currentMonth, 1));
+				end = formatDate(new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0));
 				break;
 			case 'Hourly':
-				const HourlyStart = formatDate(currentDate);
-				const HourlyEnd = formatDate(currentDate);
-				url = `/device/${params.id}?start_time_str=${HourlyStart}&end_time_str=${HourlyEnd}`;
+				start = end = formatDate(currentDate);
 				break;
 			case 'Range':
-				const startDateStr = formatDate(startDateState);
-				const endDateStr = formatDate(endDateState);
-				url = `/device/${params.id}?start_time_str=${startDateStr}&end_time_str=${endDateStr}`;
+				start = formatDate(startDateState);
+				end = formatDate(endDateState);
 				break;
 			default:
-				url = `/device/${params.id}?start_time_str=${formatStart}&end_time_str=${formatEnd}`;
+				start = end = formatDate(currentDate);
 				break;
 		}
-		return url;
-	}
+	
+		return `/device/${params.id}?start_time_str=${start}&end_time_str=${end}`;
+	};
+	
+	
 	const formatDate = (date) => {
 		if (!(date instanceof Date) || isNaN(date)) {
 			return "";
