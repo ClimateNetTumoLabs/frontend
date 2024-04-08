@@ -22,7 +22,6 @@ function InnerPageDynamicContent(props) {
     const [WindSpeed, setWindSpeed] = useState([])
     const [WindDirection, setWindDirection] = useState([])
     const ChartsRef = useRef(null)
-
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current
 
@@ -60,7 +59,7 @@ function InnerPageDynamicContent(props) {
             pm1Array.push(element['pm1'] || 0)
             pm2_5Array.push(element['pm2_5'] || 0)
             pm10Array.push(element['pm10'] || 0)
-            timeArray.push(element["time"] || 0);
+            timeArray.push(element["hour"] || 0); // or time
             UVIndexArray.push(element["light_uv"] || 0)
             VisibleLightArray.push(element["light_vis"] || 0)
             IRArray.push(element["light_ir"] || 0)

@@ -3,13 +3,7 @@ import styles from './InnerPageLeftNav.module.css'
 import InnerPageFilter from "../InnerPageFilter/InnerPageFilter";
 import InnerPageNearbyDevices from "../InnerPageNearbyDevices/InnerPageNearbyDevices";
 
-function InnerPageLeftNav(props) {
-    const last_data = props.weather_data[props.weather_data.length - 1]
-    useEffect(() => {
-        props.setLeftLoad(false)
-    }, [last_data])
-
-    
+function InnerPageLeftNav(props) {    
     return (
         <div className={`${styles.innerLeftNav} name`}>
             <InnerPageNearbyDevices selected_device_id = {props.selected_device_id}

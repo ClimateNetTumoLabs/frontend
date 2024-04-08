@@ -94,7 +94,7 @@ function InnerPageStaticContent(props) {
     return (
         <div className={`${styles.InnerPageStaticContent}`}>
             {
-                props.loading || props.leftLoad ? (
+                props.leftLoad ? (
                     <div className={styles.loader}>
                         <Loader type="spinner-circle"
                             bgColor={"#FFFFFF"}

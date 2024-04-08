@@ -26,9 +26,10 @@ const NearbyDeviceItem = (props) => {
                     })
             } catch (error) {
                 console.error('Error fetching data:', error);
-            }finally {
-                props.setLeftLoad(false);
             }
+            // finally {
+            //     props.setLeftLoad(false);
+            // }
         };
         fetchData();
     }, [props.id]);

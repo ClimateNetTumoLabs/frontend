@@ -49,9 +49,7 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
 function InnerPageNearbyDevices(props) {
     const [devices, setDevices] = useState([]);
     const { permissionGranted, position } = useContext(PositionContext);
-    useEffect(() => {
-        props.setLeftLoad(false);
-    }, [position])
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -77,7 +75,7 @@ function InnerPageNearbyDevices(props) {
     const nearby_list = useMemo(() => {
         if (referencePoint && devices.length > 0) {
             const calculatedNearbyList = receive_nearby_devices(referencePoint, devices, permissionGranted);
-            props.setLeftLoad(true)
+            // props.setLeftLoad(true)
             return calculatedNearbyList;
         }
         return [];

@@ -9,8 +9,8 @@ import { PositionContext } from "../../context/PositionContext";
 
 function InnerPage() {
 	const params = useParams();
-	const [isLoading, setLoading] = useState(true);
-	const [weather_data, change_weather_data] = useState(null);
+	// const [isLoading, setLoading] = useState(true);
+	const [weather_data, change_weather_data] = useState([]);
 	const [filterState, filterStateChange] = useState('Hourly');
 	const { permissionGranted, setPosition, setPermissionGranted } = useContext(PositionContext);
 	const [startDateState, setStartDate] = useState(new Date());
@@ -62,11 +62,13 @@ function InnerPage() {
 				const normalizedData = response.data.filter(item => item !== null);
 				setError("")
 				change_weather_data(normalizedData);
-				setLoading(false);
+				setLeftLoad(false)
+				// setLoading(false);
 			})
 			.catch((error) => {
 				console.error("Error fetching data:", error);
-				setLoading(false);
+				// setLoading(false);
+				setLeftLoad(false)
 				setError("Error")
 			});
 	}, [params.id, filterState, startDateState, endDateState]);
@@ -120,23 +122,12 @@ function InnerPage() {
 		return `${year}-${month}-${day}`;
 	};
 
-	if (isLoading) {
-		return (
-			<div className={styles.loading}>
-				<Loader
-					type="box-rectangular"
-					bgColor={"#FFFFFF"}
-					color={"#FFFFFF"}
-					size={100}
-				/>
-			</div>
-		);
-	}
-
-	if (!weather_data || weather_data.length === 0) {
-		return <div className={styles.not_data}>
-			Data Not Found
-		</div>;
+	if (!weather_data || weather_data.length === 0 ) {
+		if(leftLoad === false) {
+			return <div className={styles.not_data}>
+				Data Not Found MEOW
+			</div>;
+		}
 	}
 
 	return (
@@ -152,8 +143,6 @@ function InnerPage() {
 				handleCloseDatePicker={handleCloseDatePicker}
 				setError={setError}
 				weather_data={weather_data}
-				isLoading={isLoading}
-				setLoading={setLoading}
 				leftLoad={leftLoad}
 				setLeftLoad={setLeftLoad}
 			/>
