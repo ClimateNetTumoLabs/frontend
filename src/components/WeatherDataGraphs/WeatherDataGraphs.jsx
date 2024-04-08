@@ -173,9 +173,7 @@ const WeatherDataGraphs = (props) => {
                 }));
             } catch (error) {
                 console.error("Error fetching data:", error);
-            } finally {
-                props.setLoading(false);
-            }
+            } 
         };
 
         fetchData();
