@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from './InnerPageStaticContent.module.css'
 import Weather from '../../assets/Weather/cloudy.png'
 import { useLocation } from "react-router-dom";

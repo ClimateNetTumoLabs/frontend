@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from './InnerPageContent.module.css'
 import InnerPageDynamicContent from "../InnerPageDynamicContent/InnerPageDynamicContent";
 import InnerPageStaticContent from "../InnerPageStaticContent/InnerPageStaticContent";
