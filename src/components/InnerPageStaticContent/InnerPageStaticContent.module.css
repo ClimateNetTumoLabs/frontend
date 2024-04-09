@@ -144,6 +144,9 @@
     margin: auto;
 }
 
+.windWrapper{
+    display: flex;
+}
 
 @media (max-width: 920px) {
     .InnerPageStaticContent {
@@ -160,9 +163,6 @@
         display: flex;
         justify-content: center;
         padding: 50px;
-    }
-    .windWrapper{
-        display: flex;
     }
     .otherInformation {
         padding-inline: 15px;
