@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactApexChart from 'react-apexcharts';
 import styles from './WeatherDataGraphs.module.css'
+import Loader from "react-js-loader";
 
 const formatData = (names, dataArray) => {
     return names.map((name, index) => ({
@@ -41,7 +42,7 @@ const WeatherDataGraphs = (props) => {
                     },
                 },
                 redrawOnParentResize: true,
-                offsetX: 0, 
+                offsetX: 0,
                 offsetY: 40,
             },
             colors: props.colors,
@@ -78,7 +79,7 @@ const WeatherDataGraphs = (props) => {
                         return formattedDate;
                     }
                 },
-                tickAmount: datetimeCategories.length 
+                tickAmount: datetimeCategories.length
             },
             yaxis: {
                 formatter: function (value) {
@@ -121,7 +122,7 @@ const WeatherDataGraphs = (props) => {
                         offsetY: 5,
                         style: {
                             fontSize: '14px',
-                         },
+                        },
 
                     },
                     tooltip: {
@@ -163,7 +164,7 @@ const WeatherDataGraphs = (props) => {
         };
 
         fetchData();
-    }, [props.types, props.data, props.time, props.timeline]);
+    }, [props.types, props.data, props.time, props.timeline, props.leftLoad ]);
 
     useEffect(() => {
         if (!props.leftLoad) {
@@ -174,9 +175,12 @@ const WeatherDataGraphs = (props) => {
 
     return (
         <div className={styles.chart_section}>
-            <div style={{ height: "100%"}}>
-                {props.leftLoad ?(
-                    <div>Loading...</div>
+            <div style={{ height: "100%" }}>
+                {props.leftLoad ? (
+                    <Loader type="spinner-circle"
+                        bgColor={"#FFFFFF"}
+                        color={"#FFFFFF"}
+                        size={100} />
                 ) : (
                     <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
                 )}

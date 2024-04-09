@@ -17,6 +17,13 @@ function InnerPage() {
 	const [showDatePicker, setShowDatePicker] = useState(false);
 	const [leftLoad, setLeftLoad] = useState(true);
 
+	useEffect(() => {
+        if(weather_data.length != 0)
+        {
+            setLeftLoad(false)
+        }
+    }, [weather_data])
+
 	const handleCloseDatePicker = () => {
 		setShowDatePicker(false);
 	};
@@ -99,7 +106,7 @@ function InnerPage() {
 		return `${year}-${month}-${day}`;
 	};
 
-	if (!weather_data || weather_data.length === 0 ) {
+	if ((!weather_data || weather_data.length === 0) && !leftLoad) {
 		if(leftLoad === false) {
 			return <div className={styles.not_data}>
 				Data Not Found

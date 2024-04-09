@@ -6,29 +6,16 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import temp from "../../assets/AboutIcons/temperature.png"
 
 const NearbyDeviceItem = (props) => {
-    const [data, setData] = useState(null);
+    // const [data, setData] = useState(null);
     const [truncatedName, setTruncatedName] = useState('');
     const [tooltipPosition, setTooltipPosition] = useState(window.innerWidth <= 768 ? 'top' : 'bottom');
+
+
 
     const calculateNewPosition = () => {
         const newPosition = { top: window.innerWidth <= 768 ? 'top' : 'bottom' };
         return newPosition;
     };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                await axios
-                    .get(`/device/${props.id}?near_device=1`)
-                    .then(res => {
-                        setData(res.data[res.data.length - 1])
-                    })
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } 
-        };
-        fetchData();
-    }, [props, props.id]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -50,13 +37,13 @@ const NearbyDeviceItem = (props) => {
         }
     }, [props.name]);
 
-    if (!data) {
+
+    if (!props.temperature) {
         return null;
     }
 
     return (
         <>
-            {props.leftLoad && <>yerty</>}
             <div className={`${styles.NearbyDevicesItem}`}>
                 <span className={styles.near_device_name} data-tooltip-id={`${props.name + props.id}`}
                 >{truncatedName}</span>
@@ -65,7 +52,7 @@ const NearbyDeviceItem = (props) => {
                     <img className={styles.distance_icon} src={distanceIcon} alt={"Distance Icon"} />
                 </div>
                 <div className={styles.measure}>
-                    <span>{Math.round(data.temperature)}</span>
+                    <span>{Math.round(props.temperature)}</span>
                     <sup>°C</sup>
                     <img className={styles.measurement_icon} src={temp} alt={"Temperature"} />
                 </div>

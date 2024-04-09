@@ -21,7 +21,6 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 function receive_nearby_devices(referencePoint, devices, permissionGranted) {
     if (referencePoint) {
         // Calculate distances from the reference point to all other points
-
         const distances = devices.map(device => {
             return {
                 id: device.generated_id,
@@ -44,12 +43,12 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
     } else {
         return []
     }
-
 }
 
 function InnerPageNearbyDevices(props) {
     const [devices, setDevices] = useState([]);
     const { permissionGranted, position } = useContext(PositionContext);
+    const [deviceDataArrays, setDeviceDataArrays] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -61,10 +60,10 @@ function InnerPageNearbyDevices(props) {
                     })
             } catch (error) {
                 console.error('Error fetching devices:', error);
-            } 
+            }
         };
-        
-        fetchData()
+
+        fetchData();
     }, [props, props.id]);
 
     let referencePoint;
@@ -81,7 +80,25 @@ function InnerPageNearbyDevices(props) {
             return calculatedNearbyList;
         }
         return [];
-    }, [referencePoint, permissionGranted, devices, props.selected_device_id]);
+    }, [referencePoint, permissionGranted, devices, props.selected_device_id])
+
+
+    useEffect(() => {
+        const fetchItemData = async () => {
+            try {
+                const promises = nearby_list.map(device => {
+                    return axios.get(`/device/${device.id}?near_device=1`);
+                });
+                const responses = await Promise.all(promises);
+                
+                setDeviceDataArrays(responses.map(response => response.data));
+                console.log(deviceDataArrays)
+            } catch (error) {
+                console.error('Error fetching item data:', error);
+            } 
+        };
+        fetchItemData();
+    }, [nearby_list]);
 
     if (props.leftLoad) {
         return <div className={styles.loader}>
@@ -95,7 +112,7 @@ function InnerPageNearbyDevices(props) {
     return (
         <div className={`${styles.NearDeviceSection}`}>
             {nearby_list.length > 0 && <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>}
-            {nearby_list.map(device => (
+            {nearby_list.map((device, i )=> (
                 <Link to={`/device_cl/${device.id}?${device.name}`} key={device.id} className={styles.link}
                     onClick={() => {
                         props.setLeftLoad(true);
@@ -106,11 +123,11 @@ function InnerPageNearbyDevices(props) {
                         name={device.name}
                         distance={device.distance}
                         value={device.value}
-                        leftLoad={props.leftLoad}
-                        setLeftLoad={props.setLeftLoad}
-                    />
+                        temperature={deviceDataArrays.length > 0 ? deviceDataArrays[i][0] : null}
+                        />
                 </Link>
             ))}
+
         </div>
     )
 }
