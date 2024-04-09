@@ -40,9 +40,10 @@ const WeatherDataGraphs = (props) => {
                         reset: true,
                     },
                 },
+                redrawOnParentResize: true,
+                offsetX: 0, 
+                offsetY: 40,
             },
-
-
             colors: props.colors,
             dataLabels: {
                 enabled: false,
@@ -61,7 +62,7 @@ const WeatherDataGraphs = (props) => {
                 categories: datetimeCategories,
                 type: 'datetime',
                 labels: {
-                    format: 'MM-dd HH:mm', // Customize the label format as needed
+                    format: 'MM-dd HH:mm',
                     show: true,
                     rotate: -50,
                     rotateAlways: true,
@@ -80,11 +81,6 @@ const WeatherDataGraphs = (props) => {
                 tickAmount: datetimeCategories.length 
             },
             yaxis: {
-                // title: {
-                //     text: "Value"
-                // },
-                // min: 5,
-                // max: 40
                 formatter: function (value) {
                     var date = new Date(value);
                     var formattedDate = ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
@@ -102,13 +98,8 @@ const WeatherDataGraphs = (props) => {
             },
             tooltip: {
                 x: {
-                    format: 'yyyy-MM-dd HH:mm', // Customize the tooltip date format
+                    format: 'yyyy-MM-dd HH:mm',
                 },
-            },
-            chart: {
-                redrawOnParentResize: true,
-                offsetX: 0, // Add padding to the left
-                offsetY: 40, // Add padding to the top
             },
             responsive: [{
                 breakpoint: 768,
@@ -126,7 +117,6 @@ const WeatherDataGraphs = (props) => {
                         }
                     },
                     title: {
-                        align: '',
                         align: 'center',
                         offsetY: 5,
                         style: {
@@ -142,10 +132,6 @@ const WeatherDataGraphs = (props) => {
                             format: 'yyyy-MM-dd HH:mm',
                         }
                     },
-                    // xaxis: {
-                    //     categories: datetimeCategories,
-
-                    // }
                 }
             }]
         },
@@ -173,7 +159,7 @@ const WeatherDataGraphs = (props) => {
                 }));
             } catch (error) {
                 console.error("Error fetching data:", error);
-            } 
+            }
         };
 
         fetchData();
@@ -185,16 +171,6 @@ const WeatherDataGraphs = (props) => {
         }
     }, [props.leftLoad]);
 
-    useEffect(() => {
-        console.log("Chart Data:");
-        chartState.series.forEach((series, seriesIndex) => {
-            series.data.forEach((dataPoint, dataPointIndex) => {
-                const xValue = chartState.options.xaxis.categories[dataPointIndex];
-                const yValue = dataPoint;
-                console.log(`Series ${seriesIndex + 1}: X = ${xValue}, Y = ${yValue}`);
-            });
-        });
-    }, [chartState.series, chartState.options.xaxis.categories]);
 
     return (
         <div className={styles.chart_section}>

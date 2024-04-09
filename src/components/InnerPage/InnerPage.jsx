@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Loader from "react-js-loader";
 import styles from "./InnerPage.module.css";
 import InnerPageLeftNav from "../InnerPageLeftNav/InnerPageLeftNav";
 import InnerPageContent from "../InnerPageContent/InnerPageContent";
@@ -9,7 +8,6 @@ import { PositionContext } from "../../context/PositionContext";
 
 function InnerPage() {
 	const params = useParams();
-	// const [isLoading, setLoading] = useState(true);
 	const [weather_data, change_weather_data] = useState([]);
 	const [filterState, filterStateChange] = useState('Hourly');
 	const { permissionGranted, setPosition, setPermissionGranted } = useContext(PositionContext);
@@ -41,20 +39,40 @@ function InnerPage() {
 
 			askForPermissionAgain();
 		}
-	}, [permissionGranted, setPosition, setPermissionGranted]);
+	}, [permissionGranted, setPosition, setPermissionGranted, showDatePicker]);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		if (filterState === 'Range' && startDateState && endDateState) {
-			if (new Date(startDateState) > new Date(endDateState)) {
-				setError("Start date should be earlier than end date.");
-				return;
+
+		const getDataUrl = (filterState) => {
+			const currentDate = new Date();
+			const currentMonth = currentDate.getMonth();
+			const currentYear = currentDate.getFullYear();
+			let start, end;
+		
+			switch (filterState) {
+				case 'Daily':
+					end = formatDate(currentDate);
+					start = formatDate(new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000));
+					break;
+				case 'Monthly':
+					start = formatDate(new Date(currentYear, currentMonth, 1));
+					end = formatDate(new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0));
+					break;
+				case 'Hourly':
+					start = end = formatDate(currentDate);
+					break;
+				case 'Range':
+					start = formatDate(startDateState);
+					end = formatDate(endDateState);
+					break;
+				default:
+					start = end = formatDate(currentDate);
+					break;
 			}
-			if (new Date(startDateState) > new Date()) {
-				setError("Start date cannot be later than today.");
-				return;
-			}
-		}
+		
+			return `/device/${params.id}?start_time_str=${start}&end_time_str=${end}`;
+		};
 		const url = getDataUrl(filterState);
 		axios
 			.get(url, { withCredentials: true })
@@ -63,46 +81,13 @@ function InnerPage() {
 				setError("")
 				change_weather_data(normalizedData);
 				setLeftLoad(false)
-				// setLoading(false);
 			})
 			.catch((error) => {
 				console.error("Error fetching data:", error);
-				// setLoading(false);
 				setLeftLoad(false)
 				setError("Error")
 			});
 	}, [params.id, filterState, startDateState, endDateState]);
-
-	const getDataUrl = (filterState) => {
-		const currentDate = new Date();
-		const currentMonth = currentDate.getMonth();
-		const currentYear = currentDate.getFullYear();
-		let start, end;
-	
-		switch (filterState) {
-			case 'Daily':
-				end = formatDate(currentDate);
-				start = formatDate(new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000));
-				break;
-			case 'Monthly':
-				start = formatDate(new Date(currentYear, currentMonth, 1));
-				end = formatDate(new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0));
-				break;
-			case 'Hourly':
-				start = end = formatDate(currentDate);
-				break;
-			case 'Range':
-				start = formatDate(startDateState);
-				end = formatDate(endDateState);
-				break;
-			default:
-				start = end = formatDate(currentDate);
-				break;
-		}
-	
-		return `/device/${params.id}?start_time_str=${start}&end_time_str=${end}`;
-	};
-	
 	
 	const formatDate = (date) => {
 		if (!(date instanceof Date) || isNaN(date)) {
@@ -117,7 +102,7 @@ function InnerPage() {
 	if (!weather_data || weather_data.length === 0 ) {
 		if(leftLoad === false) {
 			return <div className={styles.not_data}>
-				Data Not Found MEOW
+				Data Not Found
 			</div>;
 		}
 	}

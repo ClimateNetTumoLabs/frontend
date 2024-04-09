@@ -46,6 +46,7 @@ function InnerPageFilter(props) {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
     const handleApply = () => {
+        props.setLeftLoad(true);
         props.filterChange("Range")
         props.setStartDate(selectedStartDate);
         props.setEndDate(selectedEndDate);
@@ -63,10 +64,16 @@ function InnerPageFilter(props) {
         };
       }, []);
 
+
+
     return (
         <div className={`${styles.InnerPageFilterSection}`}>
             <div className={`option ${styles.filterItemBlock} ${props.filterState === 'Hourly' ? styles.active : ''}`}
-                onClick={() => props.filterChange("Hourly")}>
+                onClick={() => {
+                    props.filterChange("Hourly");
+                    props.setLeftLoad(true);
+                }}
+                >
                 <Clock />
                 <span>Hourly</span>
             </div>
@@ -76,7 +83,10 @@ function InnerPageFilter(props) {
                 <span>7 Days</span>
             </div>
             <div className={`option ${styles.filterItemBlock} ${props.filterState === 'Monthly' ? styles.active : ''}`}
-                onClick={() => props.filterChange("Monthly")}>
+                onClick={() => {
+                    props.setLeftLoad(true);
+                    props.filterChange("Monthly")
+                }}>
                 <Calendar />
                 <span>Current Month</span>
             </div>
