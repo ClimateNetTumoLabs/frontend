@@ -92,6 +92,8 @@ function InnerPageDynamicContent(props) {
                     <Tabs defaultActiveKey="tem_and_hum" className={styles.tabs_section}>
                         <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
                             <WeatherDataGraphs
+                                                            focusedInput={props.focusedInput}
+                                                            setFocusedInput = {props.setFocusedInput}
                                 filterState={props.filterState}
                                 filterChange={props.filterChange}
                                 startDate={props.startDate}
@@ -111,6 +113,8 @@ function InnerPageDynamicContent(props) {
                         </Tab>
                         <Tab eventKey="pm" title="Air Quality">
                             <WeatherDataGraphs
+                                                            focusedInput={props.focusedInput}
+                                                            setFocusedInput = {props.setFocusedInput}
                                 filterState={props.filterState}
                                 filterChange={props.filterChange}
                                 startDate={props.startDate}
@@ -133,6 +137,7 @@ function InnerPageDynamicContent(props) {
                         {/*</Tab>*/}
                         <Tab eventKey="pressure" title="Pressure">
                             <WeatherDataGraphs
+
                                 filterState={props.filterState}
                                 filterChange={props.filterChange}
                                 startDate={props.startDate}
@@ -170,7 +175,6 @@ function InnerPageDynamicContent(props) {
                                 setLoading={props.setLoading}
                                 className={styles.graph} timeline={props.period} types={["Rain", "Wind Speed", "Wind Direction"]} data={[RainCount, WindSpeed, WindDirection]} time={time} colors={["#6688aa", "#BA9593", "#EDAFFB"]} />
                         </Tab>
-
                     </Tabs>
                 </div>
             </div>

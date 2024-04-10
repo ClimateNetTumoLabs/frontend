@@ -36,10 +36,10 @@ const WeatherDataGraphs = (props) => {
                     tools: {
                         customIcons: [
                             {
-                                icon: `<div class="custom-icon-last" data-tooltip="1D" >1D</div>`,
+                                icon: `<div class="custom-icon" data-tooltip="1D" >1D</div>`,
                                 index: -8,
-                                title: 'Filter8',
-                                class: 'custom-icon',
+                                title: 'Filter',
+                                class: 'custom-icon-button',
                                 click: () => {
                                     props.setLeftLoad(true)
                                     props.filterChange("Hourly");
@@ -49,7 +49,7 @@ const WeatherDataGraphs = (props) => {
                                 icon: '<div class="custom-icon" data-tooltip="7D">7D</i>',
                                 index: -8,
                                 title: 'Filter',
-                                class: 'custom-icon-last',
+                                class: 'custom-icon-button',
                                 click: () => {
                                     props.setLeftLoad(true)
                                     props.filterChange("Daily")
@@ -59,7 +59,7 @@ const WeatherDataGraphs = (props) => {
                                 icon: '<div class="custom-icon" data-tooltip="1M">1M</i>',
                                 index: -8,
                                 title: 'Filter',
-                                class: 'custom-icon',
+                                class: 'custom-icon-button',
                                 click: () => {
                                     props.setLeftLoad(true)
                                     props.filterChange("Monthly")
@@ -68,19 +68,13 @@ const WeatherDataGraphs = (props) => {
                         ],
                         download: true,
                         selection: true,
-                        zoomin: {
-                            enabled: true,
-                            index: 0 // adjust this index value accordingly
-                        },
+                        zoomin: true,
                         zoomout: true,
                         zoom: true,
                         pan: true,
-                        spacer: {
-                        class: 'custom-spacer'
-                    }
                     },
                 },
-                
+
                 redrawOnParentResize: true,
                 offsetX: 0,
                 offsetY: 40,
@@ -200,43 +194,44 @@ const WeatherDataGraphs = (props) => {
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
-            props.setLeftLoad(false)
         };
 
         fetchData();
-    }, [props.types, props.data, props.time, props.timeline, props.leftLoad]);
+    }, [props.types, props.data, props.time, props.timeline]);
 
     return (
         <div className={styles.chart_section}>
             <div style={{ height: "100%" }}>
-            <div className={styles.FilterSection}>
-                <InnerPageFilter
-                    filterState={props.filterState}
-                    filterChange={props.filterChange}
-                    startDate={props.startDate}
-                    setStartDate={props.setStartDate}
-                    endDate={props.endDate}
-                    setEndDate={props.setEndDate}
-                    error={props.error}
-                    showDatePicker={props.showDatePicker}
-                    setShowDatePicker={props.setShowDatePicker}
-                    handleCloseDatePicker={props.handleCloseDatePicker}
-                    setError={props.setError}
-                    leftLoad={props.leftLoad}
-                    setLeftLoad={props.setLeftLoad}
-                />
-            </div>
-            
-                {props.leftLoad ? (
-                    <Loader type="spinner-circle"
-                        bgColor={"#FFFFFF"}
-                        color={"#FFFFFF"}
-                        size={100} />
-                ) : (
-                    <>
-                        <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
-                    </>
-                )}
+            <div className={styles.toolbarAndFilter}>
+                    <div className={styles.FilterSection}>
+                        <InnerPageFilter
+                            filterState={props.filterState}
+                            filterChange={props.filterChange}
+                            startDate={props.startDate}
+                            setStartDate={props.setStartDate}
+                            endDate={props.endDate}
+                            setEndDate={props.setEndDate}
+                            error={props.error}
+                            showDatePicker={props.showDatePicker}
+                            setShowDatePicker={props.setShowDatePicker}
+                            handleCloseDatePicker={props.handleCloseDatePicker}
+                            setError={props.setError}
+                            leftLoad={props.leftLoad}
+                            setLeftLoad={props.setLeftLoad}
+                        />
+                    </div>
+
+                    {props.leftLoad ? (
+                        <Loader type="spinner-circle"
+                            bgColor={"#FFFFFF"}
+                            color={"#FFFFFF"}
+                            size={100} />
+                    ) : (
+                        <>
+                            <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );
