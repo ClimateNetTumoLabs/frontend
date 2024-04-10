@@ -15,11 +15,23 @@ function InnerPageContent(props) {
                 leftLoad={props.leftLoad}
                 setLeftLoad={props.setLeftLoad}
             />
-            <InnerPageDynamicContent period = {props.content} weather_data = {props.weather_data}
+            <InnerPageDynamicContent 
+                period = {props.content} 
+                weather_data = {props.weather_data}
                 loading={loading}
                 setLoading={setLoading}
                 leftLoad={props.leftLoad}
                 setLeftLoad={props.setLeftLoad}
+                filterState={props.filterState} filterChange={props.filterChange} 
+                startDate={props.startDate}
+                setStartDate={props.setStartDate}
+                endDate={props.endDate}
+                setEndDate={props.setEndDate}
+                error = {props.error}
+                showDatePicker={props.showDatePicker}
+                setShowDatePicker={props.setShowDatePicker} 
+                handleCloseDatePicker = {props.handleCloseDatePicker}
+                setError = {props.setError}
             />
         </div>
     )

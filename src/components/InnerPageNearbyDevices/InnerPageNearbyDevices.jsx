@@ -64,7 +64,7 @@ function InnerPageNearbyDevices(props) {
         };
 
         fetchData();
-    }, [props, props.id]);
+    }, []);
 
     let referencePoint;
     if (permissionGranted && position) {

@@ -126,8 +126,9 @@ th {
 
 .apexcharts-toolbar div{
     transform: scale(1);
-    margin-right: 5px;
+    margin-right: 5px; 
 }
+
 
 .apexcharts-toolbar div:hover {
     cursor: pointer;
@@ -168,6 +169,24 @@ th {
 
 }
 
+.custom-icon {
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-icon:hover {
+    background-color: #394ec6;
+} 
+
+.custom-spacer {
+    margin-right: 200px; /* Adjust the margin as needed */
+}
+
+.custom-icon_last {
+    margin-right: 709px
+}
+
 @media (max-width: 767px) {
     .footerPadding {
         position: relative;
@@ -175,4 +194,8 @@ th {
         padding-bottom:100px;
         background-color:#333232;
     }
+}
+
+.custom-icon-last {
+    margin-right: 900px;
 }
