@@ -130,9 +130,22 @@ function InnerPage() {
 				leftLoad={leftLoad}
 				setLeftLoad={setLeftLoad}
 			/>
-			<InnerPageContent content={filterState} weather_data={weather_data} error={error}
+			<InnerPageContent 
+				content={filterState} 
+				weather_data={weather_data}
+				error={error}
 				leftLoad={leftLoad}
 				setLeftLoad={setLeftLoad}
+				filterState={filterState}
+				filterChange={filterStateChange}
+				startDate={startDateState}
+				setStartDate={setStartDate}
+				endDate={endDateState}
+				setEndDate={setEndDate}
+				showDatePicker={showDatePicker}
+				setShowDatePicker={setShowDatePicker}
+				handleCloseDatePicker={handleCloseDatePicker}	
+				setError={setError}
 			/>
 			{/*<DeviceImage />*/}
 			{/*/!* <DownloadButton/> *!/*/}

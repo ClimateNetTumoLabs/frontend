@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactApexChart from 'react-apexcharts';
 import styles from './WeatherDataGraphs.module.css'
 import Loader from "react-js-loader";
+import InnerPageFilter from "../InnerPageFilter/InnerPageFilter";
 
 const formatData = (names, dataArray) => {
     return names.map((name, index) => ({
@@ -31,16 +32,49 @@ const WeatherDataGraphs = (props) => {
                 },
                 toolbar: {
                     show: true,
+                    align: 'start',
                     tools: {
+                        customIcons: [
+                            {
+                                icon: `<div class="custom-icon" data-tooltip="1D" >1D</div>`,
+                                index: -8,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: () => {
+                                    props.setLeftLoad(true)
+                                    props.filterChange("Hourly");
+                                }
+                            },
+                            {
+                                icon: '<div class="custom-icon" data-tooltip="7D">7D</i>',
+                                index: -8,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: () => {
+                                    props.setLeftLoad(true)
+                                    props.filterChange("Daily")
+                                }
+                            },
+                            {
+                                icon: '<div class="custom-icon" data-tooltip="1M">1M</i>',
+                                index: -8,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: () => {
+                                    props.setLeftLoad(true)
+                                    props.filterChange("Monthly")
+                                }
+                            }
+                        ],
                         download: true,
                         selection: true,
-                        zoom: false,
                         zoomin: true,
                         zoomout: true,
-                        pan: false,
-                        reset: true,
+                        zoom: true,
+                        pan: true,
                     },
                 },
+
                 redrawOnParentResize: true,
                 offsetX: 0,
                 offsetY: 40,
@@ -123,7 +157,6 @@ const WeatherDataGraphs = (props) => {
                         style: {
                             fontSize: '14px',
                         },
-
                     },
                     tooltip: {
                         enabled: true,
@@ -164,26 +197,41 @@ const WeatherDataGraphs = (props) => {
         };
 
         fetchData();
-    }, [props.types, props.data, props.time, props.timeline, props.leftLoad ]);
-
-    useEffect(() => {
-        if (!props.leftLoad) {
-            chartRef.current?.render();
-        }
-    }, [props.leftLoad]);
-
+    }, [props.types, props.data, props.time, props.timeline]);
 
     return (
         <div className={styles.chart_section}>
             <div style={{ height: "100%" }}>
-                {props.leftLoad ? (
-                    <Loader type="spinner-circle"
-                        bgColor={"#FFFFFF"}
-                        color={"#FFFFFF"}
-                        size={100} />
-                ) : (
-                    <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
-                )}
+            <div className={styles.toolbarAndFilter}>
+                    <div className={styles.FilterSection}>
+                        <InnerPageFilter
+                            filterState={props.filterState}
+                            filterChange={props.filterChange}
+                            startDate={props.startDate}
+                            setStartDate={props.setStartDate}
+                            endDate={props.endDate}
+                            setEndDate={props.setEndDate}
+                            error={props.error}
+                            showDatePicker={props.showDatePicker}
+                            setShowDatePicker={props.setShowDatePicker}
+                            handleCloseDatePicker={props.handleCloseDatePicker}
+                            setError={props.setError}
+                            leftLoad={props.leftLoad}
+                            setLeftLoad={props.setLeftLoad}
+                        />
+                    </div>
+
+                    {props.leftLoad ? (
+                        <Loader type="spinner-circle"
+                            bgColor={"#FFFFFF"}
+                            color={"#FFFFFF"}
+                            size={100} />
+                    ) : (
+                        <>
+                            <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );

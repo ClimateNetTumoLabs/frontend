@@ -10,7 +10,7 @@ function InnerPageLeftNav(props) {
                 leftLoad={props.leftLoad}
                 setLeftLoad={props.setLeftLoad}
             />
-            <InnerPageFilter filterState={props.filterState} filterChange={props.filterChange} 
+            {/* <InnerPageFilter filterState={props.filterState} filterChange={props.filterChange} 
                 startDate={props.startDate}
                 setStartDate={props.setStartDate}
                 endDate={props.endDate}
@@ -22,7 +22,7 @@ function InnerPageLeftNav(props) {
                 setError = {props.setError}
                 leftLoad={props.leftLoad}
                 setLeftLoad={props.setLeftLoad}
-            />
+            /> */}
         </div>
     )
 }
