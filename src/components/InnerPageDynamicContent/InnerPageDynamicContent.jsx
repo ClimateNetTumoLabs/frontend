@@ -92,8 +92,8 @@ function InnerPageDynamicContent(props) {
                     <Tabs defaultActiveKey="tem_and_hum" className={styles.tabs_section}>
                         <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
                             <WeatherDataGraphs
-                                                            focusedInput={props.focusedInput}
-                                                            setFocusedInput = {props.setFocusedInput}
+                                focusedInput={props.focusedInput}
+                                setFocusedInput={props.setFocusedInput}
                                 filterState={props.filterState}
                                 filterChange={props.filterChange}
                                 startDate={props.startDate}
@@ -113,8 +113,8 @@ function InnerPageDynamicContent(props) {
                         </Tab>
                         <Tab eventKey="pm" title="Air Quality">
                             <WeatherDataGraphs
-                                                            focusedInput={props.focusedInput}
-                                                            setFocusedInput = {props.setFocusedInput}
+                                focusedInput={props.focusedInput}
+                                setFocusedInput={props.setFocusedInput}
                                 filterState={props.filterState}
                                 filterChange={props.filterChange}
                                 startDate={props.startDate}

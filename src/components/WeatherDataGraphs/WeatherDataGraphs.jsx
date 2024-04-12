@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactApexChart from 'react-apexcharts';
 import styles from './WeatherDataGraphs.module.css'
 import Loader from "react-js-loader";
-import InnerPageFilter from "../InnerPageFilter/InnerPageFilter";
+import DatePicker from "react-datepicker";
+import styled from 'styled-components';
+import ReactDOM from 'react-dom';
 
 const formatData = (names, dataArray) => {
     return names.map((name, index) => ({
@@ -11,10 +13,51 @@ const formatData = (names, dataArray) => {
     }));
 };
 
+const StyledDatePickerContainer = styled(DatePicker)`
+    width: 300px;
+    align-self: center;
+`;
+
+
 const WeatherDataGraphs = (props) => {
     const seriesData = formatData(props.types, props.data);
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
     const chartRef = useRef(null);
+    const today = new Date();
+    const [selectedStartDate, setSelectedStartDate] = useState(props.startDate);
+    const [selectedEndDate, setSelectedEndDate] = useState(props.endDate);
+    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+    const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                showStartDatePicker &&
+                !event.target.closest('.from') &&
+                !event.target.closest('.react-datepicker')
+            ) {
+                setShowStartDatePicker(false);
+            }
+
+            if (
+                showEndDatePicker &&
+                !event.target.closest('.to') &&
+                !event.target.closest('.react-datepicker')
+            ) {
+                setShowEndDatePicker(false);
+            }
+        };
+
+        document.body.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.body.removeEventListener('click', handleClickOutside);
+        };
+    }, [showStartDatePicker, showEndDatePicker]);
+
+    const handleDatePickerClick = (event) => {
+        event.stopPropagation();
+    }
     const [chartState, setChartState] = useState({
         series: seriesData,
         options: {
@@ -36,35 +79,72 @@ const WeatherDataGraphs = (props) => {
                     tools: {
                         customIcons: [
                             {
-                                icon: `<div class="custom-icon" data-tooltip="1D" >1D</div>`,
-                                index: -8,
+                                icon: `
+                                    <div class="custom-icon to">to</div>
+                                `,
+                                index: -19,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLeftLoad(true)
-                                    props.filterChange("Hourly");
+                                    setShowEndDatePicker((prev) => !prev)
+                                    setShowStartDatePicker(false);
                                 }
                             },
                             {
-                                icon: '<div class="custom-icon" data-tooltip="7D">7D</i>',
-                                index: -8,
+                                icon: '<div class="custom-icon from" >from</div>',
+                                index: -19,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLeftLoad(true)
-                                    props.filterChange("Daily")
+                                    setShowStartDatePicker((prev) => !prev)
+                                    setShowEndDatePicker(false)
                                 }
                             },
                             {
-                                icon: '<div class="custom-icon" data-tooltip="1M">1M</i>',
-                                index: -8,
+                                icon: '<div class="custom-icon" data-tooltip="Current Month">1M</i>',
+                                index: -9,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
                                     props.setLeftLoad(true)
                                     props.filterChange("Monthly")
                                 }
-                            }
+                            },
+                            {
+                                icon: '<div class="custom-icon" data-tooltip="7 Days">7D</div>',
+                                index: -9,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: (event) => {
+                                    props.setLeftLoad(true)
+                                    props.filterChange("Daily")
+                                }
+                            },
+                            {
+                                icon: `<div class="custom-icon" data-tooltip="Hourly" >1D</div>`,
+                                index: -9,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: (event) => {
+                                    props.setLeftLoad(true)
+                                    props.filterChange("Hourly");
+                                }
+                            },
+                            {
+                                icon: '<div class="custom-icon">filter</div>',
+                                index: -9,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: () => {
+                                    props.setLeftLoad(true);
+                                    props.filterChange("Range")
+                                    props.setStartDate(selectedStartDate);
+                                    props.setEndDate(selectedEndDate);
+                                    setShowStartDatePicker(false);
+                                    setShowEndDatePicker(false);
+                                }
+                            },
+
                         ],
                         download: true,
                         selection: true,
@@ -193,6 +273,8 @@ const WeatherDataGraphs = (props) => {
                 }));
             } catch (error) {
                 console.error("Error fetching data:", error);
+            } finally {
+                props.setLeftLoad(false)
             }
         };
 
@@ -202,23 +284,78 @@ const WeatherDataGraphs = (props) => {
     return (
         <div className={styles.chart_section}>
             <div style={{ height: "100%" }}>
-            <div className={styles.toolbarAndFilter}>
+                <div className={styles.toolbarAndFilter}>
                     <div className={styles.FilterSection}>
-                        <InnerPageFilter
-                            filterState={props.filterState}
-                            filterChange={props.filterChange}
-                            startDate={props.startDate}
-                            setStartDate={props.setStartDate}
-                            endDate={props.endDate}
-                            setEndDate={props.setEndDate}
-                            error={props.error}
-                            showDatePicker={props.showDatePicker}
-                            setShowDatePicker={props.setShowDatePicker}
-                            handleCloseDatePicker={props.handleCloseDatePicker}
-                            setError={props.setError}
-                            leftLoad={props.leftLoad}
-                            setLeftLoad={props.setLeftLoad}
-                        />
+                        {document.querySelector('.from') ? ReactDOM.createPortal(
+                            <div>
+                                {(showStartDatePicker || showEndDatePicker) && (
+                                    <div className="pickerDropdown" onClick={handleDatePickerClick}>
+                                        <StyledDatePickerContainer
+                                            selected={selectedStartDate}
+                                            onChange={date => setSelectedStartDate(date)}
+                                            popperClassName="propper"
+                                            popperPlacement="bottom"
+                                            popperModifiers={[
+                                                {
+                                                    name: "offset",
+                                                    options: {
+                                                        offset: [0, 0],
+                                                    },
+                                                },
+                                                {
+                                                    name: "preventOverflow",
+                                                    options: {
+                                                        rootBoundary: "viewport",
+                                                        tether: false,
+                                                        altAxis: true,
+                                                    },
+                                                },
+                                            ]}
+                                            maxDate={today}
+                                            open={true}
+                                            inline
+                                        />
+                                    </div>
+                                )}
+                            </div>,
+                            document.querySelector('.from')
+                        ) : null}
+
+                        {document.querySelector('.to') ? ReactDOM.createPortal(
+                            <div>
+                                {(showStartDatePicker || showEndDatePicker) && (
+                                    <div className="pickerDropdown" onClick={handleDatePickerClick}>
+                                        <StyledDatePickerContainer
+                                        selected={selectedEndDate}
+                                        onChange={date => setSelectedEndDate(date)}
+                                        popperClassName="propper"
+                                        popperPlacement="bottom"
+                                        popperModifiers={[
+                                            {
+                                                name: "offset",
+                                                options: {
+                                                    offset: [0, 0],
+                                                },
+                                            },
+                                            {
+                                                name: "preventOverflow",
+                                                options: {
+                                                    rootBoundary: "viewport",
+                                                    tether: false,
+                                                    altAxis: true,
+                                                },
+                                            },
+                                        ]}
+                                        minDate={selectedStartDate}
+                                        maxDate={today}
+                                        open={true}
+                                        inline
+                                    />
+                                    </div>
+                                )}
+                            </div>,
+                            document.querySelector('.to')
+                        ) : null}
                     </div>
 
                     {props.leftLoad ? (

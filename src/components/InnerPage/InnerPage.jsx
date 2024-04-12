@@ -17,12 +17,12 @@ function InnerPage() {
 	const [showDatePicker, setShowDatePicker] = useState(false);
 	const [leftLoad, setLeftLoad] = useState(true);
 
-	useEffect(() => {
-        if(weather_data.length != 0)
-        {
-            setLeftLoad(false)
-        }
-    }, [weather_data])
+	// useEffect(() => {
+    //     if(weather_data.length != 0)
+    //     {
+    //         setLeftLoad(false)
+    //     }
+    // }, [weather_data])
 
 	const handleCloseDatePicker = () => {
 		setShowDatePicker(false);

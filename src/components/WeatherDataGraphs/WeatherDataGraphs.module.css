@@ -147,3 +147,19 @@
         padding: 15px;
     }
 }
+
+.pickerContainer {
+    display: flex;
+    flex-direction:column-reverse;
+    gap:0;
+    justify-content: space-between; 
+    align-items: center; 
+}
+.pickerDropdow {
+    display: flex;
+     width: 300px;
+    position: relative;
+    align-items: center;
+    z-index: 1000;
+    background-color: #222; 
+}
