@@ -54,7 +54,7 @@ function InnerPageNearbyDevices(props) {
         const fetchData = async () => {
             try {
                 axios
-                    .get(`/devices/`)
+                    .get(`/device_inner/list/`)
                     .then(res => {
                         setDevices(res.data);
                     })
@@ -87,7 +87,7 @@ function InnerPageNearbyDevices(props) {
         const fetchItemData = async () => {
             try {
                 const promises = nearby_list.map(device => {
-                    return axios.get(`/device/${device.id}?near_device=1`);
+                    return axios.get(`/device_inner/${device.id}/nearby`);
                 });
                 const responses = await Promise.all(promises);
 

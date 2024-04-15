@@ -144,7 +144,7 @@ const MapArmenia = () => {
 	};
 
 	useEffect(() => {
-		axios.get(`/devices/`)
+		axios.get(`/device_inner/list/`)
 			.then(response => {
 				setDevices(response.data);
 				calculateRegionDevices(response.data);

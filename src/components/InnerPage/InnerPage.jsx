@@ -16,13 +16,23 @@ function InnerPage() {
 	const [error, setError] = useState(null);
 	const [showDatePicker, setShowDatePicker] = useState(false);
 	const [leftLoad, setLeftLoad] = useState(true);
+	const [lastData, setLastData] = useState([]);
 
-	// useEffect(() => {
-    //     if(weather_data.length != 0)
-    //     {
-    //         setLeftLoad(false)
-    //     }
-    // }, [weather_data])
+     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                axios
+                    .get(`/device_inner/${params.id}/latest/`)
+                    .then(res => {
+                        setLastData(res.data);
+                    })
+            } catch (error) {
+                console.error('Error fetching devices:', error);
+            }
+        };
+
+        fetchData();
+    }, [params.id]);
 
 	const handleCloseDatePicker = () => {
 		setShowDatePicker(false);
@@ -67,8 +77,7 @@ function InnerPage() {
 					end = formatDate(new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0));
 					break;
 				case 'Hourly':
-					start = end = formatDate(currentDate);
-					break;
+					return `/device_inner/${params.id}/24hours/`                                          
 				case 'Range':
 					start = formatDate(startDateState);
 					end = formatDate(endDateState);
@@ -78,7 +87,7 @@ function InnerPage() {
 					break;
 			}
 		
-			return `/device/${params.id}?start_time_str=${start}&end_time_str=${end}`;
+			return `/device_inner/${params.id}/period/?start_time_str=${start}&end_time_str=${end}`
 		};
 		const url = getDataUrl(filterState);
 		axios
@@ -106,7 +115,7 @@ function InnerPage() {
 		return `${year}-${month}-${day}`;
 	};
 
-	if ((!weather_data || weather_data.length === 0) && !leftLoad) {
+	if ((!weather_data || weather_data.length === 0)) {
 		if(leftLoad === false) {
 			return <div className={styles.not_data}>
 				Data Not Found
@@ -146,6 +155,7 @@ function InnerPage() {
 				setShowDatePicker={setShowDatePicker}
 				handleCloseDatePicker={handleCloseDatePicker}	
 				setError={setError}
+				data = {lastData}
 			/>
 			{/*<DeviceImage />*/}
 			{/*/!* <DownloadButton/> *!/*/}

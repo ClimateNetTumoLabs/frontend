@@ -74,7 +74,7 @@ const Header = () => {
 
   useEffect(() => {
     axios
-        .get(`/devices/`)
+        .get(`/device_inner/list/`)
         .then((response) => {
           setDevices(response.data);
         })
