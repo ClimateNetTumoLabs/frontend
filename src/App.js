@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 
 function App() {
     const location = useLocation();
-    const isInnerPage = location.pathname.startsWith("/device_cl/");
+    const isInnerPage = location.pathname.startsWith("/device");
 
     return (
         <div className="App">
@@ -23,8 +23,8 @@ function App() {
             <Routes>
                 <Route path="/*" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/device_cl/:id" element={<InnerPage/>} />
-                <Route path="our_team" element={<Team />} />
+                <Route path="/device/:id" element={<InnerPage/>} />
+                <Route path="our_team" element={<Team />} />/
             </Routes>
             <div className={`${isInnerPage ? "footerPadding" : ""}`}>
                 <Footer />

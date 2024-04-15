@@ -113,7 +113,7 @@ function InnerPageNearbyDevices(props) {
         <div className={`${styles.NearDeviceSection}`}>
             {nearby_list.length > 0 && <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>}
             {nearby_list.map((device, i) => (
-                <Link to={`/device_cl/${device.id}?${device.name}`} key={device.id} className={styles.link}
+                <Link to={`/device/${device.id}?${device.name}`} key={device.id} className={styles.link}
                     onClick={() => {
                         props.setLeftLoad(true);
                     }}
