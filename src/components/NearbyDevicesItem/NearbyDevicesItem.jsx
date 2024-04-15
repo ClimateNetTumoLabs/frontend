@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import styles from './NearbyDevicesItem.module.css'; // Import your CSS module
+import styles from './NearbyDevicesItem.module.css';
 import distanceIcon from '../../assets/Weather/arrows.png'
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import temp from "../../assets/AboutIcons/temperature.png"
 
 const NearbyDeviceItem = (props) => {
-    // const [data, setData] = useState(null);
     const [truncatedName, setTruncatedName] = useState('');
     const [tooltipPosition, setTooltipPosition] = useState(window.innerWidth <= 768 ? 'top' : 'bottom');
-
-
 
     const calculateNewPosition = () => {
         const newPosition = { top: window.innerWidth <= 768 ? 'top' : 'bottom' };

@@ -3,7 +3,6 @@ import ReactApexChart from 'react-apexcharts';
 import styles from './WeatherDataGraphs.module.css'
 import Loader from "react-js-loader";
 import DatePicker from "react-datepicker";
-import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 
 const formatData = (names, dataArray) => {
@@ -12,11 +11,6 @@ const formatData = (names, dataArray) => {
         data: dataArray[index]
     }));
 };
-
-const StyledDatePickerContainer = styled(DatePicker)`
-    width: 300px;
-    align-self: center;
-`;
 
 
 const WeatherDataGraphs = (props) => {
@@ -79,60 +73,8 @@ const WeatherDataGraphs = (props) => {
                     tools: {
                         customIcons: [
                             {
-                                icon: `
-                                    <div class="custom-icon to">to</div>
-                                `,
-                                index: -19,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: () => {
-                                    setShowEndDatePicker((prev) => !prev)
-                                    setShowStartDatePicker(false);
-                                }
-                            },
-                            {
-                                icon: '<div class="custom-icon from" >from</div>',
-                                index: -19,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: () => {
-                                    setShowStartDatePicker((prev) => !prev)
-                                    setShowEndDatePicker(false)
-                                }
-                            },
-                            {
-                                icon: '<div class="custom-icon" data-tooltip="Current Month">1M</i>',
-                                index: -9,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: () => {
-                                    props.setLeftLoad(true)
-                                    props.filterChange("Monthly")
-                                }
-                            },
-                            {
-                                icon: '<div class="custom-icon" data-tooltip="7 Days">7D</div>',
-                                index: -9,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: (event) => {
-                                    props.setLeftLoad(true)
-                                    props.filterChange("Daily")
-                                }
-                            },
-                            {
-                                icon: `<div class="custom-icon" data-tooltip="Hourly" >1D</div>`,
-                                index: -9,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: (event) => {
-                                    props.setLeftLoad(true)
-                                    props.filterChange("Hourly");
-                                }
-                            },
-                            {
-                                icon: '<div class="custom-icon">filter</div>',
-                                index: -9,
+                                icon: '<div class="custom-icon filter_button">filter</div>',
+                                index: -18,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
@@ -144,7 +86,58 @@ const WeatherDataGraphs = (props) => {
                                     setShowEndDatePicker(false);
                                 }
                             },
-
+                            {
+                                icon: `
+                                    <div class="custom-icon to">to</div>
+                                `,
+                                index: -18,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: () => {
+                                    setShowEndDatePicker((prev) => !prev)
+                                    setShowStartDatePicker(false);
+                                }
+                            },
+                            {
+                                icon: '<div class="custom-icon from">from</div>',
+                                index: -18,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: () => {
+                                    setShowStartDatePicker((prev) => !prev)
+                                    setShowEndDatePicker(false)
+                                }
+                            },
+                            {
+                                icon: '<div class="custom-icon" data-tooltip="Current Month">1M</i>',
+                                index: -19,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: () => {
+                                    props.setLeftLoad(true)
+                                    props.filterChange("Monthly")
+                                }
+                            },
+                            {
+                                icon: '<div class="custom-icon" data-tooltip="7 Days">7D</div>',
+                                index: -19,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: (event) => {
+                                    props.setLeftLoad(true)
+                                    props.filterChange("Daily")
+                                }
+                            },
+                            {
+                                icon: `<div class="custom-icon" data-tooltip="Hourly" >1D</div>`,
+                                index: -19,
+                                title: 'Filter',
+                                class: 'custom-icon-button',
+                                click: (event) => {
+                                    props.setLeftLoad(true)
+                                    props.filterChange("Hourly");
+                                }
+                            },
                         ],
                         download: true,
                         selection: true,
@@ -279,7 +272,7 @@ const WeatherDataGraphs = (props) => {
         };
 
         fetchData();
-    }, [props.types, props.data, props.time, props.timeline]);
+    }, [props, props.types, props.data, props.time, props.timeline]);
 
     return (
         <div className={styles.chart_section}>
@@ -288,9 +281,9 @@ const WeatherDataGraphs = (props) => {
                     <div className={styles.FilterSection}>
                         {document.querySelector('.from') ? ReactDOM.createPortal(
                             <div>
-                                {(showStartDatePicker || showEndDatePicker) && (
+                                {((showStartDatePicker)) && (
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
-                                        <StyledDatePickerContainer
+                                        <DatePicker
                                             selected={selectedStartDate}
                                             onChange={date => setSelectedStartDate(date)}
                                             popperClassName="propper"
@@ -323,41 +316,40 @@ const WeatherDataGraphs = (props) => {
 
                         {document.querySelector('.to') ? ReactDOM.createPortal(
                             <div>
-                                {(showStartDatePicker || showEndDatePicker) && (
+                                {(showEndDatePicker) && (
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
-                                        <StyledDatePickerContainer
-                                        selected={selectedEndDate}
-                                        onChange={date => setSelectedEndDate(date)}
-                                        popperClassName="propper"
-                                        popperPlacement="bottom"
-                                        popperModifiers={[
-                                            {
-                                                name: "offset",
-                                                options: {
-                                                    offset: [0, 0],
+                                        <DatePicker
+                                            selected={selectedEndDate}
+                                            onChange={date => setSelectedEndDate(date)}
+                                            popperClassName="propper"
+                                            popperPlacement="bottom"
+                                            popperModifiers={[
+                                                {
+                                                    name: "offset",
+                                                    options: {
+                                                        offset: [0, 0],
+                                                    },
                                                 },
-                                            },
-                                            {
-                                                name: "preventOverflow",
-                                                options: {
-                                                    rootBoundary: "viewport",
-                                                    tether: false,
-                                                    altAxis: true,
+                                                {
+                                                    name: "preventOverflow",
+                                                    options: {
+                                                        rootBoundary: "viewport",
+                                                        tether: false,
+                                                        altAxis: true,
+                                                    },
                                                 },
-                                            },
-                                        ]}
-                                        minDate={selectedStartDate}
-                                        maxDate={today}
-                                        open={true}
-                                        inline
-                                    />
+                                            ]}
+                                            minDate={selectedStartDate}
+                                            maxDate={today}
+                                            open={true}
+                                            inline
+                                        />
                                     </div>
                                 )}
                             </div>,
                             document.querySelector('.to')
                         ) : null}
                     </div>
-
                     {props.leftLoad ? (
                         <Loader type="spinner-circle"
                             bgColor={"#FFFFFF"}

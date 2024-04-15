@@ -90,12 +90,12 @@ function InnerPageNearbyDevices(props) {
                     return axios.get(`/device/${device.id}?near_device=1`);
                 });
                 const responses = await Promise.all(promises);
-                
+
                 setDeviceDataArrays(responses.map(response => response.data));
                 console.log(deviceDataArrays)
             } catch (error) {
                 console.error('Error fetching item data:', error);
-            } 
+            }
         };
         fetchItemData();
     }, [nearby_list]);
@@ -112,7 +112,7 @@ function InnerPageNearbyDevices(props) {
     return (
         <div className={`${styles.NearDeviceSection}`}>
             {nearby_list.length > 0 && <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>}
-            {nearby_list.map((device, i )=> (
+            {nearby_list.map((device, i) => (
                 <Link to={`/device_cl/${device.id}?${device.name}`} key={device.id} className={styles.link}
                     onClick={() => {
                         props.setLeftLoad(true);
@@ -124,7 +124,7 @@ function InnerPageNearbyDevices(props) {
                         distance={device.distance}
                         value={device.value}
                         temperature={deviceDataArrays.length > 0 ? deviceDataArrays[i][0] : null}
-                        />
+                    />
                 </Link>
             ))}
 

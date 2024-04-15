@@ -62,17 +62,19 @@
     background-color: #232222;
 }
 
-#chart svg{
-        height:inherit;
+#chart svg {
+    height: inherit;
 }
 
-#chart text, tspan, span {
+#chart text,
+tspan,
+span {
     fill: white;
-    color : white !important;
+    color: white !important;
 }
 
 #chart .apexcharts-tooltip {
-    color : black
+    color: black
 }
 
 .chart_section {
@@ -81,18 +83,20 @@
 }
 
 .chart_section text {
-    fill : white
+    fill: white
 }
 
 @media (min-width: 481px) and (max-width: 992px) {
     .date_format input {
         width: 130px;
     }
+
     .date_format {
         width: calc(50% - 10px);
         margin-right: 20px;
         margin-bottom: 30px;
     }
+
     .date_format:last-of-type {
         margin-right: 0;
     }
@@ -117,6 +121,7 @@
     .filter_label {
         width: 120px;
     }
+
     .filter_button {
         /*margin-right: 30px;*/
         margin-bottom: 30px;
@@ -126,15 +131,18 @@
         display: flex;
         flex-wrap: nowrap;
     }
+
     .tabs_section li {
         width: calc(100% / 3);
     }
-    .tabs_section  button {
+
+    .tabs_section button {
         width: 100%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
 }
 
 .fullscreen_button {
@@ -146,20 +154,24 @@
     .chart_section {
         padding: 15px;
     }
+
+    .FilterSection {
+        display: none;
+    }
 }
 
 .pickerContainer {
     display: flex;
-    flex-direction:column-reverse;
-    gap:0;
-    justify-content: space-between; 
-    align-items: center; 
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    align-items: center;
 }
-.pickerDropdow {
+
+.pickerDropdown {
     display: flex;
-     width: 300px;
+    width: 300px;
     position: relative;
     align-items: center;
     z-index: 1000;
-    background-color: #222; 
+    background-color: #222;
 }

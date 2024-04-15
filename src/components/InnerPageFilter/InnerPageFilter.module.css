@@ -1,8 +1,5 @@
 .InnerPageFilterSection {
-    /* padding: 5px 15px; */
-    display: flex;
-    
-    /* width: 100%; */
+    display: none;
 }
 
 .InnerPageFilterSection:hover {
@@ -33,7 +30,7 @@
     color: #4A8AFA;
 }
 
-.closeBtn{
+.closeBtn {
     display: none;
 }
 
@@ -94,8 +91,6 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        margin-bottom: 20px;
-        margin-right: 20px;
         width: 80%;
         height: 80%;
         display: flex;
@@ -123,5 +118,6 @@
         cursor: pointer;
         align-self: flex-end;
         margin: 20px;
+        padding: 5px;
     }
-}  
+}
