@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './LinerStatusBar.module.css';
 
-const ColoredProgressBar = (props) => {
+const ColoredProgressBar = (props) => { 
     const [, setProgress] = useState(0);
     const [airQuality] = useState(props.air_quality); // Adjusted range to 0-250
 
@@ -19,7 +19,7 @@ const ColoredProgressBar = (props) => {
 
         // Map the air quality value to an index in the color scale
         const index = Math.min(Math.floor((value / 250) * colorScale.length), colorScale.length - 1);
-        return colorScale[index];
+        return colorScale[index] || '#00ff00';
     };
 
     useEffect(() => {

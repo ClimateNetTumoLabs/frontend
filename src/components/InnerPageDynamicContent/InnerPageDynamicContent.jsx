@@ -4,7 +4,6 @@ import WeatherDataGraphs from "../WeatherDataGraphs/WeatherDataGraphs";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { ReactComponent as FullScreen } from "../../assets/Icons/full-screen.svg";
-import InnerPageFilter from "../InnerPageFilter/InnerPageFilter";
 
 function InnerPageDynamicContent(props) {
     // States to store arrays for temperature, humidity, and time
@@ -92,8 +91,8 @@ function InnerPageDynamicContent(props) {
                     <Tabs defaultActiveKey="tem_and_hum" className={styles.tabs_section}>
                         <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
                             <WeatherDataGraphs
-                                                            focusedInput={props.focusedInput}
-                                                            setFocusedInput = {props.setFocusedInput}
+                                focusedInput={props.focusedInput}
+                                setFocusedInput={props.setFocusedInput}
                                 filterState={props.filterState}
                                 filterChange={props.filterChange}
                                 startDate={props.startDate}
@@ -113,8 +112,8 @@ function InnerPageDynamicContent(props) {
                         </Tab>
                         <Tab eventKey="pm" title="Air Quality">
                             <WeatherDataGraphs
-                                                            focusedInput={props.focusedInput}
-                                                            setFocusedInput = {props.setFocusedInput}
+                                focusedInput={props.focusedInput}
+                                setFocusedInput={props.setFocusedInput}
                                 filterState={props.filterState}
                                 filterChange={props.filterChange}
                                 startDate={props.startDate}

@@ -6,25 +6,26 @@
 
 .carousel-control-prev,
 .carousel-control-next,
-.carousel-indicators{
+.carousel-indicators {
     display: none !important;
 }
 
 #root {
-    height : 100%
+    height: 100%
 }
 
 .App {
     background: #232222
 }
 
-html, body {
+html,
+body {
     width: 100%;
     overflow-x: hidden;
 }
 
-footer{
-    position:relative;
+footer {
+    position: relative;
     width: 100vw;
     height: auto;
 }
@@ -55,7 +56,7 @@ footer{
 
 .hover_inner {
     height: 100%;
-    width : 100%;
+    width: 100%;
     background-color: white;
     color: black;
     font-size: 6em;
@@ -85,19 +86,20 @@ tr {
     border-left: 1px solid white !important;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     text-align: left;
     border-spacing: 0;
     border-collapse: separate;
-    color : white;
-    padding : 18.5px 16px;
+    color: white;
+    padding: 18.5px 16px;
 }
 
 th {
     background-color: #444746;
-    color:white;
-    padding : 18.5px 16px;
+    color: white;
+    padding: 18.5px 16px;
     font-size: .875rem;
     font-weight: 400;
     line-height: 1.25rem;
@@ -105,14 +107,17 @@ th {
 }
 
 * {
-    color : white
+    color: white
 }
 
 *:hover {
     cursor: default;
 }
 
-.apexcharts-tooltip-title *, .apexcharts-tooltip *, .apexcharts-xaxistooltip *, .apexcharts-menu * { 
+.apexcharts-tooltip-title *,
+.apexcharts-tooltip *,
+.apexcharts-xaxistooltip *,
+.apexcharts-menu * {
     color: black !important;
 }
 
@@ -126,29 +131,55 @@ th {
 
 .apexcharts-toolbar {
     display: flex;
+    align-items: start !important;
     position: relative;
-    min-width: 80%;
+    min-width: 100%;
 }
 
-.apexcharts-toolbar > *:nth-child(-n+3) {
+.apexcharts-toolbar>* {
+    width: 100%;
+}
+
+.apexcharts-toolbar>*:nth-child(3) {
+    width: fit-content;
+    margin-right: auto;
+}
+
+.apexcharts-toolbar>*:nth-child(6) {
+    width: fit-content;
+    margin-right: auto;
+}
+
+.apexcharts-toolbar>*:nth-child(n) {
+    width: fit-content;
+    height: fit-content;
+}
+
+.apexcharts-toolbar>*:nth-child(5) {
     margin-right: 15px;
 }
 
-.apexcharts-toolbar > *:nth-child(4) {
-    margin-left: auto; 
-    margin-right: 0;
-}
 
-.apexcharts-toolbar > *:nth-child(n+5) {
+.apexcharts-toolbar>*:nth-child(1) {
+    margin-right: 0;
     margin-left: 0;
 }
 
-.apexcharts-toolbar div{
-    transform: scale(1);
-    margin-right: 5px; 
+.custom-icon {
+    position: relative;
 }
 
-
+.custom-icon:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
 
 .apexcharts-toolbar div:hover {
     cursor: pointer;
@@ -156,11 +187,13 @@ th {
 
 .apexcharts-toolbar svg {
     height: auto;
+    width: 100% !important;
+    height: 100% !important;
 }
 
-.apexcharts-toolbar div:hover svg{
-    color : #4A8AFA !important;
-    fill : #4a8afa !important;
+.apexcharts-toolbar div:hover svg {
+    color: #4A8AFA !important;
+    fill: #4a8afa !important;
 }
 
 .tooltip {
@@ -169,7 +202,6 @@ th {
     border-bottom: 1px dotted black;
 }
 
-/* Tooltip text */
 .tooltiptext {
     visibility: hidden;
     text-align: center;
@@ -184,7 +216,7 @@ th {
 
 .footerPadding {
     position: fixed;
-    bottom:0;
+    bottom: 0;
     height: auto;
 
 }
@@ -194,23 +226,176 @@ th {
     padding: 3px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    color: #DF7788;
+    color: #fff;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 14px;
     display: inline-flex;
     align-items: center;
+
 }
 
 .custom-icon:hover {
-    border: 2px solid #656363;
-    border-radius: 6px; 
+    border-radius: 6px;
+    background: #656363;
+    ;
+}
+
+.datePickerWrapper {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.from,
+.to {
+    display: inline-flex;
+    flex-direction: column;
+    text-align: center;
+    border-right: none;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 17px;
+    margin-left: 10px;
+}
+
+.from {
+    width: 50px;
+}
+
+.to {
+    width: 30px;
+}
+
+.react-datepicker {
+    font-family: Arial, sans-serif !important;
+    border: 1px solid #fff !important;
+    border-radius: 5px !important;
+    padding: 10px !important;
+    font-size: 16px !important;
+    color: black !important;
+    height: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+    background-color: #fff !important;
+}
+
+.react-datepicker:focus {
+    outline: none !important;
+    border-color: #fff !important;
+}
+
+.react-datepicker-wrapper {
+    width: 100% !important;
+}
+
+.react-datepicker__header {
+    background-color: #fff !important;
+    border-bottom: none !important;
+}
+
+.react-datepicker__day-names {
+    display: flex !important;
+    justify-content: space-around !important;
+    margin-top: 10px !important;
+}
+
+.react-datepicker__day-name {
+    font-weight: bold !important;
+}
+
+.react-datepicker__month {
+    margin: 0.4rem !important;
+}
+
+.react-datepicker__day {
+    padding: 0.4rem !important;
+}
+
+.react-datepicker__day:hover {
+    background-color: #f0f0f0 !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header {
+    margin-top: 0 !important;
+    color: black !important;
+}
+
+.react-datepicker__navigation {
+    top: 10px !important;
+    border: 1px solid #fff !important;
+    padding: 10px !important;
+    border-radius: 50% !important;
+    width: 25px !important;
+    height: 25px !important;
+    background-color: #fff !important;
+    color: #fff !important;
+}
+
+.react-datepicker__navigation--previous {
+    left: 10px !important;
+    margin-right: 1rem !important;
+}
+
+.react-datepicker__navigation--next {
+    right: 10px !important;
+    margin-left: 1rem !important;
+}
+
+.react-datepicker__navigation:hover {
+    background-color: #fff !important;
+}
+
+.react-datepicker__month-container {
+    align-self: center;
+}
+
+.react-datepicker__day--selected {
+    background-color: black !important;
+    color: white !important;
+    border-radius: 50% !important;
+    width: 30px !important;
+    height: 30px !important;
+    text-align: center;
+}
+
+.react-datepicker__day--selected:hover {
+    background-color: black !important;
+    color: white !important;
+}
+
+.apexcharts-menu-icon,
+.apexcharts-pan-icon,
+.apexcharts-reset-icon,
+.apexcharts-selection-icon,
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon {
+    min-width: 30px !important;
+    min-height: 30px !important;
+}
+
+
+.filter_button {
+    background-color: #8c8e8f;
+}
+
+.custom-icon:hover {
+    border: 1px solid #df7788;
+    color: #df7788;
+    background-color: #232222;
 }
 
 @media (max-width: 767px) {
     .footerPadding {
         position: relative;
-        bottom:0;
-        padding-bottom:100px;
-        background-color:#333232;
+        bottom: 0;
+        padding-bottom: 100px;
+        background-color: #333232;
+    }
+
+    .custom-icon {
+        display: none
     }
 }
