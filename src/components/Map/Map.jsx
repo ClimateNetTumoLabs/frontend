@@ -136,7 +136,7 @@ const MapArmenia = () => {
 		const regions = {};
 		for (const device of devices) {
 			const regionName = device.parent_name;
-			if (regionName != "Unknown") {
+			if (regionName !== "Unknown") {
 				regions[regionName] = regions[regionName] ? regions[regionName] + 1 : 1;
 			}
 		}
@@ -153,17 +153,17 @@ const MapArmenia = () => {
 				console.error('Error fetching data:', error);
 			});
 	}, []);
-    useEffect(() => {
-        const handleScroll = () => {
-            setShowMessage(true);
+	useEffect(() => {
+		const handleScroll = () => {
+			setShowMessage(true);
 			setScrollEnabled(false);
 		};
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, [])
-	
+		window.addEventListener("scroll", handleScroll);
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, [])
+
 	return (
 		<div id="Map" style={{ cursor: 'pointer' }}>
 			<div className={styles.map_section}>
@@ -178,7 +178,7 @@ const MapArmenia = () => {
 				}}
 				className={`${styles.mapContainer}`}
 				onMouseWheel={handleMessage}
-				scrollWheelZoom={showMessage ? "enabled" : "disabled"} 
+				scrollWheelZoom={showMessage ? "enabled" : "disabled"}
 			>
 				<ToggleScroll />
 				<TileLayer
