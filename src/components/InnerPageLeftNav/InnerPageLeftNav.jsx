@@ -9,6 +9,8 @@ function InnerPageLeftNav(props) {
             <InnerPageNearbyDevices selected_device_id={props.selected_device_id}
                 leftLoad={props.leftLoad}
                 setLeftLoad={props.setLeftLoad}
+                filterState={props.filterState}
+				filterChange={props.filterChange}
             />
             <InnerPageFilter filterState={props.filterState} filterChange={props.filterChange}
                 startDate={props.startDate}

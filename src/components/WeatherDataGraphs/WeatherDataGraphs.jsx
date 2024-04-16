@@ -272,7 +272,8 @@ const WeatherDataGraphs = (props) => {
         };
 
         fetchData();
-    }, [props, props.types, props.data, props.time, props.timeline]);
+    }, [props, props.types, props.data, props.timeline]);
+
 
     return (
         <div className={styles.chart_section}>

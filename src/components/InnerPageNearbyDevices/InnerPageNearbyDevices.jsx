@@ -116,6 +116,7 @@ function InnerPageNearbyDevices(props) {
                 <Link to={`/device/${device.id}?${device.name}`} key={device.id} className={styles.link}
                     onClick={() => {
                         props.setLeftLoad(true);
+                        props.filterChange("Hourly")
                     }}
                 >
                     <NearbyDevicesItem
