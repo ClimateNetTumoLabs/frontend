@@ -23,8 +23,7 @@ function App() {
             <Routes>
                 <Route path="/*" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/device/:id" element={<InnerPage/>} />
-                <Route path="our_team" element={<Team />} />/
+                <Route path="/device/:id" element={<InnerPage/>} /> 
             </Routes>
             <div className={`${isInnerPage ? "footerPadding" : ""}`}>
                 <Footer />
