@@ -86,10 +86,12 @@ const WeatherInformation = (props) => {
 }
 
 function InnerPageStaticContent(props) {
-    const data = props.data
+    const data = props.data[0]
     const location = useLocation();
     const queryString = location.search;
     const nameOfDevice = decodeURI(queryString.substring(1));
+
+    console.log("In InnerPageStaticContent and last data is ", data?.pm2_5 )
 
     return (
         <div className={`${styles.InnerPageStaticContent}`}>
@@ -120,8 +122,8 @@ function InnerPageStaticContent(props) {
                             </div>
                             <div>
                                 <div className={styles.otherInformation}>
-                                    <LinerStatusBar air_quality={props.data.pm2_5} datetime={props.data} />
-                                    <DataTable data={props.data} />
+                                    <LinerStatusBar air_quality={data.pm2_5} datetime={data} />
+                                    <DataTable data={data} />
                                 </div>
                             </div>
 

@@ -144,7 +144,7 @@ const MapArmenia = () => {
 	};
 
 	useEffect(() => {
-		axios.get(`/devices/`)
+		axios.get(`/device_inner/list/`)
 			.then(response => {
 				setDevices(response.data);
 				calculateRegionDevices(response.data);
@@ -204,7 +204,7 @@ const MapArmenia = () => {
 								icon={customIcon}
 							>
 								<Popup>
-									<Link to={`/device_cl/${device.generated_id}?${device.name}`}>{device.name}</Link>
+									<Link to={`/device/${device.generated_id}?${device.name}`}>{device.name}</Link>
 								</Popup>
 							</Marker>
 						))}

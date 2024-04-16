@@ -188,7 +188,7 @@ const About = () => {
         <p>Welcome, developers! Our Weather Data API provides you with access to weather information based on specific parameters. Follow the instructions below to integrate this API into your application.</p>
 
         <h2 class=${styles.measure_title}>API Endpoint:</h2>
-        <pre>https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData</pre>
+        <pre>https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData</pre>
 
         <h2 class=${styles.measure_title}>Parameters:</h2>
         <ul>
@@ -199,11 +199,11 @@ const About = () => {
 
         <h2 class=${styles.measure_title} >Example Requests:</h2>
         <div class=${styles.examples}>
-            <pre>GET <a class=${styles.link} target="_blank" href="https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8">https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8</a></pre>
+            <pre>GET <a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8</a></pre>
             
             <h3 class=${styles.sub_title_3}>Retrieve Last 24 Hours Data:</h3>
             <p>If you use the following link without specifying <code>start_time</code> and <code>end_time</code>, you will receive the weather data for the last 24 hours.</p>
-            <pre><a class=${styles.link} target="_blank" href="https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData?device_id=8">https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData?device_id=8</a></pre>
+            <pre><a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8</a></pre>
 
             <h3 class=${styles.sub_title_3} >Response:</h3>
             <p>The API returns weather data in JSON format, containing relevant information based on the provided parameters.</p>
@@ -212,7 +212,7 @@ const About = () => {
 
         <h2 class=${styles.measure_title}>Usage:</h2>
         <ul>
-            <li>Make a GET request to the API endpoint (<code>https://mrecurtz89.execute-api.us-east-1.amazonaws.com/getData</code>) with the parameters (<code>device_id</code>, <code>start_time</code>, <code>end_time</code>).</li>
+            <li>Make a GET request to the API endpoint (<code>https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData</code>) with the parameters (<code>device_id</code>, <code>start_time</code>, <code>end_time</code>).</li>
             <li>Parse the JSON response to extract the weather data.</li>
             <li>Utilize the retrieved weather data in your application as needed, such as displaying it to users, performing analysis, or integrating it with other services.</li>
         </ul>

@@ -54,7 +54,7 @@ function InnerPageNearbyDevices(props) {
         const fetchData = async () => {
             try {
                 axios
-                    .get(`/devices/`)
+                    .get(`/device_inner/list/`)
                     .then(res => {
                         setDevices(res.data);
                     })
@@ -87,7 +87,7 @@ function InnerPageNearbyDevices(props) {
         const fetchItemData = async () => {
             try {
                 const promises = nearby_list.map(device => {
-                    return axios.get(`/device/${device.id}?near_device=1`);
+                    return axios.get(`/device_inner/${device.id}/nearby`);
                 });
                 const responses = await Promise.all(promises);
 
@@ -113,9 +113,10 @@ function InnerPageNearbyDevices(props) {
         <div className={`${styles.NearDeviceSection}`}>
             {nearby_list.length > 0 && <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>}
             {nearby_list.map((device, i) => (
-                <Link to={`/device_cl/${device.id}?${device.name}`} key={device.id} className={styles.link}
+                <Link to={`/device/${device.id}?${device.name}`} key={device.id} className={styles.link}
                     onClick={() => {
                         props.setLeftLoad(true);
+                        props.filterChange("Hourly")
                     }}
                 >
                     <NearbyDevicesItem
