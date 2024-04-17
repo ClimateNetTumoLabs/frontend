@@ -58,7 +58,7 @@ function InnerPageDynamicContent(props) {
             pm1Array.push(element['pm1'] || 0)
             pm2_5Array.push(element['pm2_5'] || 0)
             pm10Array.push(element['pm10'] || 0)
-            timeArray.push(element["hour"] || 0); // or time
+            timeArray.push(element["hour"] || element["date"] || 0);
             UVIndexArray.push(element["light_uv"] || 0)
             VisibleLightArray.push(element["light_vis"] || 0)
             IRArray.push(element["light_ir"] || 0)
@@ -80,6 +80,7 @@ function InnerPageDynamicContent(props) {
         setRainCount(RainCountArray)
         setWindSpeed(WindSpeedArray)
         setWindDirection(WindDirectionArray)
+
     }, [props.weather_data]);
     return (
         <div ref={ChartsRef} className={`${styles.InnerPageDynamicContent}`}>

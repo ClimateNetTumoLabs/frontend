@@ -3,7 +3,7 @@ import Header from "./components/Header/Header";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.css"; // Import Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
@@ -23,8 +23,7 @@ function App() {
             <Routes>
                 <Route path="/*" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/device/:id" element={<InnerPage/>} />
-                <Route path="our_team" element={<Team />} />/
+                <Route path="/device/:id" element={<InnerPage/>} /> 
             </Routes>
             <div className={`${isInnerPage ? "footerPadding" : ""}`}>
                 <Footer />

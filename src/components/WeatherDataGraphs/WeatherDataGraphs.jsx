@@ -272,7 +272,15 @@ const WeatherDataGraphs = (props) => {
         };
 
         fetchData();
-    }, [props, props.types, props.data, props.time, props.timeline]);
+    }, [props, props.types, props.data, props.timeline]);
+
+    const handleStartDateSelect = (date) => {
+        setShowStartDatePicker(false); 
+    };
+
+    const handleEndDateSelect = (date) => {
+        setShowEndDatePicker(false);
+    };
 
     return (
         <div className={styles.chart_section}>
@@ -285,6 +293,7 @@ const WeatherDataGraphs = (props) => {
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                         <DatePicker
                                             selected={selectedStartDate}
+                                            onSelect = {handleStartDateSelect}
                                             onChange={date => setSelectedStartDate(date)}
                                             popperClassName="propper"
                                             popperPlacement="bottom"
@@ -320,6 +329,7 @@ const WeatherDataGraphs = (props) => {
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                         <DatePicker
                                             selected={selectedEndDate}
+                                            onSelect = {handleEndDateSelect}
                                             onChange={date => setSelectedEndDate(date)}
                                             popperClassName="propper"
                                             popperPlacement="bottom"
