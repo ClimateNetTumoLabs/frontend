@@ -22,6 +22,10 @@ const WeatherDataGraphs = (props) => {
     const [selectedEndDate, setSelectedEndDate] = useState(props.endDate);
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+    useEffect(() => {
+        props.setStartDate(selectedStartDate);
+        props.setEndDate(selectedEndDate)
+    }, [selectedStartDate, selectedEndDate]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -80,8 +84,6 @@ const WeatherDataGraphs = (props) => {
                                 click: () => {
                                     props.setLeftLoad(true);
                                     props.filterChange("Range")
-                                    props.setStartDate(selectedStartDate);
-                                    props.setEndDate(selectedEndDate);
                                     setShowStartDatePicker(false);
                                     setShowEndDatePicker(false);
                                 }
@@ -275,7 +277,7 @@ const WeatherDataGraphs = (props) => {
     }, [props, props.types, props.data, props.timeline]);
 
     const handleStartDateSelect = (date) => {
-        setShowStartDatePicker(false); 
+        setShowStartDatePicker(false);
     };
 
     const handleEndDateSelect = (date) => {
@@ -293,7 +295,7 @@ const WeatherDataGraphs = (props) => {
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                         <DatePicker
                                             selected={selectedStartDate}
-                                            onSelect = {handleStartDateSelect}
+                                            onSelect={handleStartDateSelect}
                                             onChange={date => setSelectedStartDate(date)}
                                             popperClassName="propper"
                                             popperPlacement="bottom"
@@ -329,7 +331,7 @@ const WeatherDataGraphs = (props) => {
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                         <DatePicker
                                             selected={selectedEndDate}
-                                            onSelect = {handleEndDateSelect}
+                                            onSelect={handleEndDateSelect}
                                             onChange={date => setSelectedEndDate(date)}
                                             popperClassName="propper"
                                             popperPlacement="bottom"
