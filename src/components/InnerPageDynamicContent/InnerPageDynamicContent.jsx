@@ -39,7 +39,7 @@ function InnerPageDynamicContent(props) {
 
     useEffect(() => {
         setWeatherData(props.weather_data);
-        props.setLeftLoad(true);
+        // props.setLeftLoad(true);
     }, [props.weather_data]);
 
     useEffect(() => {

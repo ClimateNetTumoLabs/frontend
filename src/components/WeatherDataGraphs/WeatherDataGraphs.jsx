@@ -36,7 +36,7 @@ const WeatherDataGraphs = (props) => {
         props.setStartDate(selectedStartDate);
         props.setEndDate(selectedEndDate);
     }, [props.data]);
-
+    
     useEffect(() => {
         setSelectedStartDate(today) 
         setSelectedEndDate(today)
@@ -284,7 +284,7 @@ const WeatherDataGraphs = (props) => {
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
-                props.setLeftLoad(false)
+                
             }
         };
 
