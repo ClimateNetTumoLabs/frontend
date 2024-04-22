@@ -1,4 +1,4 @@
-name: Deploy on push staging
+name: Deploy on push to staging
 
 on:
   push:
@@ -12,27 +12,25 @@ jobs:
     steps:
       - name: Set up SSH
         env:
-          TEST_SSH_KEY: ${{ secrets.TEST_SSH_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Updated secret name for SSH private key
         run: |
-          echo "${{ env.TEST_SSH_KEY }}" > test_key.pem
-          chmod 600 test_key.pem
+          echo "${{ env.SSH_PRIVATE_KEY }}" > deploy_key.pem  # Updated file name for the private key
+          chmod 600 deploy_key.pem  # Updated file name for the private key
 
       - name: Connect to Server (all following steps use this connection)
-        uses: gr2m/github-actions-ssh@v2
+        uses: webfactory/ssh-agent@v0.5.3  # Updated action for SSH agent setup
         with:
-          TEST_HOST: ${{ secrets.TEST_HOST }}
-          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
-          TEST_SSH_KEY: ${{ secrets.TEST_SSH_KEY }}
+          ssh-private-key: deploy_key.pem  # Updated file name for the private key
 
       - name: Git Checkout and Pull (uses established connection)
         run: |
-          sudo apt update && \
-            cd /home/ubuntu/frontend && git checkout staging && git stash && git pull origin staging
+          cd /home/ubuntu/frontend && \
+            git checkout staging && git stash && git pull origin staging
 
       - name: Install and Build (uses established connection)
         run: |
           cd /home/ubuntu/frontend && \
-            sudo apt install npm && \
+            sudo apt update && sudo apt install -y npm && \
             npm install && npm run build
 
       - name: Collect Static and Restart Gunicorn (uses established connection)
