@@ -35,6 +35,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i test_key.pem \
             ${{ env.TEST_USERNAME }}@${{ env.TEST_HOST }} '
             cd /home/ubuntu/frontend && \
+            sudo apt install npm && \
             npm install && npm run build'
 
       - name: Collect Static and Restart Gunicorn
