@@ -23,7 +23,6 @@ function InnerPageDynamicContent(props) {
     const [WindSpeed, setWindSpeed] = useState([])
     const [WindDirection, setWindDirection] = useState([])
     const ChartsRef = useRef(null)
-    const [loading, setLoading] = useState(true);
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current
 
@@ -40,7 +39,7 @@ function InnerPageDynamicContent(props) {
 
     useEffect(() => {
         setWeatherData(props.weather_data);
-        setLoading(true)
+        props.setLeftLoad(true);
     }, [props.weather_data]);
 
     useEffect(() => {
@@ -111,8 +110,7 @@ function InnerPageDynamicContent(props) {
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#77B6EA', '#59a824']}
                                     {...props}
-                                    loading = {loading}
-                                    setLoading = {setLoading}
+                                    lastData = {props.lastData}
                                 />
                             }
                         </Tab>
@@ -125,8 +123,7 @@ function InnerPageDynamicContent(props) {
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#f80000', '#e1d816', '#49B618']}
                                     {...props}
-                                    loading = {loading}
-                                    setLoading = {setLoading}
+                                    lastData = {props.lastData}
                                 />
                             }
                         </Tab>
@@ -142,8 +139,7 @@ function InnerPageDynamicContent(props) {
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#FFFF00']}
                                     {...props}
-                                    loading = {loading}
-                                    setLoading = {setLoading}
+                                    lastData = {props.lastData}
                                 />
                             }
                         </Tab>
@@ -156,8 +152,7 @@ function InnerPageDynamicContent(props) {
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#6688aa', '#BA9593', '#EDAFFB']}
                                     {...props} 
-                                    loading = {loading}
-                                    setLoading = {setLoading}
+                                    lastData = {props.lastData}
                                 />
                             }
                         </Tab>

@@ -118,8 +118,6 @@ function InnerPageNearbyDevices(props) {
                     onClick={() => {
                         props.setLeftLoad(true);
                         props.filterChange("Hourly")
-                        props.setStartDate(today)
-                        props.setEndDate(today) 
                     }}
                 >
                     <NearbyDevicesItem

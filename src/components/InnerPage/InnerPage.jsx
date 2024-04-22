@@ -156,6 +156,7 @@ function InnerPage() {
 				handleCloseDatePicker={handleCloseDatePicker}	
 				setError={setError}
 				data = {lastData}
+				lastData = {lastData}
 			/>
 			{/*<DeviceImage />*/}
 			{/*/!* <DownloadButton/> *!/*/}

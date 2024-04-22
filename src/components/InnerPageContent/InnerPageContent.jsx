@@ -33,6 +33,7 @@ function InnerPageContent(props) {
                 setShowDatePicker={props.setShowDatePicker} 
                 handleCloseDatePicker = {props.handleCloseDatePicker}
                 setError = {props.setError}
+                lastData = {props.lastData}
             />
         </div>
     )

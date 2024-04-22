@@ -34,9 +34,13 @@ const WeatherDataGraphs = (props) => {
     
     useEffect(() => {
         props.setStartDate(selectedStartDate);
-        props.setEndDate(selectedEndDate)
-        props.setLoading(false)
+        props.setEndDate(selectedEndDate);
     }, [props.data]);
+
+    useEffect(() => {
+        setSelectedStartDate(today) 
+        setSelectedEndDate(today)
+    }, [props.lastData])
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -279,8 +283,7 @@ const WeatherDataGraphs = (props) => {
                 }));
             } catch (error) {
                 console.error("Error fetching data:", error);
-            }  
-            finally {
+            } finally {
                 props.setLeftLoad(false)
             }
         };
@@ -380,7 +383,7 @@ const WeatherDataGraphs = (props) => {
                             document.querySelector('.to')
                         ) : null}
                     </div>
-                    {(props.leftLoad  || props.loading)? (
+                    {(props.leftLoad)? (
                         <Loader type="spinner-circle"
                             bgColor={"#FFFFFF"}
                             color={"#FFFFFF"}
