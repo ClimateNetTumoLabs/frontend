@@ -1,41 +1,48 @@
-name: Deploy on push to staging
-
 on:
   push:
     branches:
-      - staging
+      - deploy_test
+
+name: Deploy on push
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Set up SSH
       - name: Set up SSH
-        env:
-          TEST_SSH_KEY: ${{ secrets.TEST_SSH_KEY }}  # Updated secret name for SSH private key
         run: |
-          echo "${{ env.TEST_SSH_KEY }}" > deploy_key.pem  # Updated file name for the private key
-          chmod 600 deploy_key.pem  # Updated file name for the private key
+          # Write the SSH private key to a file
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key.pem
+          # Set appropriate permissions for the SSH key
+          chmod 600 ssh_key.pem
+          # Create a config file with SSH connection details
+          printf "Host myserver\n" \
+                 "  HostName ${{ secrets.EC2_IP }}\n" \
+                 "  User ${{ secrets.EC2_USERNAME }}\n" \
+                 "  IdentityFile /github/workspace/ssh_key.pem\n" \
+                 "  StrictHostKeyChecking no\n" > ~/.ssh/config
 
-      - name: Connect to Server (all following steps use this connection)
-        uses: webfactory/ssh-agent@v0.5.3  # Updated action for SSH agent setup
-        with:
-          ssh-private-key: deploy_key.pem  # Updated file name for the private key
-
-      - name: Git Checkout and Pull (uses established connection)
+      # Step 2: Git Checkout and Pull
+      - name: Git Checkout and Pull
         run: |
-          cd /home/ubuntu/frontend && \
-            git checkout staging && git stash && git pull origin staging
+          # SSH into the server and navigate to the project directory
+          ssh myserver 'cd /home/ubuntu/frontend &&' \
+                       'git checkout deploy_test &&' \
+                       'git pull origin deploy_test'
 
-      - name: Install and Build (uses established connection)
+      # Step 3: Install and Build
+      - name: Install and Build
         run: |
-          cd /home/ubuntu/frontend && \
-            sudo apt update && sudo apt install -y npm && \
-            npm install && npm run build
+          # SSH into the server and install dependencies and build the project
+          ssh myserver 'cd /home/ubuntu/frontend &&' \
+                       'npm install && npm run build'
 
-      - name: Collect Static and Restart Gunicorn (uses established connection)
+      # Step 4: Collect Static and Restart Gunicorn
+      - name: Collect Static and Restart Gunicorn
         run: |
-          cd /home/ubuntu/django-app/climatenet && \
-            source venv/bin/activate && \
-            python3 manage.py collectstatic --noinput && \
-            sudo systemctl restart gunicorn.service
+          # SSH into the server, navigate to Django project directory, collect static files, and restart Gunicorn
+          ssh myserver 'cd && cd django-app/climatenet &&' \
+                       'echo yes | python3 manage.py collectstatic &&' \
+                       'sudo systemctl restart gunicorn.service'
