@@ -25,7 +25,7 @@ jobs:
       # Step 2: Git Checkout and Pull
       - name: Git Checkout and Pull
         run: |
-          ssh -i ssh_key.pem ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
+          ssh ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
             'cd /home/ubuntu/frontend &&' \
             'git checkout staging &&' \
             'git pull origin staging'
@@ -34,7 +34,7 @@ jobs:
       - name: Install and Build
         run: |
           # SSH into the server and install dependencies and build the project
-          ssh -i ssh_key.pem ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
+          ssh ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
             'cd /home/ubuntu/frontend &&' \
             'sudo apt install npm -y &&' \ 
             'npm install && npm run build'
@@ -43,7 +43,7 @@ jobs:
       - name: Collect Static and Restart Gunicorn
         run: |
           # SSH into the server, navigate to Django project directory, collect static files, and restart Gunicorn
-          ssh -i ssh_key.pem ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
+          ssh ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
            'cd /home/ubuntu/django-app/climatenet &&' \
            'python3 manage.py collectstatic --noinput &&' \
            'sudo systemctl restart gunicorn.service'
