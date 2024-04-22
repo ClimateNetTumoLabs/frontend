@@ -10,40 +10,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Set up SSH
       - name: Set up SSH
+        env:
+          TEST_SSH_KEY: ${{ secrets.TEST_SSH_KEY }}
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key.pem
-          chmod 600 ssh_key.pem
-          printf "Host myserver\n" \
-                 "  HostName ${{ secrets.TEST_HOST }}\n" \
-                 "  User ${{ secrets.TEST_USERNAME }}\n" \
-                 "  IdentityFile /github/workspace/ssh_key.pem\n" \
-                 "  StrictHostKeyChecking no\n" > ~/.ssh/config
+          echo "${{ env.TEST_SSH_KEY }}" > test_key.pem
+          chmod 600 test_key.pem
 
-      # Step 2: Git Checkout and Pull
       - name: Git Checkout and Pull
+        env:
+          TEST_HOST: ${{ secrets.TEST_HOST }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
         run: |
-          ssh -i ssh_key.pem ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
-            'cd /home/ubuntu/frontend &&' \
-            'git checkout staging &&' \
-            'git pull origin staging'
-        shell: /usr/bin/bash -e {0}
-      # Step 3: Install and Build
-      - name: Install and Build
-        run: |
-          # SSH into the server and install dependencies and build the project
-          ssh -i ssh_key.pem ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
-            'cd /home/ubuntu/frontend &&' \
-            'sudo apt install npm -y &&' \ 
-            'npm install && npm run build'
+          ssh -i test_key.pem \
+            ${{ env.TEST_USERNAME }}@${{ env.TEST_HOST }} '
+            sudo apt update && \
+            cd /home/ubuntu/frontend && git checkout staging && git stash && git pull origin staging'
 
-      # Step 4: Collect Static and Restart Gunicorn
-      - name: Collect Static and Restart Gunicorn
+      - name: Install and Build
+        env:
+          TEST_HOST: ${{ secrets.TEST_HOST }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
         run: |
-          # SSH into the server, navigate to Django project directory, collect static files, and restart Gunicorn
-          ssh -i ssh_key.pem ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
-           'cd /home/ubuntu/django-app/climatenet &&' \
-           'python3 manage.py collectstatic --noinput &&' \
-           'sudo systemctl restart gunicorn.service'
+          ssh -i test_key.pem \
+            ${{ env.TEST_USERNAME }}@${{ env.TEST_HOST }} '
+            cd /home/ubuntu/frontend && \
+            sudo apt install npm && \
+            npm install && npm run build'
+
+      - name: Collect Static and Restart Gunicorn
+        env:
+          TEST_HOST: ${{ secrets.TEST_HOST }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+        run: |
+          ssh -i test_key.pem \
+            ${{ env.TEST_USERNAME }}@${{ env.TEST_HOST }} '
+            cd /home/ubuntu/django-app/climatenet && \
+            source venv/bin/activate && \
+            python manage.py collectstatic --noinput && \
+            sudo systemctl restart gunicorn.service'
