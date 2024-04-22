@@ -14,13 +14,13 @@ jobs:
       - name: Set up SSH
         run: |
           # Write the SSH private key to a file
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key.pem
+          echo "${{ secrets.TEST_SSH_KEY }}" > ssh_key.pem
           # Set appropriate permissions for the SSH key
           chmod 600 ssh_key.pem
           # Create a config file with SSH connection details
           printf "Host myserver\n" \
-                 "  HostName ${{ secrets.EC2_IP }}\n" \
-                 "  User ${{ secrets.EC2_USERNAME }}\n" \
+                 "  HostName ${{ secrets.TEST_HOST }}\n" \
+                 "  User ${{ secrets.TEST_USERNAME }}\n" \
                  "  IdentityFile /github/workspace/ssh_key.pem\n" \
                  "  StrictHostKeyChecking no\n" > ~/.ssh/config
 
