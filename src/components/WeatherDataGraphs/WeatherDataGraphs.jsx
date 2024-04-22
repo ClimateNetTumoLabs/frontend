@@ -12,20 +12,31 @@ const formatData = (names, dataArray) => {
     }));
 };
 
+const formatDate = (date) => {
+    if (!(date instanceof Date) || isNaN(date)) {
+        return "";
+    }
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
 
 const WeatherDataGraphs = (props) => {
     const seriesData = formatData(props.types, props.data);
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
     const chartRef = useRef(null);
     const today = new Date();
-    const [selectedStartDate, setSelectedStartDate] = useState(props.startDate);
-    const [selectedEndDate, setSelectedEndDate] = useState(props.endDate);
+    const [selectedStartDate, setSelectedStartDate] = useState(today);
+    const [selectedEndDate, setSelectedEndDate] = useState(today);
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+    
     useEffect(() => {
         props.setStartDate(selectedStartDate);
         props.setEndDate(selectedEndDate)
-    }, [selectedStartDate, selectedEndDate]);
+        props.setLoading(false)
+    }, [props.data]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -101,7 +112,7 @@ const WeatherDataGraphs = (props) => {
                                 }
                             },
                             {
-                                icon: '<div class="custom-icon from">from</div>',
+                                icon: `<div class="custom-icon from">from</div>`,
                                 index: -18,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
@@ -126,7 +137,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: (event) => {
-                                    props.setLeftLoad(true)
+                                    props.setLoading(true)
                                     props.filterChange("Daily")
                                 }
                             },
@@ -152,7 +163,7 @@ const WeatherDataGraphs = (props) => {
 
                 redrawOnParentResize: true,
                 offsetX: 0,
-                offsetY: 40,
+                offsetY: 60,
             },
             colors: props.colors,
             dataLabels: {
@@ -268,7 +279,8 @@ const WeatherDataGraphs = (props) => {
                 }));
             } catch (error) {
                 console.error("Error fetching data:", error);
-            } finally {
+            }  
+            finally {
                 props.setLeftLoad(false)
             }
         };
@@ -278,10 +290,12 @@ const WeatherDataGraphs = (props) => {
 
     const handleStartDateSelect = (date) => {
         setShowStartDatePicker(false);
+        setSelectedStartDate(date);
     };
 
     const handleEndDateSelect = (date) => {
         setShowEndDatePicker(false);
+        setSelectedEndDate(date)
     };
 
     return (
@@ -291,35 +305,38 @@ const WeatherDataGraphs = (props) => {
                     <div className={styles.FilterSection}>
                         {document.querySelector('.from') ? ReactDOM.createPortal(
                             <div>
+                                {<div>{formatDate(selectedStartDate)}</div>}
                                 {((showStartDatePicker)) && (
-                                    <div className="pickerDropdown" onClick={handleDatePickerClick}>
-                                        <DatePicker
-                                            selected={selectedStartDate}
-                                            onSelect={handleStartDateSelect}
-                                            onChange={date => setSelectedStartDate(date)}
-                                            popperClassName="propper"
-                                            popperPlacement="bottom"
-                                            popperModifiers={[
-                                                {
-                                                    name: "offset",
-                                                    options: {
-                                                        offset: [0, 0],
+                                    <>
+                                        <div className="pickerDropdown" onClick={handleDatePickerClick}>
+                                            <DatePicker
+                                                selected={selectedStartDate}
+                                                onSelect={handleStartDateSelect}
+                                                onChange={date => setSelectedStartDate(date)}
+                                                popperClassName="propper"
+                                                popperPlacement="bottom"
+                                                popperModifiers={[
+                                                    {
+                                                        name: "offset",
+                                                        options: {
+                                                            offset: [0, 0],
+                                                        },
                                                     },
-                                                },
-                                                {
-                                                    name: "preventOverflow",
-                                                    options: {
-                                                        rootBoundary: "viewport",
-                                                        tether: false,
-                                                        altAxis: true,
+                                                    {
+                                                        name: "preventOverflow",
+                                                        options: {
+                                                            rootBoundary: "viewport",
+                                                            tether: false,
+                                                            altAxis: true,
+                                                        },
                                                     },
-                                                },
-                                            ]}
-                                            maxDate={today}
-                                            open={true}
-                                            inline
-                                        />
-                                    </div>
+                                                ]}
+                                                maxDate={today}
+                                                open={true}
+                                                inline
+                                            />
+                                        </div>
+                                    </>
                                 )}
                             </div>,
                             document.querySelector('.from')
@@ -327,6 +344,7 @@ const WeatherDataGraphs = (props) => {
 
                         {document.querySelector('.to') ? ReactDOM.createPortal(
                             <div>
+                                {<div>{formatDate(selectedEndDate)}</div>}
                                 {(showEndDatePicker) && (
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                         <DatePicker
@@ -362,7 +380,7 @@ const WeatherDataGraphs = (props) => {
                             document.querySelector('.to')
                         ) : null}
                     </div>
-                    {props.leftLoad ? (
+                    {(props.leftLoad  || props.loading)? (
                         <Loader type="spinner-circle"
                             bgColor={"#FFFFFF"}
                             color={"#FFFFFF"}

@@ -46,6 +46,7 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
 }
 
 function InnerPageNearbyDevices(props) {
+    const today = new Date();
     const [devices, setDevices] = useState([]);
     const { permissionGranted, position } = useContext(PositionContext);
     const [deviceDataArrays, setDeviceDataArrays] = useState([]);
@@ -116,6 +117,9 @@ function InnerPageNearbyDevices(props) {
                 <Link to={`/device/${device.id}?${device.name}`} key={device.id} className={styles.link}
                     onClick={() => {
                         props.setLeftLoad(true);
+                        props.filterChange("Hourly")
+                        props.setStartDate(today)
+                        props.setEndDate(today) 
                     }}
                 >
                     <NearbyDevicesItem
