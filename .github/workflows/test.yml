@@ -22,8 +22,7 @@ jobs:
           TEST_HOST: ${{ secrets.TEST_HOST }}
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
         run: |
-          ssh -i test_key.pem \
-            ${{ env.TEST_USERNAME }}@${{ env.TEST_HOST }} '
+          ssh -i test_key.pem ${{ env.TEST_USERNAME }}@${{ env.TEST_HOST }} '
             sudo apt update && \
             cd /home/ubuntu/frontend && git checkout staging && git stash && git pull origin staging'
 
