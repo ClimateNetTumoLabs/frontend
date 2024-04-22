@@ -12,9 +12,9 @@ jobs:
     steps:
       - name: Set up SSH
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Updated secret name for SSH private key
+          TEST_SSH_KEY: ${{ secrets.TEST_SSH_KEY }}  # Updated secret name for SSH private key
         run: |
-          echo "${{ env.SSH_PRIVATE_KEY }}" > deploy_key.pem  # Updated file name for the private key
+          echo "${{ env.TEST_SSH_KEY }}" > deploy_key.pem  # Updated file name for the private key
           chmod 600 deploy_key.pem  # Updated file name for the private key
 
       - name: Connect to Server (all following steps use this connection)
