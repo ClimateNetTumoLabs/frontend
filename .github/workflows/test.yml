@@ -17,15 +17,15 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key.pem
           chmod 600 ssh_key.pem
           printf "Host myserver\n" \
-                 "  HostName ${{ secrets.EC2_IP }}\n" \
-                 "  User ${{ secrets.EC2_USERNAME }}\n" \
+                 "  HostName ${{ secrets.TEST_HOST }}\n" \
+                 "  User ${{ secrets.TEST_USERNAME }}\n" \
                  "  IdentityFile /github/workspace/ssh_key.pem\n" \
                  "  StrictHostKeyChecking no\n" > ~/.ssh/config
 
       # Step 2: Git Checkout and Pull
       - name: Git Checkout and Pull
         run: |
-          ssh ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_IP }} \
+          ssh ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
             'cd /home/ubuntu/frontend &&' \
             'git checkout staging &&' \
             'git pull origin staging'
@@ -34,7 +34,7 @@ jobs:
       - name: Install and Build
         run: |
           # SSH into the server and install dependencies and build the project
-          ssh ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_IP }} \
+          ssh ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
             'cd /home/ubuntu/frontend &&' \
             'sudo apt install npm -y &&' \ 
             'npm install && npm run build'
@@ -43,7 +43,7 @@ jobs:
       - name: Collect Static and Restart Gunicorn
         run: |
           # SSH into the server, navigate to Django project directory, collect static files, and restart Gunicorn
-          ssh ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_IP }} \
+          ssh ${{ secrets.TEST_USERNAME }}@${{ secrets.TEST_HOST }} \
            'cd /home/ubuntu/django-app/climatenet &&' \
            'python3 manage.py collectstatic --noinput &&' \
            'sudo systemctl restart gunicorn.service'
