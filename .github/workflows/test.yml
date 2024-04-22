@@ -29,7 +29,7 @@ jobs:
             'cd /home/ubuntu/frontend &&' \
             'git checkout staging &&' \
             'git pull origin staging'
-
+        shell: /usr/bin/bash -e {0}
       # Step 3: Install and Build
       - name: Install and Build
         run: |
