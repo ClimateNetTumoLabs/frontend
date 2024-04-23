@@ -34,6 +34,7 @@ function InnerPageContent(props) {
                 handleCloseDatePicker = {props.handleCloseDatePicker}
                 setError = {props.setError}
                 lastData = {props.lastData}
+                id = {props.id}
             />
         </div>
     )
