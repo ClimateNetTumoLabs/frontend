@@ -59,7 +59,7 @@ function InnerPage() {
 	}, [permissionGranted, setPosition, setPermissionGranted, showDatePicker]);
 
 	useEffect(() => {
-		window.scrollTo(0, 0);
+		// window.scrollTo(0, 0);
 
 		const getDataUrl = (filterState) => {
 			const currentDate = new Date();
@@ -157,6 +157,7 @@ function InnerPage() {
 				setError={setError}
 				data = {lastData}
 				lastData = {lastData}
+				id = {params.id}
 			/>
 			{/*<DeviceImage />*/}
 			{/*/!* <DownloadButton/> *!/*/}

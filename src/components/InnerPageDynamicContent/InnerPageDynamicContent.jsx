@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from './InnerPageDynamicContent.module.css'
 import WeatherDataGraphs from "../WeatherDataGraphs/WeatherDataGraphs";
 import Tab from 'react-bootstrap/Tab';
@@ -22,6 +22,7 @@ function InnerPageDynamicContent(props) {
     const [RainCount, setRainCount] = useState([])
     const [WindSpeed, setWindSpeed] = useState([])
     const [WindDirection, setWindDirection] = useState([])
+    const [loading, setLoading] = useState(false);
     const ChartsRef = useRef(null)
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current
@@ -37,10 +38,10 @@ function InnerPageDynamicContent(props) {
         }
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+        setLoading(true)
         setWeatherData(props.weather_data);
-        // props.setLeftLoad(true);
-    }, [props.weather_data]);
+    }, [props.weather_data, props.filterState, props.id]);
 
     useEffect(() => {
         // Extract values from props and update states
@@ -89,6 +90,9 @@ function InnerPageDynamicContent(props) {
         setWindDirection(WindDirectionArray)
 
     }, [props.weather_data]);
+
+
+
     return (
         <div ref={ChartsRef} className={`${styles.InnerPageDynamicContent}`}>
             <div onClick={toggleFullScreen} className={styles.FullScreenButtonSection}>
@@ -110,7 +114,12 @@ function InnerPageDynamicContent(props) {
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#77B6EA', '#59a824']}
                                     {...props}
-                                    lastData = {props.lastData}
+                                    lastData={props.lastData}
+                                    id={props.id}
+                                    loading = {loading}
+                                    setLoading={setLoading}
+                                    filterState={props.filterState}
+                                    filterChange={props.filterChange} 
                                 />
                             }
                         </Tab>
@@ -123,7 +132,12 @@ function InnerPageDynamicContent(props) {
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#f80000', '#e1d816', '#49B618']}
                                     {...props}
-                                    lastData = {props.lastData}
+                                    lastData={props.lastData}
+                                    id={props.id}
+                                    loading = {loading}
+                                    setLoading={setLoading}
+                                    filterState={props.filterState}
+                                    filterChange={props.filterChange} 
                                 />
                             }
                         </Tab>
@@ -139,7 +153,12 @@ function InnerPageDynamicContent(props) {
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#FFFF00']}
                                     {...props}
-                                    lastData = {props.lastData}
+                                    lastData={props.lastData}
+                                    id={props.id}
+                                    loading = {loading}
+                                    setLoading={setLoading}
+                                    filterState={props.filterState}
+                                    filterChange={props.filterChange} 
                                 />
                             }
                         </Tab>
@@ -151,8 +170,13 @@ function InnerPageDynamicContent(props) {
                                     data={[weatherData.map(data => data.rain), weatherData.map(data => data.speed), weatherData.map(data => data.direction)]}
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#6688aa', '#BA9593', '#EDAFFB']}
-                                    {...props} 
-                                    lastData = {props.lastData}
+                                    {...props}
+                                    lastData={props.lastData}
+                                    id={props.id}
+                                    loading = {loading}
+                                    setLoading={setLoading}
+                                    filterState={props.filterState}
+                                    filterChange={props.filterChange} 
                                 />
                             }
                         </Tab>

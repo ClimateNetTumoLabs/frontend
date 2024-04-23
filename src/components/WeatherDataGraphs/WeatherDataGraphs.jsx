@@ -31,14 +31,14 @@ const WeatherDataGraphs = (props) => {
     const [selectedEndDate, setSelectedEndDate] = useState(today);
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-    
+
     useEffect(() => {
         props.setStartDate(selectedStartDate);
         props.setEndDate(selectedEndDate);
     }, [props.data]);
-    
+
     useEffect(() => {
-        setSelectedStartDate(today) 
+        setSelectedStartDate(today)
         setSelectedEndDate(today)
     }, [props.lastData])
 
@@ -97,7 +97,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLeftLoad(true);
+                                    props.setLoading(true)
                                     props.filterChange("Range")
                                     setShowStartDatePicker(false);
                                     setShowEndDatePicker(false);
@@ -131,7 +131,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLeftLoad(true)
+                                    props.setLoading(true)
                                     props.filterChange("Monthly")
                                 }
                             },
@@ -151,7 +151,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: (event) => {
-                                    props.setLeftLoad(true)
+                                    props.setLoading(true)
                                     props.filterChange("Hourly");
                                 }
                             },
@@ -284,12 +284,13 @@ const WeatherDataGraphs = (props) => {
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
-                
+                props.setLeftLoad(false)
+                props.setLoading(false)
             }
         };
 
         fetchData();
-    }, [props, props.types, props.data, props.timeline]);
+    }, [props.data, props.types, props.timeline, props.setLoading, props.time]);
 
     const handleStartDateSelect = (date) => {
         setShowStartDatePicker(false);
@@ -383,7 +384,7 @@ const WeatherDataGraphs = (props) => {
                             document.querySelector('.to')
                         ) : null}
                     </div>
-                    {(props.leftLoad)? (
+                    {(props.loading || props.leftLoad) ? (
                         <Loader type="spinner-circle"
                             bgColor={"#FFFFFF"}
                             color={"#FFFFFF"}

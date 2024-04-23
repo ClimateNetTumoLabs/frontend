@@ -6,7 +6,7 @@ import InnerPageStaticContent from "../InnerPageStaticContent/InnerPageStaticCon
 
 function InnerPageContent(props) {
     const [loading, setLoading] = useState(true);
-    
+
     return (
         <div className={`${styles.innerContent}`}>
             <InnerPageStaticContent 
