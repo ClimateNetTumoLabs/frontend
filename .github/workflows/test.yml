@@ -21,7 +21,7 @@ jobs:
 
           cd /home/ubuntu/frontend && \
           sudo apt install npm && \
-          npm install && npm run build'
+          npm install && npm run build
 
           cd /home/ubuntu/django-app/climatenet && \
           source venv/bin/activate && \
