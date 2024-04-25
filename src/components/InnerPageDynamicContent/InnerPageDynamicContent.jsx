@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from './InnerPageDynamicContent.module.css'
 import WeatherDataGraphs from "../WeatherDataGraphs/WeatherDataGraphs";
 import Tab from 'react-bootstrap/Tab';
@@ -7,6 +7,7 @@ import { ReactComponent as FullScreen } from "../../assets/Icons/full-screen.svg
 
 function InnerPageDynamicContent(props) {
     // States to store arrays for temperature, humidity, and time
+    const today = new Date();
     const [weatherData, setWeatherData] = useState([]);
     const [selectedTab, setSelectedTab] = useState("tem_and_hum");
     const [temperature, setTemperature] = useState([]);
@@ -22,8 +23,10 @@ function InnerPageDynamicContent(props) {
     const [RainCount, setRainCount] = useState([])
     const [WindSpeed, setWindSpeed] = useState([])
     const [WindDirection, setWindDirection] = useState([])
+    const [loading, setLoading] = useState(false);
     const ChartsRef = useRef(null)
-    const [loading, setLoading] = useState(true);
+    const [selectedStartDate, setSelectedStartDate] = useState(today);
+    const [selectedEndDate, setSelectedEndDate] = useState(today);
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current
 
@@ -39,9 +42,14 @@ function InnerPageDynamicContent(props) {
     };
 
     useEffect(() => {
-        setWeatherData(props.weather_data);
+        setSelectedStartDate(today)
+        setSelectedEndDate(today)
+    }, [props.id])
+
+    useLayoutEffect(() => {
         setLoading(true)
-    }, [props.weather_data]);
+        setWeatherData(props.weather_data);
+    }, [props.weather_data, props.filterState]);
 
     useEffect(() => {
         // Extract values from props and update states
@@ -90,6 +98,9 @@ function InnerPageDynamicContent(props) {
         setWindDirection(WindDirectionArray)
 
     }, [props.weather_data]);
+
+
+
     return (
         <div ref={ChartsRef} className={`${styles.InnerPageDynamicContent}`}>
             <div onClick={toggleFullScreen} className={styles.FullScreenButtonSection}>
@@ -111,8 +122,16 @@ function InnerPageDynamicContent(props) {
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#77B6EA', '#59a824']}
                                     {...props}
+                                    lastData={props.lastData}
+                                    id={props.id}
                                     loading = {loading}
-                                    setLoading = {setLoading}
+                                    setLoading={setLoading}
+                                    filterState={props.filterState}
+                                    filterChange={props.filterChange} 
+                                    selectedStartDate={selectedStartDate}
+                                    setSelectedStartDate ={setSelectedStartDate}
+                                    selectedEndDate={selectedEndDate}
+                                    setSelectedEndDate={setSelectedEndDate}
                                 />
                             }
                         </Tab>
@@ -125,8 +144,16 @@ function InnerPageDynamicContent(props) {
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#f80000', '#e1d816', '#49B618']}
                                     {...props}
+                                    lastData={props.lastData}
+                                    id={props.id}
                                     loading = {loading}
-                                    setLoading = {setLoading}
+                                    setLoading={setLoading}
+                                    filterState={props.filterState}
+                                    filterChange={props.filterChange} 
+                                    selectedStartDate={selectedStartDate}
+                                    setSelectedStartDate ={setSelectedStartDate}
+                                    selectedEndDate={selectedEndDate}
+                                    setSelectedEndDate={setSelectedEndDate}
                                 />
                             }
                         </Tab>
@@ -142,8 +169,16 @@ function InnerPageDynamicContent(props) {
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#FFFF00']}
                                     {...props}
+                                    lastData={props.lastData}
+                                    id={props.id}
                                     loading = {loading}
-                                    setLoading = {setLoading}
+                                    setLoading={setLoading}
+                                    filterState={props.filterState}
+                                    filterChange={props.filterChange}
+                                    selectedStartDate={selectedStartDate}
+                                    setSelectedStartDate ={setSelectedStartDate}
+                                    selectedEndDate={selectedEndDate}
+                                    setSelectedEndDate={setSelectedEndDate}
                                 />
                             }
                         </Tab>
@@ -155,9 +190,17 @@ function InnerPageDynamicContent(props) {
                                     data={[weatherData.map(data => data.rain), weatherData.map(data => data.speed), weatherData.map(data => data.direction)]}
                                     time={weatherData.map(data => data.hour || data.date)}
                                     colors={['#6688aa', '#BA9593', '#EDAFFB']}
-                                    {...props} 
+                                    {...props}
+                                    lastData={props.lastData}
+                                    id={props.id}
                                     loading = {loading}
-                                    setLoading = {setLoading}
+                                    setLoading={setLoading}
+                                    filterState={props.filterState}
+                                    filterChange={props.filterChange}
+                                    selectedStartDate={selectedStartDate}
+                                    setSelectedStartDate ={setSelectedStartDate}
+                                    selectedEndDate={selectedEndDate}
+                                    setSelectedEndDate={setSelectedEndDate}
                                 />
                             }
                         </Tab>

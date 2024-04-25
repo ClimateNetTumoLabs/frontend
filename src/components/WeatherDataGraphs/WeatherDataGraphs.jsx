@@ -27,15 +27,12 @@ const WeatherDataGraphs = (props) => {
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
     const chartRef = useRef(null);
     const today = new Date();
-    const [selectedStartDate, setSelectedStartDate] = useState(today);
-    const [selectedEndDate, setSelectedEndDate] = useState(today);
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-    
+
     useEffect(() => {
-        props.setStartDate(selectedStartDate);
-        props.setEndDate(selectedEndDate)
-        props.setLoading(false)
+        props.setStartDate(props.selectedStartDate);
+        props.setEndDate(props.selectedEndDate);
     }, [props.data]);
 
     useEffect(() => {
@@ -93,7 +90,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLeftLoad(true);
+                                    props.setLoading(true)
                                     props.filterChange("Range")
                                     setShowStartDatePicker(false);
                                     setShowEndDatePicker(false);
@@ -127,7 +124,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLeftLoad(true)
+                                    props.setLoading(true)
                                     props.filterChange("Monthly")
                                 }
                             },
@@ -147,7 +144,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: (event) => {
-                                    props.setLeftLoad(true)
+                                    props.setLoading(true)
                                     props.filterChange("Hourly");
                                 }
                             },
@@ -293,19 +290,20 @@ const WeatherDataGraphs = (props) => {
                 console.error("Error fetching data:", error);
             } finally {
                 props.setLeftLoad(false)
+                props.setLoading(false)
             }
         }; 
         fetchData();
-    }, [props.data, props.types, props.timeline, props.time, props.id]);
+    }, [props, props.types, props.data, props.timeline]);
 
     const handleStartDateSelect = (date) => {
         setShowStartDatePicker(false);
-        setSelectedStartDate(date);
+        props.setSelectedStartDate(date);
     };
 
     const handleEndDateSelect = (date) => {
         setShowEndDatePicker(false);
-        setSelectedEndDate(date)
+        props.setSelectedEndDate(date)
     };
 
     return (
@@ -315,14 +313,14 @@ const WeatherDataGraphs = (props) => {
                     <div className={styles.FilterSection}>
                         {document.querySelector('.from') ? ReactDOM.createPortal(
                             <div>
-                                {<div>{formatDate(selectedStartDate)}</div>}
+                                {<div>{formatDate(props.selectedStartDate)}</div>}
                                 {((showStartDatePicker)) && (
                                     <>
                                         <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                             <DatePicker
-                                                selected={selectedStartDate}
+                                                selected={props.selectedStartDate}
                                                 onSelect={handleStartDateSelect}
-                                                onChange={date => setSelectedStartDate(date)}
+                                                onChange={date => props.setSelectedStartDate(date)}
                                                 popperClassName="propper"
                                                 popperPlacement="bottom"
                                                 popperModifiers={[
@@ -354,13 +352,13 @@ const WeatherDataGraphs = (props) => {
 
                         {document.querySelector('.to') ? ReactDOM.createPortal(
                             <div>
-                                {<div>{formatDate(selectedEndDate)}</div>}
+                                {<div>{formatDate(props.selectedEndDate)}</div>}
                                 {(showEndDatePicker) && (
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                         <DatePicker
-                                            selected={selectedEndDate}
+                                            selected={props.selectedEndDate}
                                             onSelect={handleEndDateSelect}
-                                            onChange={date => setSelectedEndDate(date)}
+                                            onChange={date => props.setSelectedEndDate(date)}
                                             popperClassName="propper"
                                             popperPlacement="bottom"
                                             popperModifiers={[
@@ -379,7 +377,7 @@ const WeatherDataGraphs = (props) => {
                                                     },
                                                 },
                                             ]}
-                                            minDate={new Date(selectedStartDate.getTime() + 24 * 60 * 60 * 1000)}
+                                            minDate={selectedStartDate}
                                             maxDate={today}
                                             open={true}
                                             inline
@@ -390,7 +388,7 @@ const WeatherDataGraphs = (props) => {
                             document.querySelector('.to')
                         ) : null}
                     </div>
-                    {(props.leftLoad  || props.loading)? (
+                    {(props.loading || props.leftLoad) ? (
                         <Loader type="spinner-circle"
                             bgColor={"#FFFFFF"}
                             color={"#FFFFFF"}
