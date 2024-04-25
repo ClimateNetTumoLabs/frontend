@@ -159,7 +159,7 @@ const WeatherDataGraphs = (props) => {
                 },
 
                 redrawOnParentResize: true,
-                offsetX: 0,
+                offsetX: -20,
                 offsetY: 60,
             },
             colors: props.colors,
@@ -259,7 +259,7 @@ const WeatherDataGraphs = (props) => {
             try {
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 const datetimeCategories = props.time.map(time => new Date(time).getTime());
-                const numTimestamps = props.time.length;
+                const numTimestamps = datetimeCategories.length;
     
                 const startDate = datetimeCategories[0]; 
                 const endDate = datetimeCategories[numTimestamps - 1]; 

@@ -1,50 +1,29 @@
-name: Deploy on push staging
+name: Deploy on push staging  # Description: This workflow triggers deployment when code is pushed to the staging branch
 
 on:
   push:
     branches:
-      - staging
-
+      - staging  # Trigger: Deploy when pushing changes to the staging branch
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
+  Deploy:
+    runs-on: ubuntu-latest  # Specify the operating system for the job
     steps:
-      - name: Set up SSH
+      - name: Deploy in EC2 and execute commands  # Step: Deploy code and execute commands on the EC2 instance
         env:
-          TEST_SSH_KEY: ${{ secrets.TEST_SSH_KEY }}
-        run: |
-          echo "${{ env.TEST_SSH_KEY }}" > test_key.pem
-          chmod 600 test_key.pem
+          PRIVATE_KEY: ${{ secrets.TEST_SSH_KEY }}  # Environment variable: SSH private key
+          HOSTNAME: ${{ secrets.TEST_HOST }}  # Environment variable: Hostname of the EC2 instance
+          USERNAME: ${{ secrets.TEST_USERNAME }}  # Environment variable: SSH username
 
-      - name: Git Checkout and Pull
-        env:
-          TEST_HOST: ${{ secrets.TEST_HOST }}
-          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+        # SSH into the EC2 instance and execute commands
         run: |
-          ssh -i test_key.pem ${{ env.TEST_USERNAME }}@${{ env.TEST_HOST }} '
-            sudo apt update && \
-            cd /home/ubuntu/frontend && git checkout staging && git stash && git pull origin staging'
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key 
+          ssh -o StrictHostKeyChecking=accept-new -i private_key ${USERNAME}@${HOSTNAME} '
 
-      - name: Install and Build
-        env:
-          TEST_HOST: ${{ secrets.TEST_HOST }}
-          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
-        run: |
-          ssh -i test_key.pem \
-            ${{ env.TEST_USERNAME }}@${{ env.TEST_HOST }} '
-            cd /home/ubuntu/frontend && \
-            sudo apt install npm && \
-            npm install && npm run build'
+          cd /home/ubuntu/frontend && \
+          sudo apt install npm && \
+          npm install && npm run build
 
-      - name: Collect Static and Restart Gunicorn
-        env:
-          TEST_HOST: ${{ secrets.TEST_HOST }}
-          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
-        run: |
-          ssh -i test_key.pem \
-            ${{ env.TEST_USERNAME }}@${{ env.TEST_HOST }} '
-            cd /home/ubuntu/django-app/climatenet && \
-            source venv/bin/activate && \
-            python manage.py collectstatic --noinput && \
-            sudo systemctl restart gunicorn.service'
+          cd /home/ubuntu/django-app/climatenet && \
+          source venv/bin/activate && \
+          python manage.py collectstatic --noinput && \
+          sudo systemctl restart gunicorn.service'
