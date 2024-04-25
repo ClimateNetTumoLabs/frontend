@@ -93,7 +93,6 @@ function InnerPageNearbyDevices(props) {
                 const responses = await Promise.all(promises);
 
                 setDeviceDataArrays(responses.map(response => response.data));
-                console.log(deviceDataArrays)
             } catch (error) {
                 console.error('Error fetching item data:', error);
             }

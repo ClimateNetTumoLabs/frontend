@@ -180,7 +180,7 @@ const WeatherDataGraphs = (props) => {
                 categories: datetimeCategories,
                 type: 'datetime',
                 labels: {
-                    format: 'MM-dd HH:mm',
+                    format: 'MM-dd HH',
                     show: true,
                     rotate: -50,
                     rotateAlways: true,
@@ -259,8 +259,19 @@ const WeatherDataGraphs = (props) => {
             try {
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 const datetimeCategories = props.time.map(time => new Date(time).getTime());
-                setChartState(prevState => ({
-                    ...prevState,
+                const numTimestamps = props.time.length;
+    
+                const startDate = datetimeCategories[0]; 
+                const endDate = datetimeCategories[numTimestamps - 1]; 
+    
+                const interval = (endDate - startDate) / (numTimestamps - 1);
+    
+                const evenlySpacedTimestamps = [];
+                for (let i = 0; i < numTimestamps; i++) {
+                    evenlySpacedTimestamps.push(startDate + i * interval);
+                }
+    
+                setChartState(prevState => ({ 
                     series: formatData(props.types, props.data),
                     options: {
                         ...prevState.options,
@@ -270,8 +281,9 @@ const WeatherDataGraphs = (props) => {
                         },
                         xaxis: {
                             ...prevState.options.xaxis,
-                            categories: datetimeCategories,
+                            categories: evenlySpacedTimestamps,
                         },
+                        tickAmount: evenlySpacedTimestamps.length,
                     },
                 }));
             } catch (error) {
@@ -282,7 +294,7 @@ const WeatherDataGraphs = (props) => {
             }
         }; 
         fetchData();
-    }, [props.data, props.types, props.timeline, props.setLoading, props.time, props.id]);
+    }, [props.data, props.types, props.timeline, props.setLeftLoad, props.time, props.id]);
 
     const handleStartDateSelect = (date) => {
         setShowStartDatePicker(false);
@@ -365,7 +377,7 @@ const WeatherDataGraphs = (props) => {
                                                     },
                                                 },
                                             ]}
-                                            minDate={props.selectedStartDate}
+                                            minDate={new Date(props.selectedStartDate.getTime() + 24 * 60 * 60 * 1000)}
                                             maxDate={today}
                                             open={true}
                                             inline

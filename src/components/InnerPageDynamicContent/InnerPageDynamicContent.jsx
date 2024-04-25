@@ -52,7 +52,6 @@ function InnerPageDynamicContent(props) {
     }, [props.weather_data, props.filterState]);
 
     useEffect(() => {
-        // Extract values from props and update states
         let temperatureArray = [];
         let humidityArray = [];
         let pressureArray = [];
