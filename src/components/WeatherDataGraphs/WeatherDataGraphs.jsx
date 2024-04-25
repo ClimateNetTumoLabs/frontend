@@ -12,20 +12,34 @@ const formatData = (names, dataArray) => {
     }));
 };
 
+const formatDate = (date) => {
+    if (!(date instanceof Date) || isNaN(date)) {
+        return "";
+    }
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
 
 const WeatherDataGraphs = (props) => {
     const seriesData = formatData(props.types, props.data);
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
     const chartRef = useRef(null);
     const today = new Date();
-    const [selectedStartDate, setSelectedStartDate] = useState(props.startDate);
-    const [selectedEndDate, setSelectedEndDate] = useState(props.endDate);
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+    const [selectedStartDate, setSelectedStartDate] = useState(today);
+    const [selectedEndDate, setSelectedEndDate] = useState(today);
+
+    useEffect(() => {
+        props.filterChange("Hourly")
+    }, [props.id])
+
     useEffect(() => {
         props.setStartDate(selectedStartDate);
-        props.setEndDate(selectedEndDate)
-    }, [selectedStartDate, selectedEndDate]);
+        props.setEndDate(selectedEndDate);
+    }, [props.data])
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -53,9 +67,6 @@ const WeatherDataGraphs = (props) => {
         };
     }, [showStartDatePicker, showEndDatePicker]);
 
-    const handleDatePickerClick = (event) => {
-        event.stopPropagation();
-    }
     const [chartState, setChartState] = useState({
         series: seriesData,
         options: {
@@ -82,8 +93,8 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLeftLoad(true);
-                                    props.filterChange("Range")
+                                    props.setLoading(true)
+                                    handleFilterByRange();
                                     setShowStartDatePicker(false);
                                     setShowEndDatePicker(false);
                                 }
@@ -101,7 +112,7 @@ const WeatherDataGraphs = (props) => {
                                 }
                             },
                             {
-                                icon: '<div class="custom-icon from">from</div>',
+                                icon: `<div class="custom-icon from">from</div>`,
                                 index: -18,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
@@ -116,7 +127,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLeftLoad(true)
+                                    props.setLoading(true)
                                     props.filterChange("Monthly")
                                 }
                             },
@@ -126,7 +137,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: (event) => {
-                                    props.setLeftLoad(true)
+                                    props.setLoading(true)
                                     props.filterChange("Daily")
                                 }
                             },
@@ -136,7 +147,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: (event) => {
-                                    props.setLeftLoad(true)
+                                    props.setLoading(true)
                                     props.filterChange("Hourly");
                                 }
                             },
@@ -151,8 +162,8 @@ const WeatherDataGraphs = (props) => {
                 },
 
                 redrawOnParentResize: true,
-                offsetX: 0,
-                offsetY: 40,
+                offsetX: -20,
+                offsetY: 60,
             },
             colors: props.colors,
             dataLabels: {
@@ -172,7 +183,7 @@ const WeatherDataGraphs = (props) => {
                 categories: datetimeCategories,
                 type: 'datetime',
                 labels: {
-                    format: 'MM-dd HH:mm',
+                    format: 'MM-dd HH',
                     show: true,
                     rotate: -50,
                     rotateAlways: true,
@@ -251,8 +262,19 @@ const WeatherDataGraphs = (props) => {
             try {
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 const datetimeCategories = props.time.map(time => new Date(time).getTime());
+                const numTimestamps = datetimeCategories.length;
+
+                const startDate = datetimeCategories[0];
+                const endDate = datetimeCategories[numTimestamps - 1];
+
+                const interval = (endDate - startDate) / (numTimestamps - 1);
+
+                const evenlySpacedTimestamps = [];
+                for (let i = 0; i < numTimestamps; i++) {
+                    evenlySpacedTimestamps.push(startDate + i * interval);
+                }
+
                 setChartState(prevState => ({
-                    ...prevState,
                     series: formatData(props.types, props.data),
                     options: {
                         ...prevState.options,
@@ -262,27 +284,40 @@ const WeatherDataGraphs = (props) => {
                         },
                         xaxis: {
                             ...prevState.options.xaxis,
-                            categories: datetimeCategories,
+                            categories: evenlySpacedTimestamps,
                         },
+                        tickAmount: evenlySpacedTimestamps.length,
                     },
                 }));
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
                 props.setLeftLoad(false)
+                props.setLoading(false)
             }
         };
-
         fetchData();
-    }, [props, props.types, props.data, props.timeline]);
+    }, [props.data, props.types, props.timeline, props.time, props.id]);
 
     const handleStartDateSelect = (date) => {
-        setShowStartDatePicker(false);
+        setSelectedStartDate(date);
+        setShowStartDatePicker(false)
     };
 
     const handleEndDateSelect = (date) => {
-        setShowEndDatePicker(false);
+        setSelectedEndDate(date)
+        setShowEndDatePicker(false)
     };
+
+    const handleFilterByRange = () => {
+        props.setLeftLoad(true)
+        props.filterChange("Range");
+    };
+
+    const handleDatePickerClick = (event) => {
+        event.stopPropagation();
+    };
+
 
     return (
         <div className={styles.chart_section}>
@@ -291,35 +326,38 @@ const WeatherDataGraphs = (props) => {
                     <div className={styles.FilterSection}>
                         {document.querySelector('.from') ? ReactDOM.createPortal(
                             <div>
+                                {<div>{formatDate(selectedStartDate)}</div>}
                                 {((showStartDatePicker)) && (
-                                    <div className="pickerDropdown" onClick={handleDatePickerClick}>
-                                        <DatePicker
-                                            selected={selectedStartDate}
-                                            onSelect={handleStartDateSelect}
-                                            onChange={date => setSelectedStartDate(date)}
-                                            popperClassName="propper"
-                                            popperPlacement="bottom"
-                                            popperModifiers={[
-                                                {
-                                                    name: "offset",
-                                                    options: {
-                                                        offset: [0, 0],
+                                    <>
+                                        <div className="pickerDropdown" onClick={handleDatePickerClick}>
+                                            <DatePicker
+                                                selected={selectedStartDate}
+                                                onSelect={handleStartDateSelect}
+                                                onChange={date => setSelectedStartDate(date)}
+                                                popperClassName="propper"
+                                                popperPlacement="bottom"
+                                                popperModifiers={[
+                                                    {
+                                                        name: "offset",
+                                                        options: {
+                                                            offset: [0, 0],
+                                                        },
                                                     },
-                                                },
-                                                {
-                                                    name: "preventOverflow",
-                                                    options: {
-                                                        rootBoundary: "viewport",
-                                                        tether: false,
-                                                        altAxis: true,
+                                                    {
+                                                        name: "preventOverflow",
+                                                        options: {
+                                                            rootBoundary: "viewport",
+                                                            tether: false,
+                                                            altAxis: true,
+                                                        },
                                                     },
-                                                },
-                                            ]}
-                                            maxDate={today}
-                                            open={true}
-                                            inline
-                                        />
-                                    </div>
+                                                ]}
+                                                maxDate={today}
+                                                open={true}
+                                                inline
+                                            />
+                                        </div>
+                                    </>
                                 )}
                             </div>,
                             document.querySelector('.from')
@@ -327,6 +365,7 @@ const WeatherDataGraphs = (props) => {
 
                         {document.querySelector('.to') ? ReactDOM.createPortal(
                             <div>
+                                {<div>{formatDate(selectedEndDate)}</div>}
                                 {(showEndDatePicker) && (
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                         <DatePicker
@@ -351,7 +390,7 @@ const WeatherDataGraphs = (props) => {
                                                     },
                                                 },
                                             ]}
-                                            minDate={selectedStartDate}
+                                            minDate={new Date(selectedStartDate.getTime() + 24 * 60 * 60 * 1000)}
                                             maxDate={today}
                                             open={true}
                                             inline
@@ -362,7 +401,7 @@ const WeatherDataGraphs = (props) => {
                             document.querySelector('.to')
                         ) : null}
                     </div>
-                    {props.leftLoad ? (
+                    {(props.loading || props.leftLoad) ? (
                         <Loader type="spinner-circle"
                             bgColor={"#FFFFFF"}
                             color={"#FFFFFF"}

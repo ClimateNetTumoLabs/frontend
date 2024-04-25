@@ -46,6 +46,7 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
 }
 
 function InnerPageNearbyDevices(props) {
+    const today = new Date();
     const [devices, setDevices] = useState([]);
     const { permissionGranted, position } = useContext(PositionContext);
     const [deviceDataArrays, setDeviceDataArrays] = useState([]);
@@ -87,12 +88,11 @@ function InnerPageNearbyDevices(props) {
         const fetchItemData = async () => {
             try {
                 const promises = nearby_list.map(device => {
-                    return axios.get(`/device_inner/${device.id}/nearby`);
+                    return axios.get(`/device_inner/${device.id}/nearby/`);
                 });
                 const responses = await Promise.all(promises);
 
                 setDeviceDataArrays(responses.map(response => response.data));
-                console.log(deviceDataArrays)
             } catch (error) {
                 console.error('Error fetching item data:', error);
             }
@@ -116,6 +116,7 @@ function InnerPageNearbyDevices(props) {
                 <Link to={`/device/${device.id}?${device.name}`} key={device.id} className={styles.link}
                     onClick={() => {
                         props.setLeftLoad(true);
+                        props.filterChange("Hourly")
                     }}
                 >
                     <NearbyDevicesItem

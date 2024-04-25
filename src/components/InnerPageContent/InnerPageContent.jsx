@@ -6,7 +6,7 @@ import InnerPageStaticContent from "../InnerPageStaticContent/InnerPageStaticCon
 
 function InnerPageContent(props) {
     const [loading, setLoading] = useState(true);
-    
+
     return (
         <div className={`${styles.innerContent}`}>
             <InnerPageStaticContent 
@@ -33,6 +33,8 @@ function InnerPageContent(props) {
                 setShowDatePicker={props.setShowDatePicker} 
                 handleCloseDatePicker = {props.handleCloseDatePicker}
                 setError = {props.setError}
+                lastData = {props.lastData}
+                id = {props.id}
             />
         </div>
     )

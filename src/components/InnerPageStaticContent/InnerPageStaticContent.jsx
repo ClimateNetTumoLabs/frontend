@@ -91,8 +91,6 @@ function InnerPageStaticContent(props) {
     const queryString = location.search;
     const nameOfDevice = decodeURI(queryString.substring(1));
 
-    console.log("In InnerPageStaticContent and last data is ", data?.pm2_5 )
-
     return (
         <div className={`${styles.InnerPageStaticContent}`}>
             {

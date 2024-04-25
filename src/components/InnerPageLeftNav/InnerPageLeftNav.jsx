@@ -11,6 +11,10 @@ function InnerPageLeftNav(props) {
                 setLeftLoad={props.setLeftLoad}
                 filterState={props.filterState}
 				filterChange={props.filterChange}
+                startDate={props.startDateState}
+				setStartDate={props.setStartDate}
+				endDate={props.endDateState}
+				setEndDate={props.setEndDate}
             />
             <InnerPageFilter filterState={props.filterState} filterChange={props.filterChange}
                 startDate={props.startDate}
