@@ -162,7 +162,7 @@ const WeatherDataGraphs = (props) => {
                 },
 
                 redrawOnParentResize: true,
-                offsetX: 0,
+                offsetX: -20,
                 offsetY: 60,
             },
             colors: props.colors,
@@ -262,8 +262,19 @@ const WeatherDataGraphs = (props) => {
             try {
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 const datetimeCategories = props.time.map(time => new Date(time).getTime());
-                setChartState(prevState => ({
-                    ...prevState,
+                const numTimestamps = datetimeCategories.length;
+    
+                const startDate = datetimeCategories[0]; 
+                const endDate = datetimeCategories[numTimestamps - 1]; 
+    
+                const interval = (endDate - startDate) / (numTimestamps - 1);
+    
+                const evenlySpacedTimestamps = [];
+                for (let i = 0; i < numTimestamps; i++) {
+                    evenlySpacedTimestamps.push(startDate + i * interval);
+                }
+    
+                setChartState(prevState => ({ 
                     series: formatData(props.types, props.data),
                     options: {
                         ...prevState.options,
@@ -273,20 +284,50 @@ const WeatherDataGraphs = (props) => {
                         },
                         xaxis: {
                             ...prevState.options.xaxis,
-                            categories: datetimeCategories,
+                            categories: evenlySpacedTimestamps,
                         },
+                        tickAmount: datetimeCategories.length,
                     },
                 }));
             } catch (error) {
                 console.error("Error fetching data:", error);
-            }  
-            finally {
+            } finally {
                 props.setLeftLoad(false)
             }
-        };
-
+        }; 
         fetchData();
-    }, [props, props.types, props.data, props.timeline]);
+    }, [props.data, props.types, props.timeline, props.time, props.id]);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             await new Promise(resolve => setTimeout(resolve, 2000));
+    //             const datetimeCategories = props.time.map(time => new Date(time).getTime());
+    //             setChartState(prevState => ({
+    //                 ...prevState,
+    //                 series: formatData(props.types, props.data),
+    //                 options: {
+    //                     ...prevState.options,
+    //                     title: {
+    //                         text: `Data per ${props.timeline}`,
+    //                         align: 'left'
+    //                     },
+    //                     xaxis: {
+    //                         ...prevState.options.xaxis,
+    //                         categories: datetimeCategories,
+    //                     },
+    //                 },
+    //             }));
+    //         } catch (error) {
+    //             console.error("Error fetching data:", error);
+    //         }  
+    //         finally {
+    //             props.setLeftLoad(false)
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, [props, props.types, props.data, props.timeline]);
 
     const handleStartDateSelect = (date) => {
         setShowStartDatePicker(false);
@@ -369,7 +410,7 @@ const WeatherDataGraphs = (props) => {
                                                     },
                                                 },
                                             ]}
-                                            minDate={selectedStartDate}
+                                            minDate={new Date(selectedStartDate.getTime() + 24 * 60 * 60 * 1000)}
                                             maxDate={today}
                                             open={true}
                                             inline
