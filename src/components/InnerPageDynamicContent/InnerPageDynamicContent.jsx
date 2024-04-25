@@ -25,8 +25,7 @@ function InnerPageDynamicContent(props) {
     const [WindDirection, setWindDirection] = useState([])
     const [loading, setLoading] = useState(false);
     const ChartsRef = useRef(null)
-    const [selectedStartDate, setSelectedStartDate] = useState(today);
-    const [selectedEndDate, setSelectedEndDate] = useState(today);
+
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current
 
@@ -40,11 +39,6 @@ function InnerPageDynamicContent(props) {
             }
         }
     };
-
-    useEffect(() => {
-        setSelectedStartDate(today)
-        setSelectedEndDate(today)
-    }, [props.id])
 
     useLayoutEffect(() => {
         setLoading(true)
@@ -123,14 +117,10 @@ function InnerPageDynamicContent(props) {
                                     {...props}
                                     lastData={props.lastData}
                                     id={props.id}
-                                    loading = {loading}
+                                    loading={loading}
                                     setLoading={setLoading}
                                     filterState={props.filterState}
-                                    filterChange={props.filterChange} 
-                                    selectedStartDate={selectedStartDate}
-                                    setSelectedStartDate ={setSelectedStartDate}
-                                    selectedEndDate={selectedEndDate}
-                                    setSelectedEndDate={setSelectedEndDate}
+                                    filterChange={props.filterChange}
                                 />
                             }
                         </Tab>
@@ -145,14 +135,10 @@ function InnerPageDynamicContent(props) {
                                     {...props}
                                     lastData={props.lastData}
                                     id={props.id}
-                                    loading = {loading}
+                                    loading={loading}
                                     setLoading={setLoading}
                                     filterState={props.filterState}
-                                    filterChange={props.filterChange} 
-                                    selectedStartDate={selectedStartDate}
-                                    setSelectedStartDate ={setSelectedStartDate}
-                                    selectedEndDate={selectedEndDate}
-                                    setSelectedEndDate={setSelectedEndDate}
+                                    filterChange={props.filterChange}
                                 />
                             }
                         </Tab>
@@ -170,14 +156,10 @@ function InnerPageDynamicContent(props) {
                                     {...props}
                                     lastData={props.lastData}
                                     id={props.id}
-                                    loading = {loading}
+                                    loading={loading}
                                     setLoading={setLoading}
                                     filterState={props.filterState}
                                     filterChange={props.filterChange}
-                                    selectedStartDate={selectedStartDate}
-                                    setSelectedStartDate ={setSelectedStartDate}
-                                    selectedEndDate={selectedEndDate}
-                                    setSelectedEndDate={setSelectedEndDate}
                                 />
                             }
                         </Tab>
@@ -192,14 +174,10 @@ function InnerPageDynamicContent(props) {
                                     {...props}
                                     lastData={props.lastData}
                                     id={props.id}
-                                    loading = {loading}
+                                    loading={loading}
                                     setLoading={setLoading}
                                     filterState={props.filterState}
                                     filterChange={props.filterChange}
-                                    selectedStartDate={selectedStartDate}
-                                    setSelectedStartDate ={setSelectedStartDate}
-                                    selectedEndDate={selectedEndDate}
-                                    setSelectedEndDate={setSelectedEndDate}
                                 />
                             }
                         </Tab>

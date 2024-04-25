@@ -29,11 +29,17 @@ const WeatherDataGraphs = (props) => {
     const today = new Date();
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+    const [selectedStartDate, setSelectedStartDate] = useState(today);
+    const [selectedEndDate, setSelectedEndDate] = useState(today);
 
     useEffect(() => {
-        props.setStartDate(props.selectedStartDate);
-        props.setEndDate(props.selectedEndDate);
-    }, [props.data]);
+        props.filterChange("Hourly")
+    }, [props.id])
+
+    useEffect(() => {
+        props.setStartDate(selectedStartDate);
+        props.setEndDate(selectedEndDate);
+    }, [props.data])
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -61,9 +67,6 @@ const WeatherDataGraphs = (props) => {
         };
     }, [showStartDatePicker, showEndDatePicker]);
 
-    const handleDatePickerClick = (event) => {
-        event.stopPropagation();
-    }
     const [chartState, setChartState] = useState({
         series: seriesData,
         options: {
@@ -91,7 +94,7 @@ const WeatherDataGraphs = (props) => {
                                 class: 'custom-icon-button',
                                 click: () => {
                                     props.setLoading(true)
-                                    props.filterChange("Range")
+                                    handleFilterByRange();
                                     setShowStartDatePicker(false);
                                     setShowEndDatePicker(false);
                                 }
@@ -260,18 +263,18 @@ const WeatherDataGraphs = (props) => {
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 const datetimeCategories = props.time.map(time => new Date(time).getTime());
                 const numTimestamps = datetimeCategories.length;
-    
-                const startDate = datetimeCategories[0]; 
-                const endDate = datetimeCategories[numTimestamps - 1]; 
-    
+
+                const startDate = datetimeCategories[0];
+                const endDate = datetimeCategories[numTimestamps - 1];
+
                 const interval = (endDate - startDate) / (numTimestamps - 1);
-    
+
                 const evenlySpacedTimestamps = [];
                 for (let i = 0; i < numTimestamps; i++) {
                     evenlySpacedTimestamps.push(startDate + i * interval);
                 }
-    
-                setChartState(prevState => ({ 
+
+                setChartState(prevState => ({
                     series: formatData(props.types, props.data),
                     options: {
                         ...prevState.options,
@@ -292,19 +295,29 @@ const WeatherDataGraphs = (props) => {
                 props.setLeftLoad(false)
                 props.setLoading(false)
             }
-        }; 
+        };
         fetchData();
-    }, [props.data, props.types, props.timeline, props.setLeftLoad, props.time, props.id]);
+    }, [props.data, props.types, props.timeline, props.time, props.id]);
 
     const handleStartDateSelect = (date) => {
-        setShowStartDatePicker(false);
-        props.setSelectedStartDate(date);
+        setSelectedStartDate(date);
+        setShowStartDatePicker(false)
     };
 
     const handleEndDateSelect = (date) => {
-        setShowEndDatePicker(false);
-        props.setSelectedEndDate(date)
+        setSelectedEndDate(date)
+        setShowEndDatePicker(false)
     };
+
+    const handleFilterByRange = () => {
+        props.setLeftLoad(true)
+        props.filterChange("Range");
+    };
+
+    const handleDatePickerClick = (event) => {
+        event.stopPropagation();
+    };
+
 
     return (
         <div className={styles.chart_section}>
@@ -313,14 +326,14 @@ const WeatherDataGraphs = (props) => {
                     <div className={styles.FilterSection}>
                         {document.querySelector('.from') ? ReactDOM.createPortal(
                             <div>
-                                {<div>{formatDate(props.selectedStartDate)}</div>}
+                                {<div>{formatDate(selectedStartDate)}</div>}
                                 {((showStartDatePicker)) && (
                                     <>
                                         <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                             <DatePicker
-                                                selected={props.selectedStartDate}
+                                                selected={selectedStartDate}
                                                 onSelect={handleStartDateSelect}
-                                                onChange={date => props.setSelectedStartDate(date)}
+                                                onChange={date => setSelectedStartDate(date)}
                                                 popperClassName="propper"
                                                 popperPlacement="bottom"
                                                 popperModifiers={[
@@ -352,13 +365,13 @@ const WeatherDataGraphs = (props) => {
 
                         {document.querySelector('.to') ? ReactDOM.createPortal(
                             <div>
-                                {<div>{formatDate(props.selectedEndDate)}</div>}
+                                {<div>{formatDate(selectedEndDate)}</div>}
                                 {(showEndDatePicker) && (
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                         <DatePicker
-                                            selected={props.selectedEndDate}
+                                            selected={selectedEndDate}
                                             onSelect={handleEndDateSelect}
-                                            onChange={date => props.setSelectedEndDate(date)}
+                                            onChange={date => setSelectedEndDate(date)}
                                             popperClassName="propper"
                                             popperPlacement="bottom"
                                             popperModifiers={[
@@ -377,7 +390,7 @@ const WeatherDataGraphs = (props) => {
                                                     },
                                                 },
                                             ]}
-                                            minDate={new Date(props.selectedStartDate.getTime() + 24 * 60 * 60 * 1000)}
+                                            minDate={new Date(selectedStartDate.getTime() + 24 * 60 * 60 * 1000)}
                                             maxDate={today}
                                             open={true}
                                             inline

@@ -18,21 +18,21 @@ function InnerPage() {
 	const [leftLoad, setLeftLoad] = useState(true);
 	const [lastData, setLastData] = useState([]);
 
-     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                axios
-                    .get(`/device_inner/${params.id}/latest/`)
-                    .then(res => {
-                        setLastData(res.data);
-                    })
-            } catch (error) {
-                console.error('Error fetching devices:', error);
-            }
-        };
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				axios
+					.get(`/device_inner/${params.id}/latest/`)
+					.then(res => {
+						setLastData(res.data);
+					})
+			} catch (error) {
+				console.error('Error fetching devices:', error);
+			}
+		};
 
-        fetchData();
-    }, [params.id]);
+		fetchData();
+	}, [params.id]);
 
 	const handleCloseDatePicker = () => {
 		setShowDatePicker(false);
@@ -59,14 +59,13 @@ function InnerPage() {
 	}, [permissionGranted, setPosition, setPermissionGranted, showDatePicker]);
 
 	useEffect(() => {
-		// window.scrollTo(0, 0);
-
+		window.scrollTo(0, 0);
 		const getDataUrl = (filterState) => {
 			const currentDate = new Date();
 			const currentMonth = currentDate.getMonth();
 			const currentYear = currentDate.getFullYear();
 			let start, end;
-		
+
 			switch (filterState) {
 				case 'Daily':
 					end = formatDate(currentDate);
@@ -77,7 +76,7 @@ function InnerPage() {
 					end = formatDate(new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0));
 					break;
 				case 'Hourly':
-					return `/device_inner/${params.id}/24hours/`                                          
+					return `/device_inner/${params.id}/24hours/`
 				case 'Range':
 					start = formatDate(startDateState);
 					end = formatDate(endDateState);
@@ -86,7 +85,7 @@ function InnerPage() {
 					start = end = formatDate(currentDate);
 					break;
 			}
-		
+
 			return `/device_inner/${params.id}/period/?start_time_str=${start}&end_time_str=${end}`
 		};
 		const url = getDataUrl(filterState);
@@ -104,7 +103,7 @@ function InnerPage() {
 				setError("Error")
 			});
 	}, [params.id, filterState, startDateState, endDateState]);
-	
+
 	const formatDate = (date) => {
 		if (!(date instanceof Date) || isNaN(date)) {
 			return "";
@@ -116,7 +115,7 @@ function InnerPage() {
 	};
 
 	if ((!weather_data || weather_data.length === 0)) {
-		if(leftLoad === false) {
+		if (leftLoad === false) {
 			return <div className={styles.not_data}>
 				Data Not Found
 			</div>;
@@ -139,8 +138,8 @@ function InnerPage() {
 				leftLoad={leftLoad}
 				setLeftLoad={setLeftLoad}
 			/>
-			<InnerPageContent 
-				content={filterState} 
+			<InnerPageContent
+				content={filterState}
 				weather_data={weather_data}
 				error={error}
 				leftLoad={leftLoad}
@@ -153,11 +152,11 @@ function InnerPage() {
 				setEndDate={setEndDate}
 				showDatePicker={showDatePicker}
 				setShowDatePicker={setShowDatePicker}
-				handleCloseDatePicker={handleCloseDatePicker}	
+				handleCloseDatePicker={handleCloseDatePicker}
 				setError={setError}
-				data = {lastData}
-				lastData = {lastData}
-				id = {params.id}
+				data={lastData}
+				lastData={lastData}
+				id={params.id}
 			/>
 			{/*<DeviceImage />*/}
 			{/*/!* <DownloadButton/> *!/*/}
