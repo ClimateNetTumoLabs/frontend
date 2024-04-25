@@ -298,37 +298,6 @@ const WeatherDataGraphs = (props) => {
         fetchData();
     }, [props.data, props.types, props.timeline, props.time, props.id]);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             await new Promise(resolve => setTimeout(resolve, 2000));
-    //             const datetimeCategories = props.time.map(time => new Date(time).getTime());
-    //             setChartState(prevState => ({
-    //                 ...prevState,
-    //                 series: formatData(props.types, props.data),
-    //                 options: {
-    //                     ...prevState.options,
-    //                     title: {
-    //                         text: `Data per ${props.timeline}`,
-    //                         align: 'left'
-    //                     },
-    //                     xaxis: {
-    //                         ...prevState.options.xaxis,
-    //                         categories: datetimeCategories,
-    //                     },
-    //                 },
-    //             }));
-    //         } catch (error) {
-    //             console.error("Error fetching data:", error);
-    //         }  
-    //         finally {
-    //             props.setLeftLoad(false)
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, [props, props.types, props.data, props.timeline]);
-
     const handleStartDateSelect = (date) => {
         setShowStartDatePicker(false);
         setSelectedStartDate(date);
