@@ -23,8 +23,10 @@ function InnerPageDynamicContent(props) {
     const [RainCount, setRainCount] = useState([])
     const [WindSpeed, setWindSpeed] = useState([])
     const [WindDirection, setWindDirection] = useState([])
-    const [loading, setLoading] = useState(false);
     const ChartsRef = useRef(null)
+    const [selectedStartDate, setSelectedStartDate] = useState(today);
+    const [selectedEndDate, setSelectedEndDate] = useState(today);
+
 
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current
@@ -40,10 +42,9 @@ function InnerPageDynamicContent(props) {
         }
     };
 
-    useLayoutEffect(() => {
-        setLoading(true)
-        setWeatherData(props.weather_data);
-    }, [props.weather_data, props.filterState]);
+    // useEffect(() => {
+    //     setWeatherData(props.weather_data);
+    // }, [props.weather_data]);
 
     useEffect(() => {
         let temperatureArray = [];
@@ -93,7 +94,6 @@ function InnerPageDynamicContent(props) {
     }, [props.weather_data]);
 
 
-
     return (
         <div ref={ChartsRef} className={`${styles.InnerPageDynamicContent}`}>
             <div onClick={toggleFullScreen} className={styles.FullScreenButtonSection}>
@@ -109,36 +109,40 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
                             {selectedTab === "tem_and_hum" &&
                                 <WeatherDataGraphs
-                                    timeline={props.period}
-                                    types={["Temperature", "Humidity"]}
-                                    data={[weatherData.map(data => data.temperature), weatherData.map(data => data.humidity)]}
-                                    time={weatherData.map(data => data.hour || data.date)}
-                                    colors={['#77B6EA', '#59a824']}
-                                    {...props}
-                                    lastData={props.lastData}
-                                    id={props.id}
-                                    loading={loading}
-                                    setLoading={setLoading}
-                                    filterState={props.filterState}
+                                    leftLoad={props.leftLoad}
+                                    setLeftLoad={props.setLeftLoad}
+                                    loading={props.loading}
+                                    setLoading={props.setLoading}
+                                    className={styles.graph} timeline={props.period} types={["Temperature", "Humidity"]} data={[temperature, humidity]} time={time} colors={['#77B6EA', '#59a824']}
                                     filterChange={props.filterChange}
+                                    startDate={props.startDate}
+                                    setStartDate={props.setStartDate}
+                                    endDate={props.endDate}
+                                    setEndDate={props.setEndDate}
+                                    selectedStartDate={selectedStartDate}
+                                    selectedEndDate={selectedEndDate}
+                                    setSelectedStartDate={setSelectedStartDate}
+                                    setSelectedEndDate={setSelectedEndDate}
                                 />
                             }
                         </Tab>
                         <Tab eventKey="pm" title="Air Quality">
                             {selectedTab === "pm" &&
                                 <WeatherDataGraphs
-                                    timeline={props.period}
-                                    types={["PM 1", "PM 2.5", "PM 10"]}
-                                    data={[weatherData.map(data => data.pm1), weatherData.map(data => data.pm2_5), weatherData.map(data => data.pm10)]}
-                                    time={weatherData.map(data => data.hour || data.date)}
-                                    colors={['#f80000', '#e1d816', '#49B618']}
-                                    {...props}
-                                    lastData={props.lastData}
-                                    id={props.id}
-                                    loading={loading}
-                                    setLoading={setLoading}
-                                    filterState={props.filterState}
+                                    leftLoad={props.leftLoad}
+                                    setLeftLoad={props.setLeftLoad}
+                                    loading={props.loading}
+                                    setLoading={props.setLoading}
+                                    className={styles.graph} timeline={props.period} types={["PM 1", "PM 2.5", "PM 10"]} data={[pm1, pm2_5, pm10]} time={time} colors={['#f80000', '#e1d816', '#49B618']}
                                     filterChange={props.filterChange}
+                                    startDate={props.startDate}
+                                    setStartDate={props.setStartDate}
+                                    endDate={props.endDate}
+                                    setEndDate={props.setEndDate}
+                                    selectedStartDate={selectedStartDate}
+                                    selectedEndDate={selectedEndDate}
+                                    setSelectedStartDate={setSelectedStartDate}
+                                    setSelectedEndDate={setSelectedEndDate}
                                 />
                             }
                         </Tab>
@@ -148,36 +152,40 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="pressure" title="Pressure">
                             {selectedTab === "pressure" &&
                                 <WeatherDataGraphs
-                                    timeline={props.period}
-                                    types={["Pressure"]}
-                                    data={[weatherData.map(data => data.pressure)]}
-                                    time={weatherData.map(data => data.hour || data.date)}
-                                    colors={['#FFFF00']}
-                                    {...props}
-                                    lastData={props.lastData}
-                                    id={props.id}
-                                    loading={loading}
-                                    setLoading={setLoading}
-                                    filterState={props.filterState}
+                                    leftLoad={props.leftLoad}
+                                    setLeftLoad={props.setLeftLoad}
+                                    loading={props.loading}
+                                    setLoading={props.setLoading}
+                                    className={styles.graph} timeline={props.period} types={["Pressure"]} data={[pressure]} time={time} colors={["#FFFF00"]}
                                     filterChange={props.filterChange}
+                                    startDate={props.startDate}
+                                    setStartDate={props.setStartDate}
+                                    endDate={props.endDate}
+                                    setEndDate={props.setEndDate}
+                                    selectedStartDate={selectedStartDate}
+                                    selectedEndDate={selectedEndDate}
+                                    setSelectedStartDate={setSelectedStartDate}
+                                    setSelectedEndDate={setSelectedEndDate}
                                 />
                             }
                         </Tab>
                         <Tab eventKey="rain_wind" title="Rain and Wind">
                             {selectedTab === "rain_wind" &&
                                 <WeatherDataGraphs
-                                    timeline={props.period}
-                                    types={["Rain", "Wind Speed", "Wind Direction"]}
-                                    data={[weatherData.map(data => data.rain), weatherData.map(data => data.speed), weatherData.map(data => data.direction)]}
-                                    time={weatherData.map(data => data.hour || data.date)}
-                                    colors={['#6688aa', '#BA9593', '#EDAFFB']}
-                                    {...props}
-                                    lastData={props.lastData}
-                                    id={props.id}
-                                    loading={loading}
-                                    setLoading={setLoading}
-                                    filterState={props.filterState}
+                                    leftLoad={props.leftLoad}
+                                    setLeftLoad={props.setLeftLoad}
+                                    loading={props.loading}
+                                    setLoading={props.setLoading}
+                                    className={styles.graph} timeline={props.period} types={["Rain", "Wind Speed", "Wind Direction"]} data={[RainCount, WindSpeed, WindDirection]} time={time} colors={["#6688aa", "#BA9593", "#EDAFFB"]}
                                     filterChange={props.filterChange}
+                                    startDate={props.startDate}
+                                    setStartDate={props.setStartDate}
+                                    endDate={props.endDate}
+                                    setEndDate={props.setEndDate}
+                                    selectedStartDate={selectedStartDate}
+                                    selectedEndDate={selectedEndDate}
+                                    setSelectedStartDate={setSelectedStartDate}
+                                    setSelectedEndDate={setSelectedEndDate}
                                 />
                             }
                         </Tab>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import ReactApexChart from 'react-apexcharts';
 import styles from './WeatherDataGraphs.module.css'
 import Loader from "react-js-loader";
@@ -29,17 +29,22 @@ const WeatherDataGraphs = (props) => {
     const today = new Date();
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-    const [selectedStartDate, setSelectedStartDate] = useState(today);
-    const [selectedEndDate, setSelectedEndDate] = useState(today);
+    const [selectedStartDate, setSelectedStartDate] = useState(props.startDate);
+    const [selectedEndDate, setSelectedEndDate] = useState(props.endDate);
+    const [loading, setLoading] = useState(false);
+    const [filterPressed, setFilterPressed] = useState(false);
 
     useEffect(() => {
         props.filterChange("Hourly")
     }, [props.id])
 
     useEffect(() => {
-        props.setStartDate(selectedStartDate);
-        props.setEndDate(selectedEndDate);
-    }, [props.data])
+        if (filterPressed) {
+            props.setStartDate(selectedStartDate);
+            props.setEndDate(selectedEndDate);
+            setFilterPressed(false)
+        }
+    }, [filterPressed])
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -258,6 +263,7 @@ const WeatherDataGraphs = (props) => {
     });
 
     useEffect(() => {
+        setLoading(true)
         const fetchData = async () => {
             try {
                 await new Promise(resolve => setTimeout(resolve, 2000));
@@ -293,11 +299,10 @@ const WeatherDataGraphs = (props) => {
                 console.error("Error fetching data:", error);
             } finally {
                 props.setLeftLoad(false)
-                props.setLoading(false)
             }
         };
         fetchData();
-    }, [props.data, props.types, props.timeline, props.time, props.id]);
+    }, [props.data, props.types, props.timeline, props.time]);
 
     const handleStartDateSelect = (date) => {
         setSelectedStartDate(date);
@@ -310,13 +315,29 @@ const WeatherDataGraphs = (props) => {
     };
 
     const handleFilterByRange = () => {
-        props.setLeftLoad(true)
+        setFilterPressed(true);
         props.filterChange("Range");
+        setLoading(true)
+        props.setLeftLoad(true)
     };
 
     const handleDatePickerClick = (event) => {
         event.stopPropagation();
     };
+
+    useEffect(() => {
+        const chart = chartRef?.current?.chart;
+
+        const handleChartUpdate = () => {
+            console.log("hi")
+            setLoading(false)
+        };
+        chart?.addEventListener("updated", handleChartUpdate);
+
+        return () => {
+            chart?.removeEventListener("updated", handleChartUpdate);
+        };
+    }, [datetimeCategories]);
 
 
     return (
@@ -401,14 +422,19 @@ const WeatherDataGraphs = (props) => {
                             document.querySelector('.to')
                         ) : null}
                     </div>
-                    {(props.loading || props.leftLoad) ? (
+                    {(props.leftLoad) ? (
                         <Loader type="spinner-circle"
                             bgColor={"#FFFFFF"}
                             color={"#FFFFFF"}
                             size={100} />
                     ) : (
                         <>
-                            <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
+                            <div className={`${styles.chartContainer}`}>
+                                {loading && <div className={styles.loadingOverlay}>Updating...</div>}
+                                <div className={`${styles.chartWrapper} ${loading ? styles.blur : ''}`}>
+                                    {<ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />}
+                                </div>
+                            </div>
                         </>
                     )}
                 </div>
