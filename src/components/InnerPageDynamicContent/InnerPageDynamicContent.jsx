@@ -123,6 +123,7 @@ function InnerPageDynamicContent(props) {
                                     selectedEndDate={selectedEndDate}
                                     setSelectedStartDate={setSelectedStartDate}
                                     setSelectedEndDate={setSelectedEndDate}
+                                    id={props.id}
                                 />
                             }
                         </Tab>
@@ -143,6 +144,7 @@ function InnerPageDynamicContent(props) {
                                     selectedEndDate={selectedEndDate}
                                     setSelectedStartDate={setSelectedStartDate}
                                     setSelectedEndDate={setSelectedEndDate}
+                                    id={props.id}
                                 />
                             }
                         </Tab>
@@ -166,6 +168,7 @@ function InnerPageDynamicContent(props) {
                                     selectedEndDate={selectedEndDate}
                                     setSelectedStartDate={setSelectedStartDate}
                                     setSelectedEndDate={setSelectedEndDate}
+                                    id={props.id}
                                 />
                             }
                         </Tab>
@@ -186,6 +189,7 @@ function InnerPageDynamicContent(props) {
                                     selectedEndDate={selectedEndDate}
                                     setSelectedStartDate={setSelectedStartDate}
                                     setSelectedEndDate={setSelectedEndDate}
+                                    id={props.id}
                                 />
                             }
                         </Tab>

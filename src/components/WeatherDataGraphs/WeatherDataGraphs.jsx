@@ -36,6 +36,8 @@ const WeatherDataGraphs = (props) => {
 
     useEffect(() => {
         props.filterChange("Hourly")
+        setSelectedStartDate(today)
+        setSelectedEndDate(today)
     }, [props.id])
 
     useEffect(() => {
@@ -135,6 +137,11 @@ const WeatherDataGraphs = (props) => {
                                     props.setLoading(true)
                                     setLoading(true)
                                     props.filterChange("Monthly")
+                                    const currentDate = new Date();
+                                    const currentMonth = currentDate.getMonth();
+                                    const currentYear = currentDate.getFullYear();
+                                    setSelectedStartDate((new Date(currentYear, currentMonth, 1)));
+                                    setSelectedEndDate((new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0)));
                                 }
                             },
                             {
@@ -146,6 +153,8 @@ const WeatherDataGraphs = (props) => {
                                     props.setLoading(true)
                                     setLoading(true)
                                     props.filterChange("Daily")
+                                    setSelectedEndDate(today)
+                                    setSelectedStartDate(new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000))
                                 }
                             },
                             {
@@ -157,6 +166,8 @@ const WeatherDataGraphs = (props) => {
                                     props.setLoading(true)
                                     setLoading(true)
                                     props.filterChange("Hourly");
+                                    setSelectedEndDate(today)
+                                    setSelectedStartDate(today)
                                 }
                             },
                         ],
@@ -300,8 +311,6 @@ const WeatherDataGraphs = (props) => {
                 }));
             } catch (error) {
                 console.error("Error fetching data:", error);
-            } finally {
-                props.setLeftLoad(false)
             }
         };
         fetchData();
@@ -319,9 +328,8 @@ const WeatherDataGraphs = (props) => {
 
     const handleFilterByRange = () => {
         setFilterPressed(true);
-        props.filterChange("Range");
         setLoading(true)
-        props.setLeftLoad(true)
+        props.filterChange("Range");
     };
 
     const handleDatePickerClick = (event) => {
@@ -334,14 +342,14 @@ const WeatherDataGraphs = (props) => {
         const handleChartUpdate = () => {
             setTimeout(() => {
                 setLoading(false);
-            }, 2000);
+            }, 1000);
         };
         chart?.addEventListener("updated", handleChartUpdate);
 
         return () => {
             chart?.removeEventListener("updated", handleChartUpdate);
         };
-    }, [datetimeCategories, props.data, props.filterChange]);
+    }, [datetimeCategories, props.data]);
 
 
     return (
