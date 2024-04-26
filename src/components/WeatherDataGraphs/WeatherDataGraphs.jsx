@@ -133,6 +133,7 @@ const WeatherDataGraphs = (props) => {
                                 class: 'custom-icon-button',
                                 click: () => {
                                     props.setLoading(true)
+                                    setLoading(true)
                                     props.filterChange("Monthly")
                                 }
                             },
@@ -143,6 +144,7 @@ const WeatherDataGraphs = (props) => {
                                 class: 'custom-icon-button',
                                 click: (event) => {
                                     props.setLoading(true)
+                                    setLoading(true)
                                     props.filterChange("Daily")
                                 }
                             },
@@ -153,6 +155,7 @@ const WeatherDataGraphs = (props) => {
                                 class: 'custom-icon-button',
                                 click: (event) => {
                                     props.setLoading(true)
+                                    setLoading(true)
                                     props.filterChange("Hourly");
                                 }
                             },
@@ -263,8 +266,8 @@ const WeatherDataGraphs = (props) => {
     });
 
     useEffect(() => {
-        setLoading(true)
         const fetchData = async () => {
+            setLoading(true)
             try {
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 const datetimeCategories = props.time.map(time => new Date(time).getTime());
@@ -329,15 +332,16 @@ const WeatherDataGraphs = (props) => {
         const chart = chartRef?.current?.chart;
 
         const handleChartUpdate = () => {
-            console.log("hi")
-            setLoading(false)
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000);
         };
         chart?.addEventListener("updated", handleChartUpdate);
 
         return () => {
             chart?.removeEventListener("updated", handleChartUpdate);
         };
-    }, [datetimeCategories]);
+    }, [datetimeCategories, props.data, props.filterChange]);
 
 
     return (
@@ -430,7 +434,7 @@ const WeatherDataGraphs = (props) => {
                     ) : (
                         <>
                             <div className={`${styles.chartContainer}`}>
-                                {loading && <div className={styles.loadingOverlay}>Updating...</div>}
+                                {(loading || props.leftLoad) && <div className={styles.loadingOverlay}>Updating...</div>}
                                 <div className={`${styles.chartWrapper} ${loading ? styles.blur : ''}`}>
                                     {<ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />}
                                 </div>
