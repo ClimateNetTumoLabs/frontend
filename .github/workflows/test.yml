@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Deploy in EC2 and execute commands  # Step: Deploy code and execute commands on the EC2 instance
         env:
-          PRIVATE_KEY: ${{ secrets.TEST_SSH_KEY }}  # Environment variable: SSH private key
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Environment variable: SSH private key
           HOSTNAME: ${{ secrets.TEST_HOST }}  # Environment variable: Hostname of the EC2 instance
           USERNAME: ${{ secrets.TEST_USERNAME }}  # Environment variable: SSH username
 
@@ -19,11 +19,18 @@ jobs:
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key 
           ssh -o StrictHostKeyChecking=accept-new -i private_key ${USERNAME}@${HOSTNAME} '
 
-          cd /home/ubuntu/frontend && \
-          sudo apt install npm && \
-          npm install && npm run build
-
-          cd /home/ubuntu/django-app/climatenet && \
-          source venv/bin/activate && \
-          python manage.py collectstatic --noinput && \
-          sudo systemctl restart gunicorn.service'
+            sudo apt update && \
+            cd /home/ubuntu/frontend && \
+            git stash && \
+            git checkout staging && \
+            git pull origin staging && \
+            
+            sudo apt install npm && \
+            npm install && npm run build && \
+  
+            cd /home/ubuntu/django-app/climatenet && \
+            source venv/bin/activate && \
+            python manage.py collectstatic --noinput && \
+            
+            sudo systemctl daemon-reload && \
+            sudo systemctl restart gunicorn.service'
