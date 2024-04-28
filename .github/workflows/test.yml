@@ -33,4 +33,5 @@ jobs:
             python manage.py collectstatic --noinput && \
             
             sudo systemctl daemon-reload && \
-            sudo systemctl restart gunicorn.service'
+            sudo systemctl restart gunicorn.service && \
+            sudo systemctl restart nginx.service'
