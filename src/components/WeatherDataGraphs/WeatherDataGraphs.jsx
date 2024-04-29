@@ -29,24 +29,25 @@ const WeatherDataGraphs = (props) => {
     const today = new Date();
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-    const [selectedStartDate, setSelectedStartDate] = useState(props.startDate);
-    const [selectedEndDate, setSelectedEndDate] = useState(props.endDate);
     const [loading, setLoading] = useState(false);
+    const [selectedStartDate, setSelectedStartDate] = useState(props.startDate)
+    const [selectedEndDate, setSelectedEndDate] = useState(props.endDate)
     const [filterPressed, setFilterPressed] = useState(false);
 
     useEffect(() => {
-        props.filterChange("Hourly")
-        setSelectedStartDate(today)
-        setSelectedEndDate(today)
-    }, [props.id])
+        console.log("select start >>>>>>>>>>>>>>>>>>>>>>>>>>", formatDate(selectedStartDate))
+        console.log("select end   >>>>>>>>>>>>>>>>>>>>>>>>>>", formatDate(selectedEndDate))
 
-    useEffect(() => {
         if (filterPressed) {
             props.setStartDate(selectedStartDate);
             props.setEndDate(selectedEndDate);
             setFilterPressed(false)
         }
-    }, [filterPressed])
+        // else if(props.filterState !== "Range" ) {
+        //     setSelectedStartDate(props.startDate)
+        //     setSelectedEndDate(props.endDate)
+        // }
+    }, [filterPressed, props.filterState])
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -100,7 +101,6 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLoading(true)
                                     handleFilterByRange();
                                     setShowStartDatePicker(false);
                                     setShowEndDatePicker(false);
@@ -134,14 +134,14 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLoading(true)
-                                    setLoading(true)
-                                    props.filterChange("Monthly")
                                     const currentDate = new Date();
                                     const currentMonth = currentDate.getMonth();
                                     const currentYear = currentDate.getFullYear();
-                                    setSelectedStartDate((new Date(currentYear, currentMonth, 1)));
-                                    setSelectedEndDate((new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0)));
+                                    const start = (new Date(currentYear, currentMonth, 1));
+                                    const end = (new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0));
+                                    setSelectedEndDate(end)
+                                    setSelectedStartDate(start)
+                                    props.filterChange("Monthly")
                                 }
                             },
                             {
@@ -150,11 +150,14 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: (event) => {
-                                    props.setLoading(true)
-                                    setLoading(true)
+                                    const currentDate = new Date();
+                                    const currentMonth = currentDate.getMonth();
+                                    const currentYear = currentDate.getFullYear();
+                                    const end = (currentDate);
+                                    const start = (new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000))
+                                    setSelectedEndDate(end)
+                                    setSelectedStartDate(start)
                                     props.filterChange("Daily")
-                                    setSelectedEndDate(today)
-                                    setSelectedStartDate(new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000))
                                 }
                             },
                             {
@@ -163,11 +166,12 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: (event) => {
-                                    props.setLoading(true)
-                                    setLoading(true)
+                                    let start, end;
+                                    const currentDate = new Date();
+                                    start = end = (currentDate);
+                                    setSelectedEndDate(end)
+                                    setSelectedStartDate(start)
                                     props.filterChange("Hourly");
-                                    setSelectedEndDate(today)
-                                    setSelectedStartDate(today)
                                 }
                             },
                         ],
@@ -328,7 +332,6 @@ const WeatherDataGraphs = (props) => {
 
     const handleFilterByRange = () => {
         setFilterPressed(true);
-        setLoading(true)
         props.filterChange("Range");
     };
 
@@ -349,7 +352,7 @@ const WeatherDataGraphs = (props) => {
         return () => {
             chart?.removeEventListener("updated", handleChartUpdate);
         };
-    }, [datetimeCategories, props.data]);
+    }, [props.data]);
 
 
     return (

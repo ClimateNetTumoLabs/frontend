@@ -14,9 +14,13 @@ function InnerPage() {
 	const [startDateState, setStartDate] = useState(new Date());
 	const [endDateState, setEndDate] = useState(new Date());
 	const [error, setError] = useState(null);
-	const [showDatePicker, setShowDatePicker] = useState(false);
 	const [leftLoad, setLeftLoad] = useState(true);
 	const [lastData, setLastData] = useState([]);
+	const [showDatePicker, setShowDatePicker] = useState(false);
+
+	const handleCloseDatePicker = () => {
+		setShowDatePicker(false);
+	};
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -33,10 +37,6 @@ function InnerPage() {
 
 		fetchData();
 	}, [params.id]);
-
-	const handleCloseDatePicker = () => {
-		setShowDatePicker(false);
-	};
 
 	useEffect(() => {
 		if (!permissionGranted) {
@@ -56,7 +56,7 @@ function InnerPage() {
 
 			askForPermissionAgain();
 		}
-	}, [permissionGranted, setPosition, setPermissionGranted, showDatePicker]);
+	}, [permissionGranted, setPosition, setPermissionGranted]);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -85,6 +85,7 @@ function InnerPage() {
 					start = end = formatDate(currentDate);
 					break;
 			}
+
 			return `/device_inner/${params.id}/period/?start_time_str=${start}&end_time_str=${end}`
 		};
 		const url = getDataUrl(filterState);
@@ -123,7 +124,10 @@ function InnerPage() {
 
 	return (
 		<div className={styles.inner_page}>
-			<InnerPageLeftNav filterState={filterState} filterChange={filterStateChange} selected_device_id={params.id}
+			<InnerPageLeftNav
+				filterState={filterState}
+				filterChange={filterStateChange}
+				selected_device_id={params.id}
 				startDate={startDateState}
 				setStartDate={setStartDate}
 				endDate={endDateState}
@@ -138,29 +142,19 @@ function InnerPage() {
 				setLeftLoad={setLeftLoad}
 			/>
 			<InnerPageContent
-				content={filterState}
 				weather_data={weather_data}
 				error={error}
 				leftLoad={leftLoad}
 				setLeftLoad={setLeftLoad}
-				filterState={filterState}
 				filterChange={filterStateChange}
 				startDate={startDateState}
 				setStartDate={setStartDate}
 				endDate={endDateState}
 				setEndDate={setEndDate}
-				showDatePicker={showDatePicker}
-				setShowDatePicker={setShowDatePicker}
-				handleCloseDatePicker={handleCloseDatePicker}
 				setError={setError}
 				data={lastData}
-				lastData={lastData}
-				id={params.id}
+				filterState={filterState}
 			/>
-			{/*<DeviceImage />*/}
-			{/*/!* <DownloadButton/> *!/*/}
-			{/*<HoverToDevice data={weather_data} />*/}
-			{/*<WeatherDataGraphs data={weather_data} />*/}
 		</div>
 	);
 }
