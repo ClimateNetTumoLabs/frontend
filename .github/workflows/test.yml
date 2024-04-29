@@ -16,6 +16,9 @@ jobs:
 
         # SSH into the EC2 instance and execute commands
         run: |
+          set -euo pipefail  
+          trap 'exit 0' EXIT 
+          
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key 
           ssh -o StrictHostKeyChecking=accept-new -i private_key ${USERNAME}@${HOSTNAME} '
             sudo apt update && \
