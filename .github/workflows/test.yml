@@ -1,9 +1,9 @@
-name: Deploy on push staging  # Description: This workflow triggers deployment when code is pushed to the staging branch
+name: Deploy on push dev # Description: This workflow triggers deployment when code is pushed to the staging branch
 
 on:
   push:
     branches:
-      - staging  # Trigger: Deploy when pushing changes to the staging branch
+      - dev  # Trigger: Deploy when pushing changes to the staging branch
 jobs:
   Deploy:
     runs-on: ubuntu-latest  # Specify the operating system for the job
@@ -18,7 +18,6 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key 
           ssh -o StrictHostKeyChecking=accept-new -i private_key ${USERNAME}@${HOSTNAME} '
-
             sudo apt update && \
             cd /home/ubuntu/frontend && \
             git stash && \
@@ -35,3 +34,4 @@ jobs:
             sudo systemctl daemon-reload && \
             sudo systemctl restart gunicorn.service && \
             sudo systemctl restart nginx.service'
+
