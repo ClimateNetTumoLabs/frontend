@@ -11,26 +11,27 @@ jobs:
       - name: Deploy in EC2 and execute commands  # Step: Deploy code and execute commands on the EC2 instance
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Environment variable: SSH private key
-          HOSTNAME: ${{ secrets.EC2_IP }}  # Environment variable: Hostname of the EC2 instance
-          USERNAME: ${{ secrets.EC2_USERNAME }}  # Environment variable: SSH username
+          HOSTNAME: ${{ secrets.TEST_HOST }}  # Environment variable: Hostname of the EC2 instance
+          USERNAME: ${{ secrets.TEST_USERNAME }}  # Environment variable: SSH username
 
         # SSH into the EC2 instance and execute commands
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key 
           ssh -o StrictHostKeyChecking=accept-new -i private_key ${USERNAME}@${HOSTNAME} '
+            sudo apt update && \
+            cd /home/ubuntu/frontend && \
+            git stash && \
+            git checkout staging && \
+            git pull origin staging && \
+            
+            sudo apt install npm && \
+            npm install && npm run build && \
+  
+            cd /home/ubuntu/django-app/climatenet && \
+            source venv/bin/activate && \
+            python manage.py collectstatic --noinput && \
+            
+            sudo systemctl daemon-reload && \
+            sudo systemctl restart gunicorn.service && \
+            sudo systemctl restart nginx.service'
 
-          sudo apt update && \
-          cd /home/ubuntu/frontend && \
-          git stash && \
-          git checkout dev && \
-          git pull origin dev && \
-          
-          sudo apt install npm && \
-          npm install && npm run build && \
-
-          cd /home/ubuntu/django-app/climatenet && \
-          source venv/bin/activate && \
-          python manage.py collectstatic --noinput && \
-          
-          sudo systemctl daemon-reload && \
-          sudo systemctl restart gunicorn.service'

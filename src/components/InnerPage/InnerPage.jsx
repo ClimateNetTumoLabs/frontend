@@ -69,7 +69,7 @@ function InnerPage() {
 			switch (filterState) {
 				case 'Daily':
 					end = formatDate(currentDate);
-					start = formatDate(new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000));
+					start = formatDate(new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000))
 					break;
 				case 'Monthly':
 					start = formatDate(new Date(currentYear, currentMonth, 1));
@@ -85,7 +85,6 @@ function InnerPage() {
 					start = end = formatDate(currentDate);
 					break;
 			}
-
 			return `/device_inner/${params.id}/period/?start_time_str=${start}&end_time_str=${end}`
 		};
 		const url = getDataUrl(filterState);

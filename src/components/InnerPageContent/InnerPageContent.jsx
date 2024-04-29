@@ -9,32 +9,31 @@ function InnerPageContent(props) {
 
     return (
         <div className={`${styles.innerContent}`}>
-            <InnerPageStaticContent 
+            <InnerPageStaticContent
                 loading={loading}
                 setLoading={setLoading}
                 leftLoad={props.leftLoad}
                 setLeftLoad={props.setLeftLoad}
-                data = {props.data}
+                data={props.data}
             />
-            <InnerPageDynamicContent 
-                period = {props.content} 
-                weather_data = {props.weather_data}
+            <InnerPageDynamicContent
+                period={props.content}
+                weather_data={props.weather_data}
                 loading={loading}
                 setLoading={setLoading}
                 leftLoad={props.leftLoad}
                 setLeftLoad={props.setLeftLoad}
-                filterState={props.filterState} filterChange={props.filterChange} 
+                filterState={props.filterState} filterChange={props.filterChange}
                 startDate={props.startDate}
                 setStartDate={props.setStartDate}
                 endDate={props.endDate}
                 setEndDate={props.setEndDate}
-                error = {props.error}
+                error={props.error}
                 showDatePicker={props.showDatePicker}
-                setShowDatePicker={props.setShowDatePicker} 
-                handleCloseDatePicker = {props.handleCloseDatePicker}
-                setError = {props.setError}
-                lastData = {props.lastData}
-                id = {props.id}
+                setShowDatePicker={props.setShowDatePicker}
+                handleCloseDatePicker={props.handleCloseDatePicker}
+                setError={props.setError}
+                id={props.id}
             />
         </div>
     )
