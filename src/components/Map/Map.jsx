@@ -188,7 +188,7 @@ const MapArmenia = () => {
 							const regionCoordinates = regionCoordinatesMap[region];
 							if (!regionCoordinates) return null;
 							return (
-								<PolygonWithText className={styles.circleMarker} coords={regionCoordinates} text={count} />
+								<PolygonWithText key={region} className={styles.circleMarker} coords={regionCoordinates} text={count} />
 							);
 						})}
 					</>
