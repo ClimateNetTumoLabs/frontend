@@ -21,7 +21,6 @@ function InnerPageDynamicContent(props) {
     const [WindSpeed, setWindSpeed] = useState([])
     const [WindDirection, setWindDirection] = useState([])
     const ChartsRef = useRef(null)
-
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current
 

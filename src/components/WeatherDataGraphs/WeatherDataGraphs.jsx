@@ -277,6 +277,14 @@ const WeatherDataGraphs = (props) => {
         },
     });
 
+    const title_map = {
+        "Monthly": " last month",
+        "Daily": " last week",
+        "Hourly": " today",
+        "Range" : " between selected dates"
+    };
+    
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
@@ -300,7 +308,7 @@ const WeatherDataGraphs = (props) => {
                     options: {
                         ...prevState.options,
                         title: {
-                            text: `Data per ${props.timeline}`,
+                            text: `Data per ${title_map[props.timeline]}`,
                             align: 'left'
                         },
                         xaxis: {

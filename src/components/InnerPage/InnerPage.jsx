@@ -150,6 +150,7 @@ function InnerPage() {
 				setLeftLoad={setLeftLoad}
 			/>
 			<InnerPageContent
+				content={filterState}
 				weather_data={weather_data}
 				error={error}
 				leftLoad={leftLoad}
