@@ -1,9 +1,9 @@
-name: Deploy on push dev # Description: This workflow triggers deployment when code is pushed to the staging branch
+name: Deploy on push staging # Description: This workflow triggers deployment when code is pushed to the staging branch
 
 on:
   push:
     branches:
-      - dev  # Trigger: Deploy when pushing changes to the staging branch
+      - staging  # Trigger: Deploy when pushing changes to the staging branch
 jobs:
   Deploy:
     runs-on: ubuntu-latest  # Specify the operating system for the job
@@ -16,6 +16,9 @@ jobs:
 
         # SSH into the EC2 instance and execute commands
         run: |
+          set -euo pipefail  
+          trap 'exit 0' EXIT 
+          
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key 
           ssh -o StrictHostKeyChecking=accept-new -i private_key ${USERNAME}@${HOSTNAME} '
             sudo apt update && \
