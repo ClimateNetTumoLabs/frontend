@@ -46,7 +46,6 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
 }
 
 function InnerPageNearbyDevices(props) {
-    const today = new Date();
     const [devices, setDevices] = useState([]);
     const { permissionGranted, position } = useContext(PositionContext);
     const [deviceDataArrays, setDeviceDataArrays] = useState([]);

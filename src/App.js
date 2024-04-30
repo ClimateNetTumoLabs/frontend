@@ -9,7 +9,6 @@ import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import InnerPage from "./components/InnerPage/InnerPage";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
-import Team from "./components/Team/Team";
 import { useLocation } from "react-router-dom";
 
 function App() {

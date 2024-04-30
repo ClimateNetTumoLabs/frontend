@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./InnerPage.module.css";
@@ -18,6 +18,7 @@ function InnerPage() {
 	const [lastData, setLastData] = useState([]);
 	const [showDatePicker, setShowDatePicker] = useState(false);
 	const [filterPressed, setFilterPressed] = useState(false);
+	const prevUrlRef = useRef(null);
 
 	const handleCloseDatePicker = () => {
 		setShowDatePicker(false);
@@ -90,6 +91,12 @@ function InnerPage() {
 			return `/device_inner/${params.id}/period/?start_time_str=${start}&end_time_str=${end}`
 		};
 		const url = getDataUrl(filterState);
+		
+		if (prevUrlRef.current === url) {
+			return;
+		}
+		prevUrlRef.current = url; 
+
 		axios
 			.get(url, { withCredentials: true })
 			.then((response) => {

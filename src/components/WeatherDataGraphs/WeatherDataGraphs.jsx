@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactApexChart from 'react-apexcharts';
 import styles from './WeatherDataGraphs.module.css'
 import Loader from "react-js-loader";
@@ -32,7 +32,7 @@ const WeatherDataGraphs = (props) => {
     const [loading, setLoading] = useState(false);
     const [selectedStartDate, setSelectedStartDate] = useState(props.startDate)
     const [selectedEndDate, setSelectedEndDate] = useState(props.endDate)
-    
+
     useEffect(()=>{
         setSelectedStartDate(today)
         setSelectedEndDate(today)
@@ -164,7 +164,8 @@ const WeatherDataGraphs = (props) => {
                                 click: () => {
                                     let start, end;
                                     const currentDate = new Date();
-                                    start = end = currentDate;
+                                    start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+                                    end = currentDate;
                                     setSelectedEndDate(end);
                                     setSelectedStartDate(start);
                                     props.filterChange("Hourly");
@@ -332,15 +333,23 @@ const WeatherDataGraphs = (props) => {
 
     useEffect(() => {
         const chart = chartRef?.current?.chart;
-
+        let timer; 
+    
         const handleChartUpdate = () => {
-            setTimeout(() => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
                 setLoading(false);
-            }, 1000);
+            }, 2000);
         };
+    
         chart?.addEventListener("updated", handleChartUpdate);
-
+    
+        timer = setTimeout(() => {
+            setLoading(false); 
+        }, 2200); 
+    
         return () => {
+            clearTimeout(timer);
             chart?.removeEventListener("updated", handleChartUpdate);
         };
     }, [props.data]);
