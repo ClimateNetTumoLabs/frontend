@@ -6,7 +6,6 @@ import Tabs from 'react-bootstrap/Tabs';
 import { ReactComponent as FullScreen } from "../../assets/Icons/full-screen.svg";
 
 function InnerPageDynamicContent(props) {
-    // States to store arrays for temperature, humidity, and time
     const [selectedTab, setSelectedTab] = useState("tem_and_hum");
     const [temperature, setTemperature] = useState([]);
     const [humidity, setHumidity] = useState([]);

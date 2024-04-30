@@ -25,7 +25,7 @@ const Chart = ({ text, subtitle, information }) => {
         const minutes = date.getMinutes().toString().padStart(2, "0");
         formattedTime = `${hours}:${minutes}`;
       } else {
-        formattedTime = formattedTime.substring(0, 10); // Extract YYYY-MM-DD
+        formattedTime = formattedTime.substring(0, 10);
       }
 
       return {

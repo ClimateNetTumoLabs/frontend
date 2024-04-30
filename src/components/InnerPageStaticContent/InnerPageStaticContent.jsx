@@ -105,7 +105,6 @@ function InnerPageStaticContent(props) {
                     <>
                         <div className={`${styles.nameAndDevice} d-flex`}>
                             <h2>{nameOfDevice}</h2>
-                            {/* <Device/> */}
                         </div>
                         <div className={styles.staticContent}>
                             <div className={styles.waeterInfo}>

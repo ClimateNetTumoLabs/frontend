@@ -175,6 +175,7 @@ const MapArmenia = () => {
 				zoom={8}
 				style={{
 					height: "600px", width: "100%",
+					cursor: 'pointer'
 				}}
 				className={`${styles.mapContainer}`}
 				onMouseWheel={handleMessage}

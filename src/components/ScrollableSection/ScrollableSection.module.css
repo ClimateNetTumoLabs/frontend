@@ -31,8 +31,6 @@
     font-weight: 500;
 }
 
-
-/*Mobile*/
 @media (max-width: 767px) {
     .zero_animation h1{
         font-size: 20px !important;

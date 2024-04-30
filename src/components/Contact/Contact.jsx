@@ -33,14 +33,11 @@ const ContactForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Destructure formData for easier access
     const { name, surname, subject, message } = formData;
 
-    // Build the mailto link with a template message
     const templateMessage = `Hello TUMO Labs Team, \n\n ${message} \n\n Regards, \n\n${name} ${surname}`;
     const mailtoLink = `mailto:erik.saryan@tumo.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(templateMessage)}`;
 
-    // Open the mail client
     window.location.href = mailtoLink;
   };
 
