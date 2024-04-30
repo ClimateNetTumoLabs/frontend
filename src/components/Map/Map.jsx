@@ -75,11 +75,7 @@ const MapArmenia = () => {
 
 
 	useEffect(() => {
-		const idleTimer = setTimeout(() => {
-			setShowMessage(false);
-		}, 5000);
-
-		return () => clearTimeout(idleTimer);
+		setShowMessage(false);
 	}, []);
 
 	const handleMessage = () => {
@@ -175,6 +171,7 @@ const MapArmenia = () => {
 				zoom={8}
 				style={{
 					height: "600px", width: "100%",
+					cursor: 'pointer'
 				}}
 				className={`${styles.mapContainer}`}
 				onMouseWheel={handleMessage}

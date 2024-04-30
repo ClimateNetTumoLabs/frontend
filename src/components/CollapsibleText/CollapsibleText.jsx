@@ -16,8 +16,6 @@ const CollapsibleText = ({ text, maxCharacters, point}) => {
                 </div>
             </div>
             <div {...getCollapseProps()} className={styles.description}>
-
-                {/*<p className="card-text" content={text}></p>*/}
                 <Markup  className={`card-text ${styles.card}`} content={text} />
             </div>
         </div>

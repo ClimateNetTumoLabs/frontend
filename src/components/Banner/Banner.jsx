@@ -19,7 +19,7 @@ function Banner() {
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 5000); // Change slide every 5 seconds
+        }, 5000); 
 
         return () => clearInterval(interval);
     }, [images]);
@@ -37,7 +37,7 @@ function Banner() {
                         <img
                             loading="lazy"
                             className={styles.carouselImg}
-                            src={`${images}`} // Use the path relative to the public folder
+                            src={`${images}`} 
                             alt={`Slide ${idx + 1}`}
                         />
                         <Carousel.Caption className={`${styles.carouselCaption} ${styles.carousel_text_section}`}>

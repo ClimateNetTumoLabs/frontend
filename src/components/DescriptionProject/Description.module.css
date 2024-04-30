@@ -35,11 +35,10 @@
 }
 
 .magnified .magnifiedText {
-  transform: scale(1.5); /* You can adjust the scale factor */
+  transform: scale(1.5); 
   transform-origin: top left;
 }
 
-/* Add transition for a smooth effect */
 .magnifiedText {
   transition: transform 0.3s ease-in-out;
 }
