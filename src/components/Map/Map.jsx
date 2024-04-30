@@ -75,11 +75,7 @@ const MapArmenia = () => {
 
 
 	useEffect(() => {
-		const idleTimer = setTimeout(() => {
-			setShowMessage(false);
-		}, 5000);
-
-		return () => clearTimeout(idleTimer);
+		setShowMessage(false);
 	}, []);
 
 	const handleMessage = () => {
