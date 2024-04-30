@@ -148,6 +148,7 @@ span {
 .fullscreen_button {
     height: 15px;
     width: 15px;
+    cursor:pointer;
 }
 
 @media (max-width: 767px) {
