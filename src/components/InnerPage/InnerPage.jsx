@@ -17,6 +17,7 @@ function InnerPage() {
 	const [leftLoad, setLeftLoad] = useState(true);
 	const [lastData, setLastData] = useState([]);
 	const [showDatePicker, setShowDatePicker] = useState(false);
+	const [filterPressed, setFilterPressed] = useState(false);
 
 	const handleCloseDatePicker = () => {
 		setShowDatePicker(false);
@@ -154,6 +155,9 @@ function InnerPage() {
 				setError={setError}
 				data={lastData}
 				filterState={filterState}
+				selected_device_id={params.id}
+				filterPressed ={filterPressed}
+				setFilterPressed={setFilterPressed}
 			/>
 		</div>
 	);

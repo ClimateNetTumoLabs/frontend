@@ -121,6 +121,7 @@ function InnerPageDynamicContent(props) {
                                     filterPressed={props.filterPressed}
                                     setFilterPressed={props.setFilterPressed}
                                     filterState={props.filterState}
+                                    selected_device_id={props.selected_device_id}
                                 />
                             }
                         </Tab>
@@ -144,6 +145,7 @@ function InnerPageDynamicContent(props) {
                                     filterPressed={props.filterPressed}
                                     setFilterPressed={props.setFilterPressed}
                                     filterState={props.filterState}
+                                    selected_device_id={props.selected_device_id}
                                 />
                             }
                         </Tab>
@@ -168,6 +170,7 @@ function InnerPageDynamicContent(props) {
                                     filterPressed={props.filterPressed}
                                     setFilterPressed={props.setFilterPressed}
                                     filterState={props.filterState}
+                                    selected_device_id={props.selected_device_id}
                                 />
                             }
                         </Tab>
@@ -192,6 +195,7 @@ function InnerPageDynamicContent(props) {
                                     filterPressed={props.filterPressed}
                                     setFilterPressed={props.setFilterPressed}
                                     filterState={props.filterState}
+                                    selected_device_id={props.selected_device_id}
                                 />
                             }
                         </Tab>
