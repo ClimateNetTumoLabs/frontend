@@ -22,7 +22,7 @@
 
 }
 
-.zero_animation h1{
+.zero_animation h2{
     font-size: 28px !important;
     width : 90%;
     margin : 0 auto;
@@ -31,14 +31,29 @@
     font-weight: 500;
 }
 
+.first_animation h2,
+.second_animation h2,
+.third_animation h2{
+    font-size: 38px !important;
+    margin : 0 auto;
+    line-height: 1.2;
+    padding-top: 60px;
+    font-weight: 500;
+}
+
 @media (max-width: 767px) {
-    .zero_animation h1{
+    .zero_animation h2{
         font-size: 20px !important;
+    }
+    .first_animation h2,
+    .second_animation h2,
+    .third_animation h2 {
+        font-size: 23px !important;
     }
     .first_animation div{
         top: 230px !important;
     }
-    .animation_block h1{
+    .animation_block h2{
         min-width: 300px;
         font-size : 24px
     }

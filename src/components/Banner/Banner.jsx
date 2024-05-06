@@ -41,7 +41,7 @@ function Banner() {
                             alt={`Slide ${idx + 1}`}
                         />
                         <Carousel.Caption className={`${styles.carouselCaption} ${styles.carousel_text_section}`}>
-                            <h3 className={`${styles.static_name}`}>Climate Network: Connecting Armenia through a growing network of real-time climate data. </h3>
+                            <h1 className={`${styles.static_name}`}>Climate Network: Connecting Armenia through a growing network of real-time climate data. </h1>
                             <p className={`${styles.animated_text}`}>{
                                 <TypeAnimation
                                     sequence={[
