@@ -11,8 +11,8 @@ jobs:
       - name: Deploy in EC2 and execute commands  # Step: Deploy code and execute commands on the EC2 instance
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Environment variable: SSH private key
-          HOSTNAME: ${{ secrets.TEST_HOST }}  # Environment variable: Hostname of the EC2 instance
-          USERNAME: ${{ secrets.TEST_USERNAME }}  # Environment variable: SSH username
+          HOSTNAME: ${{ secrets.EC2_IP }}  # Environment variable: Hostname of the EC2 instance
+          USERNAME: ${{ secrets.EC2_USERNAME }}  # Environment variable: SSH username
 
         # SSH into the EC2 instance and execute commands
         run: |
@@ -24,8 +24,8 @@ jobs:
             sudo apt update && \
             cd /home/ubuntu/frontend && \
             git stash && \
-            git checkout staging && \
-            git pull origin staging && \
+            git checkout dev && \
+            git pull origin dev && \
             
             sudo apt install npm && \
             npm install && npm run build && \
