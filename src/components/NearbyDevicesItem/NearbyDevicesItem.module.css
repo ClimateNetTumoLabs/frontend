@@ -8,6 +8,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
 
 
@@ -18,9 +19,9 @@
 .near_device_name {
     min-width: 120px;
     width: 120px;
-    overflow: hidden; /* make sure it hides the content that overflows */
-    white-space: nowrap; /* don't break the line */
-    text-overflow: ellipsis; /* give the beautiful '...' effect */
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis;
 }
 
 .weather_icon {
@@ -40,9 +41,9 @@
     font-size: 12px;
     line-height: 1.8;
     max-width: 100%;
-    overflow: hidden; /* make sure it hides the content that overflows */
-    white-space: nowrap; /* don't break the line */
-    text-overflow: ellipsis; /* give the beautiful '...' effect */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .distance_icon {
@@ -61,8 +62,6 @@
 }
 
 .measurement_icon {
-    /*position: relative;*/
-    /*max-width: 20px;*/
     margin-left : 5px;
     max-width: 30px;
 }

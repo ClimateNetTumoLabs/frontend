@@ -6,17 +6,16 @@ import InnerPageNearbyDevices from "../InnerPageNearbyDevices/InnerPageNearbyDev
 function InnerPageLeftNav(props) {
     return (
         <div className={`${styles.innerLeftNav} name`}>
-            <InnerPageNearbyDevices selected_device_id={props.selected_device_id}
+            <InnerPageNearbyDevices 
+                selected_device_id={props.selected_device_id}
                 leftLoad={props.leftLoad}
                 setLeftLoad={props.setLeftLoad}
-                filterState={props.filterState}
 				filterChange={props.filterChange}
-                startDate={props.startDateState}
-				setStartDate={props.setStartDate}
-				endDate={props.endDateState}
-				setEndDate={props.setEndDate}
+                error={props.error}
             />
-            <InnerPageFilter filterState={props.filterState} filterChange={props.filterChange}
+            <InnerPageFilter 
+                filterState={props.filterState}
+                filterChange={props.filterChange}
                 startDate={props.startDate}
                 setStartDate={props.setStartDate}
                 endDate={props.endDate}

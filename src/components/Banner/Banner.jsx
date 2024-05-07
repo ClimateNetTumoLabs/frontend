@@ -19,7 +19,7 @@ function Banner() {
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 5000); // Change slide every 5 seconds
+        }, 5000); 
 
         return () => clearInterval(interval);
     }, [images]);
@@ -37,11 +37,11 @@ function Banner() {
                         <img
                             loading="lazy"
                             className={styles.carouselImg}
-                            src={`${images}`} // Use the path relative to the public folder
+                            src={`${images}`} 
                             alt={`Slide ${idx + 1}`}
                         />
                         <Carousel.Caption className={`${styles.carouselCaption} ${styles.carousel_text_section}`}>
-                            <h3 className={`${styles.static_name}`}>Climate Network: Connecting Armenia through a growing network of real-time climate data. </h3>
+                            <h1 className={`${styles.static_name}`}>Climate Network: Connecting Armenia through a growing network of real-time climate data. </h1>
                             <p className={`${styles.animated_text}`}>{
                                 <TypeAnimation
                                     sequence={[

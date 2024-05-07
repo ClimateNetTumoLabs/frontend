@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactApexChart from 'react-apexcharts';
 import styles from './WeatherDataGraphs.module.css'
 import Loader from "react-js-loader";
@@ -29,24 +29,23 @@ const WeatherDataGraphs = (props) => {
     const today = new Date();
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-    const [selectedStartDate, setSelectedStartDate] = useState(props.startDate);
-    const [selectedEndDate, setSelectedEndDate] = useState(props.endDate);
     const [loading, setLoading] = useState(false);
-    const [filterPressed, setFilterPressed] = useState(false);
+    const [selectedStartDate, setSelectedStartDate] = useState(props.startDate)
+    const [selectedEndDate, setSelectedEndDate] = useState(props.endDate)
 
-    useEffect(() => {
-        props.filterChange("Hourly")
+    useEffect(()=>{
         setSelectedStartDate(today)
         setSelectedEndDate(today)
-    }, [props.id])
+    }, [props.selected_device_id])
 
     useEffect(() => {
-        if (filterPressed) {
+        if (props.filterPressed) {
             props.setStartDate(selectedStartDate);
             props.setEndDate(selectedEndDate);
-            setFilterPressed(false)
+            props.filterChange("Range");
+            props.setFilterPressed(false)
         }
-    }, [filterPressed])
+    }, [props.filterPressed])
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -100,10 +99,7 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLoading(true)
-                                    handleFilterByRange();
-                                    setShowStartDatePicker(false);
-                                    setShowEndDatePicker(false);
+                                    props.setFilterPressed(true);
                                 }
                             },
                             {
@@ -134,14 +130,14 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: () => {
-                                    props.setLoading(true)
-                                    setLoading(true)
-                                    props.filterChange("Monthly")
                                     const currentDate = new Date();
                                     const currentMonth = currentDate.getMonth();
                                     const currentYear = currentDate.getFullYear();
-                                    setSelectedStartDate((new Date(currentYear, currentMonth, 1)));
-                                    setSelectedEndDate((new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0)));
+                                    const start = (new Date(currentYear, currentMonth, 1));
+                                    const end = (new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0));
+                                    setSelectedEndDate(end)
+                                    setSelectedStartDate(start)
+                                    props.filterChange("Monthly")
                                 }
                             },
                             {
@@ -150,11 +146,14 @@ const WeatherDataGraphs = (props) => {
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: (event) => {
-                                    props.setLoading(true)
-                                    setLoading(true)
+                                    const currentDate = new Date();
+                                    const currentMonth = currentDate.getMonth();
+                                    const currentYear = currentDate.getFullYear();
+                                    const end = (currentDate);
+                                    const start = (new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000))
+                                    setSelectedEndDate(end)
+                                    setSelectedStartDate(start)
                                     props.filterChange("Daily")
-                                    setSelectedEndDate(today)
-                                    setSelectedStartDate(new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000))
                                 }
                             },
                             {
@@ -162,20 +161,22 @@ const WeatherDataGraphs = (props) => {
                                 index: -19,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
-                                click: (event) => {
-                                    props.setLoading(true)
-                                    setLoading(true)
+                                click: () => {
+                                    let start, end;
+                                    const currentDate = new Date();
+                                    start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+                                    end = currentDate;
+                                    setSelectedEndDate(end);
+                                    setSelectedStartDate(start);
                                     props.filterChange("Hourly");
-                                    setSelectedEndDate(today)
-                                    setSelectedStartDate(today)
                                 }
                             },
                         ],
                         download: true,
                         selection: true,
-                        zoomin: true,
-                        zoomout: true,
-                        zoom: true,
+                        zoomin: false,
+                        zoomout: false,
+                        zoom: false,
                         pan: true,
                     },
                 },
@@ -276,6 +277,14 @@ const WeatherDataGraphs = (props) => {
         },
     });
 
+    const title_map = {
+        "Monthly": " last month",
+        "Daily": " last week",
+        "Hourly": " today",
+        "Range" : " between selected dates"
+    };
+    
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
@@ -299,7 +308,7 @@ const WeatherDataGraphs = (props) => {
                     options: {
                         ...prevState.options,
                         title: {
-                            text: `Data per ${props.timeline}`,
+                            text: `Data per ${title_map[props.timeline]}`,
                             align: 'left'
                         },
                         xaxis: {
@@ -326,30 +335,33 @@ const WeatherDataGraphs = (props) => {
         setShowEndDatePicker(false)
     };
 
-    const handleFilterByRange = () => {
-        setFilterPressed(true);
-        setLoading(true)
-        props.filterChange("Range");
-    };
-
     const handleDatePickerClick = (event) => {
         event.stopPropagation();
     };
 
     useEffect(() => {
         const chart = chartRef?.current?.chart;
-
+        let timer; 
+    
         const handleChartUpdate = () => {
-            setTimeout(() => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
                 setLoading(false);
-            }, 1000);
+            }, 2000);
         };
+    
         chart?.addEventListener("updated", handleChartUpdate);
-
+    
+        timer = setTimeout(() => {
+            setLoading(false); 
+        }, 2200); 
+    
         return () => {
+            clearTimeout(timer);
             chart?.removeEventListener("updated", handleChartUpdate);
         };
-    }, [datetimeCategories, props.data]);
+    }, [props.data]);
+
 
 
     return (

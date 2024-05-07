@@ -7,8 +7,8 @@ import { PositionContext } from "../../context/PositionContext";
 import Loader from "react-js-loader";
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius of the Earth in kilometers
-    const dLat = (lat2 - lat1) * Math.PI / 180;  // Convert degrees to radians
+    const R = 6371; 
+    const dLat = (lat2 - lat1) * Math.PI / 180; 
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
@@ -20,7 +20,6 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
 function receive_nearby_devices(referencePoint, devices, permissionGranted) {
     if (referencePoint) {
-        // Calculate distances from the reference point to all other points
         const distances = devices.map(device => {
             return {
                 id: device.generated_id,
@@ -34,11 +33,9 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
             };
         });
 
-        // Sort distances in ascending order
         distances.sort((a, b) => (a.distance - b.distance));
 
-        // Display the 3 nearest points
-        const nearestPoints = permissionGranted ? distances.slice(0, 3) : distances.slice(0, 3); // Exclude the reference point itself
+        const nearestPoints = permissionGranted ? distances.slice(0, 3) : distances.slice(0, 3); 
         return nearestPoints
     } else {
         return []
@@ -46,7 +43,6 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
 }
 
 function InnerPageNearbyDevices(props) {
-    const today = new Date();
     const [devices, setDevices] = useState([]);
     const { permissionGranted, position } = useContext(PositionContext);
     const [deviceDataArrays, setDeviceDataArrays] = useState([]);

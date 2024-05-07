@@ -33,15 +33,6 @@ const Header = () => {
     setIsNavExpanded(!isNavExpanded);
   };
 
-  // const handleCloseHeader = () => {
-  //   setIsNavExpanded(true);
-  //   console.log("Some")
-  //   if (isNavExpanded) {
-
-
-  //   }
-  // }
-
   const NavItem = ({ to, label, location }) => {
     return (
         <li className="nav-item">
@@ -67,7 +58,7 @@ const Header = () => {
           behavior: "smooth",
         });
       }
-    }, 100); // Delay to Rendering page
+    }, 100);
   };
 
 

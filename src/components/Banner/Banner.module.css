@@ -112,6 +112,10 @@
     margin-top: 80px;
 }
 
+.carouselCaption h1 {
+    font-size: 28px;
+}
+
 /* Media query for desktop */
 @media (min-width: 768px) {
     .carouselCaption {
@@ -128,7 +132,7 @@
         text-align: left;
         left: 30px !important;
     }
-    .carouselCaption h3 {
+    .carouselCaption h1 {
         font-size: 20px;
     }
     .carousel_section  div, .carousel_section img {
