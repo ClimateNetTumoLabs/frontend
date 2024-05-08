@@ -280,8 +280,8 @@ const WeatherDataGraphs = (props) => {
     const title_map = {
         "Monthly": " last month",
         "Daily": " last week",
-        "Hourly": " today",
-        "Range" : " between selected dates"
+        "Hourly": " day",
+        "Range" : " selected dates"
     };
     
 
