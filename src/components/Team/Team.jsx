@@ -41,8 +41,8 @@ const list_of_members = {
     "2" : {
         "Name": "Hovhannes",
         "Social": [
-            { "icon": "fa-github", "link": "facebook-hov" },
-            { "icon": " fa-linkedin", "link": "instagram-hov" }
+            { "icon": "fa-github", "link": "https://github.com/ApinHovo" },
+            { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/hovhannes-apinyan/" }
         ],
         "Position": "Software Engineer",
         "Image" : hovoImage
@@ -59,10 +59,10 @@ const list_of_members = {
     "4" : {
         "Name": "Arsen",
         "Social": [
-            { "icon": "fa-github", "link": "facebook-hov" },
-            { "icon": " fa-linkedin", "link": "instagram-hov" }
+            { "icon": "fa-github", "link": "https://github.com/Arsen-1" },
+            { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/arsen-gevorgyan-a650671a8/" }
         ],
-        "Position": "DevOps",
+        "Position": "DevOps Engineer",
         "Image" : arsenImage
     },
     "5" : {
@@ -71,7 +71,7 @@ const list_of_members = {
             { "icon": "fa-github", "link": "https://github.com/vahkhachatryan" },
             { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/vahe-khachatryan-711a2823a/" }
         ],
-        "Position": "FronEnd Developer",
+        "Position": "FrontEnd Developer",
         "Image" : vaheImage
     }
 }
