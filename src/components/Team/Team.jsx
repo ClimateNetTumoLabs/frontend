@@ -71,7 +71,7 @@ const list_of_members = {
             { "icon": "fa-github", "link": "https://github.com/vahkhachatryan" },
             { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/vahe-khachatryan-711a2823a/" }
         ],
-        "Position": "FrontEnd Developer",
+        "Position": "Frontend Developer",
         "Image" : vaheImage
     }
 }
