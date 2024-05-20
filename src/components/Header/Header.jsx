@@ -53,14 +53,16 @@ const Header = () => {
         }, 100);
     };
 
-const changeLanguage = (lng) => {
-    const currentLanguage = i18n.language;
-    const newPathname = location.pathname.replace(`/${currentLanguage}/`, `/${lng}/`);
-    i18n.changeLanguage(lng).then(() => {
-        navigate(newPathname);
-    });
-};
+    const [languageButtonText, setLanguageButtonText] = useState(i18n.language === 'en' ? 'Հայ' : 'Eng');
 
+    const changeLanguage = (lng) => {
+        const currentLanguage = i18n.language;
+        const newPathname = location.pathname.replace(`/${currentLanguage}/`, `/${lng}/`);
+        i18n.changeLanguage(lng).then(() => {
+            navigate(newPathname);
+            setLanguageButtonText(lng === 'en' ? 'Հայ' : 'Eng');
+        });
+    };
 
     const handleDeviceClick = (device_id, name) => {
         const deviceUrl = `/${i18n.language}/device/${encodeURIComponent(device_id)}/?${encodeURIComponent(name)}`;
@@ -141,13 +143,8 @@ const changeLanguage = (lng) => {
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <button className={`nav-link btn ${styles.languageBtn}`} onClick={() => changeLanguage("en")}>
-                                Eng
-                            </button>
-                        </li>
-                        <li className="nav-item">
-                            <button className={`nav-link btn ${styles.languageBtn}`} onClick={() => changeLanguage("hy")}>
-                                Հայ
+                            <button className={`nav-link btn ${styles.languageBtn}`} onClick={() => changeLanguage(i18n.language === 'en' ? 'hy' : 'en')}>
+                                {languageButtonText}
                             </button>
                         </li>
                     </ul>
