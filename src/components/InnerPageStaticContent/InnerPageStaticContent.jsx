@@ -6,6 +6,8 @@ import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import Loader from "react-js-loader";
+import { useTranslation } from "react-i18next";
+import  "../../i18n";
 
 const WeatherState = () => {
     return (
@@ -14,40 +16,41 @@ const WeatherState = () => {
 }
 
 const DataTable = (props) => {
+    const { t } = useTranslation();
     return (
         <table className={styles.dataTable}>
             <tbody>
                 <tr className={styles.tr}>
                     <td className={styles.td}>
-                        <span className={styles.title}>Humidity</span><br />
+                        <span className={styles.title}>{t('linerStatusBar.humidity')}</span><br />
                         <span className={styles.value}>{props.data.humidity} %</span>
                     </td>
                     <td className={styles.td}>
-                        <span className={styles.title}>Barometric P.</span><br />
-                        <span className={styles.value}>{props.data.pressure} hPa</span>
+                        <span className={styles.title}>{t('linerStatusBar.barometricPressure')}</span><br />
+                        <span className={styles.value}>{props.data.pressure} {t('linerStatusBar.hPa')}</span>
                     </td>
                     <td className={styles.td}>
-                        <span className={styles.title}>Light</span><br />
-                        <span className={styles.value}>{props.data.light_uv} Lux</span>
+                        <span className={styles.title}>{t('linerStatusBar.light')}</span><br />
+                        <span className={styles.value}>{props.data.light_uv} {t('linerStatusBar.lux')}</span>
                     </td>
                 </tr>
                 <tr className={styles.tr}>
                     <td className={styles.td}>
-                        <span className={styles.title}>Rain</span><br />
-                        <span className={styles.value}>{props.data.rain} mm</span>
+                        <span className={styles.title}>{t('linerStatusBar.rain')}</span><br />
+                        <span className={styles.value}>{props.data.rain} {t('linerStatusBar.mm')}</span>
                     </td>
                     <td className={styles.td}>
-                        <span className={styles.title}>PM 1</span><br />
-                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm1} μm</div>
+                        <span className={styles.title}>{t('linerStatusBar.pm1')}</span><br />
+                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm1} {t('linerStatusBar.myum')}</div>
                     </td>
                     <td className={styles.td}>
-                        <span className={styles.title}>PM 10</span><br />
-                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm10} μm
+                        <span className={styles.title}>{t('linerStatusBar.pm10')}</span><br />
+                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm10} {t('linerStatusBar.myum')}
                         </div>
                         <ReactTooltip
                             id="micro_meter"
                             place="bottom"
-                            content={<span dangerouslySetInnerHTML={{ __html: 'micro = 10<sup>-6</sup>' }} />}
+                            content={<span dangerouslySetInnerHTML={{ __html: `${t("linerStatusBar.micro")} = 10<sup>-6</sup>` }} />}
                         />
                     </td>
                 </tr>
@@ -59,6 +62,7 @@ const DataTable = (props) => {
 }
 
 const WeatherInformation = (props) => {
+    const { t } = useTranslation();
     const temperature = props.temp
     const windSpeed = props.windspeed
     let feelsLikeTemperature = -8.78469475556 +
@@ -74,11 +78,11 @@ const WeatherInformation = (props) => {
         <div className={styles.weatherInformation}>
             <>
                 <span className={styles.infoTemperature}>{props.temp}<sup>°C</sup></span>
-                <p className={styles.feelslike}><span>FEELS LIKE </span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
-                <span className={styles.recommendation}>Comment section, here can be some recommendations</span>
+                <p className={styles.feelslike}><span>{t('linerStatusBar.feelsLike')}</span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
+                <span className={styles.recommendation}>{t('linerStatusBar.recommendation')}</span>
                 <div className={styles.windWrapper}>
-                    <span className={styles.windTitle}>Wind</span>
-                    <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} km/h</span>
+                    <span className={styles.windTitle}>{t('linerStatusBar.wind')}</span>
+                    <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} {t('linerStatusBar.kmhour')}</span>
                 </div>
             </>
         </div>

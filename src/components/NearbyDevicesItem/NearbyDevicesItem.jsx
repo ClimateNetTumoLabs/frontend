@@ -3,8 +3,11 @@ import styles from './NearbyDevicesItem.module.css';
 import distanceIcon from '../../assets/Weather/arrows.png'
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import temp from "../../assets/AboutIcons/temperature.png"
+import { useTranslation } from "react-i18next";
+import  "../../i18n";
 
 const NearbyDeviceItem = (props) => {
+    const { t } = useTranslation();
     const [truncatedName, setTruncatedName] = useState('');
     const [tooltipPosition, setTooltipPosition] = useState(window.innerWidth <= 768 ? 'top' : 'bottom');
 
@@ -44,7 +47,7 @@ const NearbyDeviceItem = (props) => {
                 <span className={styles.near_device_name} data-tooltip-id={`${props.name + props.id}`}
                 >{truncatedName}</span>
                 <div className={styles.distance_display}>
-                    <span>{isNaN(props.distance) ? 'N/A' : `${props.distance} km`}</span>
+                    <span>{isNaN(props.distance) ? 'N/A' : `${props.distance} ${t('nearbyDevicesItem.km')}`}</span>
                     <img className={styles.distance_icon} src={distanceIcon} alt={"Distance Icon"} />
                 </div>
                 <div className={styles.measure}>

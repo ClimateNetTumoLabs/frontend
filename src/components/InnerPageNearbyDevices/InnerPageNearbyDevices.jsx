@@ -5,6 +5,8 @@ import NearbyDevicesItem from "../NearbyDevicesItem/NearbyDevicesItem";
 import axios from "axios";
 import { PositionContext } from "../../context/PositionContext";
 import Loader from "react-js-loader";
+import { useTranslation } from "react-i18next";
+import  "../../i18n";
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; 
@@ -43,6 +45,7 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
 }
 
 function InnerPageNearbyDevices(props) {
+    const { t } = useTranslation();
     const [devices, setDevices] = useState([]);
     const { permissionGranted, position } = useContext(PositionContext);
     const [deviceDataArrays, setDeviceDataArrays] = useState([]);
@@ -107,7 +110,7 @@ function InnerPageNearbyDevices(props) {
 
     return (
         <div className={`${styles.NearDeviceSection}`}>
-            {nearby_list.length > 0 && <span className={styles.nearTitle}>{permissionGranted ? "Devices Near You" : `Devices near ${referencePoint?.name}`}</span>}
+            {nearby_list.length > 0 && <span className={styles.nearTitle}>{permissionGranted ? t('innerPageNearbyDevices.titles.devicesNearYou') : `${t('innerPageNearbyDevices.titles.devicesNear')} ${referencePoint?.name}`}</span>}
             {nearby_list.map((device, i) => (
                 <Link to={`/device/${device.id}?${device.name}`} key={device.id} className={styles.link}
                     onClick={() => {

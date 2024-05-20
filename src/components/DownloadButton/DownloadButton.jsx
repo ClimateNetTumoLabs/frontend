@@ -3,6 +3,8 @@ import { CSVLink } from "react-csv";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import styles from "./DownloadButton.module.css";
+import { useTranslation } from "react-i18next";
+import  "../../i18n";
 
 function ConvertDate(inputDate) {
     const year = inputDate.getFullYear();
@@ -12,6 +14,7 @@ function ConvertDate(inputDate) {
 }
 
 const DownloadButton = ({ startDate, endDate ,weather_data}) => {
+    const { t } = useTranslation();
     const [weather_data_download, ChangeData] = useState(weather_data)
     useEffect(() => {
         const path = window.location.pathname;
@@ -32,7 +35,7 @@ const DownloadButton = ({ startDate, endDate ,weather_data}) => {
 
     return (
             <CSVLink data={weather_data_download} className={`${styles.download_button_block}`}>
-                <Button className={styles.download_button} variant="outline-primary">Download Full Data</Button>
+                <Button className={styles.download_button} variant="outline-primary">{t('downloadButton.button')}</Button>
             </CSVLink>
     );
 };

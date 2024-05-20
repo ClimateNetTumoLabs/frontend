@@ -5,12 +5,15 @@ import phone from '../../assets/Icons/phone.svg'
 import styles from './Footer.module.css'
 // import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import './Simple.css'
+import { useTranslation } from "react-i18next";
+import  "../../i18n";
 
 // import L from "leaflet";
 // import iconUrl from "../../assets/Icons/map-marker.svg";
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
+    const { t } = useTranslation();
     // const center = [40.19185102418464, 44.47937321283996]; // Latitude and longitude for the center of the map
     //
     // const customIcon = new L.Icon({
@@ -23,7 +26,7 @@ const Footer = () => {
         <footer className={`text-light" ${styles.footer}`}>
             <div className={`${styles.footer_inner} "container-fluid d-flex justify-content-center"`}>
                 <div className='col-md-4 col-12'>
-                    <h3 className='mb-4 d-flex'>Follow Us</h3>
+                    <h3 className='mb-4 d-flex'>{t('footer.title')}</h3>
                     <div className={`social-icon ${styles.social_icons_block}`}>
                         {/*<a className={styles.social_icon} href="https://www.facebook.com/tumolabs/"><FontAwesomeIcon icon={faFacebook} /></a>*/}
                         {/*<a className={styles.social_icon} href="https://www.youtube.com/channel/UC1spAfywefFdHxrKWLZaDuA"><FontAwesomeIcon icon={faYoutube} /></a>*/}
@@ -51,7 +54,7 @@ const Footer = () => {
                     <div className="col">
                         <p className={styles.company_information}>
                             <img loading="lazy" src={location} alt="Map Icon" className="icon" />
-                            Halabyan 2a, Yerevan, Armenia
+                            {t('footer.address')}
                         </p>
                         <p className={styles.company_information}>
                             <a href="tel:+37410398413">
@@ -70,12 +73,12 @@ const Footer = () => {
                 <div className={`${styles.map_section} col-4"`}>
                     <p className={styles.company_information}>
                         <a href="https://tumolabs.am/en/upcoming-projects/">
-                            TUMO Labs Upcoming Projects
+                            {t('footer.projects.upcomingProjects')}
                         </a>
                     </p>
                     <p className={styles.company_information}>
                         <a href="https://tumolabs.am/en/past-projects/">
-                            Past Projects
+                            {t('footer.projects.pastProjects')}
                         </a>
                     </p>
                     {/*<MapContainer center={center} zoom={13} style={{ width: '100%', height: '200px' }}>*/}
@@ -93,7 +96,7 @@ const Footer = () => {
             </div>
             <div className="row  mb-0">
                 <div className="col-md-12 text-center">
-                    <p className="mb-0">© {currentYear} TUMO Labs. All Rights Reserved.</p>
+                    <p className="mb-0">© {currentYear} {t('footer.rightsReserved')}</p>
                 </div>
             </div>
         </footer>

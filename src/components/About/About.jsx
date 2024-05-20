@@ -11,28 +11,32 @@ import anemometer from "../../assets/AboutIcons/anemometer.png"
 import arrow from "../../assets/AboutIcons/arrow.png"
 import uv_a from "../../assets/AboutIcons/uva.png"
 import uv_b from "../../assets/AboutIcons/uv.png"
-
+import { useTranslation } from "react-i18next";
+import  "../../i18n";
 
 const About = () => {
-    const temperatureContent = `
-        <div class="mt-4">
-            <h2 class=${styles.measure_title}>Measuring Temperature</h2>
-            <div class="d-flex align-items-center">
-                <img loading="lazy" class=${styles.icon} src=${temp} alt="Temperature"/>
-                <span class="text-light d-flex align-content-center">
-                    The temperatures measuring ranging from -40°C to 85°C.<br/>
-                    Over the temperature range of 0 to 65°C, the accuracy is ±1.0°C; outside of that range, the accuracy drops to ±1.5°C.</span> 
-            </div>
+    const { t } = useTranslation();
+const temperatureContent = `
+    <div class="mt-4">
+        <h2 class=${styles.measure_title}>${t('about.measureTemp')}</h2>
+        <div class="d-flex align-items-center">
+            <img loading="lazy" class=${styles.icon} src=${temp} alt="Temperature"/>
+            <span class="text-light d-flex align-content-center">
+                ${t('about.temperatureContent')}<br>
+                ${t('about.temperatureContent2')}
+            </span> 
         </div>
-    `
+    </div>
+`;
+
     const humidityContent= `
         <div class="mt-4">
-            <h2 class=${styles.measure_title} >Measuring Humidity</h2>
+            <h2 class=${styles.measure_title} >${t('about.measureHumidity')}</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${hum} alt="Humidity"/>
                 <span class="text-light d-flex align-content-center">
-                    The relative humidity measured of the  over a range of 0 to 100% with an accuracy of ±3%.<br/>
-                    According to the datasheet, the sensor can measure up to 100% humidity over a temperature range of 0 to 60°C. However, the maximum measurable humidity decreases at extremely high and low temperature
+                    ${t('about.humidityContent')}<br>
+                    ${t('about.humidityContent2')}
                 </span> 
             </div>
         </div>
@@ -40,12 +44,12 @@ const About = () => {
 
     const pressureContent= `
         <div class="mt-4">
-            <h2 class=${styles.measure_title} >Measuring Pressure</h2>
+            <h2 class=${styles.measure_title} >${t('about.measurePressure')}</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pressure} alt="Pressure"/>
                 <span class="text-light d-flex align-content-center">
-                    The pressure measured between 300Pa to 1100 hPa with an absolute accuracy of ±1 hPa. <br/>
-                    Over the temperature range of 0 to 65°C, full accuracy is obtained, resulting in an altitude measurement accuracy of approximately ±1 meter. Outside of that range, the accuracy drops to 1.7 hPa.
+                    ${t('about.pressureContent')} <br/>
+                    ${t('about.pressureContent2')}
                 </span> 
             </div>
         </div>
@@ -53,9 +57,9 @@ const About = () => {
     const air_quality_intro= `
         <div class="mt-4">
             <span class="text-light d-flex align-content-center">
-                The high-precision particulate matter (PM) sensor with a sensitivity of 50% for 0.3 μm particles and 98% for 0.5 μm and larger particles. <br/>
-                It provides a resolution of 1 μg/m³ and operates in temperatures ranging from -10 °C to 60 °C. <br/> 
-                The sensor is designed to work effectively in humidity levels from 0% to 99%, making it suitable for diverse environmental conditions.
+                ${t('about.airQualityIntro')}<br/>
+                ${t('about.airQualityIntro2')}<br/> 
+                ${t('about.airQualityIntro3')}
             </span> 
         </div>
     `
@@ -66,9 +70,9 @@ const About = () => {
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pm_1} alt="PM1.0"/>
                 <span class="text-light d-flex align-content-center">
-                    These particles are so small they can bypass the body's natural defenses and penetrate deep into the lungs and bloodstream. <br/>
-                    They can cause respiratory problems, heart disease, and even cancer.<br/>
-                    Children and people with existing respiratory conditions are particularly vulnerable to the harmful effects of PM1.0.<br/>               
+                    ${t('about.pm1')}<br/>
+                    ${t('about.pm1_2')}<br/>
+                    ${t('about.pm1_3')}<br/>               
                 </span> 
             </div>
         </div>
@@ -79,9 +83,9 @@ const About = () => {
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pm_2} alt="PM2.5"/>
                 <span class="text-light d-flex align-content-center">
-                    These particles are also small enough to cause respiratory problems, but their larger size prevents them from reaching the deepest parts of the lungs. <br/>
-                    However, they can still irritate the airways and trigger asthma attacks.<br/>
-                    PM2.5 exposure has also been linked to an increased risk of cardiovascular disease.<br/>
+                    ${t('about.pm2')}<br/>
+                    ${t('about.pm2_2')}<br/>
+                    ${t('about.pm2_3')}<br/> 
                 </span> 
             </div>
         </div>
@@ -92,32 +96,32 @@ const About = () => {
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pm_10} alt="PM2.5"/>
                 <span class="text-light d-flex align-content-center">
-                    These particles are larger and less likely to be inhaled deeply. <br/>
-                    However, they can still irritate the eyes, nose, and throat.<br/>
-                    Long-term exposure to PM10 can also lead to respiratory problems and heart disease.<br/>
+                    ${t('about.pm10')}<br/>
+                    ${t('about.pm10_2')}<br/>
+                    ${t('about.pm10_3')}<br/> 
                 </span> 
             </div>
         </div>
     `
     const table = `
         <div class="mt-4">
-            <h2 class=${styles.measure_title} >PM Sensor Danger Values</h2>
+            <h2 class=${styles.measure_title} >${t('about.pmDanger')}</h2>
             <div class=${styles.table_block}>
                 <table>
                   <thead>
                     <tr>
-                      <th>Pollutant</th>
-                      <th>Good</th>
-                      <th>Moderate</th>
-                      <th>Unhealthy for Sensitive Groups</th>
-                      <th>Unhealthy</th>
-                      <th>Very Unhealthy</th>
-                      <th>Hazardous</th>
+                      <th>${t('about.pmTh1')}</th>
+                      <th>${t('about.pmTh2')}</th>
+                      <th>${t('about.pmTh3')}</th>
+                      <th>${t('about.pmTh4')}</th>
+                      <th>${t('about.pmTh5')}</th>
+                      <th>${t('about.pmTh6')}</th>
+                      <th>${t('about.pmTh7')}</th>
                     </tr>
                   </thead>
                   <tbody>
                    <tr>
-                      <td>PM1.0 (μg/m³)</td>
+                      <td>PM1.0 ${t('about.pmMu')}</td>
                       <td>0</td>
                       <td>50</td>
                       <td>100</td>
@@ -126,7 +130,7 @@ const About = () => {
                       <td>300</td>
                     </tr>
                     <tr>
-                      <td>PM2.5 (μg/m³)</td>
+                      <td>PM2.5 ${t('about.pmMu')}</td>
                       <td>0</td>
                       <td>12</td>
                       <td>35.5</td>
@@ -135,7 +139,7 @@ const About = () => {
                       <td>250.5</td>
                     </tr>
                     <tr>
-                      <td>PM10 (μg/m³)</td>
+                      <td>PM10 ${t('about.pmMu')}</td>
                       <td>0</td>
                       <td>54</td>
                       <td>154</td>
@@ -152,24 +156,24 @@ const About = () => {
 
     const windSpeed= `
         <div class="mt-4">
-            <h2 class=${styles.measure_title} >Wind Speed</h2>
+            <h2 class=${styles.measure_title} >${t('about.titleWindSpeed')}</h2>
             <div class="d-flex align-items-center">
                 <img  loading="lazy" class=${styles.icon} src=${anemometer} alt="Anemometer"/>
                 <span class="text-light d-flex align-content-center">
-                    A rotating cup anemometer with magnets passes by a stationary reed switch. As the wind blows faster, the cup spins faster, triggering the reed switch more frequently, allowing the system to calculate wind speed.<br/>
-                    Sensor can measure wind speeds from 0.4 m/s to 45 m/s.
+                    ${t('about.windSpeed')}<br/>
+                    ${t('about.windSpeed2')}
                 </span> 
             </div>
         </div>
     `
     const windDirection= `
         <div class="mt-4">
-            <h2 class=${styles.measure_title} >Wind Direction</h2>
+            <h2 class=${styles.measure_title} >${t('about.titleWindDirection')}</h2>
             <div class="d-flex align-items-center">
                 <img  loading="lazy" class=${styles.icon} src=${arrow} alt="Direction"/>
                 <span class="text-light d-flex align-content-center">
-                    A wind vane with a magnet rotates based on the wind direction. This triggers different reed switches positioned around the vane, allowing the system to determine the wind direction.<br/>
-                    The rain sensor can register rainfall amounts as small as 0.2794 mm (0.011 inches) per tip.      
+                    ${t('about.windDirection')}<br/>
+                    ${t('about.windDirection2')}     
                 </span> 
             </div>
         </div>
@@ -178,50 +182,50 @@ const About = () => {
     const uv_intro= `
         <div class="mt-4">
             <span class="text-light d-flex align-items-center">
-                We measuring light intensity and spectral information, making it valuable for various applications.  <br/>
-                UVA and UVB are two types of ultraviolet (UV) radiation emitted by the sun, but they differ in their wavelength and impact on human health. Here's an in-depth look at each: <br/> 
+                ${t('about.uv_intro')}<br/>
+                ${t('about.uv_intro2')}<br/> 
             </span> 
         </div>
     `
 
     const api_info = `
-        <p>Welcome, developers! Our Weather Data API provides you with access to weather information based on specific parameters. Follow the instructions below to integrate this API into your application.</p>
+        <p>${t('about.api_info')}</p>
 
         <h2 class=${styles.measure_title}>API Endpoint:</h2>
         <pre>https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData</pre>
 
-        <h2 class=${styles.measure_title}>Parameters:</h2>
+        <h2 class=${styles.measure_title}>${t('about.api_info_param')}</h2>
         <ul>
-            <li><strong>device_id</strong> (required): Unique identifier for the device.</li>
-            <li><strong>start_time</strong> (Not required): Start date and time for the weather data retrieval (format: <code>YYYY-MM-DD</code>).</li>
-            <li><strong>end_time</strong> (Not required): End date and time for the weather data retrieval (format: <code>YYYY-MM-DD</code>).</li>
+            <li><strong>device_id</strong> ${t('about.api_info_deviceId')}</li>
+            <li><strong>start_time</strong>${t('about.api_info_startTime')} (${t('about.api_info_format')} <code>YYYY-MM-DD</code>).</li>
+            <li><strong>end_time</strong> ${t('about.api_info_endTime')} (${t('about.api_info_format')} <code>YYYY-MM-DD</code>).</li>
         </ul>
 
-        <h2 class=${styles.measure_title} >Example Requests:</h2>
+        <h2 class=${styles.measure_title}>${t('about.api_info_example')}</h2>
         <div class=${styles.examples}>
             <pre>GET <a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8</a></pre>
             
-            <h3 class=${styles.sub_title_3}>Retrieve Last 24 Hours Data:</h3>
-            <p>If you use the following link without specifying <code>start_time</code> and <code>end_time</code>, you will receive the weather data for the last 24 hours.</p>
-            <pre><a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8</a></pre>
+            <h3 class=${styles.sub_title_3}>${t('about.api_info_24')}</h3>
+            <p>${t('about.api_info_24_request')} <code>start_time</code> ${t('about.and')} <code>end_time</code>, ${t('about.api_info_24_request2')}</p>
+            <pre><a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=3</a></pre>
 
-            <h3 class=${styles.sub_title_3} >Response:</h3>
-            <p>The API returns weather data in JSON format, containing relevant information based on the provided parameters.</p>
+            <h3 class=${styles.sub_title_3} >${t('about.api_info_response')}</h3>
+            <p>${t('about.api_info_json')}</p>
         
         </div>
 
-        <h2 class=${styles.measure_title}>Usage:</h2>
+        <h2 class=${styles.measure_title}>${t('about.api_info_usage')}</h2>
         <ul>
-            <li>Make a GET request to the API endpoint (<code>https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData</code>) with the parameters (<code>device_id</code>, <code>start_time</code>, <code>end_time</code>).</li>
-            <li>Parse the JSON response to extract the weather data.</li>
-            <li>Utilize the retrieved weather data in your application as needed, such as displaying it to users, performing analysis, or integrating it with other services.</li>
+            <li>${t('about.api_info_usage2')} (<code>https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData</code>)${t('about.api_info_usage3')}(<code>device_id</code>, <code>start_time</code>, <code>end_time</code>).</li>
+            <li>${t('about.api_info_usage4')}</li>
+            <li>${t('about.api_info_usage5')}</li>
         </ul>
 
-        <p><strong>Note:</strong> Ensure that you handle any errors gracefully, such as invalid parameters or network issues, to provide a seamless experience for your users.</p>
+        <p><strong>${t('about.api_info_note')}</strong> ${t('about.api_info_note2')}</p>
 
-        <p>For further assistance or inquiries, contact our support team at <a class=${styles.link} href="mailto:eutumocc@tumo.org">eutumocc@tumo.org</a>.</p>
-        <h2 class=${styles.measure_title}>Tagging Requirement: When using the Weather Data API, please include the appropriate tag to acknowledge the data source. Example: <code>&lt;source&gt;Weather Data provided by TUMO Labs &lt;/source&gt;</code></h2>
-        <p>Happy coding!</p>
+        <p>${t('about.api_info_note3')}<a class=${styles.link} href="mailto:eutumocc@tumo.org">eutumocc@tumo.org</a>.</p>
+        <h2 class=${styles.measure_title}>${t('about.api_info_note4')} <code>&lt;source&gt;${t('about.api_info_note5')}&lt;/source&gt;</code></h2>
+        <p>${t('about.api_info_done')}</p>
     `
 
     const uva= `
@@ -230,9 +234,9 @@ const About = () => {
             <div class="d-flex align-items-center ">
                 <img loading="lazy" class=${styles.icon} src=${uv_a} alt="UVA"/>
                 <span class="text-light d-flex align-content-center">
-                    Wavelength 315-400nm <br/>
-                    UVA rays are the longest-wavelength UV radiation reaching Earth's surface. They penetrate deep into the skin, reaching the dermis layer<br/>
-                    While UVA is less energetic than UVB, it contributes significantly to skin aging and wrinkles. It can also weaken the immune system and increase the risk of skin cancer<br/>               
+                    ${t('about.uva')}<br/>
+                    ${t('about.uva2')}<br/>
+                    ${t('about.uva3')}<br/>               
                 </span> 
             </div>
         </div>
@@ -244,9 +248,9 @@ const About = () => {
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${uv_b} alt="UVB"/>
                 <span class="text-light d-flex align-content-center">
-                    Wavelength 315-400nm <br/>
-                    UVA rays are the longest-wavelength UV radiation reaching Earth's surface. They penetrate deep into the skin, reaching the dermis layer<br/>
-                    While UVA is less energetic than UVB, it contributes significantly to skin aging and wrinkles. It can also weaken the immune system and increase the risk of skin cancer<br/>               
+                    ${t('about.uvb')}<br/>
+                    ${t('about.uvb2')}<br/>
+                    ${t('about.uvb3')}<br/>           
                 </span> 
             </div>
         </div>
@@ -255,38 +259,25 @@ const About = () => {
 
     return (
         <div className={styles.about_us_page}>
-            <div className={`${styles.about_section} ${styles.ab_1}`}><span className={styles.welcome_to}>Welcome to The Climate Net,</span> a
-                pioneering hyper-local, student-led climate observatory. Our mission is to empower the next generation
-                and raise awareness through real-time data tracking, all while making a significant contribution to
-                mitigating climate change. We're dedicated to advocating for climate action beyond borders, because the
-                challenges we face are global in nature.
+            <div className={`${styles.about_section} ${styles.ab_1}`}><span className={styles.welcome_to}>{t('about.welcome')}</span>
+                                    {t('about.section1')}
             </div>
-            <div className={`${styles.about_section} ${styles.ab_2}`}>At The Climate Net, we believe in the power of
-                youth to drive meaningful change. We're putting the future in the hands of those who will be most
-                affected by it: the young citizens inheriting the consequences of choices made by previous generations.
-                We're here to equip and inspire them to take charge of tracking climate change patterns that will have
-                the most significant impact on their lives and the world they'll inherit.
+            <div className={`${styles.about_section} ${styles.ab_2}`}>{t('about.section2')}
             </div>
-            <div className={`${styles.about_section} ${styles.ab_3}`}>The Climate Net project is empowered by <a
-                className={styles.link} href={"https://tumolabs.am/en/"}>TUMO Labs.</a> TUMO Labs is a tuition-free
-                education program based on the just-in-time methodology that connects higher-education with industry.
-                Anyone over the age of 18 can participate in the program designed specifically for TUMO Labs.The TUMO
-                Labs education program consists of guided self-learning, project-based learning, Tech Incubation, and <a
-                    className={styles.link} href={"https://42yerevan.am/"}>42 Yerevan</a> programming school. These
-                multi complementary methods enable students to acquire knowledge and practical skills in the fields of
-                technology, applied science, and engineering. As a result, it equips students with the competitive
-                skills needed to succeed in a globally connected job market and economy.
+            <div className={`${styles.about_section} ${styles.ab_3}`}>{t('about.section3')} <a
+                className={styles.link} href={"https://tumolabs.am/en/"}>{t('about.section4')}</a> {t('about.section5')} <a
+                    className={styles.link} href={"https://42yerevan.am/"}>{t('about.section6')}</a> {t('about.section7')}
             </div>
 
             <div className={styles.measurement_description}>
-                <CollapsibleText text={temperatureContent + humidityContent + pressureContent} point={"Temperature, Humidity and Pressure"}/>
-                <CollapsibleText text={air_quality_intro + pm1 + pm2 + pm10 + table} point={"Air Quality"}/>
-                <CollapsibleText text={windSpeed + windDirection} point={"Air Speed, Direction and Rain"}/>
-                <CollapsibleText text={uv_intro + uva + uvb} point={"UV index"}/>
+                <CollapsibleText text={temperatureContent + humidityContent + pressureContent} point={t('about.titleTemp')}/>
+                <CollapsibleText text={air_quality_intro + pm1 + pm2 + pm10 + table} point={t('about.titleAir')}/>
+                <CollapsibleText text={windSpeed + windDirection} point={t('about.titleWind')}/>
+                <CollapsibleText text={uv_intro + uva + uvb} point={t('about.titleUv')}/>
             </div>
 
             <div className={styles.API_section}>
-                <CollapsibleText text={api_info} point={"Weather Data: API Documentation"} />
+                <CollapsibleText text={api_info} point={t('about.titleWeather')} />
             </div>
         </div>
     );

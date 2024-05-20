@@ -14,6 +14,7 @@ import styles from "./Map.module.css";
 import { PositionContext } from "../../context/PositionContext";
 import clickIcon from "../../assets/Icons/tap.png"
 import { Polygon } from "react-leaflet";
+import { useTranslation } from "react-i18next";
 
 function circleWithText2(latLng, txt, radius, borderWidth) {
 	var size = radius;
@@ -48,6 +49,7 @@ const PolygonWithText = ({ coords, text }) => {
 }
 
 const MapArmenia = () => {
+	const { t, i18n } = useTranslation();
 	const [devices, setDevices] = useState([]);
 	const [scrollEnabled, setScrollEnabled] = useState(false);
 	const { position } = useContext(PositionContext);
@@ -163,8 +165,8 @@ const MapArmenia = () => {
 	return (
 		<div id="Map" style={{ cursor: 'pointer' }}>
 			<div className={styles.map_section}>
-				<h2 className={styles.map_header}>Map</h2>
-				<p>The highlighted locations indicate the current active climate devices. Click on a location to access the dataset specific to that device.</p>
+				<h2 className={styles.map_header}>{t('map.mapHeader')}</h2>
+				<p>{t('map.mapDescription')}</p>
 			</div>
 			<MapContainer
 				center={[40.15912, 45.002717]}
@@ -201,7 +203,7 @@ const MapArmenia = () => {
 								icon={customIcon}
 							>
 								<Popup>
-									<Link to={`/device/${device.generated_id}?${device.name}`}>{device.name}</Link>
+									<Link to={`/device/${device.generated_id}/?${device.name}`}>{device.name}</Link>
 								</Popup>
 							</Marker>
 						))}
@@ -249,7 +251,7 @@ const MapArmenia = () => {
 						}}
 					>
 						<span >
-							Click on map to zoom in or out
+							{t('map.clickOnMap')}
 							<img className={`${styles.click_icon}`}
 								src={clickIcon} alt="Click icon"
 							/>

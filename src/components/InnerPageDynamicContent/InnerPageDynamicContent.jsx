@@ -1,11 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styles from './InnerPageDynamicContent.module.css'
 import WeatherDataGraphs from "../WeatherDataGraphs/WeatherDataGraphs";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { ReactComponent as FullScreen } from "../../assets/Icons/full-screen.svg";
+import {ReactComponent as FullScreen} from "../../assets/Icons/full-screen.svg";
+import {useTranslation} from "react-i18next";
+import "../../i18n";
 
 function InnerPageDynamicContent(props) {
+    const {t} = useTranslation();
     const [selectedTab, setSelectedTab] = useState("tem_and_hum");
     const [temperature, setTemperature] = useState([]);
     const [humidity, setHumidity] = useState([]);
@@ -86,7 +89,7 @@ function InnerPageDynamicContent(props) {
     return (
         <div ref={ChartsRef} className={`${styles.InnerPageDynamicContent}`}>
             <div onClick={toggleFullScreen} className={styles.FullScreenButtonSection}>
-                <FullScreen className={`fas fa-expand ${styles.fullscreen_button}`} />
+                <FullScreen className={`fas fa-expand ${styles.fullscreen_button}`}/>
             </div>
             <div className={styles.chart}>
                 <div className={styles.tabContainer}>
@@ -95,7 +98,8 @@ function InnerPageDynamicContent(props) {
                         className={styles.tabs_section}
                         onSelect={(tab) => setSelectedTab(tab)}
                     >
-                        <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
+                        <Tab eventKey="tem_and_hum"
+                             title={t('innerPageDynamicContent.tabTitles.temperatureAndHumidity')}>
                             {selectedTab === "tem_and_hum" &&
                                 <WeatherDataGraphs
                                     startDate={props.startDate}
@@ -103,7 +107,7 @@ function InnerPageDynamicContent(props) {
                                     setStartDate={props.setStartDate}
                                     setEndDate={props.setEndDate}
                                     className={styles.graph}
-                                    types={["Temperature", "Humidity"]}
+                                    types={[t('innerPageDynamicContent.temperature'), t('innerPageDynamicContent.humidity')]}
                                     data={[temperature, humidity]}
                                     time={time}
                                     colors={['#77B6EA', '#59a824']}
@@ -120,7 +124,7 @@ function InnerPageDynamicContent(props) {
                                 />
                             }
                         </Tab>
-                        <Tab eventKey="pm" title="Air Quality">
+                        <Tab eventKey="pm" title={t('innerPageDynamicContent.tabTitles.airQuality')}>
                             {selectedTab === "pm" &&
                                 <WeatherDataGraphs
                                     startDate={props.startDate}
@@ -144,7 +148,7 @@ function InnerPageDynamicContent(props) {
                                 />
                             }
                         </Tab>
-                        <Tab eventKey="pressure" title="Pressure">
+                        <Tab eventKey="pressure" title={t('innerPageDynamicContent.tabTitles.pressure')}>
                             {selectedTab === "pressure" &&
                                 <WeatherDataGraphs
                                     startDate={props.startDate}
@@ -155,7 +159,7 @@ function InnerPageDynamicContent(props) {
                                     leftLoad={props.leftLoad}
                                     setLeftLoad={props.setLeftLoad}
                                     timeline={props.period}
-                                    types={["Pressure"]}
+                                    types={[t('innerPageDynamicContent.pressure')]}
                                     data={[pressure]}
                                     time={time}
                                     colors={["#FFFF00"]}
@@ -169,14 +173,14 @@ function InnerPageDynamicContent(props) {
                                 />
                             }
                         </Tab>
-                        <Tab eventKey="rain_wind" title="Rain and Wind">
+                        <Tab eventKey="rain_wind" title={t('innerPageDynamicContent.tabTitles.rainAndWind')}>
                             {selectedTab === "rain_wind" &&
                                 <WeatherDataGraphs
                                     className={styles.graph}
                                     leftLoad={props.leftLoad}
                                     setLeftLoad={props.setLeftLoad}
                                     timeline={props.period}
-                                    types={["Rain", "Wind Speed", "Wind Direction"]}
+                                    types={[t('innerPageDynamicContent.rain'), t('innerPageDynamicContent.windSpeed'), t('innerPageDynamicContent.windDirection')]}
                                     data={[RainCount, WindSpeed, WindDirection]}
                                     time={time}
                                     colors={["#6688aa", "#BA9593", "#EDAFFB"]}
@@ -200,4 +204,5 @@ function InnerPageDynamicContent(props) {
         </div>
     )
 }
+
 export default InnerPageDynamicContent;
