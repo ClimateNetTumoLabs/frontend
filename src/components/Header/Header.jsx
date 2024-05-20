@@ -70,13 +70,15 @@ const Header = () => {
     };
 
     const menuData = devices.reduce((acc, data) => {
-        let menu = acc.find((menu) => menu.title === data.parent_name);
+        const parentTitle = t(`devices.parentNames.${data.parent_name}`);
+        let menu = acc.find((menu) => menu.title === parentTitle);
         if (!menu) {
-            menu = { title: data.parent_name, submenus: [] };
+            menu = { title: parentTitle, submenus: [] };
             acc.push(menu);
         }
-        if (!menu.submenus.some((submenu) => submenu.title === data.name)) {
-            menu.submenus.push({ title: data.name, device_id: data.generated_id });
+        const submenuTitle = t(`devices.deviceNames.${data.name}`);
+        if (!menu.submenus.some((submenu) => submenu.title === submenuTitle)) {
+            menu.submenus.push({ title: submenuTitle, device_id: data.generated_id });
         }
         return acc;
     }, []);

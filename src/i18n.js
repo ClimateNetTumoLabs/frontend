@@ -169,6 +169,19 @@ const resources = {
                     },
                     rightsReserved: " TUMO Labs. All Rights Reserved."
                 },
+                devices: {
+                    deviceNames: {
+                        Maralik: "Maralik",
+                        Panik: "Panik",
+                        Azatan: "Azatan",
+                        Artik: "Artik",
+                        "V. Sargsyan": "V. Sargsyan"
+                    },
+                    parentNames: {
+                        Shirak: "Shirak",
+                        Yerevan: "Yerevan"
+                    }
+                },
                 header: {
                     navItems: {
                         home: "Home",
@@ -429,6 +442,19 @@ const resources = {
                     },
                     rightsReserved: " TUMO Labs. Բոլոր իրավունքները պաշտպանված են"
                 },
+                devices: {
+                    deviceNames: {
+                        Maralik: "Մարալիկ",
+                        Panik: "Փանիկ",
+                        Azatan: "Ազատան",
+                        Artik: "Արթիկ",
+                        "V. Sargsyan": "Վ. Սարգսյան"
+                    },
+                    parentNames: {
+                        Shirak: "Շիրակ",
+                        Yerevan: "Երևան"
+                    }
+                },
                 header: {
                     navItems: {
                         home: "Գլխավոր",
@@ -537,7 +563,7 @@ i18n
 // Function to determine language from the URL path
 function getLanguageFromPath() {
     const path = window.location.pathname;
-    const supportedLanguages = ['en', 'ru', 'hy'];
+    const supportedLanguages = ['en', 'hy'];
 
     // Check if the path starts with a supported language code
     const language = supportedLanguages.find(lang => path.startsWith(`/${lang}`));

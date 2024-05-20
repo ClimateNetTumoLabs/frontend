@@ -6,11 +6,11 @@ import axios from "axios";
 import { PositionContext } from "../../context/PositionContext";
 import Loader from "react-js-loader";
 import { useTranslation } from "react-i18next";
-import  "../../i18n";
+import "../../i18n";
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; 
-    const dLat = (lat2 - lat1) * Math.PI / 180; 
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
@@ -37,7 +37,7 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
 
         distances.sort((a, b) => (a.distance - b.distance));
 
-        const nearestPoints = permissionGranted ? distances.slice(0, 3) : distances.slice(0, 3); 
+        const nearestPoints = permissionGranted ? distances.slice(0, 3) : distances.slice(0, 3);
         return nearestPoints
     } else {
         return []
@@ -45,7 +45,7 @@ function receive_nearby_devices(referencePoint, devices, permissionGranted) {
 }
 
 function InnerPageNearbyDevices(props) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [devices, setDevices] = useState([]);
     const { permissionGranted, position } = useContext(PositionContext);
     const [deviceDataArrays, setDeviceDataArrays] = useState([]);
@@ -110,9 +110,9 @@ function InnerPageNearbyDevices(props) {
 
     return (
         <div className={`${styles.NearDeviceSection}`}>
-            {nearby_list.length > 0 && <span className={styles.nearTitle}>{permissionGranted ? t('innerPageNearbyDevices.titles.devicesNearYou') : `${t('innerPageNearbyDevices.titles.devicesNear')} ${referencePoint?.name}`}</span>}
+            {nearby_list.length > 0 && <span className={styles.nearTitle}>{permissionGranted ? t('innerPageNearbyDevices.titles.devicesNearYou') : `${t('innerPageNearbyDevices.titles.devicesNear')} ${referencePoint ? t(`devices.deviceNames.${referencePoint.name}`, referencePoint.name) : ''}`}</span>}
             {nearby_list.map((device, i) => (
-                <Link to={`/device/${device.id}?${device.name}`} key={device.id} className={styles.link}
+                <Link to={`/${i18n.language}/device/${device.id}?${t(`devices.deviceNames.${device.name}`, device.name)}`} key={device.id} className={styles.link}
                     onClick={() => {
                         props.setLeftLoad(true);
                         props.filterChange("Hourly")
