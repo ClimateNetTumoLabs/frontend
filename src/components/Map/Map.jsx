@@ -203,7 +203,7 @@ const MapArmenia = () => {
 								icon={customIcon}
 							>
 								<Popup>
-									<Link to={`/${i18n.language}/device/${device.generated_id}/?${device.name}`}>{device.name}</Link>
+									<Link to={`/${i18n.language}/device/${device.generated_id}/?${t(`devices.deviceNames.${device.name}`, device.name)}`}>{t(`devices.deviceNames.${device.name}`)}</Link>
 								</Popup>
 							</Marker>
 						))}

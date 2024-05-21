@@ -112,7 +112,7 @@ function InnerPageNearbyDevices(props) {
         <div className={`${styles.NearDeviceSection}`}>
             {nearby_list.length > 0 && <span className={styles.nearTitle}>{permissionGranted ? t('innerPageNearbyDevices.titles.devicesNearYou') : `${t('innerPageNearbyDevices.titles.devicesNear')} ${referencePoint ? t(`devices.deviceNames.${referencePoint.name}`, referencePoint.name) : ''}`}</span>}
             {nearby_list.map((device, i) => (
-                <Link to={`/${i18n.language}/device/${device.id}?${t(`devices.deviceNames.${device.name}`, device.name)}`} key={device.id} className={styles.link}
+                <Link to={`/${i18n.language}/device/${device.id}/?${t(`devices.deviceNames.${device.name}`, device.name)}`} key={device.id} className={styles.link}
                     onClick={() => {
                         props.setLeftLoad(true);
                         props.filterChange("Hourly")

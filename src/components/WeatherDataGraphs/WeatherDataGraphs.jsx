@@ -36,7 +36,6 @@ const WeatherDataGraphs = (props) => {
     const [selectedStartDate, setSelectedStartDate] = useState(props.startDate);
     const [selectedEndDate, setSelectedEndDate] = useState(props.endDate);
 
-    console.log(props.types);
     useEffect(() => {
         setSelectedStartDate(today);
         setSelectedEndDate(today);
