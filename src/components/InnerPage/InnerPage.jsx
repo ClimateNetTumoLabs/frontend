@@ -5,8 +5,11 @@ import styles from "./InnerPage.module.css";
 import InnerPageLeftNav from "../InnerPageLeftNav/InnerPageLeftNav";
 import InnerPageContent from "../InnerPageContent/InnerPageContent";
 import { PositionContext } from "../../context/PositionContext";
+import { useTranslation } from "react-i18next";
+import  "../../i18n";
 
 function InnerPage() {
+	const { t } = useTranslation();
 	const params = useParams();
 	const [weather_data, change_weather_data] = useState([]);
 	const [filterState, filterStateChange] = useState('Hourly');
@@ -125,7 +128,7 @@ function InnerPage() {
 	if ((!weather_data || weather_data.length === 0)) {
 		if (leftLoad === false) {
 			return <div className={styles.not_data}>
-				Data Not Found
+				{t('innerPage.data')}
 			</div>;
 		}
 	}

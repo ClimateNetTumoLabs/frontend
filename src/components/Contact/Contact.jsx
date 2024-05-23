@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styles from "./Contact.module.css";
+import { useTranslation } from "react-i18next";
+import  "../../i18n";
 
 const ContactForm = () => {
+  const { t } = useTranslation();
+
   const [focusedInput, setFocusedInput] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -35,7 +39,7 @@ const ContactForm = () => {
 
     const { name, surname, subject, message } = formData;
 
-    const templateMessage = `Hello TUMO Labs Team, \n\n ${message} \n\n Regards, \n\n${name} ${surname}`;
+    const templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name} ${surname}`;
     const mailtoLink = `mailto:erik.saryan@tumo.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(templateMessage)}`;
 
     window.location.href = mailtoLink;
@@ -43,7 +47,7 @@ const ContactForm = () => {
 
   return (
       <div className={`container mt-5 mb-5 col-md-6 col-12 ${styles.contact_us_section}`}>
-        <h2 className={`${styles.contact_us_title}`}> Contact Us</h2>
+        <h2 className={`${styles.contact_us_title}`}> {t('contact.title')}</h2>
         <form onSubmit={handleSubmit}>
           <div className={`d-flex flex-wrap`}>
             <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} ${styles.contact_block}`}>
@@ -51,7 +55,7 @@ const ContactForm = () => {
                   className={`form-label ${labelClass("name")}`}
                   htmlFor="name"
               >
-                Name
+                {t('contact.formFields.name')}
               </label>
               <input
                   className={`form-control ${styles.input_block}`}
@@ -67,7 +71,7 @@ const ContactForm = () => {
             </div>
             <div className={`col-12 mb-3 col-sm-6 ${styles.surname_field} ${styles.contact_block}`}>
               <label className={`form-label ${labelClass("surname")}`} htmlFor="surname">
-                Surname
+                {t('contact.formFields.surname')}
               </label>
               <input
                   className={`form-control ${styles.input_block}`}
@@ -85,7 +89,7 @@ const ContactForm = () => {
           <div className={`d-flex flex-wrap`}>
             <div className={`col-12 mb-3 col-sm-6 ${styles.subject_input} ${styles.contact_block}`}>
               <label className={`form-label ${styles.focused} ${labelClass("subject")}`} htmlFor="subject">
-                Subject
+                {t('contact.formFields.subject')}
               </label>
                 <select
                     required
@@ -97,16 +101,16 @@ const ContactForm = () => {
                     onBlur={handleBlur}
                     onChange={handleChange}
                 >
-                    <option value="Need Data">Need Data</option>
-                    <option value="Join To Project">Join To Project</option>
-                    <option value="Technical Support">Technical Support</option>
-                    <option value="Feedback">Feedback</option>
+                    <option value="Need Data">{t('contact.options.0')}</option>
+                    <option value="Join To Project">{t('contact.options.1')}</option>
+                    <option value="Technical Support">{t('contact.options.2')}</option>
+                    <option value="Feedback">{t('contact.options.3')}</option>
                 </select>
             </div>
 
             <div className={`col-12 mb-3 col-sm-6 ${styles.email_section} ${styles.contact_block}`}>
               <label className={`form-label ${labelClass("email")}`} htmlFor="email">
-                Email
+                {t('contact.formFields.email')}
               </label>
               <input
                   className={`form-control ${styles.input_block}`}
@@ -123,7 +127,7 @@ const ContactForm = () => {
           </div>
           <div className={`mb-3 ${styles.contact_block}`}>
             <label className={`form-label ${labelClass("message")}`} htmlFor="message">
-              Message
+              {t('contact.formFields.message')}
             </label>
             <textarea
                 className={`form-control ${styles.input_block}`}
@@ -137,7 +141,7 @@ const ContactForm = () => {
             />
           </div>
           <button type="submit" value="Send" className={`mt-3 btn  ${styles.contact_us_button}`}>
-            Send
+            {t('contact.formFields.submit')}
           </button>
         </form>
       </div>
