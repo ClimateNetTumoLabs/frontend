@@ -151,7 +151,6 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  margin-left: 10px;
   transition: color 0.3s, transform 0.3s;
 }
 
