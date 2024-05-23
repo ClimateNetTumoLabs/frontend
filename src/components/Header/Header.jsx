@@ -67,6 +67,7 @@ const Header = () => {
     const handleDeviceClick = (device_id, name) => {
         const deviceUrl = `/${i18n.language}/device/${encodeURIComponent(device_id)}/?${encodeURIComponent(name)}`;
         navigate(deviceUrl);
+        setIsNavExpanded(false); // Close the navbar
     };
 
     const menuData = devices.reduce((acc, data) => {
@@ -91,6 +92,12 @@ const Header = () => {
                 </Link>
                 <div
                     className={`d-lg-none ${styles.burgermenu} ${isNavExpanded ? styles.navExpanded : ""}`}
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded={isNavExpanded ? "true" : "false"}
+                    aria-label="Toggle navigation"
                     ref={buttonRef}
                     onClick={handleNavToggle}
                 >
@@ -101,7 +108,7 @@ const Header = () => {
                         <span className={styles.line_item}></span>
                     </label>
                 </div>
-                <div className={`collapse navbar-collapse ${styles.navigation_bar_for_mobile}`} id="navbarNav">
+                <div className={`collapse navbar-collapse ${isNavExpanded ? "show" : ""}`} id="navbarNav">
                     <ul className="navbar-nav ms-auto">
                         <NavItem to={`/${i18n.language}/`} label={t("header.navItems.home")} />
                         <NavItem to={`/${i18n.language}/about/`} label={t("header.navItems.about")} />
