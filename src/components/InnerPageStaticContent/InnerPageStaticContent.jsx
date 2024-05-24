@@ -31,7 +31,7 @@ const DataTable = (props) => {
                     </td>
                     <td className={styles.td}>
                         <span className={styles.title}>{t('linerStatusBar.light')}</span><br />
-                        <span className={styles.value}>{props.data.light_uv} {t('linerStatusBar.lux')}</span>
+                        <span className={styles.value}>{props.data.uv} {t('linerStatusBar.lux')}</span>
                     </td>
                 </tr>
                 <tr className={styles.tr}>
