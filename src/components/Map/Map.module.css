@@ -84,4 +84,5 @@ a > span {
     fill: black;
     color: black !important;
     margin-left: 10px;  /* Added margin-left property */
+    margin-right: 10px;
 }
