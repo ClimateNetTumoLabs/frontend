@@ -133,7 +133,7 @@
         left: 30px !important;
     }
     .carouselCaption h1 {
-        font-size: 20px;
+        font-size: 16px;
     }
     .carousel_section  div, .carousel_section img {
         height: 100%;
@@ -144,7 +144,7 @@
     }
 
     .animated_text span {
-        font-size: 18px !important;
+        font-size: 15px !important;
     }
     .carouselCaption p {
         margin-top: 30px;
