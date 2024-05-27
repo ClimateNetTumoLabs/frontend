@@ -117,19 +117,9 @@ const Header = () => {
                 <Link className="navbar-brand" to={`/${i18n.language}/`} onClick={handleNavItemClick}>
                     <img loading="lazy" src={logo} alt="Logo" className={styles.page_logo} />
                 </Link>
-                <div
-                    className={`d-lg-none ${styles.burgermenu} ${isNavExpanded ? styles.navExpanded : ""}`}
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded={isNavExpanded ? "true" : "false"}
-                    aria-label="Toggle navigation"
-                    ref={buttonRef}
-                    onClick={handleNavToggle}
-                >
+                <div className={`d-lg-none ${styles.burgermenu}`} ref={buttonRef}>
+                    <input type="checkbox" className={styles.check} id="check" checked={isNavExpanded} onChange={handleNavToggle} />
                     <label htmlFor="check" className={styles.label}>
-                        <input type="checkbox" className={styles.check} id="check" checked={isNavExpanded} onChange={handleNavToggle} />
                         <span className={styles.line_item}></span>
                         <span className={styles.line_item}></span>
                         <span className={styles.line_item}></span>
