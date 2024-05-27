@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, {useState, useEffect, useRef} from "react";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Header.module.css";
 import logo from "../../assets/Logo/tumolabslogo.svg";
 import axios from "axios";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 const Header = () => {
-    const { t, i18n } = useTranslation();
+    const {t, i18n} = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
     const [isNavExpanded, setIsNavExpanded] = useState(false);
@@ -44,7 +44,7 @@ const Header = () => {
         }
     };
 
-    const NavItem = ({ to, label }) => (
+    const NavItem = ({to, label}) => (
         <li className="nav-item">
             <Link
                 to={to}
@@ -91,12 +91,12 @@ const Header = () => {
         const parentTitle = t(`devices.parentNames.${data.parent_name}`);
         let menu = acc.find((menu) => menu.title === parentTitle);
         if (!menu) {
-            menu = { title: parentTitle, submenus: [] };
+            menu = {title: parentTitle, submenus: []};
             acc.push(menu);
         }
         const submenuTitle = t(`devices.deviceNames.${data.name}`);
         if (!menu.submenus.some((submenu) => submenu.title === submenuTitle)) {
-            menu.submenus.push({ title: submenuTitle, device_id: data.generated_id });
+            menu.submenus.push({title: submenuTitle, device_id: data.generated_id});
         }
         return acc;
     }, []);
@@ -112,26 +112,29 @@ const Header = () => {
     }, [isNavExpanded]);
 
     return (
-        <nav className={`navbar navbar-expand-lg navbar-light ${styles.navigation}`}>
+        <nav
+        className={`navbar navbar-expand-lg navbar-light ${styles.navigation} ${i18n.language === 'hy' ? 'armenianFont' : (i18n.language === 'en' ? 'englishFont' : '')}`}>
             <div className="container-fluid">
                 <Link className="navbar-brand" to={`/${i18n.language}/`} onClick={handleNavItemClick}>
-                    <img loading="lazy" src={logo} alt="Logo" className={styles.page_logo} />
+                    <img loading="lazy" src={logo} alt="Logo" className={styles.page_logo}/>
                 </Link>
                 <div className={`d-lg-none ${styles.burgermenu}`} ref={buttonRef}>
-                    <input type="checkbox" className={styles.check} id="check" checked={isNavExpanded} onChange={handleNavToggle} />
+                    <input type="checkbox" className={styles.check} id="check" checked={isNavExpanded}
+                           onChange={handleNavToggle}/>
                     <label htmlFor="check" className={styles.label}>
                         <span className={styles.line_item}></span>
                         <span className={styles.line_item}></span>
                         <span className={styles.line_item}></span>
                     </label>
                 </div>
-                <div className={`collapse navbar-collapse ${styles.navigation_bar_for_mobile}`} id="navbarNav" ref={navRef}>
+                <div className={`collapse navbar-collapse ${styles.navigation_bar_for_mobile}`} id="navbarNav"
+                     ref={navRef}>
                     <ul className="navbar-nav ms-auto">
-                        <NavItem to={`/${i18n.language}/`} label={t("header.navItems.home")} />
-                        <NavItem to={`/${i18n.language}/about/`} label={t("header.navItems.about")} />
+                        <NavItem to={`/${i18n.language}/`} label={t("header.navItems.home")}/>
+                        <NavItem to={`/${i18n.language}/about/`} label={t("header.navItems.about")}/>
                         <li>
                             <Link className={`nav-link ${styles.nav_link} nav-item`} to={`/${i18n.language}/#Map`}
-                                onClick={GoToSection}>
+                                  onClick={GoToSection}>
                                 {t("header.navItems.map")}
                             </Link>
                         </li>
@@ -151,7 +154,7 @@ const Header = () => {
                                 {menuData.map((menu, menuIndex) => (
                                     <li className="dropstart" key={menuIndex}>
                                         <div className={`dropdown-item dropdown-toggle ${styles.dropdown__item}`}
-                                            data-bs-toggle="dropdown">
+                                             data-bs-toggle="dropdown">
                                             {menu.title}
                                             <ul className="dropdown-menu">
                                                 {menu.submenus.map((submenu, submenuIndex) => (
@@ -172,7 +175,7 @@ const Header = () => {
                         </li>
                         <li className="nav-item">
                             <button className={`nav-link btn ${styles.languageBtn}`}
-                                onClick={() => changeLanguage(i18n.language === 'en' ? 'hy' : 'en')}>
+                                    onClick={() => changeLanguage(i18n.language === 'en' ? 'hy' : 'en')}>
                                 {languageButtonText}
                             </button>
                         </li>

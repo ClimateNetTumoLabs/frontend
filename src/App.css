@@ -1,9 +1,25 @@
-* {
+@font-face {
+    font-family: 'Montserrat Armenian';
+    src: url('../public/fonts/montserrat-armenian/Montserratarm-Light.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Global styles */
+.englishFont {
     font-family: 'Quicksand', sans-serif;
     letter-spacing: 1.2px;
     font-weight: 300;
 }
 
+/* Armenian font style */
+.armenianFont {
+    font-family: 'Montserrat Armenian', sans-serif;
+    letter-spacing: 0.5px;
+    font-weight: 300;
+}
+
+/* Existing styles */
 .carousel-control-prev,
 .carousel-control-next,
 .carousel-indicators {
@@ -136,30 +152,30 @@ th {
     min-width: 100%;
 }
 
-.apexcharts-toolbar>* {
+.apexcharts-toolbar > * {
     width: 100%;
 }
 
-.apexcharts-toolbar>*:nth-child(3) {
+.apexcharts-toolbar > *:nth-child(3) {
     width: fit-content;
 }
 
-.apexcharts-toolbar>*:nth-child(6) {
+.apexcharts-toolbar > *:nth-child(6) {
     width: fit-content;
     margin-right: auto;
 }
 
-.apexcharts-toolbar>*:nth-child(n) {
+.apexcharts-toolbar > *:nth-child(n) {
     width: fit-content;
     height: fit-content;
 }
 
-.apexcharts-toolbar>*:nth-child(5) {
+.apexcharts-toolbar > *:nth-child(5) {
     margin-right: 15px;
 }
 
 
-.apexcharts-toolbar>*:nth-child(1) {
+.apexcharts-toolbar > *:nth-child(1) {
     margin-right: 0;
     margin-left: 0;
 }
@@ -230,13 +246,11 @@ th {
     font-size: 14px;
     display: inline-flex;
     align-items: center;
-
 }
 
 .custom-icon:hover {
     border-radius: 6px;
     background: #656363;
-    ;
 }
 
 .datePickerWrapper {
@@ -270,7 +284,6 @@ th {
     min-width: 30px !important;
     min-height: 30px !important;
 }
-
 
 .filter_button {
     background-color: #8c8e8f;
