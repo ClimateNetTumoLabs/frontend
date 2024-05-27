@@ -201,7 +201,7 @@ const resources = {
                     hazardous: "Hazardous",
                     feelsLike: "FEELS LIKE ",
                     recommendation: "Comment section, here can be some recommendations",
-                    wind: "Wind",
+                    wind: "Wind ",
                     humidity: "Humidity",
                     barometricPressure: "Barometric P.",
                     light: "Light",
@@ -246,10 +246,6 @@ const resources = {
                         devicesNearYou: "Devices Near You",
                         devicesNear: "Devices Near"
                     },
-                    loaderText: "Loading...",
-                    buttonLabels: {
-                        viewDetails: "View Details"
-                    }
                 },
                 innerPage: {
                     data: "Data Not Found"
@@ -275,7 +271,6 @@ const resources = {
                 },
             },
         },
-// Add translations for other languages as needed
 
         hy: {
             translation: {
