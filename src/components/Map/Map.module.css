@@ -54,7 +54,6 @@
     right: 0;
     bottom: 0;
     content: "dkfalkjf";
-
 }
 
 span {
@@ -72,11 +71,11 @@ span {
 
 .click_icon {
     width: 24px;
-    height: 24px; 
-    margin-right: 8px; 
+    height: 24px;
+    margin-right: 8px;
 }
 
-a > span{
+a > span {
     fill: black;
     color: black !important;
 }
@@ -84,4 +83,6 @@ a > span{
 .messageBox > span {
     fill: black;
     color: black !important;
+    margin-left: 10px;  /* Added margin-left property */
+    margin-right: 10px;
 }
