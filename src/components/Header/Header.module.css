@@ -72,6 +72,7 @@
 .drop_item a,
 .drop_item.active a {
   color: #232222 !important;
+  letter-spacing: inherit;
 }
 
 .page_logo {

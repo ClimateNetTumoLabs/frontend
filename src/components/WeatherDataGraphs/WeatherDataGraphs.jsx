@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import ReactApexChart from 'react-apexcharts';
 import styles from './WeatherDataGraphs.module.css';
 import Loader from "react-js-loader";
 import DatePicker from "react-datepicker";
 import ReactDOM from 'react-dom';
-import { useTranslation } from "react-i18next";
-import  "../../i18n";
+import {useTranslation} from "react-i18next";
+import "../../i18n";
 
 const formatData = (names, dataArray) => {
     return names.map((name, index) => ({
@@ -25,7 +25,7 @@ const formatDate = (date) => {
 };
 
 const WeatherDataGraphs = (props) => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const seriesData = formatData(props.types, props.data);
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
     const chartRef = useRef(null);
@@ -195,7 +195,8 @@ const WeatherDataGraphs = (props) => {
             },
             title: {
                 text: `${t('chartTitles.dataPer')} ${props.timeline}`,
-                align: 'left'
+                align: 'left',
+                fontFamily: 'inherit'
             },
             markers: {
                 size: 1
@@ -309,7 +310,10 @@ const WeatherDataGraphs = (props) => {
                         ...prevState.options,
                         title: {
                             text: `${t('chartTitles.dataPer')} ${title_map[props.timeline]}`,
-                            align: 'left'
+                            align: 'left',
+                            style: {
+                                fontFamily: 'inherit' // This will be inherited from the parent
+                            }
                         },
                         xaxis: {
                             ...prevState.options.xaxis,
@@ -364,7 +368,7 @@ const WeatherDataGraphs = (props) => {
 
     return (
         <div className={styles.chart_section}>
-            <div style={{ height: "100%" }}>
+            <div style={{height: "100%"}}>
                 <div className={styles.toolbarAndFilter}>
                     <div className={styles.FilterSection}>
                         {document.querySelector('.from') ? ReactDOM.createPortal(
@@ -443,13 +447,15 @@ const WeatherDataGraphs = (props) => {
                         ) : null}
                     </div>
                     {props.leftLoad ? (
-                        <Loader type="spinner-circle" bgColor={"#FFFFFF"} color={"#FFFFFF"} size={100} />
+                        <Loader type="spinner-circle" bgColor={"#FFFFFF"} color={"#FFFFFF"} size={100}/>
                     ) : (
                         <>
                             <div className={`${styles.chartContainer}`}>
-                                {(loading || props.leftLoad) && <div className={styles.loadingOverlay}>{t('chartTitles.update')}</div>}
+                                {(loading || props.leftLoad) &&
+                                    <div className={styles.loadingOverlay}>{t('chartTitles.update')}</div>}
                                 <div className={`${styles.chartWrapper} ${loading ? styles.blur : ''}`}>
-                                    <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500} />
+                                    <ReactApexChart ref={chartRef} options={chartState.options}
+                                                    series={chartState.series} type="line" height={500}/>
                                 </div>
                             </div>
                         </>

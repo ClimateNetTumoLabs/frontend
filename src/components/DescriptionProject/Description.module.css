@@ -17,7 +17,8 @@
 }
 
 .partner_logo {
-  width : 59px
+  width : 59px;
+  cursor: pointer;
 }
 
 .partner_link img{
