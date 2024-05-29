@@ -205,15 +205,18 @@ const resources = {
                     humidity: "Humidity",
                     barometricPressure: "Barometric P.",
                     light: "Light",
+                    uv_index: "UV",
                     rain: "Rain",
                     pm1: "PM 1",
                     pm10: "PM 10",
+                    pm2_5: "PM 2.5",
                     lux: "Lux",
                     hPa: "hPa",
                     mm: "mm",
                     myum: "μm",
                     kmhour: "km/h",
-                    micro: "micro"
+                    micro: "micro",
+                    uv: "mW/cm2"
                 },
                 nearbyDevicesItem: {
                     km: "km"
@@ -477,9 +480,11 @@ const resources = {
                     humidity: "Խոնավություն",
                     barometricPressure: "Բարոմետրիկ Ճ.",
                     light: "Լույս",
+                    uv_index: "UV",
                     rain: "Անձրև",
                     pm1: "PM 1",
                     pm10: "PM 10",
+                    pm2_5: "PM 2.5",
                     lux: "Լյուքս",
                     hPa: "հՊա",
                     mm: "մմ",
