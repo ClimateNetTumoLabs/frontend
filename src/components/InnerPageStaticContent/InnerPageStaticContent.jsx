@@ -30,8 +30,8 @@ const DataTable = (props) => {
                         <span className={styles.value}>{props.data.pressure} {t('linerStatusBar.hPa')}</span>
                     </td>
                     <td className={styles.td}>
-                        <span className={styles.title}>{t('linerStatusBar.light')}</span><br />
-                        <span className={styles.value}>{props.data.lux} {t('linerStatusBar.lux')}</span>
+                        <span className={styles.title}>{t('linerStatusBar.uv_index')}</span><br />
+                        <span className={styles.value}>{props.data.uv}</span>
                     </td>
                 </tr>
                 <tr className={styles.tr}>
@@ -44,8 +44,8 @@ const DataTable = (props) => {
                         <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm1} {t('linerStatusBar.myum')}</div>
                     </td>
                     <td className={styles.td}>
-                        <span className={styles.title}>{t('linerStatusBar.pm10')}</span><br />
-                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm10} {t('linerStatusBar.myum')}
+                        <span className={styles.title}>{t('linerStatusBar.pm2_5')}</span><br />
+                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm2_5} {t('linerStatusBar.myum')}
                         </div>
                         <ReactTooltip
                             id="micro_meter"
