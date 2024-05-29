@@ -16,9 +16,10 @@ function App() {
     const { i18n } = useTranslation();
     const location = useLocation();
     const isInnerPage = location.pathname.startsWith("/device");
+    const isArmenian = i18n.language === 'hy'; // Assuming 'hy' represents Armenian
 
     return (
-        <div className="App">
+        <div className={`App ${isArmenian ? "armenianFont" : "englishFont"}`}>
             <Header />
             <ScrollToTop />
             <Routes>

@@ -53,8 +53,10 @@ const Footer = () => {
                 <div className="col-md-4 col-12 justify-content-center d-flex">
                     <div className="col">
                         <p className={styles.company_information}>
+                            <a href="https://www.google.com/maps/place/2a+Halabyan+St,+Yerevan+0038/@40.1918461,44.4793715,17z/data=!3m1!4b1!4m6!3m5!1s0x406abd74e53e311d:0x891208fe54bb63d6!8m2!3d40.1918461!4d44.4793715!16s%2Fg%2F11t7d495t1?entry=ttu">
                             <img loading="lazy" src={location} alt="Map Icon" className="icon" />
                             {t('footer.address')}
+                            </a>
                         </p>
                         <p className={styles.company_information}>
                             <a href="tel:+37410398413">

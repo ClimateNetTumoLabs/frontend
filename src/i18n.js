@@ -518,10 +518,6 @@ const resources = {
                         devicesNearYou: "Մոտակա սարքեր",
                         devicesNear: "Մոտակա սարքեր"
                     },
-                    loaderText: "Loading...",
-                    buttonLabels: {
-                        viewDetails: "View Details"
-                    }
                 },
                 innerPage: {
                     data: "Տվյալներ չեն գտնվել"
