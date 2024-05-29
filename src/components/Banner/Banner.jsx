@@ -4,9 +4,9 @@ import styles from './Banner.module.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { TypeAnimation } from 'react-type-animation';
 import { useTranslation } from 'react-i18next';
-import banner1 from '../../assets/Banner/banner_1.jpeg';
-import banner2 from '../../assets/Banner/banner_2.jpeg';
-import banner3 from '../../assets/Banner/banner_3.jpeg';
+import banner1 from '../../assets/Banner/banner_1.webp';
+import banner2 from '../../assets/Banner/banner_2.webp';
+import banner3 from '../../assets/Banner/banner_3.webp';
 import '../../i18n';
 
 function Banner() {
