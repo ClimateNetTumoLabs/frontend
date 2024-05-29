@@ -167,6 +167,9 @@
     .otherInformation {
         padding-inline: 15px;
     }
+    .windTitle {
+        margin-right: 10px;
+    }
 }
 
 .loaderContent{

@@ -473,7 +473,7 @@ const resources = {
                     hazardous: "Վտանգավոր",
                     feelsLike: "Զգացվում է ինչպես ",
                     recommendation: "Մեկնաբանությունների բաժին, այստեղ կարող են լինել որոշ առաջարկություններ",
-                    wind: "Քամի ",
+                    wind: "Քամի",
                     humidity: "Խոնավություն",
                     barometricPressure: "Բարոմետրիկ Ճ.",
                     light: "Լույս",
