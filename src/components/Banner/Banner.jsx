@@ -37,6 +37,11 @@ function Banner() {
 
     return (
         <div className={styles.carouselContainer}>
+            {/* Preload images */}
+            <link rel="preload" as="image" href={banner1} />
+            <link rel="preload" as="image" href={banner2} />
+            <link rel="preload" as="image" href={banner3} />
+
             <Carousel
                 className={styles.carousel_section}
                 activeIndex={index}
@@ -47,9 +52,10 @@ function Banner() {
                 {images.map((image, idx) => (
                     <Carousel.Item key={idx} className={styles.carouselItem}>
                         <img
-                            loading="lazy"
+                            loading="eager"  // Load critical images eagerly
                             className={styles.carouselImg}
                             src={image}
+                            sizes="(max-width: 600px) 100vw, 50vw"
                             alt={`Slide ${idx + 1}`}
                         />
                         <Carousel.Caption className={`${styles.carouselCaption} ${styles.carousel_text_section}`}>

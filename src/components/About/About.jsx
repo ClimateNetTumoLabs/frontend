@@ -1,5 +1,5 @@
 import React from "react";
-import styles from  "./About.module.css";
+import styles from "./About.module.css";
 import CollapsibleText from "../CollapsibleText/CollapsibleText";
 import temp from "../../assets/AboutIcons/temperature.png"
 import hum from "../../assets/AboutIcons/humidity.png"
@@ -10,13 +10,12 @@ import pm_10 from "../../assets/AboutIcons/dust.png"
 import anemometer from "../../assets/AboutIcons/anemometer.png"
 import arrow from "../../assets/AboutIcons/arrow.png"
 import uv_a from "../../assets/AboutIcons/uva.png"
-import uv_b from "../../assets/AboutIcons/uv.png"
-import { useTranslation } from "react-i18next";
-import  "../../i18n";
+import {useTranslation} from "react-i18next";
+import "../../i18n";
 
 const About = () => {
-    const { t } = useTranslation();
-const temperatureContent = `
+    const {t} = useTranslation();
+    const temperatureContent = `
     <div class="mt-4">
         <h2 class=${styles.measure_title}>${t('about.measureTemp')}</h2>
         <div class="d-flex align-items-center">
@@ -29,7 +28,7 @@ const temperatureContent = `
     </div>
 `;
 
-    const humidityContent= `
+    const humidityContent = `
         <div class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.measureHumidity')}</h2>
             <div class="d-flex align-items-center">
@@ -42,7 +41,7 @@ const temperatureContent = `
         </div>
     `
 
-    const pressureContent= `
+    const pressureContent = `
         <div class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.measurePressure')}</h2>
             <div class="d-flex align-items-center">
@@ -54,7 +53,7 @@ const temperatureContent = `
             </div>
         </div>
     `
-    const air_quality_intro= `
+    const air_quality_intro = `
         <div class="mt-4">
             <span class="text-light d-flex align-content-center">
                 ${t('about.airQualityIntro')}<br/>
@@ -64,7 +63,7 @@ const temperatureContent = `
         </div>
     `
 
-    const pm1= `
+    const pm1 = `
         <div class="mt-4">
             <h2 class=${styles.measure_title} >PM 1.0</h2>
             <div class="d-flex align-items-center">
@@ -77,7 +76,7 @@ const temperatureContent = `
             </div>
         </div>
     `
-    const pm2= `
+    const pm2 = `
         <div class="mt-4">
             <h2 class=${styles.measure_title} >PM 2.5</h2>
             <div class="d-flex align-items-center">
@@ -90,7 +89,7 @@ const temperatureContent = `
             </div>
         </div>
     `
-    const pm10= `
+    const pm10 = `
         <div class="mt-4">
             <h2 class=${styles.measure_title} >PM 10.0</h2>
             <div class="d-flex align-items-center">
@@ -154,7 +153,7 @@ const temperatureContent = `
  
     `
 
-    const windSpeed= `
+    const windSpeed = `
         <div class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.titleWindSpeed')}</h2>
             <div class="d-flex align-items-center">
@@ -166,7 +165,7 @@ const temperatureContent = `
             </div>
         </div>
     `
-    const windDirection= `
+    const windDirection = `
         <div class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.titleWindDirection')}</h2>
             <div class="d-flex align-items-center">
@@ -179,11 +178,10 @@ const temperatureContent = `
         </div>
     `
 
-    const uv_intro= `
+    const uv_intro = `
         <div class="mt-4">
             <span class="text-light d-flex align-items-center">
                 ${t('about.uv_intro')}<br/>
-                ${t('about.uv_intro2')}<br/> 
             </span> 
         </div>
     `
@@ -228,7 +226,7 @@ const temperatureContent = `
         <p>${t('about.api_info_done')}</p>
     `
 
-    const uva= `
+    const uva = `
         <div class="mt-4">
             <h2 class=${styles.measure_title} >UVA</h2>
             <div class="d-flex align-items-center ">
@@ -242,42 +240,31 @@ const temperatureContent = `
         </div>
     `
 
-    const uvb= `
-        <div class="mt-4">
-            <h2 class=${styles.measure_title} >UVB</h2>
-            <div class="d-flex align-items-center">
-                <img loading="lazy" class=${styles.icon} src=${uv_b} alt="UVB"/>
-                <span class="text-light d-flex align-content-center">
-                    ${t('about.uvb')}<br/>
-                    ${t('about.uvb2')}<br/>
-                    ${t('about.uvb3')}<br/>           
-                </span> 
-            </div>
-        </div>
-    `
-
-
     return (
         <div className={styles.about_us_page}>
-            <div className={`${styles.about_section} ${styles.ab_1}`}><span className={styles.welcome_to}>{t('about.welcome')}</span>
-                                    {t('about.section1')}
+            <div className={`${styles.about_section} ${styles.ab_1}`}><span
+                className={styles.welcome_to}>{t('about.welcome')}</span>
+                {t('about.section1')}
             </div>
             <div className={`${styles.about_section} ${styles.ab_2}`}>{t('about.section2')}
             </div>
             <div className={`${styles.about_section} ${styles.ab_3}`}>{t('about.section3')} <a
-                className={styles.link} href={"https://tumolabs.am/en/"}>{t('about.section4')}</a> {t('about.section5')} <a
-                    className={styles.link} href={"https://42yerevan.am/"}>{t('about.section6')}</a> {t('about.section7')}
+                className={styles.link} href={"https://tumolabs.am/en/"}>{t('about.section4')}</a> {t('about.section5')}
+                <a
+                    className={styles.link}
+                    href={"https://42yerevan.am/"}>{t('about.section6')}</a> {t('about.section7')}
             </div>
 
             <div className={styles.measurement_description}>
-                <CollapsibleText text={temperatureContent + humidityContent + pressureContent} point={t('about.titleTemp')}/>
+                <CollapsibleText text={temperatureContent + humidityContent + pressureContent}
+                                 point={t('about.titleTemp')}/>
                 <CollapsibleText text={air_quality_intro + pm1 + pm2 + pm10 + table} point={t('about.titleAir')}/>
                 <CollapsibleText text={windSpeed + windDirection} point={t('about.titleWind')}/>
-                <CollapsibleText text={uv_intro + uva + uvb} point={t('about.titleUv')}/>
+                <CollapsibleText text={uv_intro + uva} point={t('about.titleUv')}/>
             </div>
 
             <div className={styles.API_section}>
-                <CollapsibleText text={api_info} point={t('about.titleWeather')} />
+                <CollapsibleText text={api_info} point={t('about.titleWeather')}/>
             </div>
         </div>
     );
