@@ -56,7 +56,7 @@ const resources = {
                     titleWindDirection: "Wind Direction",
                     windDirection: "A wind vane with a magnet rotates based on the wind direction. This triggers different reed switches positioned around the vane, allowing the system to determine the wind direction.",
                     windDirection2: "The rain sensor can register rainfall amounts as small as 0.2794 mm (0.011 inches) per tip.",
-                    uv_intro: "We measure light intensity and spectral information, making it valuable for various applications. Here's an in-depth look at each:",
+                    uv_intro: "We measure light intensity and spectral information, making it valuable for various applications. Here's an in-depth look:",
                     uva: "Wavelength 315-400nm",
                     uva2: "UVA rays are the longest-wavelength UV radiation reaching Earth's surface. They penetrate deep into the skin, reaching the dermis layer.",
                     uva3: "While UVA is less energetic, it contributes significantly to skin aging and wrinkles. It can also weaken the immune system and increase the risk of skin cancer",
