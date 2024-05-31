@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './InnerPageStaticContent.module.css'
-import Weather from '../../assets/Weather/cloudy.png'
+import Weather from '../../assets/Weather/cloudy.webp'
 import { useLocation } from "react-router-dom";
 import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";

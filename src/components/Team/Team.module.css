@@ -50,11 +50,11 @@
     z-index: 1;
     transition: transform 0.7s;
     display: flex;
-    visibility: hidden;
+    visibility: hidden; /* Initially hidden */
     left: 50%;
-    bottom : 5%;
-    -ms-transform: translate(-50%, -50% );
-    transform: translate(-50%, -50% );
+    bottom: 5%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 .team_member_image_block:hover .icon_section {

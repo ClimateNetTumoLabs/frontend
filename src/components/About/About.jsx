@@ -1,15 +1,15 @@
 import React from "react";
 import styles from "./About.module.css";
 import CollapsibleText from "../CollapsibleText/CollapsibleText";
-import temp from "../../assets/AboutIcons/temperature.png"
-import hum from "../../assets/AboutIcons/humidity.png"
-import pressure from "../../assets/AboutIcons/pressure.png"
-import pm_1 from "../../assets/AboutIcons/lungs.png"
-import pm_2 from "../../assets/AboutIcons/pm2.png"
-import pm_10 from "../../assets/AboutIcons/dust.png"
-import anemometer from "../../assets/AboutIcons/anemometer.png"
-import arrow from "../../assets/AboutIcons/arrow.png"
-import uv_a from "../../assets/AboutIcons/uva.png"
+import temp from "../../assets/AboutIcons/temperature.webp"
+import hum from "../../assets/AboutIcons/humidity.webp"
+import pressure from "../../assets/AboutIcons/pressure.webp"
+import pm_1 from "../../assets/AboutIcons/lungs.webp"
+import pm_2 from "../../assets/AboutIcons/pm2.webp"
+import pm_10 from "../../assets/AboutIcons/dust.webp"
+import anemometer from "../../assets/AboutIcons/anemometer.webp"
+import arrow from "../../assets/AboutIcons/arrow.webp"
+import uv_a from "../../assets/AboutIcons/uva.webp"
 import {useTranslation} from "react-i18next";
 import "../../i18n";
 
