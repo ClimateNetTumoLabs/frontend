@@ -37,11 +37,6 @@ function Banner() {
 
     return (
         <div className={styles.carouselContainer}>
-            {/* Preload images */}
-            <link rel="preload" as="image" href={banner1} />
-            <link rel="preload" as="image" href={banner2} />
-            <link rel="preload" as="image" href={banner3} />
-
             <Carousel
                 className={styles.carousel_section}
                 activeIndex={index}
