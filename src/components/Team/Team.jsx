@@ -2,11 +2,11 @@ import React from "react";
 import styles from './Team.module.css'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-// import erikImage from '../../assets/images/TeamMembers/erik.webp';
-import hovoImage from '../../assets/TeamMembers/hovo.webp';
-import marinaImage from '../../assets/TeamMembers/marina.webp';
-import arsenImage from '../../assets/TeamMembers/arsen.webp';
-import vaheImage from '../../assets/TeamMembers/vahe.webp';
+// import erikImage from '../../assets/images/TeamMembers/erik.png';
+import hovoImage from '../../assets/TeamMembers/hovo.png';
+import marinaImage from '../../assets/TeamMembers/marina.png';
+import arsenImage from '../../assets/TeamMembers/arsen.png';
+import vaheImage from '../../assets/TeamMembers/vahe.png';
 import { useTranslation } from "react-i18next";
 import  "../../i18n";
 
