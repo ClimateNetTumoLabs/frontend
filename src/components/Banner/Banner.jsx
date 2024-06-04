@@ -47,6 +47,7 @@ function Banner() {
                 {images.map((image, idx) => (
                     <Carousel.Item key={idx} className={styles.carouselItem}>
                         <img
+                            rel={'preload'}
                             loading="eager"  // Load critical images eagerly
                             className={styles.carouselImg}
                             src={image}
