@@ -192,10 +192,6 @@ th {
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
-    max-width: 200px; /* Set a max-width */
-    box-sizing: border-box; /* Ensure padding doesn't affect size */
-    font-size: 14px; /* Ensure consistent font size */
-    line-height: 1.5; /* Ensure consistent line height */
 }
 
 .apexcharts-toolbar div:hover {
