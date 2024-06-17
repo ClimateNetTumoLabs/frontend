@@ -2,7 +2,7 @@
     background-color: #282A2D;
     min-width: 320px;
     width : 320px;
-    max-height:calc(100vh - 20vh - 70px);
+    max-height:calc(100vh - 70px);
     overflow-y: auto;
 }
 

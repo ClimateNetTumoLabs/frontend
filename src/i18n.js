@@ -265,12 +265,12 @@ const resources = {
                     update: "Updating..."
                 },
                 filterTooltips: {
-                    filter: "filter",
+                    filter: "Filter",
                     to: "to",
                     from: "from",
-                    oneM: "1M",
-                    sevenD: "7D",
-                    oneD: "1D"
+                    oneM: "1 Month",
+                    sevenD: "7 Days",
+                    oneD: "1 Day"
                 },
             },
         },
@@ -534,9 +534,9 @@ const resources = {
                     filter: "ֆիլտր",
                     to: "ավարտ",
                     from: "սկիզբ",
-                    oneM: "1ամիս",
-                    sevenD: "7օր",
-                    oneD: "1օր"
+                    oneM: "1 ամիս",
+                    sevenD: "7 օր",
+                    oneD: "1 օր"
                 },
             },
         },
