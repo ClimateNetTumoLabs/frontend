@@ -7,10 +7,9 @@
     font-weight: 600;
 }
 
-.nameAndDevice svg{
+.nameAndDevice svg {
     height: 100px;
 }
-
 
 .staticContent {
     display: flex;
@@ -19,14 +18,14 @@
 }
 
 .weatherStatusImage {
-    height : 64px;
+    height: 64px;
     width: 64px;
 }
 
 .weatherInformation {
     display: flex;
     flex-direction: column;
-    padding : 0px 30px;
+    padding: 0px 30px;
 }
 
 .infoTemperature {
@@ -46,7 +45,6 @@
     opacity: 0.8;
     top: -1em;
 }
-
 
 .windTitle {
     margin-top: 10px;
@@ -72,7 +70,7 @@
 
 .feelslike sup {
     font-weight: 600;
-    top : -0.5em
+    top: -0.5em;
 }
 
 .feelslike span {
@@ -102,7 +100,11 @@
 
 .td {
     text-align: start;
+}
 
+.titleWrapper {
+    display: flex;
+    align-items: center;
 }
 
 .title {
@@ -112,18 +114,19 @@
     color: #C2C2C3;
 }
 
-.value  {
+.value {
     font-weight: 600;
 }
 
-.value:hover .tooltiptext{
+.value:hover .tooltiptext {
     visibility: visible;
 }
 
 .tooltiptext sup {
     color: black;
 }
-.waeterInfo {
+
+.weatherInfo {
     display: flex;
 }
 
@@ -143,22 +146,22 @@
     margin: auto;
 }
 
-.windWrapper{
+.windWrapper {
     display: flex;
+    align-items: center;
 }
 
 @media (max-width: 920px) {
     .InnerPageStaticContent {
         width: 100%;
         align-items: center;
-        
     }
     .staticContent {
         display: flex;
         flex-direction: column;
         padding-inline: 15px;
     }
-    .waeterInfo {
+    .weatherInfo {
         display: flex;
         justify-content: center;
         padding: 50px;
@@ -166,23 +169,12 @@
     .otherInformation {
         padding-inline: 15px;
     }
-    .windTitle {
-        margin-right: 10px;
-    }
 }
 
-.loaderContent{
-    display: flex;
-    height:40vh;
-    align-items: center;
-
-}
-
-.loaderContent {
-    height: 100%;
-    color: white;
-    min-height: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* CSS for the info icon */
+.infoIcon {
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    vertical-align: baseline;
 }
