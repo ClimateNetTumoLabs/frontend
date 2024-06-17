@@ -19,7 +19,6 @@ function InnerPageDynamicContent(props) {
     const [pm10, setPm10] = useState([])
     const [UV, setUV] = useState([])
     const [VisibleLight, setVisibleLight] = useState([])
-    const [IRLight, setIRLight] = useState([])
     const [RainCount, setRainCount] = useState([])
     const [WindSpeed, setWindSpeed] = useState([])
     const [WindDirection, setWindDirection] = useState([])
@@ -78,7 +77,6 @@ function InnerPageDynamicContent(props) {
         setPm10(pm10Array)
         setUV(UVIndexArray)
         setVisibleLight(VisibleLightArray)
-        setIRLight(IRArray)
         setRainCount(RainCountArray)
         setWindSpeed(WindSpeedArray)
         setWindDirection(WindDirectionArray)
@@ -110,7 +108,7 @@ function InnerPageDynamicContent(props) {
                                     types={[t('innerPageDynamicContent.temperature'), t('innerPageDynamicContent.humidity')]}
                                     data={[temperature, humidity]}
                                     time={time}
-                                    colors={['#77B6EA', '#59a824']}
+                                    colors={['#fffA75', '#77B6EA']}
                                     timeline={props.period}
                                     leftLoad={props.leftLoad}
                                     setLeftLoad={props.setLeftLoad}

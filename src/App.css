@@ -1,6 +1,7 @@
 @font-face {
     font-family: 'Montserrat Armenian';
     src: url('../public/fonts/montserrat-armenian/Montserratarm-Light.otf') format('opentype');
+    font-display: swap;
 }
 
 /* Global styles */
@@ -73,7 +74,7 @@ footer {
     background-color: white;
     color: black;
     font-size: 6em;
-    border-radius: 5%;
+    border-radius: 5px;
     transition: opacity 0.4s ease-in-out;
     opacity: 0;
     padding: 30px;
@@ -181,17 +182,16 @@ th {
     position: relative;
 }
 
-.custom-icon:hover::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-}
+/*.custom-icon:hover::after {*/
+/*    content: attr(data-tooltip);*/
+/*    position: absolute;*/
+/*    color: white;*/
+/*    border-radius: 5px;*/
+/*    bottom: 120%;*/
+/*    left: 50%;*/
+/*    transform: translateX(-50%);*/
+/*    white-space: nowrap;*/
+/*}*/
 
 .apexcharts-toolbar div:hover {
     cursor: pointer;
@@ -217,7 +217,7 @@ th {
 .tooltiptext {
     visibility: hidden;
     text-align: center;
-    border-radius: 6px;
+    border-radius: 5px;
     position: absolute;
     z-index: 1;
     background: white;
@@ -235,18 +235,23 @@ th {
 
 .custom-icon {
     background-color: transparent;
-    padding: 3px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
     color: #fff;
     cursor: pointer;
     font-size: 14px;
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    margin-right: 10px;
+    justify-content: center;
+    min-width: 70px;
+    width: 120px;
+    padding: 5px;
+
 }
 
 .custom-icon:hover {
-    border-radius: 6px;
+    border-radius: 5px;
     background: #656363;
 }
 
@@ -260,15 +265,16 @@ th {
     display: inline-flex;
     flex-direction: column;
     text-align: center;
-    border-right: none;
     background-color: transparent;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
     color: #fff;
     cursor: pointer;
     font-size: 17px;
     margin-left: 10px;
     width: 120px;
+    padding: 5px;
+    height: 36px;
 }
 
 .apexcharts-menu-icon,
@@ -283,13 +289,24 @@ th {
 }
 
 .filter_button {
-    background-color: #8c8e8f;
+
 }
 
-.custom-icon:hover {
+.custom-icon:hover{
     border: 1px solid #df7788;
     color: #df7788;
     background-color: #232222;
+}
+
+.custom-icon.from:hover .selected_date, .to:hover .selected_date {
+    color: #df7788;
+}
+.pickerDropdown {
+    display: flex;
+    position: relative;
+    align-items: center;
+    z-index: 100;
+    background-color: #222;
 }
 
 @media (max-width: 767px) {

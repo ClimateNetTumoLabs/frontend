@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Carousel } from 'react-bootstrap';
+import { Helmet } from 'react-helmet';
 import styles from './Banner.module.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { TypeAnimation } from 'react-type-animation';
@@ -37,6 +38,11 @@ function Banner() {
 
     return (
         <div className={styles.carouselContainer}>
+            <Helmet>
+                <link rel="preload" href={banner1} as="image" />
+                <link rel="preload" href={banner2} as="image" />
+                <link rel="preload" href={banner3} as="image" />
+            </Helmet>
             <Carousel
                 className={styles.carousel_section}
                 activeIndex={index}
@@ -47,9 +53,10 @@ function Banner() {
                 {images.map((image, idx) => (
                     <Carousel.Item key={idx} className={styles.carouselItem}>
                         <img
-                            loading="lazy"
+                            loading="eager"  // Load critical images eagerly
                             className={styles.carouselImg}
                             src={image}
+                            sizes="(max-width: 600px) 100vw, 50vw"
                             alt={`Slide ${idx + 1}`}
                         />
                         <Carousel.Caption className={`${styles.carouselCaption} ${styles.carousel_text_section}`}>

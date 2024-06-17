@@ -25,6 +25,7 @@ const formatDate = (date) => {
 };
 
 const WeatherDataGraphs = (props) => {
+    console.log(props)
     const {t} = useTranslation();
     const seriesData = formatData(props.types, props.data);
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
@@ -97,7 +98,7 @@ const WeatherDataGraphs = (props) => {
                     tools: {
                         customIcons: [
                             {
-                                icon: `<div class="custom-icon filter_button">${t("filterTooltips.filter")}</div>`,
+                                icon: `<div class="custom-icon  filter_button">${t("filterTooltips.filter")}</div>`,
                                 index: -18,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
@@ -106,7 +107,7 @@ const WeatherDataGraphs = (props) => {
                                 }
                             },
                             {
-                                icon: `<div class="custom-icon to">${t("filterTooltips.to")}</div>`,
+                                icon: `<div class="custom-icon to"></div>`,
                                 index: -18,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
@@ -116,7 +117,7 @@ const WeatherDataGraphs = (props) => {
                                 }
                             },
                             {
-                                icon: `<div class="custom-icon from">${t("filterTooltips.from")}</div>`,
+                                icon: `<div class="custom-icon from"></div>`,
                                 index: -18,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
@@ -126,7 +127,7 @@ const WeatherDataGraphs = (props) => {
                                 }
                             },
                             {
-                                icon: `<div class="custom-icon" data-tooltip="${t("innerPageFilter.options.monthly")}">${t("filterTooltips.oneM")}</div>`,
+                                icon: `<div class="custom-icon">${t("filterTooltips.oneM")}</div>`,
                                 index: -19,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
@@ -142,14 +143,12 @@ const WeatherDataGraphs = (props) => {
                                 }
                             },
                             {
-                                icon: `<div class="custom-icon" data-tooltip="${t("innerPageFilter.options.daily")}">${t("filterTooltips.sevenD")}</div>`,
+                                icon: `<div class="custom-icon">${t("filterTooltips.sevenD")}</div>`,
                                 index: -19,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
                                 click: (event) => {
                                     const currentDate = new Date();
-                                    const currentMonth = currentDate.getMonth();
-                                    const currentYear = currentDate.getFullYear();
                                     const end = (currentDate);
                                     const start = (new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000))
                                     setSelectedEndDate(end)
@@ -158,7 +157,7 @@ const WeatherDataGraphs = (props) => {
                                 }
                             },
                             {
-                                icon: `<div class="custom-icon" data-tooltip="${t('innerPageFilter.options.hourly')}">${t("filterTooltips.oneD")}</div>`,
+                                icon: `<div class="custom-icon">${t("filterTooltips.oneD")}</div>`,
                                 index: -19,
                                 title: 'Filter',
                                 class: 'custom-icon-button',
@@ -410,7 +409,7 @@ const WeatherDataGraphs = (props) => {
 
                         {document.querySelector('.to') ? ReactDOM.createPortal(
                             <div>
-                                <div>{formatDate(selectedEndDate)}</div>
+                                <div className={"selected_date"}>{formatDate(selectedEndDate)}</div>
                                 {showEndDatePicker && (
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                         <DatePicker
@@ -451,11 +450,9 @@ const WeatherDataGraphs = (props) => {
                     ) : (
                         <>
                             <div className={`${styles.chartContainer}`}>
-                                {(loading || props.leftLoad) &&
-                                    <div className={styles.loadingOverlay}>{t('chartTitles.update')}</div>}
+                                {(loading || props.leftLoad) && <div className={styles.loadingOverlay}>{t('chartTitles.update')}</div>}
                                 <div className={`${styles.chartWrapper} ${loading ? styles.blur : ''}`}>
-                                    <ReactApexChart ref={chartRef} options={chartState.options}
-                                                    series={chartState.series} type="line" height={500}/>
+                                    <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500}/>
                                 </div>
                             </div>
                         </>
