@@ -1,6 +1,7 @@
 import React from "react";
 import styles from './InnerPageStaticContent.module.css'
-import Weather from '../../assets/Weather/cloudy.webp'
+import Device from '../../assets/Weather/device.svg'
+
 import { useLocation } from "react-router-dom";
 import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
@@ -11,7 +12,7 @@ import  "../../i18n";
 
 const WeatherState = () => {
     return (
-        <img src={Weather} alt="Weather status" className={styles.weatherStatusImage} />
+        <img src={Device} alt="Device Image" className={styles.weatherStatusImage} />
     )
 }
 
@@ -76,15 +77,20 @@ const WeatherInformation = (props) => {
         -0.000003582 * temperature ** 2 * windSpeed ** 2
     return (
         <div className={styles.weatherInformation}>
-            <>
-                <span className={styles.infoTemperature}>{props.temp}<sup>°C</sup></span>
-                <p className={styles.feelslike}><span>{t('linerStatusBar.feelsLike')}</span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
+            <div>
+                <div>
+                    <span className={styles.infoTemperature}>{Math.round(props.temp)}<sup>°C</sup></span>
+
+                    <span className={styles.infoTemperature}>|| {Math.round(props.temp + 32)}<sup>°F</sup></span>
+                </div>
+                <p className={styles.feelslike}><span>{t('linerStatusBar.feelsLike')}</span>{Math.round(feelsLikeTemperature)}<sup>°C</sup> || {Math.round(feelsLikeTemperature + 32)}<sup>°F</sup></p>
+
                 <span className={styles.recommendation}>{t('linerStatusBar.recommendation')}</span>
                 <div className={styles.windWrapper}>
                     <span className={styles.windTitle}>{t('linerStatusBar.wind')}</span>
                     <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} {t('linerStatusBar.kmhour')}</span>
                 </div>
-            </>
+            </div>
         </div>
     )
 }

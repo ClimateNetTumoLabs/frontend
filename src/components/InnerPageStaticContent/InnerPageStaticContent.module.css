@@ -19,8 +19,8 @@
 }
 
 .weatherStatusImage {
-    height : 64px;
-    width: 64px;
+    height : 200px;
+    width: 200px;
 }
 
 .weatherInformation {
@@ -33,9 +33,10 @@
     font-size: 36px;
     font-weight: 800;
     line-height: normal;
+    margin-right: 15px;
 }
 
-.infoTemperature sup {
+.infoTemperature sup{
     font-size: 20px;
     font-weight: 800;
 }
