@@ -171,11 +171,14 @@ const resources = {
                         Panik: "Panik",
                         Azatan: "Azatan",
                         Artik: "Artik",
-                        "V. Sargsyan": "V. Sargsyan"
+                        "V. Sargsyan": "V. Sargsyan",
+                        Sevan: "Sevan",
+                        Gavar: "Gavar"    
                     },
                     parentNames: {
                         Shirak: "Shirak",
-                        Yerevan: "Yerevan"
+                        Yerevan: "Yerevan",
+                        Gegharkunik: "Gegharkunik"
                     }
                 },
                 header: {
@@ -447,9 +450,12 @@ const resources = {
                         Panik: "Փանիկ",
                         Azatan: "Ազատան",
                         Artik: "Արթիկ",
-                        "V. Sargsyan": "Վ. Սարգսյան"
+                        "V. Sargsyan": "Վ. Սարգսյան",
+                        Sevan: "Սևան",
+                        Gavar: "Գավառ"    
                     },
                     parentNames: {
+                        Gegharkunik: "Գեղարքունիք",
                         Shirak: "Շիրակ",
                         Yerevan: "Երևան"
                     }
