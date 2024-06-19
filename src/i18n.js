@@ -222,14 +222,18 @@ const resources = {
                         temperatureAndHumidity: "Temperature and Humidity",
                         airQuality: "Air Quality",
                         pressure: "Pressure",
-                        rainAndWind: "Rain and Wind"
+                        rainAndWind: "Rain and Wind",
+                        light : "UV and Intensity"
+
                     },
                     temperature: "Temperature",
                     humidity: "Humidity",
                     pressure: "Pressure",
                     rain: "Rain",
                     windSpeed: "Wind Speed",
-                    windDirection: "Wind Direction"
+                    windDirection: "Wind Direction",
+                    light_uv : "Uv index",
+                    light_intensity : "Light intensity"
                 },
                 innerPageFilter: {
                     options: {
