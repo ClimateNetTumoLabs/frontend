@@ -492,7 +492,7 @@ const resources = {
                         Yerazgavors: "Երազգավորս",
                         Akhuryan: "Ախուրյան",
                         Hatsik: "Հացիկ",
-                        Ashotsq: "Աշոցք"
+                        Ashotsk: "Աշոցք"
                     },
                     parentNames: {
                         Gegharkunik: "Գեղարքունիք",
