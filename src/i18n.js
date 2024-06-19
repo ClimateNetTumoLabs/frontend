@@ -188,7 +188,12 @@ const resources = {
                         Artik: "Artik",
                         "V. Sargsyan": "V. Sargsyan",
                         Sevan: "Sevan",
-                        Gavar: "Gavar"    
+                        Gavar: "Gavar",
+                        Amasia: "Amasia",
+                        Yerazgavors: "Yerazgavors",
+                        Akhuryan: "Akhuryan",
+                        Hatsik: "Hatsik",
+                        Ashotsk: "Ashotsk",
                     },
                     parentNames: {
                         Shirak: "Shirak",
@@ -477,7 +482,12 @@ const resources = {
                         Artik: "Արթիկ",
                         "V. Sargsyan": "Վ. Սարգսյան",
                         Sevan: "Սևան",
-                        Gavar: "Գավառ"    
+                        Gavar: "Գավառ",
+                        Amasia: "Ամասիա",
+                        Yerazgavors: "Երազգավորս",
+                        Akhuryan: "Ախուրյան",
+                        Hatsik: "Հացիկ",
+                        Ashotsk: "Աշոցք"
                     },
                     parentNames: {
                         Gegharkunik: "Գեղարքունիք",
