@@ -51,7 +51,6 @@ function InnerPageDynamicContent(props) {
         let RainCountArray = []
         let WindSpeedArray = []
         let WindDirectionArray = []
-        console.log(props.weather_data)
         props.weather_data.forEach((element) => {
             temperatureArray.push(element["temperature"] || 0);
             humidityArray.push(element["humidity"] || 0);
