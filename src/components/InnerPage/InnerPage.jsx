@@ -136,18 +136,7 @@ function InnerPage() {
 	return (
 		<div className={styles.inner_page}>
 			<InnerPageLeftNav
-				filterState={filterState}
-				filterChange={filterStateChange}
 				selected_device_id={params.id}
-				startDate={startDateState}
-				setStartDate={setStartDate}
-				endDate={endDateState}
-				setEndDate={setEndDate}
-				error={error}
-				showDatePicker={showDatePicker}
-				setShowDatePicker={setShowDatePicker}
-				handleCloseDatePicker={handleCloseDatePicker}
-				setError={setError}
 				weather_data={weather_data}
 				leftLoad={leftLoad}
 				setLeftLoad={setLeftLoad}

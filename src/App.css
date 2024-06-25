@@ -148,6 +148,11 @@ th {
     align-items: start !important;
     position: relative;
     min-width: 100%;
+    top : -53px !important;
+    left : 11px !important;
+}
+ .apexcharts-reset-icon {
+    display : none
 }
 
 .apexcharts-toolbar > * {

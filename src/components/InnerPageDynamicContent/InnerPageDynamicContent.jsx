@@ -1,15 +1,16 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from './InnerPageDynamicContent.module.css'
 import WeatherDataGraphs from "../WeatherDataGraphs/WeatherDataGraphs";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import {ReactComponent as FullScreen} from "../../assets/Icons/full-screen.svg";
-import {useTranslation} from "react-i18next";
+import { ReactComponent as FullScreen } from "../../assets/Icons/full-screen.svg";
+import { useTranslation } from "react-i18next";
 import "../../i18n";
+import Loader from "react-js-loader";
 
 function InnerPageDynamicContent(props) {
-    const {t} = useTranslation();
-    const [selectedTab, setSelectedTab] = useState("tem_and_hum");
+    const { t } = useTranslation();
+    // const [selectedTab, setSelectedTab] = useState("tem_and_hum");
     const [temperature, setTemperature] = useState([]);
     const [humidity, setHumidity] = useState([]);
     const [pressure, setPressure] = useState([]);
@@ -23,6 +24,8 @@ function InnerPageDynamicContent(props) {
     const [WindSpeed, setWindSpeed] = useState([])
     const [WindDirection, setWindDirection] = useState([])
     const ChartsRef = useRef(null)
+    const [isLoading, setIsLoading] = useState(true)
+
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current
 
@@ -47,7 +50,6 @@ function InnerPageDynamicContent(props) {
         let pm10Array = []
         let UVIndexArray = []
         let VisibleLightArray = []
-        let IRArray = []
         let RainCountArray = []
         let WindSpeedArray = []
         let WindDirectionArray = []
@@ -79,8 +81,21 @@ function InnerPageDynamicContent(props) {
         setWindSpeed(WindSpeedArray)
         setWindDirection(WindDirectionArray)
 
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
     }, [props.weather_data]);
 
+    if (isLoading) {
+        return (
+            <div className={styles.loader}>
+                <Loader type="spinner-circle"
+                        bgColor={"#FFFFFF"}
+                        color={"#FFFFFF"}
+                        size={100} />
+            </div>
+        );
+    }
 
     return (
         <div ref={ChartsRef} className={`${styles.InnerPageDynamicContent}`}>
@@ -89,136 +104,21 @@ function InnerPageDynamicContent(props) {
             </div>
             <div className={styles.chart}>
                 <div className={styles.tabContainer}>
-                    <Tabs
-                        defaultActiveKey={selectedTab}
-                        className={styles.tabs_section}
-                        onSelect={(tab) => setSelectedTab(tab)}
-                    >
-                        <Tab eventKey="tem_and_hum"
-                             title={t('innerPageDynamicContent.tabTitles.temperatureAndHumidity')}>
-                            {selectedTab === "tem_and_hum" &&
-                                <WeatherDataGraphs
-                                    startDate={props.startDate}
-                                    endDate={props.endDate}
-                                    setStartDate={props.setStartDate}
-                                    setEndDate={props.setEndDate}
-                                    className={styles.graph}
-                                    types={[t('innerPageDynamicContent.temperature'), t('innerPageDynamicContent.humidity')]}
-                                    data={[temperature, humidity]}
-                                    time={time}
-                                    colors={['#fffA75', '#77B6EA']}
-                                    timeline={props.period}
-                                    leftLoad={props.leftLoad}
-                                    setLeftLoad={props.setLeftLoad}
-                                    filterChange={props.filterChange}
-                                    error={props.error}
-                                    setError={props.setError}
-                                    filterPressed={props.filterPressed}
-                                    setFilterPressed={props.setFilterPressed}
-                                    filterState={props.filterState}
-                                    selected_device_id={props.selected_device_id}
-                                />
-                            }
+                    <Tabs defaultActiveKey="tem_and_hum" className={styles.tabs_section}>
+                        <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
+                            <WeatherDataGraphs timeline={props.period} types={["Temperature", "Humidity"]} data={[temperature, humidity]} time={time} colors={['#77B6EA', '#59a824']}/>
                         </Tab>
-                        <Tab eventKey="pm" title={t('innerPageDynamicContent.tabTitles.airQuality')}>
-                            {selectedTab === "pm" &&
-                                <WeatherDataGraphs
-                                    startDate={props.startDate}
-                                    endDate={props.endDate}
-                                    setStartDate={props.setStartDate}
-                                    setEndDate={props.setEndDate}
-                                    className={styles.graph}
-                                    leftLoad={props.leftLoad}
-                                    setLeftLoad={props.setLeftLoad}
-                                    timeline={props.period}
-                                    types={["PM 1", "PM 2.5", "PM 10"]}
-                                    data={[pm1, pm2_5, pm10]}
-                                    time={time}
-                                    colors={['#f80000', '#e1d816', '#49B618']}
-                                    filterChange={props.filterChange}
-                                    error={props.error}
-                                    setError={props.setError}
-                                    filterPressed={props.filterPressed}
-                                    setFilterPressed={props.setFilterPressed}
-                                    filterState={props.filterState}
-                                    selected_device_id={props.selected_device_id}
-                                />
-                            }
+                        <Tab eventKey="pm" title="Air Quality">
+                            <WeatherDataGraphs timeline={props.period} types={["PM 1", "PM 2.5", "PM 10"]} data={[pm1, pm2_5, pm10]} time={time} colors={['#f80000', '#e1d816', '#49B618']}/>
                         </Tab>
-                        <Tab eventKey="pressure" title={t('innerPageDynamicContent.tabTitles.pressure')}>
-                            {selectedTab === "pressure" &&
-                                <WeatherDataGraphs
-                                    startDate={props.startDate}
-                                    endDate={props.endDate}
-                                    setStartDate={props.setStartDate}
-                                    setEndDate={props.setEndDate}
-                                    className={styles.graph}
-                                    leftLoad={props.leftLoad}
-                                    setLeftLoad={props.setLeftLoad}
-                                    timeline={props.period}
-                                    types={[t('innerPageDynamicContent.pressure')]}
-                                    data={[pressure]}
-                                    time={time}
-                                    colors={["#FFFF00"]}
-                                    filterChange={props.filterChange}
-                                    error={props.error}
-                                    setError={props.setError}
-                                    filterPressed={props.filterPressed}
-                                    setFilterPressed={props.setFilterPressed}
-                                    filterState={props.filterState}
-                                    selected_device_id={props.selected_device_id}
-                                />
-                            }
+                        <Tab eventKey="Light" title="Uv And Light Intensity">
+                            <WeatherDataGraphs timeline={props.period} types={["UV Index", "Light Intensity"]} data={[UV, VisibleLight]} time={time} colors={['#f80000', '#e1d816']}/>
                         </Tab>
-                        <Tab eventKey="light" title={t('innerPageDynamicContent.tabTitles.light')}>
-                            {selectedTab === "light" &&
-                                <WeatherDataGraphs
-                                    startDate={props.startDate}
-                                    endDate={props.endDate}
-                                    setStartDate={props.setStartDate}
-                                    setEndDate={props.setEndDate}
-                                    className={styles.graph}
-                                    leftLoad={props.leftLoad}
-                                    setLeftLoad={props.setLeftLoad}
-                                    timeline={props.period}
-                                    types={[t('innerPageDynamicContent.light_uv'), t('innerPageDynamicContent.light_intensity')]}
-                                    data={[UV, VisibleLight]}
-                                    time={time}
-                                    colors={["#00FF00", "#00FFFF"]}
-                                    filterChange={props.filterChange}
-                                    error={props.error}
-                                    setError={props.setError}
-                                    filterPressed={props.filterPressed}
-                                    setFilterPressed={props.setFilterPressed}
-                                    filterState={props.filterState}
-                                    selected_device_id={props.selected_device_id}
-                                />
-                            }
+                        <Tab eventKey="pressure" title="Pressure">
+                            <WeatherDataGraphs timeline={props.period} types={["Pressure"]} data={[pressure]} time={time} colors={["#FFFF00"]}/>
                         </Tab>
-                        <Tab eventKey="rain_wind" title={t('innerPageDynamicContent.tabTitles.rainAndWind')}>
-                            {selectedTab === "rain_wind" &&
-                                <WeatherDataGraphs
-                                    className={styles.graph}
-                                    leftLoad={props.leftLoad}
-                                    setLeftLoad={props.setLeftLoad}
-                                    timeline={props.period}
-                                    types={[t('innerPageDynamicContent.rain'), t('innerPageDynamicContent.windSpeed')]}
-                                    data={[RainCount, WindSpeed]}
-                                    time={time}
-                                    colors={["#6688aa", "#BA9593", "#EDAFFB"]}
-                                    filterChange={props.filterChange}
-                                    startDate={props.startDate}
-                                    endDate={props.endDate}
-                                    setStartDate={props.setStartDate}
-                                    setEndDate={props.setEndDate}
-                                    error={props.error}
-                                    setError={props.setError}
-                                    filterPressed={props.filterPressed}
-                                    setFilterPressed={props.setFilterPressed}
-                                    filterState={props.filterState}
-                                    selected_device_id={props.selected_device_id}
-                                />
-                            }
+                        <Tab eventKey="rain_wind" title="Rain and Wind">
+                            <WeatherDataGraphs timeline={props.period} types={["Rain", "Wind Speed"]} data={[RainCount, WindSpeed]} time={time} colors={["#6688aa", "#BA9593"]}/>
                         </Tab>
                     </Tabs>
                 </div>
