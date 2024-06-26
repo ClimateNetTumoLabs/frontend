@@ -1,24 +1,92 @@
-import React from "react";
 import styles from "./About.module.css";
 import CollapsibleText from "../CollapsibleText/CollapsibleText";
-import temp from "../../assets/AboutIcons/temperature.webp"
-import hum from "../../assets/AboutIcons/humidity.webp"
-import pressure from "../../assets/AboutIcons/pressure.webp"
-import pm_1 from "../../assets/AboutIcons/lungs.webp"
-import pm_2 from "../../assets/AboutIcons/pm2.webp"
-import pm_10 from "../../assets/AboutIcons/dust.webp"
-import anemometer from "../../assets/AboutIcons/anemometer.webp"
-import arrow from "../../assets/AboutIcons/arrow.webp"
-import uv_a from "../../assets/AboutIcons/uva.webp"
+import temp from "../../assets/AboutIcons/temperature.png"
+import hum from "../../assets/AboutIcons/humidity.png"
+import pressure from "../../assets/AboutIcons/pressure.png"
+import pm_1 from "../../assets/AboutIcons/lungs.png"
+import pm_2 from "../../assets/AboutIcons/pm2.png"
+import pm_10 from "../../assets/AboutIcons/dust.png"
+import anemometer from "../../assets/AboutIcons/anemometer.png"
+import arrow from "../../assets/AboutIcons/arrow.png"
+import uv_a from "../../assets/AboutIcons/uv.png"
 import lux from "../../assets/AboutIcons/lux.png"
 import rain from "../../assets/AboutIcons/rain.png"
 import {useTranslation} from "react-i18next";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "../../i18n";
 
 const About = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
+    const location = useLocation();
+    const weatherRef = useRef(null);
+    const airQualityRef = useRef(null);
+    const windRef = useRef(null);
+    const uvRef = useRef(null);
+    const apiRef = useRef(null);
+    const [highlightedSection, setHighlightedSection] = useState(null);
+
+    useEffect(() => {
+        const hash = location.hash.replace('#', '');
+        if (hash) {
+            const ref = {
+                temperature: weatherRef,
+                humidity: weatherRef,
+                pressure: weatherRef,
+                rain: windRef,
+                pm1: airQualityRef,
+                pm2: airQualityRef,
+                pm10: airQualityRef,
+                wind: windRef,
+                uv: uvRef,
+                uvtable: uvRef,
+                api: apiRef
+            }[hash];
+
+            if (ref && ref.current) {
+                ref.current.scrollIntoView({ behavior: 'smooth' });
+                ref.current.click(); // This will toggle the collapse
+                setHighlightedSection(hash);
+
+                setTimeout(() => setHighlightedSection(null), 3500);
+            }
+        }
+    }, [location]);
+
+useEffect(() => {
+    if (highlightedSection) {
+        const element = document.getElementById(highlightedSection);
+        if (element) {
+            // Scroll into view with smooth behavior
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Manually adjust the scroll position to ensure the element is fully visible on mobile
+            setTimeout(() => {
+                const rect = element.getBoundingClientRect();
+                const isVisible = (
+                    rect.top >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+                );
+
+                if (!isVisible) {
+                    window.scrollBy({ top: rect.top - 20, behavior: 'smooth' });
+                }
+
+                // Add highlight class
+                element.classList.add(styles.highlighted);
+
+                // Remove highlight class after 3.5 seconds
+                setTimeout(() => {
+                    element.classList.remove(styles.highlighted);
+                    setHighlightedSection(null);
+                }, 3500);
+            }, 300); // Give some time for the initial scrollIntoView to complete
+        }
+    }
+}, [highlightedSection]);
+
     const temperatureContent = `
-    <div class="mt-4">
+    <div id="temperature" class="mt-4">
         <h2 class=${styles.measure_title}>${t('about.measureTemp')}</h2>
         <div class="d-flex align-items-center">
             <img loading="lazy" class=${styles.icon} src=${temp} alt="Temperature"/>
@@ -31,7 +99,7 @@ const About = () => {
 `;
 
     const humidityContent = `
-        <div class="mt-4">
+        <div id="humidity" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.measureHumidity')}</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${hum} alt="Humidity"/>
@@ -44,7 +112,7 @@ const About = () => {
     `
 
     const pressureContent = `
-        <div class="mt-4">
+        <div id="pressure" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.measurePressure')}</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pressure} alt="Pressure"/>
@@ -56,7 +124,7 @@ const About = () => {
         </div>
     `
     const air_quality_intro = `
-        <div class="mt-4">
+        <div id="airquality" class="mt-4">
             <span class="text-light d-flex align-content-center">
                 ${t('about.airQualityIntro')}<br/>
                 ${t('about.airQualityIntro2')}<br/> 
@@ -66,7 +134,7 @@ const About = () => {
     `
 
     const pm1 = `
-        <div class="mt-4">
+        <div id="pm1" class="mt-4">
             <h2 class=${styles.measure_title} >PM 1.0</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pm_1} alt="PM1.0"/>
@@ -79,7 +147,7 @@ const About = () => {
         </div>
     `
     const pm2 = `
-        <div class="mt-4">
+        <div id="pm2" class="mt-4">
             <h2 class=${styles.measure_title} >PM 2.5</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pm_2} alt="PM2.5"/>
@@ -92,7 +160,7 @@ const About = () => {
         </div>
     `
     const pm10 = `
-        <div class="mt-4">
+        <div id="pm10" class="mt-4">
             <h2 class=${styles.measure_title} >PM 10.0</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pm_10} alt="PM2.5"/>
@@ -105,7 +173,7 @@ const About = () => {
         </div>
     `
     const table = `
-        <div class="mt-4">
+        <div id="pmtable" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.pmDanger')}</h2>
             <div class=${styles.table_block}>
                 <table>
@@ -156,7 +224,7 @@ const About = () => {
     `
 
     const windSpeed = `
-        <div class="mt-4">
+        <div id="wind" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.titleWindSpeed')}</h2>
             <div class="d-flex align-items-center">
                 <img  loading="lazy" class=${styles.icon} src=${anemometer} alt="Anemometer"/>
@@ -168,7 +236,7 @@ const About = () => {
         </div>
     `
     const windDirection = `
-        <div class="mt-4">
+        <div id="direction" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.titleWindDirection')}</h2>
             <div class="d-flex align-items-center">
                 <img  loading="lazy" class=${styles.icon} src=${arrow} alt="Direction"/>
@@ -180,14 +248,14 @@ const About = () => {
         </div>
     `
     const rainSensor = `
-    <div class="mt-4">
+    <div id="rain" class="mt-4">
         <h2 class=${styles.measure_title} >${t('about.titleRain')}</h2>
         <div class="d-flex align-items-center">
             <img loading="lazy" class=${styles.icon} src=${rain} alt="rain"/>
             <span class="text-light d-flex align-content-center">
                 ${t('about.rain1')}<br/>
                 ${t('about.rain2')}<br/>
-            </span> 
+            </span>
         </div>
     </div>
 `
@@ -198,6 +266,57 @@ const About = () => {
             </span> 
         </div>
     `
+        const tableUV = `
+        <div id="uv" class="mt-4">
+            <h2 class=${styles.measure_title} >${t('about.tableuv')}</h2>
+            <div class=${styles.table_block}>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>${t('about.uvth1')}</th>
+                      <th>${t('about.uvth2')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   <tr>
+                      <td>${t('about.uvlow')}</td>
+                      <td>< 2</td>
+                    </tr>
+                    <tr>
+                      <td>${t('about.uvmoderate')}</td>
+                      <td>3-5</td>
+                    </tr>
+                    <tr>
+                      <td>${t('about.uvhigh')}</td>
+                      <td>6-7</td>
+                    </tr>
+                    <tr>
+                    <td>${t('about.uvveryhigh')}</td>
+                    <td>8-10</td>
+                </tr>
+                    <tr>
+                    <td>${t('about.uvextreme')}</td>
+                    <td>11+</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+
+    `
+    const luxContent = `
+    <div id="lux" class="mt-4">
+        <h2 class=${styles.measure_title} >${t('about.lux')}</h2>
+        <div class="d-flex align-items-center ">
+            <img loading="lazy" class=${styles.icon} src=${lux} alt="LUX"/>
+            <span class="text-light d-flex align-content-center">
+                ${t('about.lux1')}<br/>
+                ${t('about.lux2')}<br/>
+                ${t('about.lux3')}<br/>
+            </span>
+        </div>
+    </div>
+`
 
     const api_info = `
         <p>${t('about.api_info')}</p>
@@ -240,7 +359,7 @@ const About = () => {
     `
 
     const uva = `
-        <div class="mt-4">
+        <div id="uv" class="mt-4">
             <h2 class=${styles.measure_title} >UV</h2>
             <div class="d-flex align-items-center ">
                 <img loading="lazy" class=${styles.icon} src=${uv_a} alt="UV"/>
@@ -252,58 +371,6 @@ const About = () => {
             </div>
         </div>
     `
-
-    const tableUV = `
-        <div class="mt-4">
-            <h2 class=${styles.measure_title} >${t('about.tableuv')}</h2>
-            <div class=${styles.table_block}>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>${t('about.uvth1')}</th>
-                      <th>${t('about.uvth2')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                   <tr>
-                      <td>${t('about.uvlow')}</td>
-                      <td>< 2</td>
-                    </tr>
-                    <tr>
-                      <td>${t('about.uvmoderate')}</td>
-                      <td>3-5</td>
-                    </tr>
-                    <tr>
-                      <td>${t('about.uvhigh')}</td>
-                      <td>6-7</td>
-                    </tr>
-                    <tr>
-                    <td>${t('about.uvveryhigh')}</td>
-                    <td>8-10</td>
-                </tr>
-                    <tr>
-                    <td>${t('about.uvextreme')}</td>
-                    <td>11+</td>
-                    </tr>
-                  </tbody>
-                </table>
-            </div>
-        </div>
- 
-    `
-    const luxContent = `
-    <div class="mt-4">
-        <h2 class=${styles.measure_title} >${t('about.lux')}</h2>
-        <div class="d-flex align-items-center ">
-            <img loading="lazy" class=${styles.icon} src=${lux} alt="LUX"/>
-            <span class="text-light d-flex align-content-center">
-                ${t('about.lux1')}<br/>
-                ${t('about.lux2')}<br/>
-                ${t('about.lux3')}<br/>               
-            </span> 
-        </div>
-    </div>
-`
 
     return (
         <div className={styles.about_us_page}>
@@ -321,15 +388,32 @@ const About = () => {
             </div>
 
             <div className={styles.measurement_description}>
-                <CollapsibleText text={temperatureContent + humidityContent + pressureContent}
-                                 point={t('about.titleTemp')}/>
-                <CollapsibleText text={air_quality_intro + pm1 + pm2 + pm10 + table} point={t('about.titleAir')}/>
-                <CollapsibleText text={windSpeed + windDirection + rainSensor} point={t('about.titleWind')}/>
-                <CollapsibleText text={uv_intro + luxContent + uva + tableUV } point={t('about.titleUv')}/>
+                <CollapsibleText
+                ref={weatherRef}
+                text={temperatureContent + humidityContent + pressureContent}
+                point={t('about.titleTemp')}/>
+
+                <CollapsibleText
+                ref={airQualityRef}
+                text={air_quality_intro + pm1 + pm2 + pm10 + table}
+                point={t('about.titleAir')}/>
+
+                <CollapsibleText
+                ref={windRef}
+                text={windSpeed + windDirection + rainSensor}
+                point={t('about.titleWind')}/>
+
+                <CollapsibleText
+                ref={uvRef}
+                text={uv_intro + luxContent + uva + tableUV }
+                point={t('about.titleUv')}/>
             </div>
 
             <div className={styles.API_section}>
-                <CollapsibleText text={api_info} point={t('about.titleWeather')}/>
+                <CollapsibleText
+                ref={apiRef}
+                text={api_info}
+                point={t('about.titleWeather')}/>
             </div>
         </div>
     );

@@ -58,3 +58,10 @@
 .link {
     text-decoration:  none;
 }
+
+.highlighted {
+    border-left: 4px solid #df7788; /* Border color */
+    padding-left: 10px;
+    background-color: rgba(223, 119, 136, 0.1); /* Background color */
+    transition: all 0.3s ease;
+}

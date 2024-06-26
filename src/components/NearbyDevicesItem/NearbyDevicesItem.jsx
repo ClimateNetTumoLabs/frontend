@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './NearbyDevicesItem.module.css';
 import distanceIcon from '../../assets/Weather/arrows.webp'
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import temp from "../../assets/AboutIcons/temperature.webp"
+import temp from "../../assets/AboutIcons/temperature.png"
 import { useTranslation } from "react-i18next";
 import  "../../i18n";
 

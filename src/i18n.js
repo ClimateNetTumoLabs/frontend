@@ -13,7 +13,7 @@ const resources = {
                     titleWind: "Air Speed, Direction and Rain",
                     titleUv: "UV Index and Light Intensity",
                     titleWeather: "Weather Data: API Documentation",
-                    measureTemp: "Measuring temperature",
+                    measureTemp: "Measuring Temperature",
                     measureHumidity: "Measuring Humidity",
                     measurePressure: "Measuring Pressure",
                     section1: " a pioneering hyper-local, student-led climate observatory. Our mission is to empower the next generation and raise awareness through real-time data tracking, all while making a significant contribution to mitigating climate change. We're dedicated to advocating for climate action beyond borders, because the challenges we face are global in nature.",

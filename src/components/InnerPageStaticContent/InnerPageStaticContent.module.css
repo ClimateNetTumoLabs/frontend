@@ -36,7 +36,7 @@
     margin-right: 15px;
 }
 
-.infoTemperature sup{
+.infoTemperature sup {
     font-size: 20px;
     font-weight: 800;
 }
@@ -103,7 +103,11 @@
 
 .td {
     text-align: start;
+}
 
+.titleWrapper {
+    display: flex;
+    align-items: center;
 }
 
 .title {
@@ -124,7 +128,8 @@
 .tooltiptext sup {
     color: black;
 }
-.waeterInfo {
+
+.weatherInfo {
     display: flex;
 }
 
@@ -146,6 +151,7 @@
 
 .windWrapper{
     display: flex;
+    align-items: center;
 }
 
 @media (max-width: 920px) {
@@ -159,7 +165,7 @@
         flex-direction: column;
         padding-inline: 15px;
     }
-    .waeterInfo {
+    .weatherInfo {
         display: flex;
         justify-content: center;
         padding: 50px;
@@ -179,11 +185,10 @@
 
 }
 
-.loaderContent {
-    height: 100%;
-    color: white;
-    min-height: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* CSS for the info icon */
+.infoIcon {
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    vertical-align: baseline;
 }

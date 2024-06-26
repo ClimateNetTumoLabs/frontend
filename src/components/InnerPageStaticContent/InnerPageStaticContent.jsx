@@ -1,7 +1,6 @@
 import React from "react";
 import styles from './InnerPageStaticContent.module.css'
 import Device from '../../assets/Weather/device.svg'
-
 import { useLocation } from "react-router-dom";
 import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
@@ -9,6 +8,9 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import Loader from "react-js-loader";
 import { useTranslation } from "react-i18next";
 import  "../../i18n";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const WeatherState = () => {
     return (
@@ -18,36 +20,54 @@ const WeatherState = () => {
 
 const DataTable = (props) => {
     const { t } = useTranslation();
+    const { i18n } = useTranslation();
     return (
         <table className={styles.dataTable}>
             <tbody>
                 <tr className={styles.tr}>
                     <td className={styles.td}>
-                        <span className={styles.title}>{t('linerStatusBar.humidity')}</span><br />
+                        <span className={styles.titleWrapper}>
+                            <span className={styles.title}>{t('linerStatusBar.humidity')}</span>
+                            <Link to={`/${i18n.language}/about/#humidity`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
+                        </span>
                         <span className={styles.value}>{props.data.humidity} %</span>
                     </td>
                     <td className={styles.td}>
-                        <span className={styles.title}>{t('linerStatusBar.barometricPressure')}</span><br />
+                        <span className={styles.titleWrapper}>
+                            <span className={styles.title}>{t('linerStatusBar.barometricPressure')}</span>
+                            <Link to={`/${i18n.language}/about/#pressure`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
+                        </span>
                         <span className={styles.value}>{props.data.pressure} {t('linerStatusBar.hPa')}</span>
                     </td>
                     <td className={styles.td}>
-                        <span className={styles.title}>{t('linerStatusBar.uv_index')}</span><br />
+                        <span className={styles.titleWrapper}>
+                            <span className={styles.title}>{t('linerStatusBar.uv_index')}</span>
+                            <Link to={`/${i18n.language}/about/#uv`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
+                        </span>
                         <span className={styles.value}>{props.data.uv}</span>
                     </td>
                 </tr>
                 <tr className={styles.tr}>
                     <td className={styles.td}>
-                        <span className={styles.title}>{t('linerStatusBar.rain')}</span><br />
+                        <span className={styles.titleWrapper}>
+                            <span className={styles.title}>{t('linerStatusBar.rain')}</span>
+                            <Link to={`/${i18n.language}/about/#rain`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
+                        </span>
                         <span className={styles.value}>{props.data.rain} {t('linerStatusBar.mm')}</span>
                     </td>
                     <td className={styles.td}>
-                        <span className={styles.title}>{t('linerStatusBar.pm1')}</span><br />
+                        <span className={styles.titleWrapper}>
+                            <span className={styles.title}>{t('linerStatusBar.pm1')}</span>
+                            <Link to={`/${i18n.language}/about/#pm1`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
+                        </span>
                         <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm1} {t('linerStatusBar.myum')}</div>
                     </td>
                     <td className={styles.td}>
-                        <span className={styles.title}>{t('linerStatusBar.pm2_5')}</span><br />
-                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm2_5} {t('linerStatusBar.myum')}
-                        </div>
+                        <span className={styles.titleWrapper}>
+                            <span className={styles.title}>{t('linerStatusBar.pm2_5')}</span>
+                            <Link to={`/${i18n.language}/about/#pm2`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
+                        </span>
+                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm2_5} {t('linerStatusBar.myum')}</div>
                         <ReactTooltip
                             id="micro_meter"
                             place="bottom"
@@ -117,7 +137,7 @@ function InnerPageStaticContent(props) {
                             <h2>{nameOfDevice}</h2>
                         </div>
                         <div className={styles.staticContent}>
-                            <div className={styles.waeterInfo}>
+                            <div className={styles.weatherInfo}>
                                 <WeatherState />
                                 <WeatherInformation
                                     loading={props.loading}
