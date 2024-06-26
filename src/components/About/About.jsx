@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./About.module.css";
 import CollapsibleText from "../CollapsibleText/CollapsibleText";
 import temp from "../../assets/AboutIcons/temperature.webp"
@@ -11,99 +10,151 @@ import anemometer from "../../assets/AboutIcons/anemometer.webp"
 import arrow from "../../assets/AboutIcons/arrow.webp"
 import uv_a from "../../assets/AboutIcons/uva.webp"
 import {useTranslation} from "react-i18next";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "../../i18n";
 
 const About = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
+    const location = useLocation();
+    const weatherRef = useRef(null);
+    const airQualityRef = useRef(null);
+    const windRef = useRef(null);
+    const uvRef = useRef(null);
+    const apiRef = useRef(null);
+    const [highlightedSection, setHighlightedSection] = useState(null);
+
+    useEffect(() => {
+        const hash = location.hash.replace('#', '');
+        if (hash) {
+            const ref = {
+                temperature: weatherRef,
+                humidity: weatherRef,
+                pressure: weatherRef,
+                rain: windRef,
+                pm1: airQualityRef,
+                pm2: airQualityRef,
+                pm10: airQualityRef,
+                wind: windRef,
+                uv: uvRef,
+                api: apiRef
+            }[hash];
+
+            if (ref && ref.current) {
+                ref.current.scrollIntoView({ behavior: 'smooth' });
+                ref.current.click(); // This will toggle the collapse
+                setHighlightedSection(hash);
+
+                // Remove highlight after a delay if necessary
+                // setTimeout(() => setHighlightedSection(null), 5000); // Remove this line
+            }
+        }
+    }, [location]);
+
+    useEffect(() => {
+        if (highlightedSection) {
+            const element = document.getElementById(highlightedSection);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                element.classList.add(styles.highlighted);
+
+                setTimeout(() => {
+                   element.classList.remove(styles.highlighted);
+                   setHighlightedSection(null);
+               }, 5000);
+            }
+        }
+    }, [highlightedSection]);
+
     const temperatureContent = `
-    <div class="mt-4">
+    <div id="temperature" class="mt-4">
         <h2 class=${styles.measure_title}>${t('about.measureTemp')}</h2>
         <div class="d-flex align-items-center">
             <img loading="lazy" class=${styles.icon} src=${temp} alt="Temperature"/>
             <span class="text-light d-flex align-content-center">
                 ${t('about.temperatureContent')}<br>
                 ${t('about.temperatureContent2')}
-            </span> 
+            </span>
         </div>
     </div>
 `;
 
     const humidityContent = `
-        <div class="mt-4">
+        <div id="humidity" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.measureHumidity')}</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${hum} alt="Humidity"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.humidityContent')}<br>
                     ${t('about.humidityContent2')}
-                </span> 
+                </span>
             </div>
         </div>
     `
 
     const pressureContent = `
-        <div class="mt-4">
+        <div id="pressure" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.measurePressure')}</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pressure} alt="Pressure"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.pressureContent')} <br/>
                     ${t('about.pressureContent2')}
-                </span> 
+                </span>
             </div>
         </div>
     `
     const air_quality_intro = `
-        <div class="mt-4">
+        <div id="airquality" class="mt-4">
             <span class="text-light d-flex align-content-center">
                 ${t('about.airQualityIntro')}<br/>
-                ${t('about.airQualityIntro2')}<br/> 
+                ${t('about.airQualityIntro2')}<br/>
                 ${t('about.airQualityIntro3')}
-            </span> 
+            </span>
         </div>
     `
 
     const pm1 = `
-        <div class="mt-4">
+        <div id="pm1" class="mt-4">
             <h2 class=${styles.measure_title} >PM 1.0</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pm_1} alt="PM1.0"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.pm1')}<br/>
                     ${t('about.pm1_2')}<br/>
-                    ${t('about.pm1_3')}<br/>               
-                </span> 
+                    ${t('about.pm1_3')}<br/>
+                </span>
             </div>
         </div>
     `
     const pm2 = `
-        <div class="mt-4">
+        <div id="pm2" class="mt-4">
             <h2 class=${styles.measure_title} >PM 2.5</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pm_2} alt="PM2.5"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.pm2')}<br/>
                     ${t('about.pm2_2')}<br/>
-                    ${t('about.pm2_3')}<br/> 
-                </span> 
+                    ${t('about.pm2_3')}<br/>
+                </span>
             </div>
         </div>
     `
     const pm10 = `
-        <div class="mt-4">
+        <div id="pm10" class="mt-4">
             <h2 class=${styles.measure_title} >PM 10.0</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pm_10} alt="PM2.5"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.pm10')}<br/>
                     ${t('about.pm10_2')}<br/>
-                    ${t('about.pm10_3')}<br/> 
-                </span> 
+                    ${t('about.pm10_3')}<br/>
+                </span>
             </div>
         </div>
     `
     const table = `
-        <div class="mt-4">
+        <div id="pmtable" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.pmDanger')}</h2>
             <div class=${styles.table_block}>
                 <table>
@@ -150,30 +201,30 @@ const About = () => {
                 </table>
             </div>
         </div>
- 
+
     `
 
     const windSpeed = `
-        <div class="mt-4">
+        <div id="wind" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.titleWindSpeed')}</h2>
             <div class="d-flex align-items-center">
                 <img  loading="lazy" class=${styles.icon} src=${anemometer} alt="Anemometer"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.windSpeed')}<br/>
                     ${t('about.windSpeed2')}
-                </span> 
+                </span>
             </div>
         </div>
     `
     const windDirection = `
-        <div class="mt-4">
+        <div id="direction" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.titleWindDirection')}</h2>
             <div class="d-flex align-items-center">
                 <img  loading="lazy" class=${styles.icon} src=${arrow} alt="Direction"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.windDirection')}<br/>
-                    ${t('about.windDirection2')}     
-                </span> 
+                    ${t('about.windDirection2')}
+                </span>
             </div>
         </div>
     `
@@ -182,7 +233,7 @@ const About = () => {
         <div class="mt-4">
             <span class="text-light d-flex align-items-center">
                 ${t('about.uv_intro')}<br/>
-            </span> 
+            </span>
         </div>
     `
 
@@ -202,14 +253,14 @@ const About = () => {
         <h2 class=${styles.measure_title}>${t('about.api_info_example')}</h2>
         <div class=${styles.examples}>
             <pre>GET <a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8</a></pre>
-            
+
             <h3 class=${styles.sub_title_3}>${t('about.api_info_24')}</h3>
             <p>${t('about.api_info_24_request')} <code>start_time</code> ${t('about.and')} <code>end_time</code>, ${t('about.api_info_24_request2')}</p>
             <pre><a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=3</a></pre>
 
             <h3 class=${styles.sub_title_3} >${t('about.api_info_response')}</h3>
             <p>${t('about.api_info_json')}</p>
-        
+
         </div>
 
         <h2 class=${styles.measure_title}>${t('about.api_info_usage')}</h2>
@@ -227,15 +278,15 @@ const About = () => {
     `
 
     const uva = `
-        <div class="mt-4">
+        <div id="uv" class="mt-4">
             <h2 class=${styles.measure_title} >UVA</h2>
             <div class="d-flex align-items-center ">
                 <img loading="lazy" class=${styles.icon} src=${uv_a} alt="UVA"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.uva')}<br/>
                     ${t('about.uva2')}<br/>
-                    ${t('about.uva3')}<br/>               
-                </span> 
+                    ${t('about.uva3')}<br/>
+                </span>
             </div>
         </div>
     `
@@ -256,15 +307,32 @@ const About = () => {
             </div>
 
             <div className={styles.measurement_description}>
-                <CollapsibleText text={temperatureContent + humidityContent + pressureContent}
-                                 point={t('about.titleTemp')}/>
-                <CollapsibleText text={air_quality_intro + pm1 + pm2 + pm10 + table} point={t('about.titleAir')}/>
-                <CollapsibleText text={windSpeed + windDirection} point={t('about.titleWind')}/>
-                <CollapsibleText text={uv_intro + uva} point={t('about.titleUv')}/>
+                <CollapsibleText
+                ref={weatherRef}
+                text={temperatureContent + humidityContent + pressureContent}
+                point={t('about.titleTemp')}/>
+
+                <CollapsibleText
+                ref={airQualityRef}
+                text={air_quality_intro + pm1 + pm2 + pm10 + table}
+                point={t('about.titleAir')}/>
+
+                <CollapsibleText
+                ref={windRef}
+                text={windSpeed + windDirection}
+                point={t('about.titleWind')}/>
+
+                <CollapsibleText
+                ref={uvRef}
+                text={uv_intro + uva}
+                point={t('about.titleUv')}/>
             </div>
 
             <div className={styles.API_section}>
-                <CollapsibleText text={api_info} point={t('about.titleWeather')}/>
+                <CollapsibleText
+                ref={apiRef}
+                text={api_info}
+                point={t('about.titleWeather')}/>
             </div>
         </div>
     );

@@ -51,7 +51,7 @@ const DataTable = (props) => {
                     <td className={styles.td}>
                         <span className={styles.titleWrapper}>
                             <span className={styles.title}>{t('linerStatusBar.rain')}</span>
-                            <Link to={`/${i18n.language}/about`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
+                            <Link to={`/${i18n.language}/about/#rain`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
                         </span>
                         <span className={styles.value}>{props.data.rain} {t('linerStatusBar.mm')}</span>
                     </td>
@@ -102,7 +102,7 @@ const WeatherInformation = (props) => {
                 <span className={styles.recommendation}>{t('linerStatusBar.recommendation')}</span>
                 <div className={styles.windWrapper}>
                     <span className={styles.windTitle}>{t('linerStatusBar.wind')}</span>
-                    <Link to={`/${i18n.language}/about/#wind`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
+{/*                     <Link to={`/${i18n.language}/about/#wind`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link> */}
                     <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} {t('linerStatusBar.kmhour')}</span>
                 </div>
             </>
