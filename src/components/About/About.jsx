@@ -1,14 +1,16 @@
 import styles from "./About.module.css";
 import CollapsibleText from "../CollapsibleText/CollapsibleText";
-import temp from "../../assets/AboutIcons/temperature.webp"
-import hum from "../../assets/AboutIcons/humidity.webp"
-import pressure from "../../assets/AboutIcons/pressure.webp"
-import pm_1 from "../../assets/AboutIcons/lungs.webp"
-import pm_2 from "../../assets/AboutIcons/pm2.webp"
-import pm_10 from "../../assets/AboutIcons/dust.webp"
-import anemometer from "../../assets/AboutIcons/anemometer.webp"
-import arrow from "../../assets/AboutIcons/arrow.webp"
-import uv_a from "../../assets/AboutIcons/uva.webp"
+import temp from "../../assets/AboutIcons/temperature.png"
+import hum from "../../assets/AboutIcons/humidity.png"
+import pressure from "../../assets/AboutIcons/pressure.png"
+import pm_1 from "../../assets/AboutIcons/lungs.png"
+import pm_2 from "../../assets/AboutIcons/pm2.png"
+import pm_10 from "../../assets/AboutIcons/dust.png"
+import anemometer from "../../assets/AboutIcons/anemometer.png"
+import arrow from "../../assets/AboutIcons/arrow.png"
+import uv_a from "../../assets/AboutIcons/uv.png"
+import lux from "../../assets/AboutIcons/lux.png"
+import rain from "../../assets/AboutIcons/rain.png"
 import {useTranslation} from "react-i18next";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -37,6 +39,7 @@ const About = () => {
                 pm10: airQualityRef,
                 wind: windRef,
                 uv: uvRef,
+                uvtable: uvRef,
                 api: apiRef
             }[hash];
 
@@ -45,26 +48,42 @@ const About = () => {
                 ref.current.click(); // This will toggle the collapse
                 setHighlightedSection(hash);
 
-                // Remove highlight after a delay if necessary
-                // setTimeout(() => setHighlightedSection(null), 5000); // Remove this line
+                setTimeout(() => setHighlightedSection(null), 3500);
             }
         }
     }, [location]);
 
-    useEffect(() => {
-        if (highlightedSection) {
-            const element = document.getElementById(highlightedSection);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
+useEffect(() => {
+    if (highlightedSection) {
+        const element = document.getElementById(highlightedSection);
+        if (element) {
+            // Scroll into view with smooth behavior
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Manually adjust the scroll position to ensure the element is fully visible on mobile
+            setTimeout(() => {
+                const rect = element.getBoundingClientRect();
+                const isVisible = (
+                    rect.top >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+                );
+
+                if (!isVisible) {
+                    window.scrollBy({ top: rect.top - 20, behavior: 'smooth' });
+                }
+
+                // Add highlight class
                 element.classList.add(styles.highlighted);
 
+                // Remove highlight class after 3.5 seconds
                 setTimeout(() => {
-                   element.classList.remove(styles.highlighted);
-                   setHighlightedSection(null);
-               }, 5000);
-            }
+                    element.classList.remove(styles.highlighted);
+                    setHighlightedSection(null);
+                }, 3500);
+            }, 300); // Give some time for the initial scrollIntoView to complete
         }
-    }, [highlightedSection]);
+    }
+}, [highlightedSection]);
 
     const temperatureContent = `
     <div id="temperature" class="mt-4">
@@ -74,7 +93,7 @@ const About = () => {
             <span class="text-light d-flex align-content-center">
                 ${t('about.temperatureContent')}<br>
                 ${t('about.temperatureContent2')}
-            </span>
+            </span> 
         </div>
     </div>
 `;
@@ -87,7 +106,7 @@ const About = () => {
                 <span class="text-light d-flex align-content-center">
                     ${t('about.humidityContent')}<br>
                     ${t('about.humidityContent2')}
-                </span>
+                </span> 
             </div>
         </div>
     `
@@ -100,7 +119,7 @@ const About = () => {
                 <span class="text-light d-flex align-content-center">
                     ${t('about.pressureContent')} <br/>
                     ${t('about.pressureContent2')}
-                </span>
+                </span> 
             </div>
         </div>
     `
@@ -108,9 +127,9 @@ const About = () => {
         <div id="airquality" class="mt-4">
             <span class="text-light d-flex align-content-center">
                 ${t('about.airQualityIntro')}<br/>
-                ${t('about.airQualityIntro2')}<br/>
+                ${t('about.airQualityIntro2')}<br/> 
                 ${t('about.airQualityIntro3')}
-            </span>
+            </span> 
         </div>
     `
 
@@ -122,8 +141,8 @@ const About = () => {
                 <span class="text-light d-flex align-content-center">
                     ${t('about.pm1')}<br/>
                     ${t('about.pm1_2')}<br/>
-                    ${t('about.pm1_3')}<br/>
-                </span>
+                    ${t('about.pm1_3')}<br/>               
+                </span> 
             </div>
         </div>
     `
@@ -135,8 +154,8 @@ const About = () => {
                 <span class="text-light d-flex align-content-center">
                     ${t('about.pm2')}<br/>
                     ${t('about.pm2_2')}<br/>
-                    ${t('about.pm2_3')}<br/>
-                </span>
+                    ${t('about.pm2_3')}<br/> 
+                </span> 
             </div>
         </div>
     `
@@ -148,8 +167,8 @@ const About = () => {
                 <span class="text-light d-flex align-content-center">
                     ${t('about.pm10')}<br/>
                     ${t('about.pm10_2')}<br/>
-                    ${t('about.pm10_3')}<br/>
-                </span>
+                    ${t('about.pm10_3')}<br/> 
+                </span> 
             </div>
         </div>
     `
@@ -201,7 +220,7 @@ const About = () => {
                 </table>
             </div>
         </div>
-
+ 
     `
 
     const windSpeed = `
@@ -212,7 +231,7 @@ const About = () => {
                 <span class="text-light d-flex align-content-center">
                     ${t('about.windSpeed')}<br/>
                     ${t('about.windSpeed2')}
-                </span>
+                </span> 
             </div>
         </div>
     `
@@ -223,19 +242,81 @@ const About = () => {
                 <img  loading="lazy" class=${styles.icon} src=${arrow} alt="Direction"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.windDirection')}<br/>
-                    ${t('about.windDirection2')}
-                </span>
+                    ${t('about.windDirection2')}     
+                </span> 
             </div>
         </div>
     `
-
+    const rainSensor = `
+    <div id="rain" class="mt-4">
+        <h2 class=${styles.measure_title} >${t('about.titleRain')}</h2>
+        <div class="d-flex align-items-center">
+            <img loading="lazy" class=${styles.icon} src=${rain} alt="rain"/>
+            <span class="text-light d-flex align-content-center">
+                ${t('about.rain1')}<br/>
+                ${t('about.rain2')}<br/>
+            </span>
+        </div>
+    </div>
+`
     const uv_intro = `
         <div class="mt-4">
             <span class="text-light d-flex align-items-center">
                 ${t('about.uv_intro')}<br/>
-            </span>
+            </span> 
         </div>
     `
+        const tableUV = `
+        <div id="uv" class="mt-4">
+            <h2 class=${styles.measure_title} >${t('about.tableuv')}</h2>
+            <div class=${styles.table_block}>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>${t('about.uvth1')}</th>
+                      <th>${t('about.uvth2')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   <tr>
+                      <td>${t('about.uvlow')}</td>
+                      <td>< 2</td>
+                    </tr>
+                    <tr>
+                      <td>${t('about.uvmoderate')}</td>
+                      <td>3-5</td>
+                    </tr>
+                    <tr>
+                      <td>${t('about.uvhigh')}</td>
+                      <td>6-7</td>
+                    </tr>
+                    <tr>
+                    <td>${t('about.uvveryhigh')}</td>
+                    <td>8-10</td>
+                </tr>
+                    <tr>
+                    <td>${t('about.uvextreme')}</td>
+                    <td>11+</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+
+    `
+    const luxContent = `
+    <div id="lux" class="mt-4">
+        <h2 class=${styles.measure_title} >${t('about.lux')}</h2>
+        <div class="d-flex align-items-center ">
+            <img loading="lazy" class=${styles.icon} src=${lux} alt="LUX"/>
+            <span class="text-light d-flex align-content-center">
+                ${t('about.lux1')}<br/>
+                ${t('about.lux2')}<br/>
+                ${t('about.lux3')}<br/>
+            </span>
+        </div>
+    </div>
+`
 
     const api_info = `
         <p>${t('about.api_info')}</p>
@@ -253,14 +334,14 @@ const About = () => {
         <h2 class=${styles.measure_title}>${t('about.api_info_example')}</h2>
         <div class=${styles.examples}>
             <pre>GET <a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8</a></pre>
-
+            
             <h3 class=${styles.sub_title_3}>${t('about.api_info_24')}</h3>
             <p>${t('about.api_info_24_request')} <code>start_time</code> ${t('about.and')} <code>end_time</code>, ${t('about.api_info_24_request2')}</p>
             <pre><a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=3</a></pre>
 
             <h3 class=${styles.sub_title_3} >${t('about.api_info_response')}</h3>
             <p>${t('about.api_info_json')}</p>
-
+        
         </div>
 
         <h2 class=${styles.measure_title}>${t('about.api_info_usage')}</h2>
@@ -279,14 +360,14 @@ const About = () => {
 
     const uva = `
         <div id="uv" class="mt-4">
-            <h2 class=${styles.measure_title} >UVA</h2>
+            <h2 class=${styles.measure_title} >UV</h2>
             <div class="d-flex align-items-center ">
-                <img loading="lazy" class=${styles.icon} src=${uv_a} alt="UVA"/>
+                <img loading="lazy" class=${styles.icon} src=${uv_a} alt="UV"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.uva')}<br/>
                     ${t('about.uva2')}<br/>
-                    ${t('about.uva3')}<br/>
-                </span>
+                    ${t('about.uva3')}<br/>               
+                </span> 
             </div>
         </div>
     `
@@ -319,12 +400,12 @@ const About = () => {
 
                 <CollapsibleText
                 ref={windRef}
-                text={windSpeed + windDirection}
+                text={windSpeed + windDirection + rainSensor}
                 point={t('about.titleWind')}/>
 
                 <CollapsibleText
                 ref={uvRef}
-                text={uv_intro + uva}
+                text={uv_intro + luxContent + uva + tableUV }
                 point={t('about.titleUv')}/>
             </div>
 

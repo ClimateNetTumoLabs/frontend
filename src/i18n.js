@@ -11,7 +11,7 @@ const resources = {
                     titleTemp: "Temperature, Humidity and Pressure",
                     titleAir: "Air Quality",
                     titleWind: "Air Speed, Direction and Rain",
-                    titleUv: "UV index",
+                    titleUv: "UV Index and Light Intensity",
                     titleWeather: "Weather Data: API Documentation",
                     measureTemp: "Measuring Temperature",
                     measureHumidity: "Measuring Humidity",
@@ -54,12 +54,27 @@ const resources = {
                     windSpeed: "A rotating cup anemometer with magnets passes by a stationary reed switch. As the wind blows faster, the cup spins faster, triggering the reed switch more frequently, allowing the system to calculate wind speed.",
                     windSpeed2: "Sensor can measure wind speeds from 0.4 m/s to 45 m/s.",
                     titleWindDirection: "Wind Direction",
+                    titleRain: "Rainfall Quantity",
+                    rain1: "Rain gauge operates on the tipping bucket principle, where rain is collected in a funnel and directed into a tipping bucket mechanism.",
+                    rain2: "Each tip of the bucket corresponds to a known quantity of rainfall, typically 0.2mm, which then generates a pulse signal used to calculate the total rainfall.",  
                     windDirection: "A wind vane with a magnet rotates based on the wind direction. This triggers different reed switches positioned around the vane, allowing the system to determine the wind direction.",
                     windDirection2: "The rain sensor can register rainfall amounts as small as 0.2794 mm (0.011 inches) per tip.",
                     uv_intro: "We measure light intensity and spectral information, making it valuable for various applications. Here's an in-depth look:",
                     uva: "Wavelength 315-400nm",
                     uva2: "UVA rays are the longest-wavelength UV radiation reaching Earth's surface. They penetrate deep into the skin, reaching the dermis layer.",
                     uva3: "While UVA is less energetic, it contributes significantly to skin aging and wrinkles. It can also weaken the immune system and increase the risk of skin cancer",
+                    tableuv: "UV Index",
+                    uvth1: "Exposure Category",
+                    uvth2: "UV Range",
+                    uvlow: "Low",
+                    uvmoderate: "Moderate",
+                    uvhigh: "High",
+                    uvveryhigh: "Very High",
+                    uvextreme: "Extreme",
+                    lux: "LUX",
+                    lux1: "Light intensity, measured in lux, significantly impacts human health and well-being.",
+                    lux2: "Low light levels (below 200 lux) can cause eye strain and fatigue, while moderate levels (around 500 lux) improve concentration and productivity.",
+                    lux3: "High light levels (above 1,000 lux) can enhance mood and energy levels, but excessively bright light (over 10,000 lux) can cause discomfort and glare.",
                     api_info: "Welcome, developers! Our Weather Data API provides you with access to weather information based on specific parameters. Follow the instructions below to integrate this API into your application.",
                     api_info_param: "Parameters:",
                     api_info_deviceId: " (required): Unique identifier for the device.",
@@ -171,11 +186,19 @@ const resources = {
                         Panik: "Panik",
                         Azatan: "Azatan",
                         Artik: "Artik",
-                        "V. Sargsyan": "V. Sargsyan"
+                        "V. Sargsyan": "V. Sargsyan",
+                        Sevan: "Sevan",
+                        Gavar: "Gavar",
+                        Amasia: "Amasia",
+                        Yerazgavors: "Yerazgavors",
+                        Akhuryan: "Akhuryan",
+                        Hatsik: "Hatsik",
+                        Ashotsk: "Ashotsk",
                     },
                     parentNames: {
                         Shirak: "Shirak",
-                        Yerevan: "Yerevan"
+                        Yerevan: "Yerevan",
+                        Gegharkunik: "Gegharkunik"
                     }
                 },
                 header: {
@@ -197,7 +220,7 @@ const resources = {
                     hazardous: "Hazardous",
                     feelsLike: "FEELS LIKE ",
                     recommendation: "Comment section, here can be some recommendations",
-                    wind: "Wind",
+                    wind: "Wind ",
                     humidity: "Humidity",
                     barometricPressure: "Barometric P.",
                     light: "Light",
@@ -222,14 +245,18 @@ const resources = {
                         temperatureAndHumidity: "Temperature and Humidity",
                         airQuality: "Air Quality",
                         pressure: "Pressure",
-                        rainAndWind: "Rain and Wind"
+                        rainAndWind: "Rain and Wind",
+                        light : "UV and Intensity"
+
                     },
                     temperature: "Temperature",
                     humidity: "Humidity",
                     pressure: "Pressure",
                     rain: "Rain",
                     windSpeed: "Wind Speed",
-                    windDirection: "Wind Direction"
+                    windDirection: "Wind Direction",
+                    light_uv : "Uv index",
+                    light_intensity : "Light intensity"
                 },
                 innerPageFilter: {
                     options: {
@@ -245,10 +272,6 @@ const resources = {
                         devicesNearYou: "Devices Near You",
                         devicesNear: "Devices Near"
                     },
-                    loaderText: "Loading...",
-                    buttonLabels: {
-                        viewDetails: "View Details"
-                    }
                 },
                 innerPage: {
                     data: "Data Not Found"
@@ -265,16 +288,15 @@ const resources = {
                     update: "Updating..."
                 },
                 filterTooltips: {
-                    filter: "filter",
+                    filter: "Filter",
                     to: "to",
                     from: "from",
-                    oneM: "1M",
-                    sevenD: "7D",
-                    oneD: "1D"
+                    oneM: "1 Month",
+                    sevenD: "7 Days",
+                    oneD: "1 Day"
                 },
             },
         },
-// Add translations for other languages as needed
 
         hy: {
             translation: {
@@ -283,7 +305,7 @@ const resources = {
                     titleTemp: "Ջերմաստիճան, խոնավություն և ճնշում",
                     titleAir: "Օդի որակ",
                     titleWind: "Քամու արագություն, ուղղություն և անձրև",
-                    titleUv: "UV ինդեքս",
+                    titleUv: "UV ինդեքս և լույսի ինտենսիվություն",
                     titleWeather: "Եղանակի տվյալներ. API Documentation",
                     measureTemp: "Ջերմաստիճանի չափում",
                     measureHumidity: "Խոնավության չափում",
@@ -328,10 +350,25 @@ const resources = {
                     titleWindDirection: "Քամու ուղղություն",
                     windDirection: "Քամու ուղղությունը մագնիսով պտտվում է` ելնելով քամու ուղղությունից: Սա գործարկում է եղեգի տարբեր անջատիչները, որոնք տեղադրվում են թիակի շուրջը, ինչը թույլ է տալիս համակարգին որոշել քամու ուղղությունը:",
                     windDirection2: "Անձրևի սենսորը կարող է գրանցել 0,2794 մմ (0,011 դյույմ) անձրևի քանակություն մեկ ծայրի համար:",
+                    titleRain: "Անձրևի քանակ",
+                    rain1: "Անձրևաչափը գործում է շրջվող դույլի սկզբունքով, որտեղ անձրևը հավաքվում է ձագարի մեջ և ուղղվում դեպի դույլի շրջման մեխանիզմը:",
+                    rain2: "Դույլի յուրաքանչյուր ծայրը համապատասխանում է հայտնի տեղումների քանակին, սովորաբար 0,2 մմ, որն այնուհետև առաջացնում է իմպուլսային ազդանշան, որն օգտագործվում է տեղումների ընդհանուր քանակը հաշվարկելու համար:",
+                    lux: "Լյուքս",
+                    lux1: "Լույսի ինտենսիվությունը, որը չափվում է լյուքսով, զգալիորեն ազդում է մարդու առողջության և բարեկեցության վրա:  ",
+                    lux2: "Լույսի ցածր մակարդակը (200 լյուքսից պակաս) կարող է առաջացնել աչքերի լարվածություն և հոգնածություն, մինչդեռ չափավոր մակարդակը (մոտ 500 լյուքս) բարելավում է կենտրոնացումը և արտադրողականությունը:",
+                    lux3: "Լույսի բարձր մակարդակը (ավելի քան 1000 լյուքս) կարող է բարելավել տրամադրությունը և բարձրացնել էներգիայի մակարդակը, բայց չափազանց պայծառ լույսը (ավելի քան 10,000 լյուքս) կարող է անհանգստություն և կուրություն առաջացնել:",
                     uv_intro: "Մենք չափում ենք լույսի ինտենսիվությունը և սպեկտրային տեղեկատվությունը, ինչը արժեքավոր է դարձնում տարբեր ծրագրեր:",
                     uva: "Ալիքի երկարություն 315-400 նմ",
                     uva2: "UVA ճառագայթները ամենաերկար ալիքի ուլտրամանուշակագույն ճառագայթումն են, որը հասնում է Երկրի մակերեսին: Նրանք ներթափանցում են մաշկի խորքերը՝ հասնելով դերմիսի շերտին:",
                     uva3: "Չնայած UVA-ն քիչ էներգետիկ է, այն զգալիորեն նպաստում է մաշկի ծերացմանը և կնճիռներին: Այն նաև կարող է թուլացնել իմունային համակարգը և մեծացնել մաշկի քաղցկեղի առաջացման վտանգը:",
+                    tableuv: "UV ճառագայթների սանդղակ",
+                    uvth1: "Ազդեցության կատեգորիա",
+                    uvth2: "UV միջակայք",
+                    uvlow: "Թույլ",
+                    uvmoderate: "Չափավոր",
+                    uvhigh: "Բարձր",
+                    uvveryhigh: "Շատ բարձր",
+                    uvextreme: "Ծայրահեղ",
                     api_info: "Բարի գալուստ, ծրագրավորողներ: Եղանակի տվյալների մեր API-ը ձեզ հնարավորություն է տալիս օգտվել եղանակի մասին տեղեկատվությունից՝ հիմնված հատուկ պարամետրերի վրա: Հետևեք ստորև նշված հրահանգներին՝ այս API-ը ձեր հավելվածում ինտեգրելու համար:",
                     api_info_param: "Պարամետրեր:",
                     api_info_deviceId: " (Պարտադիր է): Սարքի եզակի նույնացուցիչ։",
@@ -443,9 +480,17 @@ const resources = {
                         Panik: "Փանիկ",
                         Azatan: "Ազատան",
                         Artik: "Արթիկ",
-                        "V. Sargsyan": "Վ. Սարգսյան"
+                        "V. Sargsyan": "Վ. Սարգսյան",
+                        Sevan: "Սևան",
+                        Gavar: "Գավառ",
+                        Amasia: "Ամասիա",
+                        Yerazgavors: "Երազգավորս",
+                        Akhuryan: "Ախուրյան",
+                        Hatsik: "Հացիկ",
+                        Ashotsk: "Աշոցք"
                     },
                     parentNames: {
+                        Gegharkunik: "Գեղարքունիք",
                         Shirak: "Շիրակ",
                         Yerevan: "Երևան"
                     }
@@ -492,14 +537,17 @@ const resources = {
                         temperatureAndHumidity: "Ջերմաստիճան և խոնավություն",
                         airQuality: "Օդի որակ",
                         pressure: "Ճնշում",
-                        rainAndWind: "Անձրև և քամի"
+                        rainAndWind: "Անձրև և քամի",
+                        light : "UV և լույսի ինտենսիվություն"
                     },
                     temperature: "Ջերմաստիճան",
                     humidity: "Խոնավություն",
                     pressure: "Ճնշում",
                     rain: "Անձրև",
                     windSpeed: "Քամու արագություն",
-                    windDirection: "Քամու ուղղություն"
+                    windDirection: "Քամու ուղղություն",
+                    light_uv : "Uv ինդեքս",
+                    light_intensity : "Լույսի ինտենսիվություն"
                 },
                 innerPageFilter: {
                     options: {
@@ -534,9 +582,9 @@ const resources = {
                     filter: "ֆիլտր",
                     to: "ավարտ",
                     from: "սկիզբ",
-                    oneM: "1ամիս",
-                    sevenD: "7օր",
-                    oneD: "1օր"
+                    oneM: "1 ամիս",
+                    sevenD: "7 օր",
+                    oneD: "1 օր"
                 },
             },
         },

@@ -1,6 +1,6 @@
 import React from "react";
-import styles from './InnerPageStaticContent.module.css';
-import Weather from '../../assets/Weather/cloudy.webp';
+import styles from './InnerPageStaticContent.module.css'
+import Device from '../../assets/Weather/device.svg'
 import { useLocation } from "react-router-dom";
 import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 
 const WeatherState = () => {
     return (
-        <img src={Weather} alt="Weather status" className={styles.weatherStatusImage} />
+        <img src={Device} alt="Device Image" className={styles.weatherStatusImage} />
     )
 }
 
@@ -77,14 +77,15 @@ const DataTable = (props) => {
                 </tr>
             </tbody>
         </table>
+
+
     )
 }
 
 const WeatherInformation = (props) => {
-    const { i18n } = useTranslation();
     const { t } = useTranslation();
-    const temperature = props.temp;
-    const windSpeed = props.windspeed;
+    const temperature = props.temp
+    const windSpeed = props.windspeed
     let feelsLikeTemperature = -8.78469475556 +
         1.61139411 * temperature +
         2.33854883889 * windSpeed +
@@ -93,25 +94,29 @@ const WeatherInformation = (props) => {
         -0.0164248277778 * temperature ** 2 +
         0.002211732 * temperature ** 2 * windSpeed +
         0.00072546 * temperature * windSpeed ** 2 +
-        -0.000003582 * temperature ** 2 * windSpeed ** 2;
+        -0.000003582 * temperature ** 2 * windSpeed ** 2
     return (
         <div className={styles.weatherInformation}>
-            <>
-                <span className={styles.infoTemperature}>{props.temp}<sup>°C</sup></span>
-                <p className={styles.feelslike}><span>{t('linerStatusBar.feelsLike')}</span>{Math.round(feelsLikeTemperature)}<sup>°C</sup></p>
+            <div>
+                <div>
+                    <span className={styles.infoTemperature}>{Math.round(props.temp)}<sup>°C</sup></span>
+
+                    <span className={styles.infoTemperature}>|| {Math.round(props.temp + 32)}<sup>°F</sup></span>
+                </div>
+                <p className={styles.feelslike}><span>{t('linerStatusBar.feelsLike')}</span>{Math.round(feelsLikeTemperature)}<sup>°C</sup> || {Math.round(feelsLikeTemperature + 32)}<sup>°F</sup></p>
+
                 <span className={styles.recommendation}>{t('linerStatusBar.recommendation')}</span>
                 <div className={styles.windWrapper}>
                     <span className={styles.windTitle}>{t('linerStatusBar.wind')}</span>
-{/*                     <Link to={`/${i18n.language}/about/#wind`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link> */}
                     <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} {t('linerStatusBar.kmhour')}</span>
                 </div>
-            </>
+            </div>
         </div>
     )
 }
 
 function InnerPageStaticContent(props) {
-    const data = props.data[0];
+    const data = props.data[0]
     const location = useLocation();
     const queryString = location.search;
     const nameOfDevice = decodeURI(queryString.substring(1));
@@ -148,6 +153,7 @@ function InnerPageStaticContent(props) {
                                     <DataTable data={data} />
                                 </div>
                             </div>
+
                         </div>
                     </>
                 )

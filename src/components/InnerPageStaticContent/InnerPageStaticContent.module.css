@@ -7,9 +7,10 @@
     font-weight: 600;
 }
 
-.nameAndDevice svg {
+.nameAndDevice svg{
     height: 100px;
 }
+
 
 .staticContent {
     display: flex;
@@ -18,20 +19,21 @@
 }
 
 .weatherStatusImage {
-    height: 64px;
-    width: 64px;
+    height : 200px;
+    width: 200px;
 }
 
 .weatherInformation {
     display: flex;
     flex-direction: column;
-    padding: 0px 30px;
+    padding : 0px 30px;
 }
 
 .infoTemperature {
     font-size: 36px;
     font-weight: 800;
     line-height: normal;
+    margin-right: 15px;
 }
 
 .infoTemperature sup {
@@ -45,6 +47,7 @@
     opacity: 0.8;
     top: -1em;
 }
+
 
 .windTitle {
     margin-top: 10px;
@@ -70,7 +73,7 @@
 
 .feelslike sup {
     font-weight: 600;
-    top: -0.5em;
+    top : -0.5em
 }
 
 .feelslike span {
@@ -114,11 +117,11 @@
     color: #C2C2C3;
 }
 
-.value {
+.value  {
     font-weight: 600;
 }
 
-.value:hover .tooltiptext {
+.value:hover .tooltiptext{
     visibility: visible;
 }
 
@@ -146,7 +149,7 @@
     margin: auto;
 }
 
-.windWrapper {
+.windWrapper{
     display: flex;
     align-items: center;
 }
@@ -155,6 +158,7 @@
     .InnerPageStaticContent {
         width: 100%;
         align-items: center;
+        
     }
     .staticContent {
         display: flex;
@@ -169,6 +173,16 @@
     .otherInformation {
         padding-inline: 15px;
     }
+    .windTitle {
+        margin-right: 10px;
+    }
+}
+
+.loaderContent{
+    display: flex;
+    height:40vh;
+    align-items: center;
+
 }
 
 /* CSS for the info icon */

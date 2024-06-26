@@ -19,7 +19,6 @@ function InnerPageDynamicContent(props) {
     const [pm10, setPm10] = useState([])
     const [UV, setUV] = useState([])
     const [VisibleLight, setVisibleLight] = useState([])
-    const [IRLight, setIRLight] = useState([])
     const [RainCount, setRainCount] = useState([])
     const [WindSpeed, setWindSpeed] = useState([])
     const [WindDirection, setWindDirection] = useState([])
@@ -52,7 +51,6 @@ function InnerPageDynamicContent(props) {
         let RainCountArray = []
         let WindSpeedArray = []
         let WindDirectionArray = []
-
         props.weather_data.forEach((element) => {
             temperatureArray.push(element["temperature"] || 0);
             humidityArray.push(element["humidity"] || 0);
@@ -61,9 +59,8 @@ function InnerPageDynamicContent(props) {
             pm2_5Array.push(element['pm2_5'] || 0)
             pm10Array.push(element['pm10'] || 0)
             timeArray.push(element["hour"] || element["date"] || 0);
-            UVIndexArray.push(element["light_uv"] || 0)
-            VisibleLightArray.push(element["light_vis"] || 0)
-            IRArray.push(element["light_ir"] || 0)
+            UVIndexArray.push(element["uv"] || 0)
+            VisibleLightArray.push(element["lux"] || 0)
             RainCountArray.push(element["rain"] || 0)
             WindSpeedArray.push(element["speed"] || 0)
             WindDirectionArray.push(element["direction"] || 0)
@@ -78,7 +75,6 @@ function InnerPageDynamicContent(props) {
         setPm10(pm10Array)
         setUV(UVIndexArray)
         setVisibleLight(VisibleLightArray)
-        setIRLight(IRArray)
         setRainCount(RainCountArray)
         setWindSpeed(WindSpeedArray)
         setWindDirection(WindDirectionArray)
@@ -110,7 +106,7 @@ function InnerPageDynamicContent(props) {
                                     types={[t('innerPageDynamicContent.temperature'), t('innerPageDynamicContent.humidity')]}
                                     data={[temperature, humidity]}
                                     time={time}
-                                    colors={['#77B6EA', '#59a824']}
+                                    colors={['#fffA75', '#77B6EA']}
                                     timeline={props.period}
                                     leftLoad={props.leftLoad}
                                     setLeftLoad={props.setLeftLoad}
@@ -136,7 +132,8 @@ function InnerPageDynamicContent(props) {
                                     setLeftLoad={props.setLeftLoad}
                                     timeline={props.period}
                                     types={["PM 1", "PM 2.5", "PM 10"]}
-                                    data={[pm1, pm2_5, pm10]} time={time}
+                                    data={[pm1, pm2_5, pm10]}
+                                    time={time}
                                     colors={['#f80000', '#e1d816', '#49B618']}
                                     filterChange={props.filterChange}
                                     error={props.error}
@@ -173,6 +170,31 @@ function InnerPageDynamicContent(props) {
                                 />
                             }
                         </Tab>
+                        <Tab eventKey="light" title={t('innerPageDynamicContent.tabTitles.light')}>
+                            {selectedTab === "light" &&
+                                <WeatherDataGraphs
+                                    startDate={props.startDate}
+                                    endDate={props.endDate}
+                                    setStartDate={props.setStartDate}
+                                    setEndDate={props.setEndDate}
+                                    className={styles.graph}
+                                    leftLoad={props.leftLoad}
+                                    setLeftLoad={props.setLeftLoad}
+                                    timeline={props.period}
+                                    types={[t('innerPageDynamicContent.light_uv'), t('innerPageDynamicContent.light_intensity')]}
+                                    data={[UV, VisibleLight]}
+                                    time={time}
+                                    colors={["#00FF00", "#00FFFF"]}
+                                    filterChange={props.filterChange}
+                                    error={props.error}
+                                    setError={props.setError}
+                                    filterPressed={props.filterPressed}
+                                    setFilterPressed={props.setFilterPressed}
+                                    filterState={props.filterState}
+                                    selected_device_id={props.selected_device_id}
+                                />
+                            }
+                        </Tab>
                         <Tab eventKey="rain_wind" title={t('innerPageDynamicContent.tabTitles.rainAndWind')}>
                             {selectedTab === "rain_wind" &&
                                 <WeatherDataGraphs
@@ -180,8 +202,8 @@ function InnerPageDynamicContent(props) {
                                     leftLoad={props.leftLoad}
                                     setLeftLoad={props.setLeftLoad}
                                     timeline={props.period}
-                                    types={[t('innerPageDynamicContent.rain'), t('innerPageDynamicContent.windSpeed'), t('innerPageDynamicContent.windDirection')]}
-                                    data={[RainCount, WindSpeed, WindDirection]}
+                                    types={[t('innerPageDynamicContent.rain'), t('innerPageDynamicContent.windSpeed')]}
+                                    data={[RainCount, WindSpeed]}
                                     time={time}
                                     colors={["#6688aa", "#BA9593", "#EDAFFB"]}
                                     filterChange={props.filterChange}
