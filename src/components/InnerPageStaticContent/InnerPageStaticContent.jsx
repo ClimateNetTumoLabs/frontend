@@ -57,13 +57,6 @@ const DataTable = (props) => {
                     </td>
                     <td className={styles.td}>
                         <span className={styles.titleWrapper}>
-                            <span className={styles.title}>{t('linerStatusBar.pm1')}</span>
-                            <Link to={`/${i18n.language}/about/#pm1`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
-                        </span>
-                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm1} {t('linerStatusBar.myum')}</div>
-                    </td>
-                    <td className={styles.td}>
-                        <span className={styles.titleWrapper}>
                             <span className={styles.title}>{t('linerStatusBar.pm2_5')}</span>
                             <Link to={`/${i18n.language}/about/#pm2`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
                         </span>
@@ -74,10 +67,16 @@ const DataTable = (props) => {
                             content={<span dangerouslySetInnerHTML={{ __html: `${t("linerStatusBar.micro")} = 10<sup>-6</sup>` }} />}
                         />
                     </td>
+                        <td className={styles.td}>
+                        <span className={styles.titleWrapper}>
+                            <span className={styles.title}>{t('linerStatusBar.light')}</span>
+                            <Link to={`/${i18n.language}/about/#lux`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
+                        </span>
+                        <span className={styles.value}>{props.data.lux} {t('linerStatusBar.lux')}</span>
+                    </td>
                 </tr>
             </tbody>
         </table>
-
 
     )
 }

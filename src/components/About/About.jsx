@@ -39,7 +39,7 @@ const About = () => {
                 pm10: airQualityRef,
                 wind: windRef,
                 uv: uvRef,
-                uvtable: uvRef,
+                lux: uvRef,
                 api: apiRef
             }[hash];
 
@@ -266,44 +266,55 @@ useEffect(() => {
             </span> 
         </div>
     `
-        const tableUV = `
-        <div id="uv" class="mt-4">
-            <h2 class=${styles.measure_title} >${t('about.tableuv')}</h2>
+const combinedUV = `
+    <div id="uv" class="mt-4">
+        <div>
+            <h2 class=${styles.measure_title}>${t('about.tableuv')}</h2>
+            <div class="d-flex align-items-center">
+                <img loading="lazy" class=${styles.icon} src=${uv_a} alt="UV"/>
+                <span class="text-light d-flex align-content-center">
+                    ${t('about.uva')}<br/>
+                    ${t('about.uva2')}<br/>
+                    ${t('about.uva3')}<br/>
+                </span>
+            </div>
+        </div>
+        <div class="mt-4">
             <div class=${styles.table_block}>
                 <table>
-                  <thead>
-                    <tr>
-                      <th>${t('about.uvth1')}</th>
-                      <th>${t('about.uvth2')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                   <tr>
-                      <td>${t('about.uvlow')}</td>
-                      <td>< 2</td>
-                    </tr>
-                    <tr>
-                      <td>${t('about.uvmoderate')}</td>
-                      <td>3-5</td>
-                    </tr>
-                    <tr>
-                      <td>${t('about.uvhigh')}</td>
-                      <td>6-7</td>
-                    </tr>
-                    <tr>
-                    <td>${t('about.uvveryhigh')}</td>
-                    <td>8-10</td>
-                </tr>
-                    <tr>
-                    <td>${t('about.uvextreme')}</td>
-                    <td>11+</td>
-                    </tr>
-                  </tbody>
+                    <thead>
+                        <tr>
+                            <th>${t('about.uvth1')}</th>
+                            <th>${t('about.uvth2')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${t('about.uvlow')}</td>
+                            <td>< 2</td>
+                        </tr>
+                        <tr>
+                            <td>${t('about.uvmoderate')}</td>
+                            <td>3-5</td>
+                        </tr>
+                        <tr>
+                            <td>${t('about.uvhigh')}</td>
+                            <td>6-7</td>
+                        </tr>
+                        <tr>
+                            <td>${t('about.uvveryhigh')}</td>
+                            <td>8-10</td>
+                        </tr>
+                        <tr>
+                            <td>${t('about.uvextreme')}</td>
+                            <td>11+</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
-
-    `
+    </div>
+`;
     const luxContent = `
     <div id="lux" class="mt-4">
         <h2 class=${styles.measure_title} >${t('about.lux')}</h2>
@@ -358,20 +369,6 @@ useEffect(() => {
         <p>${t('about.api_info_done')}</p>
     `
 
-    const uva = `
-        <div id="uv" class="mt-4">
-            <h2 class=${styles.measure_title} >UV</h2>
-            <div class="d-flex align-items-center ">
-                <img loading="lazy" class=${styles.icon} src=${uv_a} alt="UV"/>
-                <span class="text-light d-flex align-content-center">
-                    ${t('about.uva')}<br/>
-                    ${t('about.uva2')}<br/>
-                    ${t('about.uva3')}<br/>               
-                </span> 
-            </div>
-        </div>
-    `
-
     return (
         <div className={styles.about_us_page}>
             <div className={`${styles.about_section} ${styles.ab_1}`}><span
@@ -405,7 +402,7 @@ useEffect(() => {
 
                 <CollapsibleText
                 ref={uvRef}
-                text={uv_intro + luxContent + uva + tableUV }
+                text={uv_intro + luxContent + combinedUV }
                 point={t('about.titleUv')}/>
             </div>
 
