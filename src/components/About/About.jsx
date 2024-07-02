@@ -35,8 +35,9 @@ const About = () => {
                 pressure: weatherRef,
                 rain: windRef,
                 pm1: airQualityRef,
-                pm2: airQualityRef,
+                pm2_5: airQualityRef,
                 pm10: airQualityRef,
+                pm: airQualityRef,
                 wind: windRef,
                 uv: uvRef,
                 lux: uvRef,
@@ -147,7 +148,7 @@ useEffect(() => {
         </div>
     `
     const pm2 = `
-        <div id="pm2" class="mt-4">
+        <div id="pm2_5" class="mt-4">
             <h2 class=${styles.measure_title} >PM 2.5</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pm_2} alt="PM2.5"/>
@@ -173,7 +174,7 @@ useEffect(() => {
         </div>
     `
     const table = `
-        <div id="pmtable" class="mt-4">
+        <div id="pm" class="mt-4">
             <h2 class=${styles.measure_title} >${t('about.pmDanger')}</h2>
             <div class=${styles.table_block}>
                 <table>
