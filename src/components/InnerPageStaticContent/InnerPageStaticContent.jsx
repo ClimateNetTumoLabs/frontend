@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 
 const WeatherState = () => {
     return (
-        <img src={Device} alt="Device Image" className={styles.weatherStatusImage} />
+        <img src={Device} alt="Device" className={styles.weatherStatusImage} />
     )
 }
 
@@ -57,10 +57,10 @@ const DataTable = (props) => {
                     </td>
                     <td className={styles.td}>
                         <span className={styles.titleWrapper}>
-                            <span className={styles.title}>{t('linerStatusBar.pm2_5')}</span>
-                            <Link to={`/${i18n.language}/about/#pm2`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
+                            <span className={styles.title}>{t('linerStatusBar.pm1')}</span>
+                            <Link to={`/${i18n.language}/about/#pm1`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
                         </span>
-                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm2_5} {t('linerStatusBar.myum')}</div>
+                        <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm1} {t('linerStatusBar.myum')}</div>
                         <ReactTooltip
                             id="micro_meter"
                             place="bottom"
