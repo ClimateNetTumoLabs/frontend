@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './LinerStatusBar.module.css';
 import { useTranslation } from "react-i18next";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import  "../../i18n";
 
 const ColoredProgressBar = (props) => {
@@ -43,10 +44,16 @@ const ColoredProgressBar = (props) => {
             <div>
                 <div className={"d-flex flex-row justify-content-between align-items-center"}>
                     <p className={styles.airQualityTitle}>{t('linerStatusBar.airQualityTitle')}</p>
-                    <span className={styles.datetime}>{new Date(props.datetime.time).toLocaleString('en-US', { hour12: false, hour: 'numeric', minute: 'numeric', year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/,/g, '')}</span>
+                    <span className={styles.datetime}>{new Date(props.datetime.time).toLocaleString('en-GB', { hour12: false, hour: 'numeric', minute: 'numeric', year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/,/g, '')}</span>
                 </div>
                 <div  className={styles.airQualityStatus} >
-                    <span>{status}</span>
+                    <span className={styles.value} data-tooltip-id="micro_meter_status">{status} ({airQuality} {t('linerStatusBar.myum')})</span>
+                    <ReactTooltip
+                            id="micro_meter_status"
+                            place="top"
+                            opacity="1"
+                            content={<span dangerouslySetInnerHTML={{ __html: `${t("linerStatusBar.micro")} = 10<sup>-6</sup>` }} />}
+                        />
                     <span style={{ background : color }} className={styles.circle}>{number}</span>
                 </div>
 
