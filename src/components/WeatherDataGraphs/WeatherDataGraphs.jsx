@@ -372,7 +372,7 @@ const WeatherDataGraphs = (props) => {
                     <div className={styles.FilterSection}>
                         {document.querySelector('.from') ? ReactDOM.createPortal(
                             <div>
-                                <div>{formatDate(selectedStartDate)}</div>
+                                <div className={"selected_date"}>{formatDate(selectedStartDate)}</div>
                                 {showStartDatePicker && (
                                     <div className="pickerDropdown" onClick={handleDatePickerClick}>
                                         <DatePicker
