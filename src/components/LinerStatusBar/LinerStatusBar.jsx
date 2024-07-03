@@ -1,33 +1,35 @@
-// ColoredProgressBar.js
 import React, { useState, useEffect } from 'react';
 import styles from './LinerStatusBar.module.css';
 import { useTranslation } from "react-i18next";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import  "../../i18n";
+import { Link } from 'react-router-dom';
 
 const ColoredProgressBar = (props) => {
     const { t } = useTranslation();
+    const { i18n } = useTranslation();
     const [, setProgress] = useState(0);
-    const [airQuality] = useState(props.air_quality); // Adjusted range to 0-250
+    const [airQuality] = useState(props.air_quality);
+
+    const scale = [
+        { max: 12, color: '#00ff00', status: t('linerStatusBar.good'), number: "1" },
+        { max: 35, color: '#ffff00', status: t('linerStatusBar.moderate'), number: "2" },
+        { max: 55, color: '#ffcc00', status: t('linerStatusBar.unhealthySensitiveGroups'), number: "3" },
+        { max: 150, color: '#ff9900', status: t('linerStatusBar.unhealthy'), number: "4" },
+        { max: 250, color: '#ff0000', status: t('linerStatusBar.veryUnhealthy'), number: "5" },
+        { max: Infinity, color: '#990000', status: t('linerStatusBar.hazardous'), number: "6" }
+    ];
 
     const getColorAndStatusForAirQuality = (value) => {
-        // Adjusted color scale and status for the new range
-        const colorScale = [
-            { color: '#00ff00', status: t('linerStatusBar.good'), number : "1" },
-            { color: '#ffff00', status: t('linerStatusBar.moderate'),  number : "2" },
-            { color: '#ffcc00', status: t('linerStatusBar.unhealthySensitiveGroups'),  number : "3" },
-            { color: '#ff9900', status: t('linerStatusBar.unhealthy'), number : "4" },
-            { color: '#ff0000', status: t('linerStatusBar.veryUnhealthy'),  number : "5" },
-            { color: '#990000', status: t('linerStatusBar.hazardous'), number : "6" }
-        ];
-
-        // Map the air quality value to an index in the color scale
-        const index = Math.min(Math.floor((value / 250) * colorScale.length), colorScale.length - 1);
-        return colorScale[index] || '#00ff00';
+        for (let i = 0; i < scale.length; i++) {
+            if (value <= scale[i].max) {
+                return scale[i];
+            }
+        }
+        return scale[scale.length - 1]; // Default to hazardous if above all thresholds
     };
 
     useEffect(() => {
-        // Simulate progress update (you can replace this with your actual logic)
         const progressInterval = setInterval(() => {
             setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
         }, 1000);
@@ -35,9 +37,24 @@ const ColoredProgressBar = (props) => {
         return () => {
             clearInterval(progressInterval);
         };
-    },);
+    }, []);
 
     const { color, status, number } = getColorAndStatusForAirQuality(airQuality);
+
+    const getPointerPosition = (value) => {
+        const maxValue = 500; // Maximum value on the scale
+        const segments = scale.length;
+        const segmentWidth = 100 / segments;
+
+        for (let i = 0; i < scale.length; i++) {
+            if (value <= scale[i].max) {
+                const segmentStart = i * segmentWidth;
+                const segmentPosition = (value - (i > 0 ? scale[i-1].max : 0)) / (scale[i].max - (i > 0 ? scale[i-1].max : 0)) * segmentWidth;
+                return Math.min(segmentStart + segmentPosition, 100);
+            }
+        }
+        return 100; // If value exceeds the maximum
+    };
 
     return (
         <div className={styles.progressBarContent}>
@@ -46,40 +63,40 @@ const ColoredProgressBar = (props) => {
                     <p className={styles.airQualityTitle}>{t('linerStatusBar.airQualityTitle')}</p>
                     <span className={styles.datetime}>{new Date(props.datetime.time).toLocaleString('en-GB', { hour12: false, hour: 'numeric', minute: 'numeric', year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/,/g, '')}</span>
                 </div>
-                <div  className={styles.airQualityStatus} >
+                <div className={styles.airQualityStatus} >
                     <span className={styles.value} data-tooltip-id="micro_meter_status">{status} ({airQuality} {t('linerStatusBar.myum')})</span>
                     <ReactTooltip
-                            id="micro_meter_status"
-                            place="top"
-                            opacity="1"
-                            content={<span dangerouslySetInnerHTML={{ __html: `${t("linerStatusBar.micro")} = 10<sup>-6</sup>` }} />}
-                        />
-                    <span style={{ background : color }} className={styles.circle}>{number}</span>
+                        id="micro_meter_status"
+                        place="top"
+                        opacity="1"
+                        content={<span dangerouslySetInnerHTML={{ __html: `${t("linerStatusBar.micro")} = 10<sup>-6</sup>` }} />}
+                    />
+                    <Link to={`/${i18n.language}/about/#pm`} style={{ textDecoration: 'none' }}>
+                        <span style={{ background: color }} className={styles.circle}>{number}</span>
+                    </Link>
                 </div>
-
             </div>
             <div className={styles.progressBar}>
-                {Array.from({ length: 6 }).map((_, index) => (
+                {scale.map((segment, index) => (
                     <div
                         key={index}
                         className={styles.segment}
                         style={{
-                            left: `${(index / 6) * 100}%`,
-                            width: `${100 / 6}%`,
-                            background: getColorAndStatusForAirQuality(index * 50).color,
-                            zIndex: 6 - index,
+                            left: `${(index / scale.length) * 100}%`,
+                            width: `${100 / scale.length}%`,
+                            background: segment.color,
+                            zIndex: scale.length - index,
                         }}
                     />
                 ))}
                 <div
                     className={styles.pointer}
                     style={{
-                        left: `${(airQuality / 250) * 100}%`, // Adjusted range
+                        left: `${getPointerPosition(airQuality)}%`,
                         background: color,
                     }}
                 />
             </div>
-
         </div>
     );
 };

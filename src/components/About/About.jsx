@@ -203,10 +203,10 @@ useEffect(() => {
                       <td>PM2.5 ${t('about.pmMu')}</td>
                       <td>0</td>
                       <td>12</td>
-                      <td>35.5</td>
-                      <td>55.5</td>
-                      <td>150.5</td>
-                      <td>250.5</td>
+                      <td>36</td>
+                      <td>56</td>
+                      <td>151</td>
+                      <td>251</td>
                     </tr>
                     <tr>
                       <td>PM10 ${t('about.pmMu')}</td>
