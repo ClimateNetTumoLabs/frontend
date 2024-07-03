@@ -62,9 +62,8 @@
     margin-left: 10px;
     justify-content: center;
     font-size: 12px;
-    font-weight: 600;
     align-items: center;
-    color: black;
+    cursor: pointer;
 }
 
 .datetime {
