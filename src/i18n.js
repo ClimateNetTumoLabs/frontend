@@ -194,6 +194,7 @@ const resources = {
                         Akhuryan: "Akhuryan",
                         Hatsik: "Hatsik",
                         Ashotsk: "Ashotsk",
+                        TUMO: "TUMO",
                     },
                     parentNames: {
                         Shirak: "Shirak",
@@ -487,7 +488,8 @@ const resources = {
                         Yerazgavors: "Երազգավորս",
                         Akhuryan: "Ախուրյան",
                         Hatsik: "Հացիկ",
-                        Ashotsk: "Աշոցք"
+                        Ashotsk: "Աշոցք",
+                        TUMO: "ԹՈՒՄՈ",
                     },
                     parentNames: {
                         Gegharkunik: "Գեղարքունիք",
