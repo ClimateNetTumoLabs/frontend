@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 const Header = () => {
     const {t, i18n} = useTranslation();
     const location = useLocation();
-    const navigate = useNavigate();
+    const  navigate = useNavigate();
     const [isNavExpanded, setIsNavExpanded] = useState(false);
     const [devices, setDevices] = useState([]);
     const buttonRef = useRef(null);
@@ -82,7 +82,7 @@ const Header = () => {
     };
 
     const handleDeviceClick = (device_id, name) => {
-        const deviceUrl = `/${i18n.language}/device/${encodeURIComponent(device_id)}/?${encodeURIComponent(name)}`;
+        const deviceUrl = `/${i18n.language}/device/${encodeURIComponent(device_id)}`;
         navigate(deviceUrl);
         handleNavItemClick(); // Close the navbar
     };

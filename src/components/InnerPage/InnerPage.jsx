@@ -1,166 +1,115 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import styles from "./InnerPage.module.css";
-import InnerPageLeftNav from "../InnerPageLeftNav/InnerPageLeftNav";
-import InnerPageContent from "../InnerPageContent/InnerPageContent";
 import { PositionContext } from "../../context/PositionContext";
-import { useTranslation } from "react-i18next";
-import  "../../i18n";
 
 function InnerPage() {
-	const { t } = useTranslation();
-	const params = useParams();
-	const [weather_data, change_weather_data] = useState([]);
-	const [filterState, filterStateChange] = useState('Hourly');
-	const { permissionGranted, setPosition, setPermissionGranted } = useContext(PositionContext);
-	const [startDateState, setStartDate] = useState(new Date());
-	const [endDateState, setEndDate] = useState(new Date());
-	const [error, setError] = useState(null);
-	const [leftLoad, setLeftLoad] = useState(true);
-	const [lastData, setLastData] = useState([]);
-	const [showDatePicker, setShowDatePicker] = useState(false);
-	const [filterPressed, setFilterPressed] = useState(false);
-	const prevUrlRef = useRef(null);
+    const { id } = useParams();
+    const [lastData, setLastData] = useState(null);
+    const [nearbyDevices, setNearbyDevices] = useState([]);
+    const [allDevices, setAllDevices] = useState([]);
+    const [graphData, setGraphData] = useState([])
+    const [nearbyDevicesData, setNearbyDevicesData] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+    const { permissionGranted, setPosition, setPermissionGranted } = useContext(PositionContext);
 
-	const handleCloseDatePicker = () => {
-		setShowDatePicker(false);
-	};
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				axios
-					.get(`/device_inner/${params.id}/latest/`)
-					.then(res => {
-						setLastData(res.data);
-					})
-			} catch (error) {
-				console.error('Error fetching devices:', error);
-			}
-		};
+    // New state for filter
+    const currentDate = new Date();
+    const [currentMonth, currentYear] = [currentDate.getMonth(), currentDate.getFullYear()];
+    const [timeFilter, setTimeFilter] = useState('hourly');
+    const [customStartDate, setCustomStartDate] = useState('');
+    const [customEndDate, setCustomEndDate] = useState('');
 
-		fetchData();
-	}, [params.id]);
 
-	useEffect(() => {
-		if (!permissionGranted) {
-			const askForPermissionAgain = () => {
-				if ("geolocation" in navigator) {
-					navigator.geolocation.getCurrentPosition(function (position) {
-						setPosition({
-							latitude: position.coords.latitude,
-							longitude: position.coords.longitude,
-						});
-						setPermissionGranted(true);
-					});
-				} else {
-					console.log("Geolocation is not available in your browser.");
-				}
-			};
+    useEffect(() => {
+        const fetchAllData = async () => {
+            setIsLoading(true);
+            try {
+                const url = getDataUrl(timeFilter);
+                // Fetch last data and all devices
+                const [lastDataResponse, allDevicesResponse, filteredData] = await Promise.all([
+                    axios.get(`/device_inner/${id}/latest/`),
+                    axios.get(`/device_inner/list/`),
+                    axios.get(url)
+                ]);
+                setLastData(lastDataResponse.data);
+                setAllDevices(allDevicesResponse.data);
+                setGraphData(filteredData.data)
+                // Find nearby devices
+                const obj = allDevicesResponse.data.find(item => item.generated_id == id);
+                if (obj) {
+                    const nearbyDevs = allDevicesResponse.data.filter(item =>
+                        item.parent_name == obj.parent_name && item.generated_id != id
+                    );
+                    setNearbyDevices(nearbyDevs);
 
-			askForPermissionAgain();
-		}
-	}, [permissionGranted, setPosition, setPermissionGranted]);
+                    const nearbyDataPromises = nearbyDevs.map(device =>
+                        axios.get(`/device_inner/${device.id}/nearby/`)
+                    );
+                    const nearbyDataResponses = await Promise.all(nearbyDataPromises);
+                    const nearbyData = {};
+                    nearbyDataResponses.forEach((response, index) => {
+                        nearbyData[nearbyDevs[index].id] = response.data[0];
+                    });
+                    setNearbyDevicesData(nearbyData);
+                }
 
-	useEffect(() => {
-		window.scrollTo(0, 0);
-		const getDataUrl = (filterState) => {
-			const currentDate = new Date();
-			const currentMonth = currentDate.getMonth();
-			const currentYear = currentDate.getFullYear();
-			let start, end;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchAllData();
+    }, [id]);
 
-			switch (filterState) {
-				case 'Daily':
-					end = formatDate(currentDate);
-					start = formatDate(new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000))
-					break;
-				case 'Monthly':
-					start = formatDate(new Date(currentYear, currentMonth, 1));
-					end = formatDate(new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0));
-					break;
-				case 'Hourly':
-					return `/device_inner/${params.id}/24hours/`
-				case 'Range':
-					start = formatDate(startDateState);
-					end = formatDate(endDateState);
-					break;
-				default:
-					start = end = formatDate(currentDate);
-					break;
-			}
+    const formatDate = (date) => {
+        if (!(date instanceof Date) || isNaN(date)) {
+            return "";
+        }
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 
-			return `/device_inner/${params.id}/period/?start_time_str=${start}&end_time_str=${end}`
-		};
-		const url = getDataUrl(filterState);
-		
-		if (prevUrlRef.current === url) {
-			return;
-		}
-		prevUrlRef.current = url; 
+    const getDataUrl = useCallback((filterState) => {
+        let start, end;
+        switch (filterState) {
+            case 'Daily':
+                end = formatDate(currentDate);
+                start = formatDate(new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000));
+                break;
+            case 'Monthly':
+                start = formatDate(new Date(currentYear, currentMonth, 1));
+                const nextMonthDate = new Date(currentYear, currentMonth + 1, 0);
+                end = formatDate(nextMonthDate > currentDate ? currentDate : nextMonthDate);
+                break;
+            case 'Hourly':
+                return `/device_inner/${id}/24hours/`;
+            case 'Range':
+                start = formatDate(customStartDate);
+                end = formatDate(customEndDate);
+                break;
+            default:
+                start = end = formatDate(currentDate);
+                break;
+        }
 
-		axios
-			.get(url, { withCredentials: true })
-			.then((response) => {
-				const normalizedData = response.data.filter(item => item !== null);
-				setError("")
-				change_weather_data(normalizedData);
-				setLeftLoad(false)
-			})
-			.catch((error) => {
-				console.error("Error fetching data:", error);
-				setLeftLoad(false)
-				setError("Error")
-			});
-	}, [params.id, filterState, startDateState, endDateState]);
+        return `/device_inner/${id}/period/?start_time_str=${start}&end_time_str=${end}`;
+    });
 
-	const formatDate = (date) => {
-		if (!(date instanceof Date) || isNaN(date)) {
-			return "";
-		}
-		const year = date.getFullYear();
-		const month = (date.getMonth() + 1).toString().padStart(2, '0');
-		const day = date.getDate().toString().padStart(2, '0');
-		return `${year}-${month}-${day}`;
-	};
 
-	if ((!weather_data || weather_data.length === 0)) {
-		if (leftLoad === false) {
-			return <div className={styles.not_data}>
-				{t('innerPage.data')}
-			</div>;
-		}
-	}
+    if (isLoading) {
+        return <div>Loading...</div>; // You can replace this with a more sophisticated loader
+    }
 
-	return (
-		<div className={styles.inner_page}>
-			<InnerPageLeftNav
-				selected_device_id={params.id}
-				weather_data={weather_data}
-				leftLoad={leftLoad}
-				setLeftLoad={setLeftLoad}
-			/>
-			<InnerPageContent
-				content={filterState}
-				weather_data={weather_data}
-				error={error}
-				leftLoad={leftLoad}
-				setLeftLoad={setLeftLoad}
-				filterChange={filterStateChange}
-				startDate={startDateState}
-				setStartDate={setStartDate}
-				endDate={endDateState}
-				setEndDate={setEndDate}
-				setError={setError}
-				data={lastData}
-				filterState={filterState}
-				selected_device_id={params.id}
-				filterPressed ={filterPressed}
-				setFilterPressed={setFilterPressed}
-			/>
-		</div>
-	);
+    return (
+        <div>
+            <h1>Device ID: {id}</h1>
+        </div>
+    );
 }
 
 export default InnerPage;
