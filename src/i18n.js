@@ -240,7 +240,7 @@ const resources = {
                 nearbyDevicesItem: {
                     km: "km"
                 },
-                innerPageDynamicContent: {
+                innerPageGraphSection: {
                     tabTitles: {
                         temperatureAndHumidity: "Temperature and Humidity",
                         airQuality: "Air Quality",
@@ -532,7 +532,7 @@ const resources = {
                 nearbyDevicesItem: {
                     km: "կմ"
                 },
-                innerPageDynamicContent: {
+                innerPageGraphSection: {
                     tabTitles: {
                         temperatureAndHumidity: "Ջերմաստիճան և խոնավություն",
                         airQuality: "Օդի որակ",

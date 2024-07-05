@@ -3,18 +3,23 @@
     flex: 1;
 }
 
-.inner_page svg {
+.loading {
+    color: white;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.innerPageContent {
+    display : flex;
     width: 100%;
+
+}
+.innerPageRightPart {
+    width: 100%;
+    overflow-y: auto;
 }
 
-.loading {
-    height: 100%;
-    color: white;
-    min-height: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .not_data{
     height: 100%;
     color: white;

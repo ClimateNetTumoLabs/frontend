@@ -2,6 +2,12 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { PositionContext } from "../../context/PositionContext";
+import styles from "./InnerPage.module.css"
+import Loader from "react-js-loader";
+
+import NearbyDevicesSection from "../NearbyDevicesSection/NearbyDevicesSection";
+import InnerPageStaticContent from "../InnerPageStaticContent/InnerPageStaticContent";
+import InnerPageGraphSection from "../InnerPageGraphSection/InnerPageGraphSection";
 
 function InnerPage() {
     const { id } = useParams();
@@ -11,6 +17,7 @@ function InnerPage() {
     const [graphData, setGraphData] = useState([])
     const [nearbyDevicesData, setNearbyDevicesData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedRegion, setSelectedRegion] = useState('')
     const { permissionGranted, setPosition, setPermissionGranted } = useContext(PositionContext);
 
 
@@ -38,12 +45,12 @@ function InnerPage() {
                 setGraphData(filteredData.data)
                 // Find nearby devices
                 const obj = allDevicesResponse.data.find(item => item.generated_id == id);
+
                 if (obj) {
                     const nearbyDevs = allDevicesResponse.data.filter(item =>
                         item.parent_name == obj.parent_name && item.generated_id != id
                     );
                     setNearbyDevices(nearbyDevs);
-
                     const nearbyDataPromises = nearbyDevs.map(device =>
                         axios.get(`/device_inner/${device.id}/nearby/`)
                     );
@@ -53,6 +60,7 @@ function InnerPage() {
                         nearbyData[nearbyDevs[index].id] = response.data[0];
                     });
                     setNearbyDevicesData(nearbyData);
+
                 }
 
             } catch (error) {
@@ -100,14 +108,19 @@ function InnerPage() {
         return `/device_inner/${id}/period/?start_time_str=${start}&end_time_str=${end}`;
     });
 
-
-    if (isLoading) {
-        return <div>Loading...</div>; // You can replace this with a more sophisticated loader
-    }
-
     return (
-        <div>
-            <h1>Device ID: {id}</h1>
+        <div className={styles.inner_page}>
+            {isLoading ? (
+                <div className={styles.loading}><Loader className={styles.loading} type="bubble-scale" size={100} /></div>
+            ) : (
+                <div className={styles.innerPageContent}>
+                    <NearbyDevicesSection selectedRegion={selectedRegion} nearbyDevices={nearbyDevices} nearbyDeviceData={nearbyDevicesData} />
+                    <div className={styles.innerPageRightPart}>
+                        <InnerPageStaticContent lastData={lastData} />
+                        <InnerPageGraphSection weather_data={graphData} />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
