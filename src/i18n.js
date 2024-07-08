@@ -195,11 +195,17 @@ const resources = {
                         Hatsik: "Hatsik",
                         Ashotsk: "Ashotsk",
                         TUMO: "TUMO",
+                        Chambarak: "Chambarak",
+                        Artsvaberd: "Artsvaberd",
+                        Berd: "Berd",
+                        Azatamut: "Azatamut",
+                        Ijevan: "Ijevan",
                     },
                     parentNames: {
                         Shirak: "Shirak",
                         Yerevan: "Yerevan",
-                        Gegharkunik: "Gegharkunik"
+                        Gegharkunik: "Gegharkunik",
+                        Tavush: "Tavush",
                     }
                 },
                 header: {
@@ -490,11 +496,17 @@ const resources = {
                         Hatsik: "Հացիկ",
                         Ashotsk: "Աշոցք",
                         TUMO: "ԹՈՒՄՈ",
+                        Chambarak: "Ճամբարակ",
+                        Artsvaberd: "Արծվաբերդ",
+                        Berd: "Բերդ",
+                        Azatamut: "Ազատամուտ",
+                        Ijevan: "Իջևան,
                     },
                     parentNames: {
                         Gegharkunik: "Գեղարքունիք",
                         Shirak: "Շիրակ",
-                        Yerevan: "Երևան"
+                        Yerevan: "Երևան",
+                        Tavush: "Տավուշ",
                     }
                 },
                 header: {
