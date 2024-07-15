@@ -180,6 +180,45 @@ const resources = {
                     },
                     rightsReserved: " TUMO Labs. All Rights Reserved."
                 },
+                guide: {
+                    title: "Build Your Own Climate Monitoring Device",
+                    intro1: "Welcome to our Device Guide! Learn how to create a climate monitoring device based on your needs and interests.",
+                    intro2: "This guide is for environmental enthusiasts, farmers or anyone curious about climate.",
+                    pointIntro: "What You'll Get",
+                    rec: "Sensor Recommendations:",
+                    measure: " Find sensors for measuring:",
+                    temp: "Temperature, Humidity, and Pressure",
+                    light: "UV Index and Light Intensity",
+                    quality: "Air Quality",
+                    wind: "Wind Speed, Direction, and Rainfall",
+                    price: {
+                        title: "Pricing Information:",
+                        text: " Get clear cost details to budget effectively",
+                    },
+                    instruction: {
+                        title: "Instructional Videos:",
+                        text: " Follow step-by-step tutorials for soldering, sensors gathering and assembling.",
+                    },
+                    integration: {
+                        title: "Device Integration:",
+                        text: " Connect your device to our platform to collect environmental data.",
+                    },
+                    future: "By building your own device, you will contribute to environmental awareness and action.",
+                    benefit: {
+                        title: "Benefits of Devices",
+                        project: {
+                            title: "For the Project:",
+                            customization: "Customization: Adapt your device to specific monitoring needs.",
+                            data: "Collecting climate data through the world."
+                        },
+                        user: {
+                            title: "For you:",
+                            learning: "Learn about electronics, programming, and environmental monitoring.",
+                            cost: "Cost savings: Use affordable components.",
+                            data: "Collect your data and contribute to climate monitoring."
+                        }
+                    },
+                },
                 devices: {
                     deviceNames: {
                         Maralik: "Maralik",
@@ -200,6 +239,7 @@ const resources = {
                         Berd: "Berd",
                         Azatamut: "Azatamut",
                         Ijevan: "Ijevan",
+                        TUMO: "TUMO",
                     },
                     parentNames: {
                         Shirak: "Shirak",
@@ -480,6 +520,45 @@ const resources = {
                         pastProjects: "Անցյալ նախագծեր"
                     },
                     rightsReserved: " TUMO Labs. Բոլոր իրավունքները պաշտպանված են"
+                },
+                guide: {
+                    title: "Կառուցեք կլիմայի մոնիտորինգի Ձեր սարքը",
+                    intro1: "Բարի գալուստ մեր սարքի ուղեցույց: Հետևելով մեր ուղեցույցին՝ կիմանաք թե ինչպես ստեղծել կլիմայի մոնիտորինգի սարք, որը համապատասխանում է Ձեր կարիքներին և հետաքրքրություններին:",
+                    intro2: "Այս ուղեցույցը նախատեսված է շրջակա միջավայրի սիրահարների, գյուղատնտեսների և բոլոր նրանց համար, ովքեր հետաքրքրված են կլիմայով:",
+                    pointIntro: "Ինչ կստանաք",
+                    rec: "Սենսորների առաջարկություններ - ",
+                    measure: "Սենսորներ չափելու՝ ",
+                    temp: "Ջերմաստիճան, խոնավություն և ճնշում",
+                    light: "Ուլտրամանուշակագույն ճառագայթների հոսք և լուսավորության ինտենսիվություն",
+                    quality: "Օդի աղտոտվածություն",
+                    wind: "Քամու արագություն, ուղղություն և տեղումների քանակ",
+                    price: {
+                        title: "Գնային տեղեկատվություն - ",
+                        text: "մանրամասն տեղեկություններ ծախսերի վերաբերյալ ՝ բյուջեն արդյունավետ պլանավորելու համար:",
+                    },
+                    instruction: {
+                        title: "Ուսուցողական տեսանյութեր - ",
+                        text: "սենսորների, սարքի հավաքման, զոդման և մի շարք այլ գործողությունների քայլ առ քայլ ուղեցույց:",
+                    },
+                    integration: {
+                        title: "Սարքի ինտեգրում - ",
+                        text: "Ձեր սարքի միացումը շրջակա միջավայրի տվյալների հավաքագրման մեր հարթակին:",
+                    },
+                    future: "Ստեղծելով ձեր սեփական սարքը ՝ դուք կնպաստեք շրջակա միջավայրի մասին իրազեկվածության բարձրացմանը:",
+                    benefit: {
+                        title: "Սարքերի առավելությունները",
+                        project: {
+                            title: "Նախագծի համար ",
+                            customization: "Անհատականացում - սարքի հարմարեցում մոնիտորինգի հատուկ պայմաններին:",
+                            data: "Կլիմայական տվյալների հավաքագրում ամբողջ աշխարհում:"
+                        },
+                        user: {
+                            title: "Ձեզ համար ",
+                            learning: "Իմացեք ավելին էլեկտրոնիկայի, ծրագրավորման և շրջակա միջավայրի մոնիտորինգի մասին:",
+                            cost: "Ծախսերի խնայողություն - առկա բաղադրիչների օգտագործում:",
+                            data: "Հավաքագրեք Ձեր տվյալները և նպաստեք կլիմայի մոնիտորինգին:"
+                        }
+                    },
                 },
                 devices: {
                     deviceNames: {

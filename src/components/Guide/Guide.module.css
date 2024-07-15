@@ -16,41 +16,12 @@
     font-size: 16px;
 }
 
-.guideLink {
-    color: #df7788;
-    transition: color 0.3s ease-in-out;
-}
-
-.guideLink:hover {
-    color: #4A8AFA;
-}
-
-.guideDescription {
-    padding-top: 40px;
-}
-
-.guideIcon {
-    width: 60px;
-    height: 60px;
-    margin-right: 30px;
-}
-
-.guideMeasureTitle {
-    color: #df7788;
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
 .guideSubTitle {
     color: #df7788;
     font-size: 16px;
     margin-bottom: 10px;
 }
 
-.guideTableBlock {
-    overflow-x: auto;
-}
-
-.guideLink {
-    text-decoration: none;
+.guidePoints {
+    font-weight: bold;
 }
