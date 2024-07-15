@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
+import Guide from "./components/Guide/Guide";
 import InnerPage from "./components/InnerPage/InnerPage";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { useLocation } from "react-router-dom";
@@ -25,6 +26,7 @@ function App() {
             <Routes>
                 <Route path={`/${i18n.language}/`} element={<Home />} />
                 <Route path={`/${i18n.language}/about`} element={<About />} />
+                <Route path={`/${i18n.language}/guide`} element={<Guide />} />
                 <Route path={`/${i18n.language}/device/:id`} element={<InnerPage/>} />
             </Routes>
             <div className={`${isInnerPage ? "footerPadding" : ""}`}>
