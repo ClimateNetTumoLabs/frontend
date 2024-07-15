@@ -208,8 +208,8 @@ const resources = {
                         about: "About",
                         map: "Map",
                         devices: "Devices",
+                        guide: "Guide"
                     },
-                    language: "Language",
                 },
                 linerStatusBar: {
                     airQualityTitle: "Air Quality (PM2.5)",
@@ -503,6 +503,7 @@ const resources = {
                         about: "Մեր մասին",
                         map: "Քարտեզ",
                         devices: "Սարքեր",
+                        guide: "Ուղեցույց",
                     },
                 },
                 linerStatusBar: {
