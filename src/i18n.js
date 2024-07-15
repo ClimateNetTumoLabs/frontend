@@ -500,7 +500,7 @@ const resources = {
                         Artsvaberd: "Արծվաբերդ",
                         Berd: "Բերդ",
                         Azatamut: "Ազատամուտ",
-                        Ijevan: "Իջևան,
+                        Ijevan: "Իջևան",
                     },
                     parentNames: {
                         Gegharkunik: "Գեղարքունիք",
