@@ -21,7 +21,7 @@ const formatDate = (date) => {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return `${day}-${month}-${year}`;
 };
 
 const WeatherDataGraphs = (props) => {
@@ -133,14 +133,12 @@ const WeatherDataGraphs = (props) => {
                                 class: 'custom-icon-button',
                                 click: () => {
                                     const currentDate = new Date();
-                                    const currentMonth = currentDate.getMonth();
-                                    const currentYear = currentDate.getFullYear();
-                                    const start = (new Date(currentYear, currentMonth, 1));
-                                    const end = (new Date(currentYear, currentMonth + 1, 0) > currentDate ? currentDate : new Date(currentYear, currentMonth + 1, 0));
-                                    setSelectedEndDate(end)
-                                    setSelectedStartDate(start)
-                                    props.filterChange("Monthly")
-                                }
+                                    const end = currentDate;
+                                    const start = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+                                    setSelectedEndDate(end);
+                                    setSelectedStartDate(start);
+                                    props.filterChange("Monthly");
+                                }                                
                             },
                             {
                                 icon: `<div class="custom-icon">${t("filterTooltips.sevenD")}</div>`,
@@ -177,7 +175,7 @@ const WeatherDataGraphs = (props) => {
                         zoomin: false,
                         zoomout: false,
                         zoom: false,
-                        pan: true,
+                        pan: false,
                     },
                 },
 
