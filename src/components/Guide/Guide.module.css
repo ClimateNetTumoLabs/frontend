@@ -25,3 +25,31 @@
 .guidePoints {
     font-weight: bold;
 }
+
+
+.title {
+  color: #df7788;
+  padding-top: 15px;
+  font-weight: bold;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  letter-spacing: 2px;
+  position: relative; /* Needed for positioning fireworks */
+}
+
+.firework {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: #df7788;
+  border-radius: 30%;
+  animation: firework 2.5s ease-out forwards;
+}
+
+@keyframes firework {
+  100% {
+    transform: translate(calc(var(--x) * 7px), calc(var(--y) * 2px)) scale(0);
+    opacity: 0;
+  }
+}

@@ -56,7 +56,18 @@ const resources = {
                     titleWindDirection: "Wind Direction",
                     titleRain: "Rainfall Quantity",
                     rain1: "Rain gauge operates on the tipping bucket principle, where rain is collected in a funnel and directed into a tipping bucket mechanism.",
-                    rain2: "Each tip of the bucket corresponds to a known quantity of rainfall, typically 0.2mm, which then generates a pulse signal used to calculate the total rainfall.",  
+                    rain2: "Each tip of the bucket corresponds to a known quantity of rainfall, typically 0.2mm, which then generates a pulse signal used to calculate the total rainfall.",
+                    rain: {
+                        rainfall: "Rainfall",
+                        intensity: "Intensity (mm)",
+                        table: {
+                            light: "Light",
+                            moderate: "Moderate",
+                            heavy: "Heavy",
+                            intense: "Intense",
+                            torrential: "Torrential",
+                        },
+                    },
                     windDirection: "A wind vane with a magnet rotates based on the wind direction. This triggers different reed switches positioned around the vane, allowing the system to determine the wind direction.",
                     windDirection2: "The rain sensor can register rainfall amounts as small as 0.2794 mm (0.011 inches) per tip.",
                     uv_intro: "We measure light intensity and spectral information, making it valuable for various applications. Here's an in-depth look:",
@@ -181,7 +192,8 @@ const resources = {
                     rightsReserved: " TUMO Labs. All Rights Reserved."
                 },
                 guide: {
-                    title: "Build Your Own Climate Monitoring Device",
+                    title: "Coming Soon",
+                    title2: "Build Your Own Climate Monitoring Device",
                     intro1: "Welcome to our Device Guide! Learn how to create a climate monitoring device based on your needs and interests.",
                     intro2: "This guide is for environmental enthusiasts, farmers or anyone curious about climate.",
                     pointIntro: "What You'll Get",
@@ -522,7 +534,8 @@ const resources = {
                     rightsReserved: " TUMO Labs. Բոլոր իրավունքները պաշտպանված են"
                 },
                 guide: {
-                    title: "Կառուցեք կլիմայի մոնիտորինգի Ձեր սարքը",
+                    title: "Շուտով",
+                    title2: "Կառուցեք կլիմայի մոնիտորինգի Ձեր սարքը",
                     intro1: "Բարի գալուստ մեր սարքի ուղեցույց: Հետևելով մեր ուղեցույցին՝ կիմանաք թե ինչպես ստեղծել կլիմայի մոնիտորինգի սարք, որը համապատասխանում է Ձեր կարիքներին և հետաքրքրություններին:",
                     intro2: "Այս ուղեցույցը նախատեսված է շրջակա միջավայրի սիրահարների, գյուղատնտեսների և բոլոր նրանց համար, ովքեր հետաքրքրված են կլիմայով:",
                     pointIntro: "Ինչ կստանաք",

@@ -258,6 +258,41 @@ useEffect(() => {
                 ${t('about.rain2')}<br/>
             </span>
         </div>
+        <div  class="mt-4">
+            <div class=${styles.table_block}>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>${t('about.rain.rainfall')}</th>
+                            <th>${t('about.rain.intensity')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${t('about.rain.table.light')}</td>
+                            <td>< 2.5 </td>
+                        </tr>
+                        <tr>
+                            <td>${t('about.rain.table.moderate')}</td>
+                            <td>2.5-7.5 </td>
+                        </tr>
+                        <tr>
+                            <td>${t('about.rain.table.heavy')}</td>
+                            <td>7.5-15 </td>
+                        </tr>
+                        <tr>
+                            <td>${t('about.rain.table.intense')}</td>
+                            <td>15-30 </td>
+                        </tr>
+                        <tr>
+                            <td>${t('about.rain.table.torrential')}</td>
+                            <td>> 30 </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     </div>
 `
     const uv_intro = `
