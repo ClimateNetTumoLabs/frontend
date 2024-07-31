@@ -37,7 +37,6 @@
     position: relative;
     display: inline-block;
     width: 20px;
-    height: 20px;
     cursor: pointer;
     float: right;
 }
@@ -54,10 +53,12 @@
 }
 
 .icon:before {
+    padding-left: 20px;
     transform: translatey(-50%);
 }
 
 .icon:after {
+    padding-left: 20px;
     transform: translatey(-50%) rotate(90deg);
 }
 
@@ -68,6 +69,3 @@
 .hide:after {
     transform: translatey(-50%) rotate(0);
 }
-
-
-
