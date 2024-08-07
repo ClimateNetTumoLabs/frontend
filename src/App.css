@@ -145,7 +145,7 @@ th {
 
 .apexcharts-toolbar {
     display: flex;
-    align-items: start !important;
+    align-items: flex-start !important;
     position: relative;
     min-width: 100%;
 }

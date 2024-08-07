@@ -1,0 +1,73 @@
+.app {
+  padding: 20px;
+    color: #df7788;
+}
+
+header {
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  margin: 0;
+  color: #df7788;
+}
+
+.titles {
+  margin-bottom: 20px;
+
+}
+
+p {
+  font-size: 18px;
+}
+
+iframe {
+  width: 80%;
+  border: none;
+}
+
+iframeContainer {
+  background-color: #232222; /* Set to your website's background color */
+  overflow: hidden;
+  display:flex;
+  justify-content:center;
+}
+
+pre {
+  padding: 10px;
+  overflow-x: auto;
+}
+h2 {
+    color:#df7788;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form label {
+  margin-bottom: 10px;
+}
+
+.form input,
+.form textarea {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background-color: #0056b3;
+}

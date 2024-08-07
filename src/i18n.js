@@ -191,6 +191,9 @@ const resources = {
                     },
                     rightsReserved: " TUMO Labs. All Rights Reserved."
                 },
+                diy: {
+                    title: "Welcome to our Guide of making your own ClimateNet device.",
+                },
                 guide: {
                     title: "Coming Soon",
                     title2: "Build Your Own Climate Monitoring Device",
@@ -251,7 +254,6 @@ const resources = {
                         Berd: "Berd",
                         Azatamut: "Azatamut",
                         Ijevan: "Ijevan",
-                        TUMO: "TUMO",
                     },
                     parentNames: {
                         Shirak: "Shirak",
@@ -266,7 +268,8 @@ const resources = {
                         about: "About",
                         map: "Map",
                         devices: "Devices",
-                        guide: "Guide"
+                        guide: "Guide",
+                        diy: "DIY",
                     },
                 },
                 linerStatusBar: {
@@ -544,6 +547,11 @@ const resources = {
                     },
                     rightsReserved: " TUMO Labs. Բոլոր իրավունքները պաշտպանված են"
                 },
+                diy: {
+                    title: "Բարի գալուստ ձեր սեփական ClimateNet սարքը պատրաստելու մեր ուղեցույց:",
+
+                },
+
                 guide: {
                     title: "Շուտով",
                     title2: "Կառուցեք կլիմայի մոնիտորինգի Ձեր սարքը",
@@ -619,6 +627,7 @@ const resources = {
                         map: "Քարտեզ",
                         devices: "Սարքեր",
                         guide: "Ուղեցույց",
+                        diy: "Ուղեցույց",
                     },
                 },
                 linerStatusBar: {
