@@ -9,7 +9,7 @@ const resources = {
                 about: {
                     welcome: "Welcome to The Climate Net,",
                     titleTemp: "Temperature, Humidity and Pressure",
-                    titleAir: "Air Quality",
+                    titleAir: "Air Pollution",
                     titleWind: "Air Speed, Direction and Rain",
                     titleUv: "UV Index and Light Intensity",
                     titleWeather: "Weather Data: API Documentation",
@@ -204,7 +204,7 @@ const resources = {
                     measure: " Find sensors for measuring:",
                     temp: "Temperature, Humidity, and Pressure",
                     light: "UV Index and Light Intensity",
-                    quality: "Air Quality",
+                    quality: "Air Pollution",
                     wind: "Wind Speed, Direction, and Rainfall",
                     price: {
                         title: "Pricing Information:",
@@ -273,7 +273,7 @@ const resources = {
                     },
                 },
                 linerStatusBar: {
-                    airQualityTitle: "Air Quality (PM2.5)",
+                    airQualityTitle: "Air Pollution (PM2.5)",
                     good: "Good",
                     moderate: "Moderate",
                     unhealthySensitiveGroups: "Unhealthy for Sensitive Groups",
@@ -305,7 +305,7 @@ const resources = {
                 innerPageDynamicContent: {
                     tabTitles: {
                         temperatureAndHumidity: "Temperature and Humidity",
-                        airQuality: "Air Quality",
+                        airQuality: "Air Pollution",
                         pressure: "Pressure",
                         rainAndWind: "Rain and Wind",
                         light : "UV and Intensity"
@@ -365,7 +365,7 @@ const resources = {
                 about: {
                     welcome: "Բարի գալուստ Կլիմայական ցանց, ",
                     titleTemp: "Ջերմաստիճան, խոնավություն և ճնշում",
-                    titleAir: "Օդի որակ",
+                    titleAir: "Օդի աղտոտվածություն",
                     titleWind: "Քամու արագություն, ուղղություն և անձրև",
                     titleUv: "UV ինդեքս և լույսի ինտենսիվություն",
                     titleWeather: "Եղանակի տվյալներ. API Documentation",
@@ -631,7 +631,7 @@ const resources = {
                     },
                 },
                 linerStatusBar: {
-                    airQualityTitle: "Օդի որակ (PM2.5)",
+                    airQualityTitle: "Օդի աղտոտվածություն (PM2.5)",
                     good: "Լավ",
                     moderate: "Չափավոր",
                     unhealthySensitiveGroups: "Անառողջ զգայուն խմբերի համար",
@@ -662,7 +662,7 @@ const resources = {
                 innerPageDynamicContent: {
                     tabTitles: {
                         temperatureAndHumidity: "Ջերմաստիճան և խոնավություն",
-                        airQuality: "Օդի որակ",
+                        airQuality: "Օդի աղտոտվածություն",
                         pressure: "Ճնշում",
                         rainAndWind: "Անձրև և քամի",
                         light : "UV և լույսի ինտենսիվություն"

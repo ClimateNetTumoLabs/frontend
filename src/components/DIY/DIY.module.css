@@ -1,6 +1,6 @@
 .app {
   padding: 20px;
-    color: #df7788;
+  color: #df7788;
 }
 
 header {
@@ -16,32 +16,83 @@ header h1 {
 
 .titles {
   margin-bottom: 20px;
-
 }
 
 p {
   font-size: 18px;
 }
 
-iframe {
-  width: 80%;
+.iframeContainer {
+  display: flex;
+  justify-content: center;
+  background-color: #232222; /* Set to your website's background color */
+  overflow: hidden;
+}
+
+.iframe {
+  width: 100%;
+  height: 600px;
   border: none;
 }
 
-iframeContainer {
-  background-color: #232222; /* Set to your website's background color */
-  overflow: hidden;
-  display:flex;
-  justify-content:center;
+.videos iframe{
+  margin-right: 10px;
 }
 
-pre {
+h2 {
+  color: #df7788;
+}
+
+.subTitles {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.downloadContainer {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  gap: 10px; /* Space between buttons */
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.downloadButton {
+  width: 100%; /* Full width buttons */
+  padding: 5px;
+  background-color: #df7788;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.downloadButton:hover {
+  background-color: #ca6475;
+}
+
+.readmeStyle {
+  background-color: #232222;
+  border: 1px solid #3b3b3b;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.readmeStyle pre {
+  background-color: #423f3f;
+  border-left: 4px solid #e1e4e8;
   padding: 10px;
+  margin: 10px 0;
+  margin-left: 15px;
   overflow-x: auto;
 }
-h2 {
-    color:#df7788;
+
+.readmeStyle code {
+  display: block;
+
+  white-space: pre-wrap;
 }
+
 .form {
   display: flex;
   flex-direction: column;
