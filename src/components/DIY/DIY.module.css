@@ -85,12 +85,19 @@ h2 {
   margin: 10px 0;
   margin-left: 15px;
   overflow-x: auto;
+  display: flex;
+  align-items: center;
 }
 
 .readmeStyle code {
-  display: block;
-
+  display: inline-block;
   white-space: pre-wrap;
+  flex: 1;
+}
+
+.copiedText {
+  color: green;
+  font-size: 0.8em;
 }
 
 .form {

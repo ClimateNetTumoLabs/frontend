@@ -1,16 +1,50 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './DIY.module.css';
 import Contact from '../Contact/Contact.jsx';
 import {useTranslation} from "react-i18next";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 function DIY() {
+  const { t } = useTranslation();
+  const [copiedStates, setCopiedStates] = useState({});
 
-  const {t} = useTranslation();
+  function copyCode(event, id) {
+    const codeElement = event.target.closest('pre').querySelector('code');
+    const codeText = codeElement.innerText;
+
+    navigator.clipboard.writeText(codeText).then(() => {
+      setCopiedStates(prev => ({ ...prev, [id]: true }));
+      setTimeout(() => {
+        setCopiedStates(prev => ({ ...prev, [id]: false }));
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy code: ', err);
+    });
+  }
+
+  const CodeBlock = ({ id, code }) => (
+    <pre>
+      <code>{code}</code>
+      <span className={styles.copyContainer}>
+        {copiedStates[id] ? (
+          <p className={styles.copiedText}>Copied!</p>
+        ) : (
+          <FontAwesomeIcon
+            className={styles.copy}
+            icon={faCopy}
+            onClick={(e) => copyCode(e, id)}
+          />
+        )}
+      </span>
+    </pre>
+  );
 
   return (
     <div className={styles.app}>
         <h1>{t('diy.title')}</h1>
         <p className={styles.guideSection}>{t('guide.future')}</p>
+        <p>If you decided to build your own device, navigate to <a href="#request">Request</a> and fill the form, so we will send you all the data that you need.</p>
       <div className={styles.guideSection}>
         <h2 className={styles.guideTitle}>Benefits of making your own ClimateNet Device</h2>
         <h3 className={styles.guideSubTitle}>{t('guide.benefit.project.title')}</h3>
@@ -98,82 +132,75 @@ function DIY() {
         <p>Put SD card in Raspberry Pi, and wait for 5 minutes.</p>
         <p>After that, let's find your Raspberry Pi's IP address using a network scanning tool <code>arp-scan</code></p>
         <p>1. On Linux:</p>
-        <strong>Install arp-scan:</strong>
-            <ul>
-                <li><strong>Debian/Ubuntu-based systems:</strong>
-                    <pre>
-                        <code>
-                            sudo apt update{"\n"}
-                            sudo apt install arp-scan{"\n"}
-                        </code>
-                    </pre>
-                </li>
-                <li><strong>Red Hat/CentOS-based systems:</strong>
-                    <pre><code>sudo yum install arp-scan</code></pre>
-                </li>
-                <li><strong>Fedora:</strong>
-                    <pre><code>sudo dnf install arp-scan</code></pre>
-                </li>
-            </ul>
-        <strong>Run</strong>
-                    <pre>
-                        <code>
-                            sudo arp-scan --localnet
-                        </code>
-                    </pre>
+          <strong>Install arp-scan:</strong>
+          <ul>
+            <li><strong>Debian/Ubuntu-based systems:</strong>
+              <CodeBlock
+                id="debian-arp-scan"
+                code={`sudo apt update\nsudo apt install arp-scan`}
+              />
+            </li>
+            <li><strong>Red Hat/CentOS-based systems:</strong>
+              <CodeBlock
+                id="redhat-arp-scan"
+                code="sudo yum install arp-scan"
+              />
+            </li>
+            <li><strong>Fedora:</strong>
+              <CodeBlock
+                id="fedora-arp-scan"
+                code="sudo dnf install arp-scan"
+              />
+            </li>
+          </ul>
+          <strong>Run</strong>
+          <CodeBlock
+            id="run-arp-scan"
+            code="sudo arp-scan --localnet"
+          />
 
-    <p>2. On macOS:</p>
-        <strong>Install arp-scan using Homebrew:</strong>
-            <ul>
-                <li>If you don’t have Homebrew installed, you can install it by following instructions from <a href="https://brew.sh/" target="_blank"  rel="noreferrer">Homebrew's website</a>.</li>
-                <li>Then, install arp-scan:
-                    <pre>
-                        <code>
-                            brew install arp-scan
-                        </code>
-                    </pre>
-                </li>
-            </ul>
-        <strong>Run</strong>
-                    <pre>
-                        <code>
-                            sudo arp-scan --localnet
-                        </code>
-                    </pre>
-        <p>After the command is executed, you will see all devices in your network, find Raspberry Pi and select the IP address.</p>
-        <p>Run the command:</p>
-        <pre>
-          <code>
-                ssh raspberry@&lt;IP&gt;
-          </code>
-        </pre>
-        <p>Now you are connected to your Raspberry Pi</p>
-        <h2>Setting up the App</h2>
-        <p>1. Install vim on your Raspberry Pi</p>
-        <pre>
-          <code>
-            sudo apt update{"\n"}
-            sudo apt install vim{"\n"}
-          </code>
-        </pre>
-        <p>2. Edit the <strong>/boot/config.txt</strong> file:</p>
-        <pre>
-          <code>
-            sudo vim /boot/config.txt{"\n"}
-          </code>
-        </pre>
-        <p>Add the following line at the end of the file:</p>
-        <pre>
-          <code>
-            dtoverlay=pi3-miniuart-bt{"\n"}
-          </code>
-        </pre>
+          <p>2. On macOS:</p>
+          <strong>Install arp-scan using Homebrew:</strong>
+          <CodeBlock
+            id="macos-arp-scan"
+            code="brew install arp-scan"
+          />
+          <strong>Run</strong>
+          <CodeBlock
+            id="run-macos-arp-scan"
+            code="sudo arp-scan --localnet"
+          />
+
+          <p>Run the command:</p>
+          <CodeBlock
+            id="ssh-command"
+            code="ssh raspberry@<IP>"
+          />
+
+          <h2>Setting up the App</h2>
+          <p>1. Install vim on your Raspberry Pi</p>
+          <CodeBlock
+            id="install-vim"
+            code={`sudo apt update\nsudo apt install vim`}
+          />
+
+          <p>2. Edit the <strong>/boot/config.txt</strong> file:</p>
+          <CodeBlock
+            id="edit-config"
+            code="sudo vim /boot/config.txt"
+          />
+
+          <p>Add the following line at the end of the file:</p>
+          <CodeBlock
+            id="add-config-line"
+            code="dtoverlay=pi3-miniuart-bt"
+          />
+
         <p>3. Enable the serial port:</p>
-        <pre>
-          <code>
-            sudo raspi-config{"\n"}
-          </code>
-        </pre>
+        <CodeBlock
+            id="raspi-config"
+            code="sudo raspi-config"
+        />
         <p>Navigate to <strong>Interface Options</strong>, then <strong>Serial Port</strong>. Configure the settings as follows:</p>
         <ul>
             <li>When prompted "Would you like a login shell to be accessible over serial?", select <strong>No</strong>.</li>
@@ -181,74 +208,56 @@ function DIY() {
             <li>Select OK and Finish. Do not reboot at this stage.</li>
         </ul>
         <p>4. Create a workspace directory:</p>
-        <pre>
-            <code>
-                mkdir /home/raspberry/workspace{"\n"}
-                cd /home/raspberry/workspace{"\n"}
-            </code>
-        </pre>
+        <CodeBlock
+            id="workspace-directory"
+            code={`mkdir /home/raspberry/workspace\ncd /home/raspberry/workspace`}
+        />
         <p>5. Clone the repository:</p>
-        <pre>
-            <code>
-                git clone https://github.com/ClimateNetTumoLabs/raspberry_soft.git{"\n"}
-                cd raspberry_soft/app{"\n"}
-            </code>
-        </pre>
+        <CodeBlock
+            id="git-clone"
+            code={`git clone https://github.com/ClimateNetTumoLabs/raspberry_soft.git\ncd raspberry_soft/app`}
+        />
         <p>6. Configure the environment variables: Copy .env_template to .env and update the values, including the DEVICE_ID and MQTT_BROKER_ENDPOINT</p>
-        <pre>
-            <code>
-                cp .env_template .env{"\n"}
-                vim .env{"\n"}
-            </code>
-        </pre>
+        <CodeBlock
+            id="env-config"
+            code={`cp .env_template .env\nvim .env`}
+        />
         <p>7. Add your WiFi credentials: Update the SSID and password in inet_check_connect.py.</p>
-         <pre>
-             <code>
-                cd ../ServiceFiles/InternetCheckConnect/{"\n"}
-                vim inet_check_connect.py{"\n"}
-             </code>
-        </pre>
+        <CodeBlock
+            id="inet-check-connect"
+            code={`cd ../ServiceFiles/InternetCheckConnect/\nvim inet_check_connect.py`}
+        />
         <p>8. Copy the AWS IoT Core certificates: Copy the certificate files (certificate.pem.crt, private.pem.key, public.pem.key, rootCA.pem) from your local machine into the /home/raspberry/workspace/raspberry_soft/app/data/certificates/ directory:</p>
-        <p>If you have not created certificates, navigate to <strong>Contacts</strong>, fill the form, choose the Subject <strong>Technical Support</strong> and we will send you the certificates.</p>
-        <pre>
-            <code>
-                scp -r &lt;folder_path&gt;/certificates/ &lt;username&gt;@&lt;IP&gt;:/home/raspberry/workspace/raspberry_soft/app/data/
-            </code>
-        </pre>
+        <p>If you have not created certificates, navigate to <a href="#request">Request Access</a>, fill the form, and we will send you the certificates.</p>
+        <CodeBlock
+            id="certificates"
+            code="scp -r &lt;folder_path&gt;/certificates/ &lt;username&gt;@&lt;IP&gt;:/home/raspberry/workspace/raspberry_soft/app/data/"
+        />
         <p>9. Run the installation script: Ensure you are not connected via SSH, and run the installation script with sudo:</p>
-        <pre>
-            <code>
-                cd /home/raspberry/workspace/raspberry_soft/{"\n"}
-                chmod +x install.sh{"\n"}
-                sudo ./install.sh{"\n"}
-            </code>
-        </pre>
+        <CodeBlock
+            id="install"
+            code={`cd /home/raspberry/workspace/raspberry_soft/\nchmod +x install.sh\nsudo ./install.sh`}
+        />
         <p>10. Reboot the system:</p>
-            <pre>
-                <code>
-                    sudo reboot
-                </code>
-            </pre>
+        <CodeBlock
+            id="reboot"
+            code="sudo reboot"
+        />
         <p>11. Test the functionality of the device: Activate the virtual environment and run the testing.py program:</p>
-        <pre>
-            <code>
-                cd /home/raspberry/workspace/raspberry_soft/app/{"\n"}
-                source venv/bin/activate{"\n"}
-                python testing.py{"\n"}
-            </code>
-        </pre>
+        <CodeBlock
+            id="testing"
+            code={`cd /home/raspberry/workspace/raspberry_soft/app/\nsource venv/bin/activate\npython testing.py`}
+        />
         <p>12. Start the main program: Enable and start the ProgramAutoRun service, which will run continuously and start automatically on boot:</p>
-        <pre>
-            <code>
-                sudo systemctl enable ProgramAutoRun.service{"\n"}
-                sudo systemctl start ProgramAutoRun.service{"\n"}
-            </code>
-        </pre>
+        <CodeBlock
+            id="systemctl"
+            code={`sudo systemctl enable ProgramAutoRun.service\nsudo systemctl start ProgramAutoRun.service`}
+        />
        </div>
       </section>
 
-      <section id="contact" className={styles.section}>
-        <Contact className={styles.subTitles}/>
+      <section id="request" className={styles.section}>
+        <Contact  subject_state = {false} className={styles.subTitles} name = {"Request Access"} />
       </section>
     </div>
   );
