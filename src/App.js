@@ -10,6 +10,7 @@ import About from "./components/About/About";
 import Guide from "./components/Guide/Guide";
 import DIY from "./components/DIY/DIY";
 import InnerPage from "./components/InnerPage/InnerPage";
+import GuidePage from "./components/GuidePage/GuidePage";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
@@ -28,7 +29,7 @@ function App() {
                 <Route path={`/${i18n.language}/`} element={<Home />} />
                 <Route path={`/${i18n.language}/about`} element={<About />} />
                 <Route path={`/${i18n.language}/guide`} element={<Guide />} />
-                <Route path={`/${i18n.language}/diy`} element={<DIY />} />
+                <Route path={`/${i18n.language}/diy`} element={<GuidePage />} />
                 <Route path={`/${i18n.language}/device/:id`} element={<InnerPage/>} />
             </Routes>
             <div className={`${isInnerPage ? "footerPadding" : ""}`}>

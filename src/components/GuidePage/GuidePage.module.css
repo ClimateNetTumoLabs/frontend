@@ -1,0 +1,93 @@
+.app {
+  min-height: 100vh;
+}
+
+.title {
+  background-image: url('../../assets/DIY/solder-wallpaper.png');
+  height: 50vh;
+  background-size: cover;
+  overflow: hidden;
+  background-position: center;
+  font-size: 10px;
+  padding: 10px;
+  position: relative;
+}
+
+.title h1 {
+  text-align: center;
+  position: relative;
+}
+
+.title h1 b {
+  color: #df7788;
+}
+
+.tabs {
+  height: auto;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 30px;
+  padding: 10px;
+  justify-content: center;
+  position: relative;
+  bottom: 60px;
+}
+
+.tabs div {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 15px;
+  border-radius: 50%;
+  align-content: center;
+  cursor: pointer;
+}
+
+.tab1 {
+  border: solid #df7788;
+  background-color: #df7788;
+}
+
+.tab2 {
+  border: solid #c9bc31;
+  background-color: #c9bc31;
+}
+
+.tab3 {
+  border: solid #019ea9;
+  background-color: #019ea9;
+}
+
+.tab4 {
+  border: solid #008e62;
+  background-color: #008e62;
+}
+
+.icon {
+  font-size: xx-large;
+}
+
+.content {
+  padding: 10px;
+  /* You can add additional styling here for the content area */
+}
+
+
+@media (max-width: 768px) {
+
+    .tabs div {
+      width: 50px;
+      height: 50px;
+      font-size: 7px;
+      bottom: 30px;
+        align-content: center;
+    }
+    .tabs {
+      bottom: 35px;
+      justify-content: center;
+    }
+    .icon {
+      font-size: medium;
+    }
+}

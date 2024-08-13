@@ -1,0 +1,32 @@
+.iframeContainer {
+  justify-content: center;
+  align-items:center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+  column-count: 2;
+}
+.videos {
+  width:100%;
+}
+.videos iframe {
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+
+  .iframeContainer {
+  display: flex;
+  justify-content: center;
+  background-color: #232222; /* Set to your website's background color */
+  overflow: hidden;
+  }
+}
+
