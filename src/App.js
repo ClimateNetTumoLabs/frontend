@@ -8,7 +8,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Guide from "./components/Guide/Guide";
-import DIY from "./components/DIY/DIY";
 import InnerPage from "./components/InnerPage/InnerPage";
 import GuidePage from "./components/GuidePage/GuidePage";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
