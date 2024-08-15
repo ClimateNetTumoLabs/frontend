@@ -14,3 +14,8 @@
   height: 600px; /* Adjust based on your needs */
   border: none;
 }
+
+
+.iframe #footer {
+    display:none !important;
+}

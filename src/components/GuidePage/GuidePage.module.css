@@ -3,12 +3,11 @@
 }
 
 .title {
-  background-image: url('../../assets/DIY/solder-wallpaper.png');
-  height: 50vh;
+  background-image: url('../../assets/DIY/copper wire.jpeg');
+  height: 55vh;
   background-size: cover;
   overflow: hidden;
-  background-position: center;
-  font-size: 10px;
+  background-position: 30% 80%;
   padding: 10px;
   position: relative;
 }
@@ -16,6 +15,8 @@
 .title h1 {
   text-align: center;
   position: relative;
+  top: 20vh;
+
 }
 
 .title h1 b {
@@ -26,46 +27,48 @@
   height: auto;
   display: grid;
   grid-template-columns: auto auto auto auto;
-  gap: 30px;
   padding: 10px;
   justify-content: center;
   position: relative;
-  bottom: 60px;
+  bottom: 70px;
 }
 
 .tabs div {
-  width: 100px;
-  height: 100px;
+  border: solid #e6e6e6;
+  border-left:none;
+  border-right:none;
+  background-color: #4f4f4f;
+  width: 200px;
+  height: 120px;
   text-align: center;
   padding: 20px 0;
   font-size: 15px;
-  border-radius: 50%;
   align-content: center;
   cursor: pointer;
 }
 
-.tab1 {
-  border: solid #df7788;
-  background-color: #df7788;
+.tabFont {
+  margin-bottom: 0;
+ }
+
+.tab {
+  border: white;
 }
 
-.tab2 {
-  border: solid #c9bc31;
-  background-color: #c9bc31;
+.tab:active {
+  width: 220px;
+  height: 140px;
+  bottom: 80px;
 }
-
-.tab3 {
-  border: solid #019ea9;
-  background-color: #019ea9;
-}
-
-.tab4 {
-  border: solid #008e62;
-  background-color: #008e62;
-}
-
 .icon {
   font-size: xx-large;
+  transition: all 0.3s ease-in-out;
+    color: #df7788;
+}
+
+.activeIcon {
+  animation-duration: 3s;
+  animation-iteration-count: 1;
 }
 
 .content {
@@ -73,21 +76,39 @@
   /* You can add additional styling here for the content area */
 }
 
+.info {
+  padding: 20px;
+}
+
+h3 {
+  font-size: 20px;
+}
 
 @media (max-width: 768px) {
-
+    .title {
+      height: 30vh;
+    }
+    .title h1 {
+      font-size: 19px;
+      top: 10vh;
+    }
     .tabs div {
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       font-size: 7px;
-      bottom: 30px;
-        align-content: center;
+      bottom: 40px;
+      align-content: center;
     }
     .tabs {
       bottom: 35px;
+      gap: 30px;
       justify-content: center;
     }
     .icon {
-      font-size: medium;
+      font-size: large;
+    }
+
+    h3 {
+      font-size: 19px;
     }
 }

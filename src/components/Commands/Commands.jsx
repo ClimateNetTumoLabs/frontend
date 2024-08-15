@@ -48,19 +48,13 @@ function Commands() {
         <p>First, you'll need to download the Raspberry Pi Imager. Choose the version that matches your operating system:</p>
         <div className={styles.downloadContainer}>
           <a href="/downloads/imager_1.8.5.exe" download className={styles.downloadButton}>
-            <button className={styles.downloadButton}>
               Download for Windows
-            </button>
           </a>
           <a href="/downloads/imager_1.8.5.dmg" download className={styles.downloadButton}>
-            <button className={styles.downloadButton}>
               Download for macOS
-            </button>
           </a>
           <a href="/downloads/imager_1.8.5_amd64.deb" download className={styles.downloadButton}>
-            <button className={styles.downloadButton}>
               Download for Ubuntu
-            </button>
           </a>
         </div>
         <p>After downloading, Follow the on-screen instructions to complete the setup.</p>

@@ -1,3 +1,7 @@
+section {
+    padding: 20px;
+}
+
 .iframeContainer {
   justify-content: center;
   align-items:center;
@@ -21,12 +25,8 @@
 }
 
 @media (max-width: 768px) {
-
-  .iframeContainer {
-  display: flex;
-  justify-content: center;
-  background-color: #232222; /* Set to your website's background color */
-  overflow: hidden;
+  .videos {
+    width: 50%;
   }
 }
 

@@ -24,10 +24,13 @@ h2 {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+  text-decoration: none;
 }
 
 .downloadButton:hover {
-  background-color: #ca6475;
+  background: #232222;
+  color : #df7788;
+  border: 1px solid #df7788;
 }
 
 .readmeStyle {
