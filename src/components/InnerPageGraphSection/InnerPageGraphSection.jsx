@@ -79,7 +79,6 @@ function InnerPageGraphSection(props) {
         setRainCount(RainCountArray)
         setWindSpeed(WindSpeedArray)
         setWindDirection(WindDirectionArray)
-
         setIsLoading(false);
     }, [props.weather_data]);
 
@@ -103,7 +102,13 @@ function InnerPageGraphSection(props) {
                 <div className={styles.tabContainer}>
                     <Tabs defaultActiveKey="tem_and_hum" className={styles.tabs_section}>
                         <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
-                            <WeatherDataGraphs timeline={props.period} types={["Temperature", "Humidity"]} data={[temperature, humidity]} time={time} colors={['#77B6EA', '#59a824']}/>
+                            <WeatherDataGraphs
+                                timeline={props.period}
+                                types={["Temperature", "Humidity"]}
+                                data={[temperature, humidity]}
+                                time={time}
+                                colors={['#77B6EA', '#59a824']}
+                            />
                         </Tab>
                         <Tab eventKey="pm" title="Air Quality">
                             <WeatherDataGraphs timeline={props.period} types={["PM 1", "PM 2.5", "PM 10"]} data={[pm1, pm2_5, pm10]} time={time} colors={['#f80000', '#e1d816', '#49B618']}/>

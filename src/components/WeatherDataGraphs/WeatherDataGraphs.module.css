@@ -77,7 +77,6 @@
 
 .chart_section {
     height: 10px;
-    padding: 30px;
 }
 
 .chart_section text {
@@ -135,6 +134,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+}
+
+.date_input {
+    color: #232222;
 }
 
 .fullscreen_button {

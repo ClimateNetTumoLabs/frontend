@@ -23,7 +23,7 @@
 }
 
 .tabs_section {
-    padding: 15px 0 ;
+    padding: 15px 0 15px 0 ;
 }
 
 .tabs_section button[aria-selected='true'] {
