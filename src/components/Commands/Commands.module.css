@@ -9,7 +9,6 @@ h2 {
 
 .downloadContainer {
   display: flex;
-  flex-direction: column; /* Stack buttons vertically */
   gap: 10px; /* Space between buttons */
   margin-top: 15px;
   margin-bottom: 15px;
@@ -20,7 +19,7 @@ h2 {
   padding: 5px;
   background-color: #df7788;
   color: white;
-  border: none;
+  border: solid #df7788;
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
@@ -28,9 +27,10 @@ h2 {
 }
 
 .downloadButton:hover {
-  background: #232222;
+  background: transparent;
   color : #df7788;
-  border: 1px solid #df7788;
+  border: solid #df7788;
+  transition: all 0.3s ease-in-out;
 }
 
 .readmeStyle {
@@ -60,4 +60,20 @@ h2 {
 .copiedText {
   color: green;
   font-size: 0.8em;
+}
+
+.link {
+  text-decoration: none;
+  color: #df7788;
+  cursor:pointer;
+}
+
+.link:hover {
+  color: #ff99aa;
+}
+
+@media (max-width: 768px) {
+    .downloadContainer {
+        flex-direction: column;
+    }
 }

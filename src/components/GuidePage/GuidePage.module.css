@@ -1,46 +1,6 @@
 .app {
   min-height: 100vh;
-}
-.arrowContainer {
-  display: flex;
-  position: relative;
-  margin: 10px 20px;
-}
-
-.arrowTab {
-  flex: 1;
-  padding: 5px 4px; 
-  text-align: center;
-  cursor: pointer;
-  background-color: #ab868c40;
-  position: relative;
-  clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%, 15% 50%);
-  transition: background-color 0.3s;
-  top: 10px;
-}
-
-.arrowTab.active {
-  background-color: transparent;
-  border: solid #df7788;
-  z-index: 1;
-}
-
-.whiteArrow {
-  position: absolute;
-  width: 40px;
-  height: 100%;
-  background-color: white;
-  clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%, 15% 50%);
-  z-index: -1;
-  transition: left 0.3s;
-}
-
-.icon {
-  margin-bottom: 5px;
-}
-
-.tabFont {
-  margin: 0;
+  color: #333; /* Darker text for readability */
 }
 
 .title {
@@ -57,99 +17,184 @@
   text-align: center;
   position: relative;
   top: 20vh;
-
+  font-size: 2.5rem;
+  animation: fadeInDown 1.5s ease-out;
 }
 
 .title h1 b {
   color: #df7788;
 }
 
-.tabs {
-  height: auto;
-  display: grid;
-  grid-template-columns: auto auto auto auto;
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  background-color: #4d40408f;
   padding: 10px;
-  justify-content: center;
-  position: relative;
-  bottom: 70px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.tabs div {
-  border: solid #e6e6e6;
-  border-left:none;
-  border-right:none;
-  background-color: #4f4f4f;
-  width: 200px;
-  height: 120px;
-  text-align: center;
-  padding: 20px 0;
-  font-size: 15px;
-  align-content: center;
-  cursor: pointer;
-}
-
-.tabFont {
-  margin-bottom: 0;
- }
 
 .tab {
-  border: white;
-}
-
-.tab:active {
-  width: 220px;
-  height: 140px;
-  bottom: 80px;
-}
-.icon {
-  font-size: xx-large;
-  transition: all 0.3s ease-in-out;
-    color: #df7788;
-}
-
-.activeIcon {
-  animation-duration: 3s;
-  animation-iteration-count: 1;
-}
-
-.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px;
-  /* You can add additional styling here for the content area */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 5px; /* Make the tab circular */
 }
 
-.info {
+.tab.active {
+  background-color: #df7788;
+}
+
+.tab.active span {
+  display: inline;
+  color: #ff7a5c;
+}
+
+.tab span {
+  font-size: 0.8rem;
+}
+
+.introduction {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #333232;
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  color: #fff; /* White text for readability */
 }
 
-h3 {
-  font-size: 20px;
+.introduction h2 {
+  color: white;
+  font-size: 1.5rem;
+  margin: 10px 0;
+  position: relative;
+  left: 3%;
+  line-height: inherit;
+}
+
+.info ul {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  list-style: none; /* Remove bullet points */
+  padding: 0;
+  margin: 20px 0;
+}
+
+.info ul li {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 25px; /* Space for custom bullet */
+}
+
+.info ul li::before {
+  content: '•'; /* Custom bullet */
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #df7788; /* Accent color for bullets */
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.info p {
+  margin-top: 20px;
+  font-size: 1.1rem;
 }
 
 @media (max-width: 768px) {
     .title {
-      height: 30vh;
-    }
-    .title h1 {
-      font-size: 19px;
-      top: 10vh;
-    }
-    .tabs div {
-      width: 60px;
-      height: 60px;
-      font-size: 7px;
-      bottom: 40px;
-      align-content: center;
-    }
-    .tabs {
-      bottom: 35px;
-      gap: 30px;
-      justify-content: center;
-    }
-    .icon {
-      font-size: large;
-    }
+    height: 30vh;
+  }
+  .title h1 {
+    font-size: 1.2rem;
+    top: 10vh;
+  }
+  .tab {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+  .introduction h2 {
+    font-size: 1rem;
+    left: auto;
+  }
+  .info ul {
+    font-size: 1rem;
+  }
 
-    h3 {
-      font-size: 19px;
-    }
+  .navbar {
+    justify-content: space-between;
+  }
+
+  .tab {
+    width: 50px;
+    height: 50px;
+    margin: 0 5px;
+  }
+
+  .tab.active {
+    width: auto;
+    height: auto;
+  }
+
+  .tab span {
+    display: none;
+  }
+
+  .tab.active span {
+    display: inline;
+    margin-left: 5px;
+  }
+
+  .tab {
+    width: 50px;
+    height: 50px;
+    margin: 0 5px;
+  }
+
+  .tab.active {
+    background-color: #df7788; /* Active tab background */
+    color: #fff; /* Active tab text color */
+    transform: scale(1.15); /* Slightly larger active tab */
+  }
+
+  .tab.active span {
+    display: inline;
+    margin-left: 5px;
+  }
+}
+
+@media (min-width: 769px) {
+  .icon {
+    display: none;
+  }
+
+  .tab span {
+    display: inline-block;
+    font-size: 1rem;
+  }
+
+  .tab:hover {
+    font-color: #df7788; /* Change to a lighter shade on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+  }
+
+  .tab.active {
+    color: #df7788; /* Active tab background */
+  }
 }

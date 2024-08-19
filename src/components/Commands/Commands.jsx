@@ -67,7 +67,7 @@ function Commands() {
             <li>Add WI-Fi Credentials in Imager.</li>
             <li>Enable the SSH Connection in Imager.</li>
         </ul>
-        <p>If your facing difficulties, check out the <a href="https://www.youtube.com/watch?v=ntaXWS8Lk34" target="_blank" rel="noreferrer">video</a>.</p>
+        <p>If your facing difficulties, check out the <a className={styles.link} href="https://www.youtube.com/watch?v=ntaXWS8Lk34" target="_blank" rel="noreferrer">video</a>.</p>
         <p>Put SD card in Raspberry Pi, and wait for 5 minutes.</p>
         <p>After that, let's find your Raspberry Pi's IP address using a network scanning tool <code>arp-scan</code></p>
         <p>1. On Linux:</p>
@@ -167,7 +167,7 @@ function Commands() {
             code={`cd ../ServiceFiles/InternetCheckConnect/\nvim inet_check_connect.py`}
         />
         <p>8. Copy the AWS IoT Core certificates: Copy the certificate files (certificate.pem.crt, private.pem.key, public.pem.key, rootCA.pem) from your local machine into the /home/raspberry/workspace/raspberry_soft/app/data/certificates/ directory:</p>
-        <p>If you have not created certificates, navigate to <a href="#request">Request Access</a>, fill the form, and we will send you the certificates.</p>
+        <p>If you have not created certificates, navigate to <a className={styles.link} href="#request">Request Access</a>, fill the form, and we will send you the certificates.</p>
         <CodeBlock
             id="certificates"
             code="scp -r &lt;folder_path&gt;/certificates/ &lt;username&gt;@&lt;IP&gt;:/home/raspberry/workspace/raspberry_soft/app/data/"
