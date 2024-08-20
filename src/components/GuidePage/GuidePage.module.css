@@ -11,13 +11,14 @@
   background-position: 30% 80%;
   padding: 10px;
   position: relative;
+  display: flex; /* Add this line */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
 }
 
 .title h1 {
   text-align: center;
-  position: relative;
-  top: 20vh;
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   animation: fadeInDown 1.5s ease-out;
 }
 
@@ -39,10 +40,10 @@
 .navbar {
   display: flex;
   justify-content: space-around;
-  background-color: #4d40408f;
+  background-color: #232222;
   padding: 10px;
-  margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #3b3b3b;
 }
 
 .tab {
@@ -55,17 +56,13 @@
   border-radius: 5px; /* Make the tab circular */
 }
 
-.tab.active {
-  background-color: #df7788;
-}
-
-.tab.active span {
+.tab.active p {
   display: inline;
-  color: #ff7a5c;
 }
 
-.tab span {
+.tab p {
   font-size: 0.8rem;
+  margin-bottom: 0;
 }
 
 .introduction {
@@ -74,9 +71,7 @@
   flex-direction: column;
   align-items: center;
   background-color: #333232;
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
-  color: #fff; /* White text for readability */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .introduction h2 {
@@ -91,7 +86,7 @@
 .info ul {
   font-size: 1.2rem;
   line-height: 1.6;
-  list-style: none; /* Remove bullet points */
+  list-style: none;
   padding: 0;
   margin: 20px 0;
 }
@@ -99,15 +94,15 @@
 .info ul li {
   margin-bottom: 10px;
   position: relative;
-  padding-left: 25px; /* Space for custom bullet */
+  padding-left: 25px;
 }
 
 .info ul li::before {
-  content: '•'; /* Custom bullet */
+  content: '•';
   position: absolute;
   left: 0;
   top: 0;
-  color: #df7788; /* Accent color for bullets */
+  color: #df7788;
   font-size: 1.5rem;
   line-height: 1.2;
 }
@@ -118,12 +113,11 @@
 }
 
 @media (max-width: 768px) {
-    .title {
+  .title {
     height: 30vh;
   }
   .title h1 {
-    font-size: 1.2rem;
-    top: 10vh;
+    font-size: 1.5rem;
   }
   .tab {
     font-size: 0.8rem;
@@ -144,36 +138,22 @@
   .tab {
     width: 50px;
     height: 50px;
-    margin: 0 5px;
+
   }
 
   .tab.active {
     width: auto;
     height: auto;
+    margin: 0 5px;
+    background-color: #df7788;
+    transform: scale(1);
   }
 
-  .tab span {
+  .tab p {
     display: none;
   }
 
-  .tab.active span {
-    display: inline;
-    margin-left: 5px;
-  }
-
-  .tab {
-    width: 50px;
-    height: 50px;
-    margin: 0 5px;
-  }
-
-  .tab.active {
-    background-color: #df7788; /* Active tab background */
-    color: #fff; /* Active tab text color */
-    transform: scale(1.15); /* Slightly larger active tab */
-  }
-
-  .tab.active span {
+  .tab.active p {
     display: inline;
     margin-left: 5px;
   }
@@ -184,17 +164,16 @@
     display: none;
   }
 
-  .tab span {
+  .tab p {
     display: inline-block;
     font-size: 1rem;
   }
 
-  .tab:hover {
-    font-color: #df7788; /* Change to a lighter shade on hover */
-    transform: translateY(-2px); /* Slight lift on hover */
+  .tab:hover p{
+    color: #df7788; /* Change to a lighter shade on hover */
   }
 
-  .tab.active {
+  .tab.active p{
     color: #df7788; /* Active tab background */
   }
 }

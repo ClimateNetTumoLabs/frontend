@@ -41,7 +41,7 @@ const handleSubmit = (event) => {
   const subjectToUse = subject_state ? formData.subject : subject;
 
   const templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name} ${surname}`;
-  const mailtoLink = `mailto:sona.arzumanyan@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
+  const mailtoLink = `mailto:erik.saryan@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
 
   window.location.href = mailtoLink;
 };

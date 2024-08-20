@@ -6,7 +6,7 @@ import Videos from '../Videos/Videos.jsx';
 import Materials from '../Materials/Materials.jsx';
 import Tools from '../Tools/Tools.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faScrewdriverWrench, faVideo, faTerminal, faList } from '@fortawesome/free-solid-svg-icons';
+import { faScrewdriverWrench, faTerminal, faList, faUserGear } from '@fortawesome/free-solid-svg-icons';
 
 const Guide = () => {
 
@@ -20,7 +20,7 @@ const Guide = () => {
     <div className={styles.app}>
       <div className={styles.title}>
         <h1>
-          Welcome to Our Guide of making <br />your own <b>ClimateNet</b> Device
+          Build Your Own <br/><b>ClimateNet</b> Device!
         </h1>
       </div>
 
@@ -31,35 +31,34 @@ const Guide = () => {
           onClick={() => handleTabClick('materials')}
         >
           <FontAwesomeIcon icon={faList} className={styles.icon} />
-          <span>Materials</span>
+          <p>Materials</p>
         </div>
         <div
           className={`${styles.tab} ${activeTab === 'tools' ? styles.active : ''}`}
           onClick={() => handleTabClick('tools')}
         >
           <FontAwesomeIcon icon={faScrewdriverWrench} className={styles.icon} />
-          <span>Tools</span>
+          <p>Tools</p>
         </div>
         <div
           className={`${styles.tab} ${activeTab === 'videos' ? styles.active : ''}`}
           onClick={() => handleTabClick('videos')}
         >
-          <FontAwesomeIcon icon={faVideo} className={styles.icon} />
-          <span>Videos</span>
+          <FontAwesomeIcon icon={faUserGear} className={styles.icon} />
+          <p>Assembly</p>
         </div>
         <div
           className={`${styles.tab} ${activeTab === 'commands' ? styles.active : ''}`}
           onClick={() => handleTabClick('commands')}
         >
           <FontAwesomeIcon icon={faTerminal} className={styles.icon} />
-          <span>Setup Commands</span>
+          <p>Setup Commands</p>
         </div>
       </nav>
 
      {!activeTab && (
         <div id="introduction" className={styles.introduction}>
             <h2>Ready to make an impact?<br/>
-            Build Your Own ClimateNet Device!<br/>
             Whether you're a tech enthusiast, a climate activist, or just curious, this guide is for you.<br/>
             Start now and make a difference!</h2>
                 <div className={styles.info}>
