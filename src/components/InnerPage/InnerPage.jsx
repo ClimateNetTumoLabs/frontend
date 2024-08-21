@@ -18,7 +18,6 @@ function InnerPage() {
     const [nearbyDevicesData, setNearbyDevicesData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [selectedRegion, setSelectedRegion] = useState('')
-    const { permissionGranted, setPosition, setPermissionGranted } = useContext(PositionContext);
 
 
     // New state for filter
@@ -27,6 +26,7 @@ function InnerPage() {
     const [timeFilter, setTimeFilter] = useState('hourly');
     const [customStartDate, setCustomStartDate] = useState('');
     const [customEndDate, setCustomEndDate] = useState('');
+    console.log(customStartDate, customEndDate)
 
 
     useEffect(() => {
@@ -34,6 +34,7 @@ function InnerPage() {
             setIsLoading(true);
             try {
                 const url = getDataUrl(timeFilter);
+                console.log(url)
                 // Fetch last data and all devices
                 const [lastDataResponse, allDevicesResponse, filteredData] = await Promise.all([
                     axios.get(`/device_inner/${id}/latest/`),
@@ -70,7 +71,7 @@ function InnerPage() {
             }
         };
         fetchAllData();
-    }, [id]);
+    }, [id, timeFilter]);
 
     const formatDate = (date) => {
         if (!(date instanceof Date) || isNaN(date)) {
@@ -97,14 +98,13 @@ function InnerPage() {
             case 'Hourly':
                 return `/device_inner/${id}/24hours/`;
             case 'Range':
-                start = formatDate(customStartDate);
-                end = formatDate(customEndDate);
+                start = customStartDate;
+                end = customEndDate;
                 break;
             default:
                 start = end = formatDate(currentDate);
                 break;
         }
-
         return `/device_inner/${id}/period/?start_time_str=${start}&end_time_str=${end}`;
     });
 
@@ -117,7 +117,7 @@ function InnerPage() {
                     <NearbyDevicesSection selectedRegion={selectedRegion} nearbyDevices={nearbyDevices} nearbyDeviceData={nearbyDevicesData} />
                     <div className={styles.innerPageRightPart}>
                         <InnerPageStaticContent lastData={lastData} />
-                        <InnerPageGraphSection weather_data={graphData} />
+                        <InnerPageGraphSection weather_data={graphData} setCustomStartDate={setCustomStartDate} customStartDate={customStartDate} setCustomEndDate={setCustomEndDate} customEndDate={customEndDate} setTimeFilter={setTimeFilter}/>
                     </div>
                 </div>
             )}

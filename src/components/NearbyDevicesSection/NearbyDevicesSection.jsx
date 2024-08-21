@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import styles from './NearbyDevicesSection.module.css'
 import NearbyDeviceItem from "../NearbyDeviceItem/NearbyDeviceItem";
 import { Link } from "react-router-dom";
@@ -7,9 +7,6 @@ import "../../i18n";
 
 function NearbyDevicesSection({selectedRegion, nearbyDevices, nearbyDeviceData }) {
     const { t, i18n } = useTranslation();
-    console.log("NearbyDevices:", nearbyDevices)
-    console.log("nearbyDeviceData", nearbyDeviceData)
-
     return (
         <div className={styles.NearbyDevicesSection}>
             <span>{selectedRegion}</span>

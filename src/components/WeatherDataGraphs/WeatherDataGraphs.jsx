@@ -9,44 +9,42 @@ const formatData = (names, dataArray) => {
     }));
 };
 
-const WeatherDataGraphs = ({ types, data, time, timeline, colors }) => {
-    const [originalData, setOriginalData] = useState({ series: [], categories: [] });
+const WeatherDataGraphs = ({ graphProps, setCustomStartDate, customStartDate, setCustomEndDate, customEndDate, setTimeFilter }) => {
+
+    const { types, data, time, timeline, colors } = graphProps;
     const [filteredData, setFilteredData] = useState({ series: [], categories: [] });
-    const [customStartDate, setCustomStartDate] = useState('');
-    const [customEndDate, setCustomEndDate] = useState('');
 
     useEffect(() => {
         const seriesData = formatData(types, data);
         const categories = time.map(t => new Date(t).getTime());
-        setOriginalData({ series: seriesData, categories });
         setFilteredData({ series: seriesData, categories });
     }, [types, data, time]);
+    const formatDate = (date) => {
+        if (!(date instanceof Date) || isNaN(date)) {
+            return "";
+        }
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 
-    const filterData = (startDate, endDate) => {
-        const startTime = startDate.getTime();
-        const endTime = endDate.getTime();
-
-        const filteredCategories = originalData.categories.filter(t => t >= startTime && t <= endTime);
-        const filteredSeries = originalData.series.map(series => ({
-            ...series,
-            data: series.data.filter((_, index) => originalData.categories[index] >= startTime && originalData.categories[index] <= endTime)
-        }));
-
-        setFilteredData({ series: filteredSeries, categories: filteredCategories });
-    };
-
-    const handleRangeSelect = (days) => {
+    const handleRangeSelect = (days, filterState) => {
         const endDate = new Date();
         const startDate = new Date();
         startDate.setDate(endDate.getDate() - days);
-        filterData(startDate, endDate);
+        setCustomStartDate(formatDate(startDate))
+        setCustomEndDate(formatDate(endDate))
+        setTimeFilter(filterState);
     };
 
-    const handleCustomRange = () => {
+    const handleCustomRange = (filterState) => {
         if (customStartDate && customEndDate) {
             const startDate = new Date(customStartDate);
             const endDate = new Date(customEndDate);
-            filterData(startDate, endDate);
+            setCustomStartDate(formatDate(startDate))
+            setCustomEndDate(formatDate(endDate))
+            setTimeFilter(filterState)
         }
     };
 
@@ -111,7 +109,13 @@ const WeatherDataGraphs = ({ types, data, time, timeline, colors }) => {
             }
         },
         tooltip: {
-            theme: 'dark',
+            theme: 'light', // Set the theme to light
+            style: {
+                fontSize: '12px',
+                fontFamily: undefined,
+                backgroundColor: '#fff', // Set the background color to white
+                color: '#333' // Set the text color to dark
+            },
             x: {
                 format: 'yyyy-MM-dd HH:mm',
             },
@@ -122,9 +126,9 @@ const WeatherDataGraphs = ({ types, data, time, timeline, colors }) => {
         <div className={styles.chart_section}>
             <div className={styles.filter_section}>
                 <div className={styles.buttonContainer}>
-                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(1)}>1 Day</button>
-                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(7)}>1 Week</button>
-                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(30)}>1 Month</button>
+                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(1, "Hourly")}>1 Day</button>
+                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(7, "Daily")}>1 Week</button>
+                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(30, "Monthly")}>1 Month</button>
                 </div>
                 <div className={styles.date_format}>
                     <label className={styles.filter_label}>Start:</label>
@@ -144,7 +148,7 @@ const WeatherDataGraphs = ({ types, data, time, timeline, colors }) => {
                         onChange={(e) => setCustomEndDate(e.target.value)}
                     />
                 </div>
-                <button className={`${styles.button} ${styles.filter_button}`} onClick={handleCustomRange}>Apply Custom Range</button>
+                <button className={`${styles.button} ${styles.filter_button}`} onClick={()=> handleCustomRange ("Range")}>Apply Custom Range</button>
             </div>
             <div className={styles.chart_div}>
                 <ReactApexChart
