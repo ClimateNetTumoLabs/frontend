@@ -1,6 +1,7 @@
 /* Materials.module.css */
 .section {
-  padding: 20px;
+  margin: 0 auto;
+  max-width: 1100px;
 }
 
 .iframeContainer {
@@ -15,7 +16,12 @@
   border: none;
 }
 
-
 .iframe #footer {
     display:none !important;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 0 20px;
+  }
 }

@@ -1,7 +1,6 @@
 .section {
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 20px;
 }
 
 h2 {
@@ -107,8 +106,10 @@ h2 {
 
 }
 @media (max-width: 768px) {
-    .downloadContainer {
-        flex-direction: column;
-    }
-
+  .downloadContainer {
+    flex-direction: column;
+  }
+  .section {
+    padding: 0 20px;
+  }
 }

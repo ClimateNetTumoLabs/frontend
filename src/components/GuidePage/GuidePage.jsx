@@ -57,7 +57,7 @@ const Guide = () => {
       </nav>
 
      {!activeTab && (
-        <div id="introduction" className={styles.introduction}>
+        <section id="introduction" className={styles.introduction}>
             <h2>Ready to make an impact?<br/>
             Whether you're a tech enthusiast, a climate activist, or just curious, this guide is for you.<br/>
             Start now and make a difference!</h2>
@@ -69,12 +69,11 @@ const Guide = () => {
                     <li>We provide step-by-step instructions on how to build both components </li>
                     <li>You do not need to know how to code, just how to copy and paste! </li>
                     <li>The materials will cost you an average of $280 </li>
-                    <p>Ready to start? Just fill out the request access form, and we will send you step-by-step instructions.</p>
                   </ul>
+                  <p>Ready to start? Just fill out the request access form, and we will send you step-by-step instructions.</p>
                 </div>
-      </div>
+        </section>
       )}
-
 
       <div className={styles.content}>
         {activeTab === 'materials' && <Materials />}
