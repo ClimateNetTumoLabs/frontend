@@ -5,6 +5,7 @@ import Commands from '../Commands/Commands.jsx';
 import Videos from '../Videos/Videos.jsx';
 import Materials from '../Materials/Materials.jsx';
 import Tools from '../Tools/Tools.jsx';
+import BoM from '../BoM/BoM.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faScrewdriverWrench, faTerminal, faList, faUserGear } from '@fortawesome/free-solid-svg-icons';
 
@@ -76,7 +77,7 @@ const Guide = () => {
       )}
 
       <div className={styles.content}>
-        {activeTab === 'materials' && <Materials />}
+        {activeTab === 'materials' && <BoM />}
         {activeTab === 'tools' && <Tools />}
         {activeTab === 'videos' && <Videos />}
         {activeTab === 'commands' && <Commands />}

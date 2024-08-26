@@ -88,19 +88,28 @@ function Commands() {
               Download for Ubuntu
           </a>
         </div>
-        <p>After downloading, Follow the on-screen instructions to complete the setup.</p>
-        <p>Put your SD card into the adapter and connect to your machine.</p>
-        <p>Open the RPI Imager and start configurations.</p>
+        <p>After downloading, Follow the on-screen instructions to complete the setup.<br/>
+            Put your SD card into the adapter and connect to your machine.<br/>
+            Open the RPI Imager and start configurations.
+        </p>
         <p>Important:</p>
         <ul>
-            <li>Ensure that the username for your Raspberry Pi is set to raspberry.</li>
-            <li>The last tested and stable version for this application is <b>Raspberry Pi OS (Legacy, 32-bit) Debian Bullseye</b>, choose it from the Imager.</li>
-            <li>Add WI-Fi Credentials in Imager.</li>
-            <li>Enable the SSH Connection in Imager.</li>
+            <li><b>Choose Device:</b> Select the Raspberry Pi 3 as your device.</li>
+            <li><b>Choose Operating System:</b> Select <b>"Raspberry Pi OS (Legacy, 32-bit) Debian Bullseye"</b> from the available options in the Raspberry Pi Imager.</li>
+            <li><b>Choose Storage:</b> Select the SD card that you've inserted into the adapter.</li>
         </ul>
-        <p>If you're facing difficulties, check out the <a className={styles.link} href="https://www.youtube.com/watch?v=ntaXWS8Lk34" target="_blank" rel="noreferrer">video</a>.</p>
-        <p>Put SD card in Raspberry Pi, and wait for 5 minutes.</p>
-        <p>After that, let's find your Raspberry Pi's IP address using a network scanning tool <code>arp-scan</code></p>
+        <ul>
+            <p>When prompted <b>"Would you like to apply OS custom settings?"</b> follow these steps:<br/>
+            Choose <b>"Edit Settings"</b>:</p>
+                <li><b>Username:</b> Set the username to raspberry.</li>
+                <li><b>Wireless LAN (Wi-Fi):</b> Enter your SSID and password to configure your Wi-Fi connection.</li>
+                <li><b>Services:</b> Enable the SSH connection by checking the corresponding box.</li>
+        </ul>
+        <p>If you're facing difficulties, check out the <a className={styles.link} href="https://www.youtube.com/watch?v=ntaXWS8Lk34" target="_blank" rel="noreferrer">video</a>.<br/>
+        Put SD card in Raspberry Pi, and wait for 5 minutes.<br/>
+        Make sure you are connected to the same network that you configured in the Imager.<br/>
+        After that, let's find your Raspberry Pi's IP address using a network scanning tool <code>arp-scan</code>.
+        </p>
 
         <div className={styles.network}>
             <p>Installing arp-scan on:</p>

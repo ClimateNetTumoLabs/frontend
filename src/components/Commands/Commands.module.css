@@ -68,6 +68,10 @@ h2 {
   justify-content: flex-end; /* Align text/icon to the right */
 }
 
+.copy {
+  cursor: pointer;
+}
+
 .copiedText {
   color: rgb(3, 181, 3);
   font-size: 0.8em;
