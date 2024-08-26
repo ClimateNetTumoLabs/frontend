@@ -95,14 +95,14 @@ const BoM = () => {
       image:  getImage('lan.png')
     },
     {
-    name: 'Female Pins (1x4, 1x8, 1x20, 1x6)',
-    quantity: '1x4:2 1x20:2 1x8:1 1x6:1', // You can specify the quantity for each type in the description
-    description: 'Includes Female Pin 1x4, 1x8, 1x20, and 1x6 in a single package.',
-    costamazon: '$9.99',
-    amazon: 'https://www.amazon.com/gp/product/B0B96WXT46/ref=ppx_yo_dt_b_asin_image_o00_s00?ie=UTF8&psc=1',
-    costaliexpress: '$9.37',
-    aliexpress: 'https://aliexpress.ru/item/1005006515275662.html?spm=a2g2w.productlist.0.0.643f5707D7iNfA&sku_id=12000037494039280',
-    image: getImage('combined-pins.png'),
+      name: 'Female Pins (1x4, 1x8, 1x20, 1x6)',
+      quantity: '1x4:2 1x20:2 1x8:1 1x6:1', // You can specify the quantity for each type in the description
+      description: 'Includes Female Pin 1x4, 1x8, 1x20, and 1x6 in a single package.',
+      costamazon: '$9.99',
+      amazon: 'https://www.amazon.com/gp/product/B0B96WXT46/ref=ppx_yo_dt_b_asin_image_o00_s00?ie=UTF8&psc=1',
+      costaliexpress: '$9.37',
+      aliexpress: 'https://aliexpress.ru/item/1005006515275662.html?spm=a2g2w.productlist.0.0.643f5707D7iNfA&sku_id=12000037494039280',
+      image: getImage('combined-pins.png'),
     },
     {
       name: 'SMD resistor',
@@ -179,6 +179,8 @@ const BoM = () => {
       quantity: 1,
       description: 'Rain, Wind Speed/Direction',
       costamazon: '$69.00',
+      aliexpress: '',
+      costaliexpress: '',
       amazon: 'https://www.argentdata.com/catalog/product_info.php?products_id=145',
       image: getImage('assembly.png')
     },
@@ -246,13 +248,13 @@ const BoM = () => {
 
   return (
     <div className={styles.bomContainer}>
-      <h1 className={styles.title}>Bill of Materials</h1>
+      <h2 className={styles.title}>Bill of Materials</h2>
 
       <div className={styles.section}>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Item</th>
+            <th>Item</th>
               <th>Quantity</th>
               <th>Info/Comment</th>
               <th>Amazon Link</th>
@@ -265,14 +267,26 @@ const BoM = () => {
           <tbody>
             {materials.map((material, index) => (
               <tr key={index}>
-                <td>{material.name}</td>
-                <td>{material.quantity}</td>
-                <td>{material.description}</td>
-                <td><a href={material.amazon} target="_blank" rel="noopener noreferrer">Amazon</a></td>
-                <td>{material.costamazon}</td>
-                <td><a href={material.aliexpress} target="_blank" rel="noopener noreferrer">AliExpress</a></td>
-                <td>{material.costaliexpress}</td>
-                <td><img src={material.image} alt={material.name} className={styles.image} /></td>
+                <td data-label="Item">{material.name}</td>
+                <td data-label="Quantity">{material.quantity}</td>
+                <td data-label="Info/Comment">{material.description}</td>
+                <td data-label="Amazon Link">
+                {material.amazon ? (
+                    <a href={material.amazon} target="_blank" rel="noopener noreferrer">Amazon</a>
+                  ) : (
+                    ''
+                  )}
+                </td>
+                <td data-label="Cost">{material.costamazon || ''}</td>
+                <td data-label="AliExpress Link">
+                  {material.aliexpress ? (
+                    <a href={material.aliexpress} target="_blank" rel="noopener noreferrer">AliExpress</a>
+                  ) : (
+                    ''
+                  )}
+                </td>
+                <td data-label="Cost">{material.costaliexpress || ''}</td>
+                <td data-label="Image"><img src={material.image} alt={material.name} className={styles.image} /></td>
               </tr>
             ))}
           </tbody>
