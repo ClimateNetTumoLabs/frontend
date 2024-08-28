@@ -58,3 +58,9 @@
 .link {
     text-decoration:  none;
 }
+
+.highlighted {
+    border-left: solid #df7788; 
+    background-color: rgba(223, 119, 136, 0.1); 
+    transition: all 0.3s ease;
+}

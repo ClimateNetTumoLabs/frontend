@@ -94,10 +94,10 @@ function InnerPageGraphSection({weather_data, setCustomStartDate, customStartDat
             <div className={styles.chart}>
                 <div className={styles.tabContainer}>
                     <Tabs defaultActiveKey="tem_and_hum" className={styles.tabs_section}>
-                        <Tab eventKey="tem_and_hum" title="Temperature and Humidity">
+                        <Tab eventKey="tem_and_hum" title={t('innerPageGraphSection.tabTitles.temAndHum')}>
                             <WeatherDataGraphs
                                 graphProps={{
-                                    types: ["Temperature", "Humidity"],
+                                    types: [t('innerPageGraphSection.tem'), t('innerPageGraphSection.hum')],
                                     data: [weatherArrays.temperature, weatherArrays.humidity],
                                     time: weatherArrays.time,
                                     colors: ['#77B6EA', '#59a824']
@@ -105,7 +105,7 @@ function InnerPageGraphSection({weather_data, setCustomStartDate, customStartDat
                                 {...{ setCustomStartDate, customStartDate, setCustomEndDate, customEndDate, setTimeFilter }}
                             />
                         </Tab>
-                        <Tab eventKey="pm" title="Air Quality">
+                        <Tab eventKey="pm" title={t('innerPageGraphSection.tabTitles.pm')}>
                             <WeatherDataGraphs
                                 graphProps={{
                                     types: ["PM1", "PM2.5", "PM10"], // Consider specifying the `types` for consistency
@@ -116,10 +116,10 @@ function InnerPageGraphSection({weather_data, setCustomStartDate, customStartDat
                                 {...{ setCustomStartDate, customStartDate, setCustomEndDate, customEndDate, setTimeFilter }}
                             />
                         </Tab>
-                        <Tab eventKey="Light" title="UV and Light Intensity">
+                        <Tab eventKey="Light" title={t('innerPageGraphSection.tabTitles.light')}>
                             <WeatherDataGraphs
                                 graphProps={{
-                                    types: ["UV Index", "Light Intensity"],
+                                    types: [t('innerPageGraphSection.uv'), t('innerPageGraphSection.intensity')],
                                     data: [weatherArrays.UV, weatherArrays.VisibleLight],
                                     time: weatherArrays.time,
                                     colors: ['#f80000', '#e1d816']
@@ -127,10 +127,10 @@ function InnerPageGraphSection({weather_data, setCustomStartDate, customStartDat
                                 {...{ setCustomStartDate, customStartDate, setCustomEndDate, customEndDate, setTimeFilter }}
                             />
                         </Tab>
-                        <Tab eventKey="pressure" title="Pressure">
+                        <Tab eventKey="pressure" title={t('innerPageGraphSection.tabTitles.pressure')}>
                             <WeatherDataGraphs
                                 graphProps={{
-                                    types: ["Pressure"],
+                                    types: [t('innerPageGraphSection.press')],
                                     data: [weatherArrays.pressure],
                                     time: weatherArrays.time,
                                     colors: ["#FFFF00"]
@@ -138,10 +138,10 @@ function InnerPageGraphSection({weather_data, setCustomStartDate, customStartDat
                                 {...{ setCustomStartDate, customStartDate, setCustomEndDate, customEndDate, setTimeFilter }}
                             />
                         </Tab>
-                        <Tab eventKey="rain_wind" title="Rain and Wind">
+                        <Tab eventKey="rain_wind" title={t('innerPageGraphSection.tabTitles.rainAndWind')}>
                             <WeatherDataGraphs
                                 graphProps={{
-                                    types: ["Rain", "Wind Speed"],
+                                    types: [t('innerPageGraphSection.rain'), t('innerPageGraphSection.windSpeed')],
                                     data: [weatherArrays.RainCount, weatherArrays.WindSpeed],
                                     time: weatherArrays.time,
                                     colors: ["#6688aa", "#BA9593"]

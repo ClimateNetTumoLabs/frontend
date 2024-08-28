@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from 'react-apexcharts';
 import styles from './WeatherDataGraphs.module.css';
-
+import { useTranslation } from "react-i18next";
 const formatData = (names, dataArray) => {
     return names.map((name, index) => ({
         name: name,
@@ -10,7 +10,7 @@ const formatData = (names, dataArray) => {
 };
 
 const WeatherDataGraphs = ({ graphProps, setCustomStartDate, customStartDate, setCustomEndDate, customEndDate, setTimeFilter }) => {
-
+    const { t } = useTranslation()
     const { types, data, time, timeline, colors } = graphProps;
     const [filteredData, setFilteredData] = useState({ series: [], categories: [] });
 
@@ -126,12 +126,12 @@ const WeatherDataGraphs = ({ graphProps, setCustomStartDate, customStartDate, se
         <div className={styles.chart_section}>
             <div className={styles.filter_section}>
                 <div className={styles.buttonContainer}>
-                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(1, "Hourly")}>1 Day</button>
-                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(7, "Daily")}>1 Week</button>
-                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(30, "Monthly")}>1 Month</button>
+                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(1, "Hourly")}>{t('filterTooltips.oneD')}</button>
+                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(7, "Daily")}>{t('filterTooltips.oneW')}</button>
+                    <button className={`${styles.button} ${styles.filter_button}`} onClick={() => handleRangeSelect(30, "Monthly")}>{t('filterTooltips.oneM')}</button>
                 </div>
                 <div className={styles.date_format}>
-                    <label className={styles.filter_label}>Start:</label>
+                    <label className={styles.filter_label}>{t('filterTooltips.start')}</label>
                     <input
                         className={styles.date_input}
                         type="date"
@@ -140,7 +140,7 @@ const WeatherDataGraphs = ({ graphProps, setCustomStartDate, customStartDate, se
                     />
                 </div>
                 <div className={styles.date_format}>
-                    <label className={styles.filter_label}>End:</label>
+                    <label className={styles.filter_label}>{t('filterTooltips.end')}</label>
                     <input
                         className={styles.date_input}
                         type="date"
@@ -148,7 +148,7 @@ const WeatherDataGraphs = ({ graphProps, setCustomStartDate, customStartDate, se
                         onChange={(e) => setCustomEndDate(e.target.value)}
                     />
                 </div>
-                <button className={`${styles.button} ${styles.filter_button}`} onClick={()=> handleCustomRange ("Range")}>Apply Custom Range</button>
+                <button className={`${styles.button} ${styles.filter_button}`} onClick={()=> handleCustomRange ("Range")}>{t('filterTooltips.filter')}</button>
             </div>
             <div className={styles.chart_div}>
                 <ReactApexChart

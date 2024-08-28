@@ -9,7 +9,7 @@ const resources = {
                 about: {
                     welcome: "Welcome to The Climate Net,",
                     titleTemp: "Temperature, Humidity and Pressure",
-                    titleAir: "Air Quality",
+                    titleAir: "Air Pollution",
                     titleWind: "Air Speed, Direction and Rain",
                     titleUv: "UV Index and Light Intensity",
                     titleWeather: "Weather Data: API Documentation",
@@ -41,7 +41,7 @@ const resources = {
                     pm10: "These particles are larger and less likely to be inhaled deeply.",
                     pm10_2: "However, they can still irritate the eyes, nose, and throat.",
                     pm10_3: "Long-term exposure to PM10 can also lead to respiratory problems and heart disease.",
-                    pmDanger: "PM Sensor Danger Values",
+                    pmDanger: "PM Particle Danger Levels",
                     pmTh1: "Pollutant",
                     pmTh2: "Good",
                     pmTh3: "Moderate",
@@ -56,7 +56,18 @@ const resources = {
                     titleWindDirection: "Wind Direction",
                     titleRain: "Rainfall Quantity",
                     rain1: "Rain gauge operates on the tipping bucket principle, where rain is collected in a funnel and directed into a tipping bucket mechanism.",
-                    rain2: "Each tip of the bucket corresponds to a known quantity of rainfall, typically 0.2mm, which then generates a pulse signal used to calculate the total rainfall.",  
+                    rain2: "Each tip of the bucket corresponds to a known quantity of rainfall, typically 0.2mm, which then generates a pulse signal used to calculate the total rainfall.",
+                    rain: {
+                        rainfall: "Rainfall",
+                        intensity: "Intensity (mm)",
+                        table: {
+                            light: "Light",
+                            moderate: "Moderate",
+                            heavy: "Heavy",
+                            intense: "Intense",
+                            torrential: "Torrential",
+                        },
+                    },
                     windDirection: "A wind vane with a magnet rotates based on the wind direction. This triggers different reed switches positioned around the vane, allowing the system to determine the wind direction.",
                     windDirection2: "The rain sensor can register rainfall amounts as small as 0.2794 mm (0.011 inches) per tip.",
                     uv_intro: "We measure light intensity and spectral information, making it valuable for various applications. Here's an in-depth look:",
@@ -212,7 +223,7 @@ const resources = {
                     language: "Language",
                 },
                 linerStatusBar: {
-                    airQualityTitle: "Air Quality (PM2.5)",
+                    airQualityTitle: "Air Pollution (PM2.5)",
                     good: "Good",
                     moderate: "Moderate",
                     unhealthySensitiveGroups: "Unhealthy for Sensitive Groups",
@@ -220,7 +231,6 @@ const resources = {
                     veryUnhealthy: "Very Unhealthy",
                     hazardous: "Hazardous",
                     feelsLike: "FEELS LIKE ",
-                    recommendation: "Comment section, here can be some recommendations",
                     wind: "Wind ",
                     humidity: "Humidity",
                     barometricPressure: "Barometric P.",
@@ -243,21 +253,21 @@ const resources = {
                 },
                 innerPageGraphSection: {
                     tabTitles: {
-                        temperatureAndHumidity: "Temperature and Humidity",
-                        airQuality: "Air Quality",
+                        temAndHum: "Temperature and Humidity",
+                        pm: "Air Pollution",
                         pressure: "Pressure",
                         rainAndWind: "Rain and Wind",
                         light : "UV and Intensity"
 
                     },
-                    temperature: "Temperature",
-                    humidity: "Humidity",
-                    pressure: "Pressure",
+                    tem: "Temperature",
+                    hum: "Humidity",
+                    press: "Pressure",
                     rain: "Rain",
                     windSpeed: "Wind Speed",
-                    windDirection: "Wind Direction",
-                    light_uv : "Uv index",
-                    light_intensity : "Light intensity"
+                    windDir: "Wind Direction",
+                    uv: "UV index",
+                    intensity : "Light intensity"
                 },
                 innerPageFilter: {
                     options: {
@@ -289,11 +299,11 @@ const resources = {
                     update: "Updating..."
                 },
                 filterTooltips: {
-                    filter: "Filter",
-                    to: "to",
-                    from: "from",
+                    filter: "Apply Custom Range",
+                    start: "Start",
+                    end: "End",
                     oneM: "1 Month",
-                    sevenD: "7 Days",
+                    oneW: "1 Week",
                     oneD: "1 Day"
                 },
             },
@@ -304,7 +314,7 @@ const resources = {
                 about: {
                     welcome: "Բարի գալուստ Կլիմայական ցանց, ",
                     titleTemp: "Ջերմաստիճան, խոնավություն և ճնշում",
-                    titleAir: "Օդի որակ",
+                    titleAir: "Օդի աղտոտվածություն",
                     titleWind: "Քամու արագություն, ուղղություն և անձրև",
                     titleUv: "UV ինդեքս և լույսի ինտենսիվություն",
                     titleWeather: "Եղանակի տվյալներ. API Documentation",
@@ -336,7 +346,7 @@ const resources = {
                     pm10: "Այս մասնիկները ավելի մեծ են և ավելի քիչ հավանական է, որ խորը ներշնչվեն:",
                     pm10_2: "Սակայն նրանք դեռ կարող են գրգռել աչքերը, քիթը և կոկորդը:",
                     pm10_3: "PM10-ի երկարատև ազդեցությունը կարող է նաև հանգեցնել շնչառական խնդիրների և սրտի հիվանդության:",
-                    pmDanger: "PM սենսորի վտանգներ",
+                    pmDanger: "PM մասնիկների վտանգավորության մակարդակներ",
                     pmTh1: "Աղտոտիչ",
                     pmTh2: "Լավ",
                     pmTh3: "Չափավոր",
@@ -352,6 +362,17 @@ const resources = {
                     windDirection: "Քամու ուղղությունը մագնիսով պտտվում է` ելնելով քամու ուղղությունից: Սա գործարկում է եղեգի տարբեր անջատիչները, որոնք տեղադրվում են թիակի շուրջը, ինչը թույլ է տալիս համակարգին որոշել քամու ուղղությունը:",
                     windDirection2: "Անձրևի սենսորը կարող է գրանցել 0,2794 մմ (0,011 դյույմ) անձրևի քանակություն մեկ ծայրի համար:",
                     titleRain: "Անձրևի քանակ",
+                    rain: {
+                        rainfall: "Անձրև",
+                        intensity: "Ուժգնություն (մմ)",
+                        table: {
+                            light: "Թեթև",
+                            moderate: "Չափավոր",
+                            heavy: "Հորդ",
+                            intense: "Ինտենսիվ",
+                            torrential: "Հեղեղային",
+                        },
+                    },
                     rain1: "Անձրևաչափը գործում է շրջվող դույլի սկզբունքով, որտեղ անձրևը հավաքվում է ձագարի մեջ և ուղղվում դեպի դույլի շրջման մեխանիզմը:",
                     rain2: "Դույլի յուրաքանչյուր ծայրը համապատասխանում է հայտնի տեղումների քանակին, սովորաբար 0,2 մմ, որն այնուհետև առաջացնում է իմպուլսային ազդանշան, որն օգտագործվում է տեղումների ընդհանուր քանակը հաշվարկելու համար:",
                     lux: "Լյուքս",
@@ -506,15 +527,14 @@ const resources = {
                     },
                 },
                 linerStatusBar: {
-                    airQualityTitle: "Օդի որակ (PM2.5)",
+                    airQualityTitle: "Օդի աղտոտվածություն (PM2.5)",
                     good: "Լավ",
                     moderate: "Չափավոր",
                     unhealthySensitiveGroups: "Անառողջ զգայուն խմբերի համար",
                     unhealthy: "Անառողջ",
-                    veryUnhealthy: "Շատ Անառողջ",
+                    veryUnhealthy: "Շատ անառողջ",
                     hazardous: "Վտանգավոր",
                     feelsLike: "Զգացվում է ինչպես ",
-                    recommendation: "Մեկնաբանությունների բաժին, այստեղ կարող են լինել որոշ առաջարկություններ",
                     wind: "Քամի",
                     humidity: "Խոնավություն",
                     barometricPressure: "Բարոմետրիկ Ճ.",
@@ -536,20 +556,20 @@ const resources = {
                 },
                 innerPageGraphSection: {
                     tabTitles: {
-                        temperatureAndHumidity: "Ջերմաստիճան և խոնավություն",
-                        airQuality: "Օդի որակ",
+                        temAndHum: "Ջերմաստիճան և խոնավություն",
+                        pm: "Օդի աղտոտվածություն",
                         pressure: "Ճնշում",
                         rainAndWind: "Անձրև և քամի",
                         light : "UV և լույսի ինտենսիվություն"
                     },
-                    temperature: "Ջերմաստիճան",
-                    humidity: "Խոնավություն",
-                    pressure: "Ճնշում",
-                    rain: "Անձրև",
+                    tem: "Ջերմաստիճան",
+                    hum: "Խոնավություն",
+                    press: "Ճնշում",
+                    rain: "Անձրևի քանակ",
                     windSpeed: "Քամու արագություն",
-                    windDirection: "Քամու ուղղություն",
-                    light_uv : "Uv ինդեքս",
-                    light_intensity : "Լույսի ինտենսիվություն"
+                    windDir: "Քամու ուղղություն",
+                    uv : "UV ինդեքս",
+                    intensity : "Լույսի ինտենսիվություն"
                 },
                 innerPageFilter: {
                     options: {
@@ -581,11 +601,11 @@ const resources = {
                     update: "Թարմացում..."
                 },
                 filterTooltips: {
-                    filter: "ֆիլտր",
-                    to: "ավարտ",
-                    from: "սկիզբ",
+                    filter: "նախընտրելի միջակայք",
+                    start: "Սկիզբ",
+                    end: "Ավարտ",
                     oneM: "1 ամիս",
-                    sevenD: "7 օր",
+                    oneW: "1 շաբաթ",
                     oneD: "1 օր"
                 },
             },

@@ -91,7 +91,7 @@ function InnerPage() {
                 start = formatDate(new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000));
                 break;
             case 'Monthly':
-                start = formatDate(new Date(currentYear, currentMonth, 1));
+                start = formatDate(new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000));
                 const nextMonthDate = new Date(currentYear, currentMonth + 1, 0);
                 end = formatDate(nextMonthDate > currentDate ? currentDate : nextMonthDate);
                 break;

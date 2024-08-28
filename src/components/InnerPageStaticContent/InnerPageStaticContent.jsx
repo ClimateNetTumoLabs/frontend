@@ -44,8 +44,8 @@ const DataTable = (props) => {
                     <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm1} {t('linerStatusBar.myum')}</div>
                 </td>
                 <td className={styles.td}>
-                    <span className={styles.title}>{t('linerStatusBar.pm2_5')}</span><br />
-                    <div className={styles.value} data-tooltip-id="micro_meter">{props.data.pm2_5} {t('linerStatusBar.myum')}
+                    <span className={styles.title}>{t('linerStatusBar.light')}</span><br />
+                    <div className={styles.value} data-tooltip-id="micro_meter">{props.data.lux} {t('linerStatusBar.lux')}
                     </div>
                     <ReactTooltip
                         id="micro_meter"
@@ -83,8 +83,6 @@ const WeatherInformation = (props) => {
                     <span className={styles.infoTemperature}>|| {Math.round(props.temp + 32)}<sup>°F</sup></span>
                 </div>
                 <p className={styles.feelslike}><span>{t('linerStatusBar.feelsLike')}</span>{Math.round(feelsLikeTemperature)}<sup>°C</sup> || {Math.round(feelsLikeTemperature + 32)}<sup>°F</sup></p>
-
-                <span className={styles.recommendation}>{t('linerStatusBar.recommendation')}</span>
                 <div className={styles.windWrapper}>
                     <span className={styles.windTitle}>{t('linerStatusBar.wind')}</span>
                     <span className={styles.windInfo}><WindDirection direction={props.windDirection} /> {windSpeed} {t('linerStatusBar.kmhour')}</span>
