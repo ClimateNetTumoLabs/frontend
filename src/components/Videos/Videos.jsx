@@ -1,10 +1,12 @@
 import React from 'react';
 import styles from './Videos.module.css';
+import {useTranslation} from "react-i18next"
 
 function Videos() {
+    const { t } = useTranslation()
     return (
     <section id="videos" className={styles.section}>
-        <h2 className={styles.subTitles}>Videos of Assembling</h2>
+        <h2 className={styles.subTitles}>{t('diy.tabs.asmtitle')}</h2>
         <div className={styles.videos}>
           <iframe
             width="426"

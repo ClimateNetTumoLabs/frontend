@@ -74,7 +74,7 @@ function Commands() {
 
   return (
     <section id="git" className={styles.section}>
-      <h2 className={styles.subTitles}>Setup Commands</h2>
+      <h2 className={styles.subTitles}>{t('diy.tabs.setuptitle')}</h2>
       <div className={styles.readmeStyle}>
         <p>First, you need to download the Raspberry Pi Imager. Choose the version that matches your operating system:</p>
         <div className={styles.downloadContainer}>

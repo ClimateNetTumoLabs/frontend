@@ -182,17 +182,6 @@ th {
     position: relative;
 }
 
-/*.custom-icon:hover::after {*/
-/*    content: attr(data-tooltip);*/
-/*    position: absolute;*/
-/*    color: white;*/
-/*    border-radius: 5px;*/
-/*    bottom: 120%;*/
-/*    left: 50%;*/
-/*    transform: translateX(-50%);*/
-/*    white-space: nowrap;*/
-/*}*/
-
 .apexcharts-toolbar div:hover {
     cursor: pointer;
 }

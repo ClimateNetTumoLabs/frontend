@@ -163,7 +163,8 @@ const resources = {
                     clickOnMap: "Click on map to zoom in or out",
                 },
                 contact: {
-                    title: "Contact Us",
+                    title1: "Contact Us",
+                    title2: "Request Access",
                     formFields:
                         {
                             name: "Name",
@@ -192,7 +193,32 @@ const resources = {
                     rightsReserved: " TUMO Labs. All Rights Reserved."
                 },
                 diy: {
-                    title: "Welcome to our Guide of making your own ClimateNet device.",
+                    title1: "Build your own",
+                    title2: "ClimateNet",
+                    title3: "Device!",
+                    tabs: {
+                        mat: "Materials",
+                        tool: "Tools",
+                        asm: "Assembly",
+                        setup: "Setup Commands",
+                        mattitle: "Bill of Materials",
+                        tooltitle: "Tools",
+                        asmtitle: "Videos of Assembling",
+                        setuptitle: "Setup Commands"
+                    },
+                    intro: {
+                        1: "Ready to make an impact?",
+                        2: "Whether you're a tech enthusiast, a climate activist, or just curious, this guide is for you.",
+                        3: "Start now and make a difference!",
+                    },
+                    info: {
+                        title: "Here are a few things you should know before you start:",
+                        point1: "ClimateNet Devices are comprised of hardware and software elements.",
+                        point2: "We provide step-by-step instructions on how to build both components.",
+                        point3: "You do not need to know how to code, just how to copy and paste!",
+                        point4: "The materials will cost you an average of $280.",
+                        end: "Ready to start? Just fill out the request access form, and we will send you all the necessary certificates via mail."
+                    }
                 },
                 guide: {
                     title: "Coming Soon",
@@ -519,7 +545,8 @@ const resources = {
                     clickOnMap: "Սեղմեք քարտեզի վրա՝ մեծացնելու կամ փոքրացնելու համար",
                 },
                 contact: {
-                    title: "Կապ մեզ հետ",
+                    title1: "Կապ մեզ հետ",
+                    title2: "Մուտքի հարցում",
                     formFields:
                         {
                             name: "Անուն",
@@ -548,8 +575,32 @@ const resources = {
                     rightsReserved: " TUMO Labs. Բոլոր իրավունքները պաշտպանված են"
                 },
                 diy: {
-                    title: "Բարի գալուստ ձեր սեփական ClimateNet սարքը պատրաստելու մեր ուղեցույց:",
-
+                    title1: "Կառուցեք ձեր սեփական",
+                    title2: "ClimateNet",
+                    title3: "սարքը",
+                    tabs: {
+                        mat: "Նյութեր",
+                        tool: "Գործիքներ",
+                        asm: "Հավաքում",
+                        setup: "Կարգավորման հրահանգներ",
+                        mattitle: "Նյութերի գնացուցակ",
+                        tooltitle: "Գործիքներ",
+                        asmtitle: "Հավաքման տեսանյութեր",
+                        setuptitle: "Կարգավորման հրահանգներ"
+                    },
+                    intro: {
+                        1: "Պատրա՞ստ եք ներդրում ունենալուն։",
+                        2: "Անկախ նրանից, Դուք տեխնոլոգիայի էնտուզիաստ եք, կլիմայի ակտիվիստ թե պարզապես հետաքրքրասեր, այս ուղեցույցը ձեզ համար է:",
+                        3: "Սկսեք հիմա և ունեցեք ներդրում։",
+                    },
+                    info: {
+                        title: "Ահա մի քանի բան, որ դուք պետք է իմանաք նախքան սկսելը.",
+                        point1: "Climate Net սարքերը բաղկացած են hardware և software բաղադրիչներից։",
+                        point2: "Մենք տրամադրում ենք քայլ առ քայլ հրահանգներ երկու բաղադրիչների հավաքման համար։",
+                        point3: "Ձեզ հարկավոր չէ իմանալ, թե ինչպես ծրագրավորել, պարզապես ինչպես պատճենել և տեղադրել:",
+                        point4: "Նյութերի արժեքը կկազմի միջինը 280 ԱՄՆ դոլար։",
+                        end: "Պատրա՞ստ եք սկսել: Պարզապես լրացրեք մուտքի հարցման ձևաչափը, և մենք էլեկտրոնային հասցեի միջոցով ձեզ կուղարկենք անհրաժեշտ փաստաթղթերը:"
+                    }
                 },
 
                 guide: {

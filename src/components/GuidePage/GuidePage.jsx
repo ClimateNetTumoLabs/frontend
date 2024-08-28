@@ -1,30 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './GuidePage.module.css';
 import Contact from '../Contact/Contact.jsx';
 import Commands from '../Commands/Commands.jsx';
 import Videos from '../Videos/Videos.jsx';
 import Materials from '../Materials/Materials.jsx';
 import Tools from '../Tools/Tools.jsx';
-import BoM from '../BoM/BoM.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faScrewdriverWrench, faTerminal, faList, faUserGear } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from "react-i18next";
 
 const Guide = () => {
+  const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || null);
 
-  const [activeTab, setActiveTab] = useState(null);
+  useEffect(() => {
+    if (activeTab) {
+      localStorage.setItem('activeTab', activeTab);
+    } else {
+      localStorage.removeItem('activeTab');
+    }
+  }, [activeTab]);
 
   const handleTabClick = (tab) => {
-    setActiveTab(activeTab === tab ? null : tab); // Toggle visibility
+    setActiveTab(activeTab === tab ? null : tab);
   };
 
   return (
     <div className={styles.app}>
       <div className={styles.title}>
         <h1>
-          Build Your Own <br/><b>ClimateNet</b> Device!
+          {t('diy.title1')}<br/>
+          <b>{t('diy.title2')} </b>{t('diy.title3')}
         </h1>
       </div>
-
 
       <nav className={styles.navbar}>
         <div
@@ -32,58 +40,58 @@ const Guide = () => {
           onClick={() => handleTabClick('materials')}
         >
           <FontAwesomeIcon icon={faList} className={styles.icon} />
-          <p>Materials</p>
+          <p>{t('diy.tabs.mat')}</p>
         </div>
         <div
           className={`${styles.tab} ${activeTab === 'tools' ? styles.active : ''}`}
           onClick={() => handleTabClick('tools')}
         >
           <FontAwesomeIcon icon={faScrewdriverWrench} className={styles.icon} />
-          <p>Tools</p>
+          <p>{t('diy.tabs.tool')}</p>
         </div>
         <div
           className={`${styles.tab} ${activeTab === 'videos' ? styles.active : ''}`}
           onClick={() => handleTabClick('videos')}
         >
           <FontAwesomeIcon icon={faUserGear} className={styles.icon} />
-          <p>Assembly</p>
+          <p>{t('diy.tabs.asm')}</p>
         </div>
         <div
           className={`${styles.tab} ${activeTab === 'commands' ? styles.active : ''}`}
           onClick={() => handleTabClick('commands')}
         >
           <FontAwesomeIcon icon={faTerminal} className={styles.icon} />
-          <p>Setup Commands</p>
+          <p>{t('diy.tabs.setup')}</p>
         </div>
       </nav>
 
-     {!activeTab && (
+      {!activeTab && (
         <section id="introduction" className={styles.introduction}>
-            <h2>Ready to make an impact?<br/>
-            Whether you're a tech enthusiast, a climate activist, or just curious, this guide is for you.<br/>
-            Start now and make a difference!</h2>
-                <div className={styles.info}>
-                    <hr/>
-                  <p>Here are a few things you should know before you start:</p>
-                  <ul>
-                    <li>ClimateNet Devices are comprised of hardware and software elements </li>
-                    <li>We provide step-by-step instructions on how to build both components </li>
-                    <li>You do not need to know how to code, just how to copy and paste! </li>
-                    <li>The materials will cost you an average of $280 </li>
-                  </ul>
-                  <p>Ready to start? Just fill out the request access form, and we will send you step-by-step instructions.</p>
-                </div>
+          <h2>{t('diy.intro.1')}<br/>
+              {t('diy.intro.2')}<br/>
+              {t('diy.intro.3')}</h2>
+          <div className={styles.info}>
+            <hr/>
+            <p>{t('diy.info.title')}</p>
+            <ul>
+              <li>{t('diy.info.point1')}</li>
+              <li>{t('diy.info.point2')}</li>
+              <li>{t('diy.info.point3')}</li>
+              <li>{t('diy.info.point4')}</li>
+            </ul>
+            <p>{t('diy.info.end')}</p>
+          </div>
         </section>
       )}
 
       <div className={styles.content}>
-        {activeTab === 'materials' && <BoM />}
+        {activeTab === 'materials' && <Materials />}
         {activeTab === 'tools' && <Tools />}
         {activeTab === 'videos' && <Videos />}
         {activeTab === 'commands' && <Commands />}
       </div>
       <section id="request">
-        <Contact subject_state={false} className={styles.subTitles} name={"Request Access"} />
+        <Contact subject_state={false} className={styles.subTitles} name={t('contact.title2')} />
       </section>
     </div>
   );
