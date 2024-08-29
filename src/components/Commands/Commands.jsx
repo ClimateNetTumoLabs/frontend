@@ -76,34 +76,34 @@ function Commands() {
     <section id="git" className={styles.section}>
       <h2 className={styles.subTitles}>{t('diy.tabs.setuptitle')}</h2>
       <div className={styles.readmeStyle}>
-        <p>First, you need to download the Raspberry Pi Imager. Choose the version that matches your operating system:</p>
+        <p>{t('diy.commands.image')}</p>
         <div className={styles.downloadContainer}>
           <a href="/downloads/imager_1.8.5.exe" download className={styles.downloadButton}>
-              Download for Windows
+            {t('diy.commands.win')}
           </a>
           <a href="/downloads/imager_1.8.5.dmg" download className={styles.downloadButton}>
-              Download for macOS
+            {t('diy.commands.mac')}
           </a>
           <a href="/downloads/imager_1.8.5_amd64.deb" download className={styles.downloadButton}>
-              Download for Ubuntu
+            {t('diy.commands.ubun')}
           </a>
         </div>
-        <p>After downloading, Follow the on-screen instructions to complete the setup.<br/>
-            Put your SD card into the adapter and connect to your machine.<br/>
-            Open the RPI Imager and start configurations.
+        <p>{t('diy.commands.inst1')}<br/>
+           {t('diy.commands.inst2')}<br/>
+           {t('diy.commands.inst3')}
         </p>
-        <p>Important:</p>
+        <p>{t('diy.commands.important')}:</p>
         <ul>
-            <li><b>Choose Device:</b> Select the Raspberry Pi 3 as your device.</li>
-            <li><b>Choose Operating System:</b> Select <b>"Raspberry Pi OS (Legacy, 32-bit) Debian Bullseye"</b> from the available options in the Raspberry Pi Imager.</li>
-            <li><b>Choose Storage:</b> Select the SD card that you've inserted into the adapter.</li>
+            <li><b>Choose Device:</b>{t('diy.commands.imager.rpi')}</li>
+            <li><b>Choose Operating System:</b> Select<b> "Raspberry Pi OS (Legacy, 32-bit) Debian Bullseye"</b>{t('diy.commands.imager.rpi2')}</li>
+            <li><b>Choose Storage:</b>{t('diy.commands.imager.storage1')}</li>
         </ul>
         <ul>
-            <p>When prompted <b>"Would you like to apply OS custom settings?"</b> follow these steps:<br/>
-            Choose <b>"Edit Settings"</b>:</p>
-                <li><b>Username:</b> Set the username to raspberry.</li>
-                <li><b>Wireless LAN (Wi-Fi):</b> Enter your SSID and password to configure your Wi-Fi connection.</li>
-                <li><b>Services:</b> Enable the SSH connection by checking the corresponding box.</li>
+            <p>{t('diy.commands.imager.promt')}<b>"Would you like to apply OS custom settings?"</b>{t('diy.commands.imager.follow')}<br/>
+            {t('diy.commands.imager.choose')}<b> "Edit Settings"</b>:</p>
+                <li><b>Username:</b>{t('diy.commands.imager.username')}</li>
+                <li><b>Wireless LAN (Wi-Fi):</b>{t('diy.commands.imager.lan')}</li>
+                <li><b>Services:</b>{t('diy.commands.imager.services')}</li>
         </ul>
         <p>If you're facing difficulties, check out the <a className={styles.link} href="https://www.youtube.com/watch?v=ntaXWS8Lk34" target="_blank" rel="noreferrer">video</a>.<br/>
         Put SD card in Raspberry Pi, and wait for 5 minutes.<br/>

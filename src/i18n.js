@@ -218,6 +218,29 @@ const resources = {
                         point3: "You do not need to know how to code, just how to copy and paste!",
                         point4: "The materials will cost you an average of $280.",
                         end: "Ready to start? Just fill out the request access form, and we will send you all the necessary certificates via mail."
+                    },
+                    commands: {
+                        image: "First, you need to download the Raspberry Pi Imager. Choose the version that matches your operating system:",
+                        win: "Download for Windows",
+                        mac: "Download for MacOS",
+                        ubun: "Download for Ubuntu",
+                        inst1: "After downloading, Follow the on-screen instructions to complete the setup.",
+                        inst2: "Put your SD card into the adapter and connect to your machine.",
+                        inst3: "Open the RPI Imager and start configurations.",
+                        important: "Important",
+                        imager: {
+                            rpi: " Select the Raspberry Pi 3 as your device.",
+                            rpi1: " Select 'Raspberry Pi OS (Legacy, 32-bit) Debian Bullseye'",
+                            rpi2: " from the available options in the Raspberry Pi Imager.",
+                            storage1: " Select the SD card that you've inserted into the adapter.",
+                            promt: "When prompted ",
+                            settings: '"Would you like to apply OS custom settings?"',
+                            choose: "Choose",
+                            follow: " follow these steps:",
+                            username: ' Set the username to raspberry.',
+                            lan: " Enter your SSID and password to configure your Wi-Fi connection.",
+                            services: " Enable the SSH connection by checking the corresponding box."
+                        }
                     }
                 },
                 guide: {
