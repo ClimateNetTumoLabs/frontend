@@ -206,11 +206,24 @@ const resources = {
                         Hatsik: "Hatsik",
                         Ashotsk: "Ashotsk",
                         TUMO: "TUMO",
+                        Chambarak: "Chambarak",
+                        Artsvaberd: "Artsvaberd",
+                        Berd: "Berd",
+                        Azatamut: "Azatamut",
+                        Ijevan: "Ijevan",
+                        Stepanavan: "Stepanavan",
+                        Spitak: "Spitak",
+                        Areni: "Areni",
+                        Vayk: "Vayk",
+                        Jermuk: "Jermuk",
                     },
                     parentNames: {
                         Shirak: "Shirak",
                         Yerevan: "Yerevan",
-                        Gegharkunik: "Gegharkunik"
+                        Gegharkunik: "Gegharkunik",
+                        Tavush: "Tavush",
+                        Lori: "Lori",
+                        "Vayots Dzor": "Vayots Dzor",
                     }
                 },
                 header: {
@@ -511,11 +524,24 @@ const resources = {
                         Hatsik: "Հացիկ",
                         Ashotsk: "Աշոցք",
                         TUMO: "ԹՈՒՄՈ",
+                        Chambarak: "Ճամբարակ",
+                        Artsvaberd: "Արծվաբերդ",
+                        Berd: "Բերդ",
+                        Azatamut: "Ազատամուտ",
+                        Ijevan: "Իջևան",
+                        Stepanavan: "Ստեփանավան",
+                        Spitak: "Սպիտակ",
+                        Areni: "Արենի",
+                        Vayk: "Վայք",
+                        Jermuk: "Ջերմուկ",
                     },
                     parentNames: {
                         Gegharkunik: "Գեղարքունիք",
                         Shirak: "Շիրակ",
-                        Yerevan: "Երևան"
+                        Yerevan: "Երևան",
+                        Tavush: "Տավուշ",
+                        Lori: "Լոռի",
+                        "Vayots Dzor": "Վայոց ձոր",
                     }
                 },
                 header: {

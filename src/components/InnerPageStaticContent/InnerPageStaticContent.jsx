@@ -11,7 +11,7 @@ import  "../../i18n";
 
 const WeatherState = () => {
     return (
-        <img src={Device} alt="Device Image" className={styles.weatherStatusImage} />
+        <img src={Device} alt="Device" className={styles.weatherStatusImage} />
     )
 }
 
