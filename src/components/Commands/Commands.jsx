@@ -102,27 +102,28 @@ function Commands() {
             <p>{t('diy.commands.imager.promt')}<b>"Would you like to apply OS custom settings?"</b>{t('diy.commands.imager.follow')}<br/>
             {t('diy.commands.imager.choose')}<b> "Edit Settings"</b>:</p>
                 <li><b>Username:</b>{t('diy.commands.imager.username')}</li>
+                <li><b>Password:</b>{t('diy.commands.imager.password')}</li>
                 <li><b>Wireless LAN (Wi-Fi):</b>{t('diy.commands.imager.lan')}</li>
                 <li><b>Services:</b>{t('diy.commands.imager.services')}</li>
         </ul>
-        <p>If you're facing difficulties, check out the <a className={styles.link} href="https://www.youtube.com/watch?v=ntaXWS8Lk34" target="_blank" rel="noreferrer">video</a>.<br/>
-        Put SD card in Raspberry Pi, and wait for 5 minutes.<br/>
-        Make sure you are connected to the same network that you configured in the Imager.<br/>
-        After that, let's find your Raspberry Pi's IP address using a network scanning tool <code>arp-scan</code>.
+        <p>{t('diy.commands.imager.difficult')} <a className={styles.link} href="https://www.youtube.com/watch?v=ntaXWS8Lk34" target="_blank" rel="noreferrer">video</a>.<br/>
+        {t('diy.commands.imager.wait')}<br/>
+        {t('diy.commands.imager.local')}<br/>
+        {t('diy.commands.imager.network')}<code>arp-scan</code>.
         </p>
 
         <div className={styles.network}>
-            <p>Installing arp-scan on:</p>
+            <p>{t('diy.commands.install')}</p>
             <ol>
             <li><b>Linux:</b></li>
             <ul>
-              <li>Debian/Ubuntu-based systems:
+              <li>Debian/Ubuntu-based {t('diy.commands.system')}:
                 <CodeBlock
                   id="debian-arp-scan"
                   code={`sudo apt update\nsudo apt install arp-scan`}
                 />
               </li>
-              <li>Red Hat/CentOS-based systems:
+              <li>Red Hat/CentOS-based {t('diy.commands.system')}:
                 <CodeBlock
                   id="redhat-arp-scan"
                   code="sudo yum install arp-scan"
@@ -138,7 +139,7 @@ function Commands() {
 
           <li>
             <p><b>MacOS:</b></p>
-            <p>If you don't have brew installed, check out <a className={styles.link} href="https://brew.sh/">Homebrew</a>.</p>
+            <p>{t('diy.commands.brew')}<a className={styles.link} href="https://brew.sh/">Homebrew</a>.</p>
             <CodeBlock
               id="macos-arp-scan"
               code="brew install arp-scan"
@@ -146,25 +147,31 @@ function Commands() {
           </li>
           </ol>
           <hr></hr>
-          <p>After the installation, run:</p>
+          <p>{t('diy.commands.after_install')}</p>
             <CodeBlock
               id="run-macos-arp-scan"
               code="sudo arp-scan --localnet"
             />
-            <p>If you found your Raspberry Pi in your local network, copy the IP address and run the command:</p>
+
+            <p>{t('diy.commands.appear')}
+                <CodeBlock
+                code="<IP address>	<MAC address>	Raspberry Pi Foundation"
+            />
+            <p className={styles.wrong}>{t('diy.commands.wrong')}</p>
+                {t('diy.commands.correct')}</p>
             <CodeBlock
               id="ssh-command"
               code="ssh raspberry@<IP>"
             />
 
-        <p>Congratulations, now you are connected to Raspberry Pi. It's time to set up the app.</p>
+        <p>{t('diy.commands.congratulations')}</p>
         </div>
 
         <div className={styles.setup}>
-        <h2>Setting up the App</h2>
+        <h2>{t('diy.commands.setup')}</h2>
         <ol start="1">
           <li>
-            <p>Install vim on your Raspberry Pi</p>
+            <p>{t('diy.commands.app.vim')}</p>
             <CodeBlock
               id="install-vim"
               code={`sudo apt update\nsudo apt install vim`}
@@ -172,12 +179,12 @@ function Commands() {
           </li>
 
           <li>
-            <p>Edit the <b>/boot/config.txt</b> file:</p>
+            <p>{t('diy.commands.app.edit')}<b>/boot/config.txt</b> {t('diy.commands.app.file')}</p>
             <CodeBlock
               id="edit-config"
               code="sudo vim /boot/config.txt"
             />
-            <p>Add the following line at the end of the file:</p>
+            <p>{t('diy.commands.app.line')}</p>
             <CodeBlock
               id="add-config-line"
               code="dtoverlay=pi3-miniuart-bt"
@@ -185,21 +192,21 @@ function Commands() {
           </li>
 
           <li>
-            <p>Enable the serial port:</p>
+            <p>{t('diy.commands.app.port')}</p>
             <CodeBlock
               id="raspi-config"
               code="sudo raspi-config"
             />
-            <p>Navigate to <b>Interface Options</b>, then <b>Serial Port</b>. Configure the settings as follows:</p>
+            <p>{t('diy.commands.app.navigate')}<b>Interface Options</b>, {t('diy.commands.app.then')} <b>Serial Port</b>. {t('diy.commands.app.settings')}</p>
             <ul>
-              <li>When prompted "Would you like a login shell to be accessible over serial?", select <b>No</b>.</li>
-              <li>When prompted "Would you like the serial port hardware to be enabled?", select <b>Yes</b>.</li>
-              <li>Select OK and Finish. <b>Do not</b> reboot at this stage.</li>
+              <li>{t('diy.commands.app.promt')} "Would you like a login shell to be accessible over serial?", {t('diy.commands.app.select')} <b>No</b>.</li>
+              <li>{t('diy.commands.app.promt')} "Would you like the serial port hardware to be enabled?", {t('diy.commands.app.select')} <b>Yes</b>.</li>
+              <li>{t('diy.commands.app.select')} OK and Finish. <b>{t('diy.commands.app.dont')}</b> reboot {t('diy.commands.app.stage')}</li>
             </ul>
           </li>
 
           <li>
-            <p>Create a workspace directory:</p>
+            <p>{t('diy.commands.app.workspace')}</p>
             <CodeBlock
               id="workspace-directory"
               code={`mkdir /home/raspberry/workspace\ncd /home/raspberry/workspace`}
@@ -207,7 +214,7 @@ function Commands() {
           </li>
 
           <li>
-            <p>Clone the repository:</p>
+            <p>{t('diy.commands.app.clone')}</p>
             <CodeBlock
               id="git-clone"
               code={`git clone https://github.com/ClimateNetTumoLabs/raspberry_soft.git\ncd raspberry_soft/app`}
@@ -215,7 +222,10 @@ function Commands() {
           </li>
 
           <li>
-            <p>Configure the environment variables: Copy .env_template to .env and update the values, including the <b>DEVICE_ID</b> and <b>MQTT_BROKER_ENDPOINT</b></p>
+            <p>{t('diy.commands.app.env')} .env_template to .env {t('diy.commands.app.update')} <b>DEVICE_ID</b> and <b>MQTT_BROKER_ENDPOINT</b>.<br/>
+            {t('diy.commands.app.message')} <a className={styles.link}href="#request">{t('contact.title2')}</a>, {t('diy.commands.app.form')}<br/></p>
+            <p className={styles.wrong}>{t('diy.commands.app.id')} </p>
+
             <CodeBlock
               id="env-config"
               code={`cp .env_template .env\nvim .env`}
@@ -223,7 +233,7 @@ function Commands() {
           </li>
 
           <li>
-            <p>Add your WiFi credentials: Update the <b>SSID</b> and <b>password</b> in inet_check_connect.py.</p>
+            <p>{t('diy.commands.app.wifi')} <b>SSID</b> and <b>password</b> in inet_check_connect.py.</p>
             <CodeBlock
               id="inet-check-connect"
               code={`cd ../ServiceFiles/InternetCheckConnect/\nvim inet_check_connect.py`}
@@ -231,8 +241,8 @@ function Commands() {
           </li>
 
           <li>
-            <p>Copy the AWS IoT Core certificates: Copy the certificate files (certificate.pem.crt, private.pem.key, public.pem.key, rootCA.pem) from your local machine into the <b>/home/raspberry/workspace/raspberry_soft/app/data/certificates/</b> directory:</p>
-            <p>If you do not have certificates, navigate to <a className={styles.link} href="#request">Request Access</a>, fill the form, and we will send you the certificates.</p>
+            <p>{t('diy.commands.app.certificates')} (certificate.pem.crt, private.pem.key, public.pem.key, rootCA.pem) {t('diy.commands.app.machine')}<b>/home/raspberry/workspace/raspberry_soft/app/data/certificates/</b> {t('diy.commands.app.directory')}</p>
+            <p>{t('diy.commands.app.include')}</p>
             <CodeBlock
               id="certificates"
               code="scp -r &lt;folder_path&gt;/certificates/ &lt;username&gt;@&lt;IP&gt;:/home/raspberry/workspace/raspberry_soft/app/data/"
@@ -240,7 +250,7 @@ function Commands() {
           </li>
 
           <li>
-            <p>Run the installation script: Ensure you are not connected via SSH, and run the installation script with sudo:</p>
+            <p>{t('diy.commands.app.script')}</p>
             <CodeBlock
               id="install"
               code={`cd /home/raspberry/workspace/raspberry_soft/\nchmod +x install.sh\nsudo ./install.sh`}
@@ -248,7 +258,7 @@ function Commands() {
           </li>
 
           <li>
-            <p>Reboot the system:</p>
+            <p>Reboot {t('diy.commands.app.system')}</p>
             <CodeBlock
               id="reboot"
               code="sudo reboot"
@@ -256,15 +266,16 @@ function Commands() {
           </li>
 
           <li>
-            <p>Test the functionality of the device: Activate the virtual environment and run the testing script to ensure everything is working correctly:</p>
+            <p>{t('diy.commands.app.test')} <a className={styles.link} href="#video">video</a>.<br/>
+            {t('diy.commands.app.venv')}</p>
             <CodeBlock
               id="test"
-              code={`source /home/raspberry/workspace/raspberry_soft/venv/bin/activate\npython testing.py`}
+              code={`cd /home/raspberry/workspace/raspberry_soft/app/\nsource venv/bin/activate\npython testing.py`}
             />
           </li>
 
           <li>
-            <p>Start the main program: Enable and start the <b>ProgramAutoRun</b> service, which will run continuously and start automatically on boot:</p>
+            <p>{t('diy.commands.app.program')}<b>ProgramAutoRun</b> service,{t('diy.commands.app.automate')}</p>
             <CodeBlock
               id="program"
               code={`sudo systemctl enable ProgramAutoRun.service\nsudo systemctl start ProgramAutoRun.service`}

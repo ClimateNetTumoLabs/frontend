@@ -1,7 +1,7 @@
 .bomContainer {
   max-width: 1100px;
   margin: 0 auto;
-  padding-top: 20px;
+  padding: 20px;
 }
 
 .title {
@@ -57,9 +57,6 @@
 }
 
 @media (max-width: 768px) {
-  .bomContainer {
-    padding: 20px;
-  }
   .title {
     font-size: 1.6rem;
   }

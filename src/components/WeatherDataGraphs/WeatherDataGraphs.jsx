@@ -141,7 +141,7 @@ const WeatherDataGraphs = (props) => {
                                 }                                
                             },
                             {
-                                icon: `<div class="custom-icon">${t("filterTooltips.sevenD")}</div>`,
+                                icon: `<div class="custom-icon">${t("filterTooltips.oneW")}</div>`,
                                 index: -19,
                                 title: 'Filter',
                                 class: 'custom-icon-button',

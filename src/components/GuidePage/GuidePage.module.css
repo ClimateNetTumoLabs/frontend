@@ -73,7 +73,7 @@
 .introduction {
   margin: 0 auto;
   max-width: 1100px;
-  margin-top: 20px;
+  padding: 20px;
 }
 
 .introduction h2 {
@@ -118,9 +118,6 @@ hr {
   .tab {
     font-size: 0.8rem;
     padding: 8px 12px;
-  }
-  .introduction {
-    padding: 0 20px;
   }
   .introduction h2 {
     font-size: 1rem;

@@ -41,7 +41,7 @@ const resources = {
                     pm10: "These particles are larger and less likely to be inhaled deeply.",
                     pm10_2: "However, they can still irritate the eyes, nose, and throat.",
                     pm10_3: "Long-term exposure to PM10 can also lead to respiratory problems and heart disease.",
-                    pmDanger: "PM Sensor Danger Values",
+                    pmDanger: "PM Particle Danger Levels",
                     pmTh1: "Pollutant",
                     pmTh2: "Good",
                     pmTh3: "Moderate",
@@ -216,8 +216,8 @@ const resources = {
                         point1: "ClimateNet Devices are comprised of hardware and software elements.",
                         point2: "We provide step-by-step instructions on how to build both components.",
                         point3: "You do not need to know how to code, just how to copy and paste!",
-                        point4: "The materials will cost you an average of $280.",
-                        end: "Ready to start? Just fill out the request access form, and we will send you all the necessary certificates via mail."
+                        point4: "The materials will cost you an average from $130 to $280.",
+                        end: "Ready to start? Just fill out the Request Access form, and we will send you all the necessary certificates via mail."
                     },
                     commands: {
                         image: "First, you need to download the Raspberry Pi Imager. Choose the version that matches your operating system:",
@@ -238,8 +238,55 @@ const resources = {
                             choose: "Choose",
                             follow: " follow these steps:",
                             username: ' Set the username to raspberry.',
+                            password: " Not required, but setting it will be secure.",
                             lan: " Enter your SSID and password to configure your Wi-Fi connection.",
-                            services: " Enable the SSH connection by checking the corresponding box."
+                            services: " Enable the SSH connection by checking the corresponding box.",
+                            difficult: "If you're facing difficulties, check out the",
+                            wait: "Put SD card in Raspberry Pi, and wait for 5 minutes.",
+                            local: "Make sure you are connected to the same network that you configured in the Imager.",
+                            network: " After that, let's find your Raspberry Pi's IP address using a network scanning tool ",
+
+                        },
+                        install: "Installing arp-scan on:",
+                        system: "systems",
+                        brew: "If you don't have brew installed, check out ",
+                        after_install: "After the installation, run:",
+                        appear: "Your Raspberry Pi will appear in this format",
+                        wrong: "If you haven't found your Raspberry Pi in your local network, reconfigure the Imager settings and double-check that you've entered the SSID and password correctly.",
+                        correct: "But if you have, copy the IP address and run the command:",
+                        congratulations: "Congratulations, now you are connected to Raspberry Pi. It's time to set up the app.",
+                        setup: "Setting up the App",
+                        app: {
+                            vim: "Install vim on your Raspberry Pi",
+                            edit: "Edit the ",
+                            file: "file:",
+                            line: "Add the following line at the end of the file:",
+                            port: "Enable the serial port:",
+                            navigate: "Navigate to ",
+                            then: "then",
+                            settings: " Configure the settings as follows:",
+                            promt: "When prompted",
+                            select: "Select",
+                            dont: "Do not",
+                            stage: "at this stage.",
+                            workspace: "Create a workspace directory:",
+                            clone: "Clone the repository:",
+                            env: "Configure the environment variables: Copy",
+                            update: "and update the values, including the",
+                            message: "If you don't have the MQTT_BROKER_ENDPOINT or are unsure about the DEVICE_ID, go to the",
+                            form: "and we will provide them.",
+                            id: "Important: Do not change the DEVICE_ID; use the one we send you.",
+                            wifi: "Add your WiFi credentials: Update the ",
+                            certificates: "Copy the AWS IoT Core certificates: Copy the certificate files",
+                            machine: "from your local machine into the ",
+                            directory: "directory:",
+                            include: "We included the certificates in the same message as the DEVICE_ID and MQTT_BROKER_ENDPOINT.",
+                            script: "Run the installation script with sudo:",
+                            system: "the system.",
+                            test: "Test the functionality of the device: Put all the components together provided in the ",
+                            venv: "Activate the virtual environment and run the testing script to ensure everything is working correctly:",
+                            program: "Start the main program: Enable and start the ",
+                            automate: " which will run continuously and start automatically on boot:",
                         }
                     }
                 },
@@ -363,10 +410,10 @@ const resources = {
                     temperature: "Temperature",
                     humidity: "Humidity",
                     pressure: "Pressure",
-                    rain: "Rain",
+                    rain: "Rainfall Quantity",
                     windSpeed: "Wind Speed",
                     windDirection: "Wind Direction",
-                    light_uv : "Uv index",
+                    light_uv : "UV index",
                     light_intensity : "Light intensity"
                 },
                 innerPageFilter: {
@@ -403,7 +450,7 @@ const resources = {
                     to: "to",
                     from: "from",
                     oneM: "1 Month",
-                    sevenD: "7 Days",
+                    oneW: "1 Week",
                     oneD: "1 Day"
                 },
             },
@@ -446,7 +493,7 @@ const resources = {
                     pm10: "Այս մասնիկները ավելի մեծ են և ավելի քիչ հավանական է, որ խորը ներշնչվեն:",
                     pm10_2: "Սակայն նրանք դեռ կարող են գրգռել աչքերը, քիթը և կոկորդը:",
                     pm10_3: "PM10-ի երկարատև ազդեցությունը կարող է նաև հանգեցնել շնչառական խնդիրների և սրտի հիվանդության:",
-                    pmDanger: "PM սենսորի վտանգներ",
+                    pmDanger: "PM մասնիկների վտանգավորության մակարդակներ",
                     pmTh1: "Աղտոտիչ",
                     pmTh2: "Լավ",
                     pmTh3: "Չափավոր",
@@ -621,8 +668,8 @@ const resources = {
                         point1: "Climate Net սարքերը բաղկացած են hardware և software բաղադրիչներից։",
                         point2: "Մենք տրամադրում ենք քայլ առ քայլ հրահանգներ երկու բաղադրիչների հավաքման համար։",
                         point3: "Ձեզ հարկավոր չէ իմանալ, թե ինչպես ծրագրավորել, պարզապես ինչպես պատճենել և տեղադրել:",
-                        point4: "Նյութերի արժեքը կկազմի միջինը 280 ԱՄՆ դոլար։",
-                        end: "Պատրա՞ստ եք սկսել: Պարզապես լրացրեք մուտքի հարցման ձևաչափը, և մենք էլեկտրոնային հասցեի միջոցով ձեզ կուղարկենք անհրաժեշտ փաստաթղթերը:"
+                        point4: "Նյութերի արժեքը միջինում կկազմի 130-ից 280 ԱՄՆ դոլար։",
+                        end: "Պատրա՞ստ եք սկսել: Պարզապես լրացրեք Մուտքի հարցման ձևաչափը, և մենք էլեկտրոնային հասցեի միջոցով ձեզ կուղարկենք անհրաժեշտ փաստաթղթերը:"
                     }
                 },
 
@@ -744,16 +791,16 @@ const resources = {
                     temperature: "Ջերմաստիճան",
                     humidity: "Խոնավություն",
                     pressure: "Ճնշում",
-                    rain: "Անձրև",
+                    rain: "Անձրևի քանակ",
                     windSpeed: "Քամու արագություն",
                     windDirection: "Քամու ուղղություն",
-                    light_uv : "Uv ինդեքս",
+                    light_uv : "UV ինդեքս",
                     light_intensity : "Լույսի ինտենսիվություն"
                 },
                 innerPageFilter: {
                     options: {
                         hourly: "Ժամային",
-                        daily: "7 Օր",
+                        daily: "1 շաբաթ",
                         monthly: "Ընթացիկ ամիս",
                         range: "Միջակայք",
                         filter: "Ֆիլտր"
@@ -784,7 +831,7 @@ const resources = {
                     to: "ավարտ",
                     from: "սկիզբ",
                     oneM: "1 ամիս",
-                    sevenD: "7 օր",
+                    sevenD: "1 շաբաթ",
                     oneD: "1 օր"
                 },
             },
