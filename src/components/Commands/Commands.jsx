@@ -95,7 +95,7 @@ function Commands() {
         <p>{t('diy.commands.important')}:</p>
         <ul>
             <li><b>Choose Device:</b>{t('diy.commands.imager.rpi')}</li>
-            <li><b>Choose Operating System:</b> Select<b> "Raspberry Pi OS (Legacy, 32-bit) Debian Bullseye"</b>{t('diy.commands.imager.rpi2')}</li>
+            <li><b>Choose Operating System:</b> {t('diy.commands.app.select')}<b> "Raspberry Pi OS (Legacy, 32-bit) Debian Bullseye"</b>{t('diy.commands.imager.rpi2')}</li>
             <li><b>Choose Storage:</b>{t('diy.commands.imager.storage1')}</li>
         </ul>
         <ul>
@@ -106,7 +106,7 @@ function Commands() {
                 <li><b>Wireless LAN (Wi-Fi):</b>{t('diy.commands.imager.lan')}</li>
                 <li><b>Services:</b>{t('diy.commands.imager.services')}</li>
         </ul>
-        <p>{t('diy.commands.imager.difficult')} <a className={styles.link} href="https://www.youtube.com/watch?v=ntaXWS8Lk34" target="_blank" rel="noreferrer">video</a>.<br/>
+        <p>{t('diy.commands.imager.difficult')} <a className={styles.link} href="https://www.youtube.com/watch?v=ntaXWS8Lk34" target="_blank" rel="noreferrer">{t('diy.commands.imager.video')}</a>.<br/>
         {t('diy.commands.imager.wait')}<br/>
         {t('diy.commands.imager.local')}<br/>
         {t('diy.commands.imager.network')}<code>arp-scan</code>.
@@ -222,7 +222,7 @@ function Commands() {
           </li>
 
           <li>
-            <p>{t('diy.commands.app.env')} .env_template to .env {t('diy.commands.app.update')} <b>DEVICE_ID</b> and <b>MQTT_BROKER_ENDPOINT</b>.<br/>
+            <p>{t('diy.commands.app.env')} <b>DEVICE_ID</b> {t('diy.commands.app.and')} <b>MQTT_BROKER_ENDPOINT</b>.<br/>
             {t('diy.commands.app.message')} <a className={styles.link}href="#request">{t('contact.title2')}</a>, {t('diy.commands.app.form')}<br/></p>
             <p className={styles.wrong}>{t('diy.commands.app.id')} </p>
 
@@ -233,7 +233,7 @@ function Commands() {
           </li>
 
           <li>
-            <p>{t('diy.commands.app.wifi')} <b>SSID</b> and <b>password</b> in inet_check_connect.py.</p>
+            <p>{t('diy.commands.app.wifi')} <b>SSID</b> {t('diy.commands.app.and')} <b>password</b> in inet_check_connect.py.</p>
             <CodeBlock
               id="inet-check-connect"
               code={`cd ../ServiceFiles/InternetCheckConnect/\nvim inet_check_connect.py`}
@@ -245,7 +245,7 @@ function Commands() {
             <p>{t('diy.commands.app.include')}</p>
             <CodeBlock
               id="certificates"
-              code="scp -r &lt;folder_path&gt;/certificates/ &lt;username&gt;@&lt;IP&gt;:/home/raspberry/workspace/raspberry_soft/app/data/"
+              code="scp -r <folder_path>/certificates/ <username>@<IP>:/home/raspberry/workspace/raspberry_soft/app/data/"
             />
           </li>
 
@@ -275,7 +275,7 @@ function Commands() {
           </li>
 
           <li>
-            <p>{t('diy.commands.app.program')}<b>ProgramAutoRun</b> service,{t('diy.commands.app.automate')}</p>
+            <p>{t('diy.commands.app.program')}<b>ProgramAutoRun.service</b>,{t('diy.commands.app.automate')}</p>
             <CodeBlock
               id="program"
               code={`sudo systemctl enable ProgramAutoRun.service\nsudo systemctl start ProgramAutoRun.service`}

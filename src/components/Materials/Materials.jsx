@@ -255,31 +255,31 @@ const Materials = () => {
         <table className={styles.table}>
           <thead>
             <tr>
-            <th>Item</th>
-              <th>Quantity</th>
-              <th>Info/Comment</th>
-              <th>Amazon Link</th>
-              <th>Cost</th>
-              <th>AliExpress Link</th>
-              <th>Cost</th>
-              <th>Image</th>
+            <th>{t('diy.tools.item')}</th>
+              <th>{t('diy.materials.qnt')}</th>
+              <th>{t('diy.materials.info')}</th>
+              <th>{t('diy.materials.amz')}</th>
+              <th>{t('diy.materials.cost')}</th>
+              <th>{t('diy.materials.aliex')}</th>
+              <th>{t('diy.materials.cost')}</th>
+              <th>{t('diy.tools.image')}</th>
             </tr>
           </thead>
           <tbody>
             {materials.map((material, index) => (
               <tr key={index}>
-                <td data-label="Item">{material.name}</td>
-                <td data-label="Quantity">{material.quantity}</td>
-                <td data-label="Info/Comment">{material.description}</td>
-                <td data-label="Amazon Link">
+                <td data-label={t('diy.tools.item')}>{material.name}</td>
+                <td data-label={t('diy.materials.qnt')}>{material.quantity}</td>
+                <td data-label={t('diy.materials.info')}>{material.description}</td>
+                <td data-label={t('diy.materials.amz')}>
                 {material.amazon ? (
                     <a href={material.amazon} target="_blank" rel="noopener noreferrer">Amazon</a>
                   ) : (
                     ''
                   )}
                 </td>
-                <td data-label="Cost">{material.costamazon || ''}</td>
-                <td data-label="AliExpress Link">
+                <td data-label={t('diy.materials.cost')}>{material.costamazon || ''}</td>
+                <td data-label={t('diy.materials.aliex')}>
                   {Array.isArray(material.aliexpress) && material.aliexpress.length > 0 ? (
                     material.aliexpress.map((link, i) => (
                       <a key={i} href={link} target="_blank" rel="noopener noreferrer">
@@ -294,8 +294,8 @@ const Materials = () => {
                     ''
                   )}
                 </td>
-                <td data-label="Cost">{material.costaliexpress || ''}</td>
-                <td data-label="Image"><img src={material.image} alt={material.name} className={styles.image} /></td>
+                <td data-label={t('diy.materials.cost')}>{material.costaliexpress || ''}</td>
+                <td data-label={t('diy.tools.item')}><img src={material.image} alt={material.name} className={styles.image} /></td>
               </tr>
             ))}
           </tbody>

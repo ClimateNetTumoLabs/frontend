@@ -17,95 +17,95 @@ const Tools = () => {
 
   const tools = [
   {
-    name: 'Drill Driver',
+    name: t('diy.tools.1'),
     image: getImage('shurupovert.jpg'),
   },
   {
-    name: 'Double Sided Tape',
+    name: t('diy.tools.2'),
     image: getImage('skotch.jpg')
   },
   {
-    name: 'Bits (Step Drill Bit, Ph2 Bit, GP0205-850 Bit)',
+    name: t('diy.tools.3'),
     image: getImage('nasadki.png'),
   },
   {
-    name: 'Soldering Iron',
+    name: t('diy.tools.4'),
     image: getImage('payalnik.png')
   },
   {
-    name: 'LAN Cable maker and wire stripper',
+    name: t('diy.tools.5'),
     image: getImage('lanmaker.png'),
   },
   {
-    name: 'Tape Measure',
+    name: t('diy.tools.6'),
     image: getImage('metr.jpg')
   },
   {
-    name: 'Scissors',
+    name: t('diy.tools.7'),
     image: getImage('scissors.jpeg'),
   },
   {
-    name: 'Soldering Heat Gun',
+    name: t('diy.tools.8'),
     image: getImage('fen.jpg')
   },
   {
-    name: 'Stranded Wires(Red, Black, Green, Yellow)',
+    name: t('diy.tools.9'),
     image: getImage('provoda.png'),
   },
   {
-    name: 'Wire Cutter',
+    name: t('diy.tools.10'),
     image: getImage('cutter.png')
   },
   {
-    name: 'Dupont Jumper Wire Cable Housing Male Pin(4 psc.) and Dupont connector (1x4)',
+    name: t('diy.tools.11'),
     image: getImage('father.png'),
   },
   {
-    name: 'Pliers',
+    name: t('diy.tools.12'),
     image: getImage('gubci.jpg')
   },
   {
-    name: 'Rosin for Soldering',
+    name: t('diy.tools.13'),
     image: getImage('rosin.jpeg'),
   },
   {
-    name: 'Plastic Spacer',
+    name: t('diy.tools.14'),
     image: getImage('spacer.png')
   },
   {
-    name: 'Alcohol for Degreasing',
+    name: t('diy.tools.15'),
     image: getImage('spirt.jpg'),
   },
   {
-    name: 'Board Cleaning Brush, Any brush will work',
+    name: t('diy.tools.16'),
     image: getImage('brush.jpeg')
   },
   {
-    name: 'Compass',
+    name: t('diy.tools.17'),
     image: getImage('compass.png')
   },
   {
-    name: 'Tweezers',
+    name: t('diy.tools.18'),
     image: getImage('pincet.png'),
   },
   {
-    name: 'Aquarium Silicone',
+    name: t('diy.tools.19'),
     image: getImage('silicone.jpg')
   },
   {
-    name: 'Tester',
+    name: t('diy.tools.20'),
     image: getImage('tester.jpg'),
   },
   {
-    name: 'Philips screwdriver',
+    name: t('diy.tools.21'),
     image: getImage('screwdriver.jpeg')
   },
   {
-    name: 'Solder Wire',
+    name: t('diy.tools.22'),
     image: getImage('solder wire.jpeg'),
   },
   {
-    name: 'Acrylic varnish for circuit boards',
+    name: t('diy.tools.23'),
     image: getImage('laq.jpeg')
   },
   ];
@@ -118,15 +118,15 @@ const Tools = () => {
         <table className={styles.table}>
           <thead>
             <tr>
-            <th>Item</th>
-            <th>Image</th>
+            <th>{t('diy.tools.item')}</th>
+            <th>{t('diy.tools.image')}</th>
             </tr>
           </thead>
           <tbody>
             {tools.map((tools, index) => (
               <tr key={index}>
-                <td data-label="Item">{tools.name}</td>
-                <td data-label="Image"><img src={tools.image} alt={tools.name} className={styles.image} /></td>
+                <td data-label={t('diy.tools.item')}>{tools.name}</td>
+                <td data-label={t('diy.tools.image')}><img src={tools.image} alt={tools.name} className={styles.image} /></td>
               </tr>
             ))}
           </tbody>
