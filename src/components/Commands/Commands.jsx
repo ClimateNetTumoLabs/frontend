@@ -18,7 +18,6 @@ function Commands() {
     const codeText = codeElement.innerText;
   
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      // Modern API supported
       navigator.clipboard.writeText(codeText).then(() => {
         setCopiedStates(prev => ({ ...prev, [id]: true }));
         setTimeout(() => {

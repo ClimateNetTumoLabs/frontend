@@ -247,7 +247,7 @@ const Materials = () => {
   ];
 
   return (
-    <div className={styles.bomContainer}>
+    <div id="materials" className={styles.bomContainer}>
       <h2 className={styles.title}>{t('diy.tabs.mattitle')}</h2>
 
       <div className={styles.section}>
@@ -257,9 +257,9 @@ const Materials = () => {
             <th>{t('diy.tools.item')}</th>
               <th>{t('diy.materials.qnt')}</th>
               <th>{t('diy.materials.info')}</th>
-              <th>{t('diy.materials.amz')}</th>
+              <th>Amazon</th>
               <th>{t('diy.materials.cost')}</th>
-              <th>{t('diy.materials.aliex')}</th>
+              <th>AliExpress</th>
               <th>{t('diy.materials.cost')}</th>
               <th>{t('diy.tools.image')}</th>
             </tr>
@@ -270,7 +270,7 @@ const Materials = () => {
                 <td data-label={t('diy.tools.item')}>{material.name}</td>
                 <td data-label={t('diy.materials.qnt')}>{material.quantity}</td>
                 <td className={styles.info} data-label={t('diy.materials.info')}>{material.description}</td>
-                <td data-label={t('diy.materials.amz')}>
+                <td data-label="Amazon">
                 {material.amazon ? (
                     <a href={material.amazon} target="_blank" rel="noopener noreferrer">Amazon</a>
                   ) : (
@@ -278,7 +278,7 @@ const Materials = () => {
                   )}
                 </td>
                 <td data-label={t('diy.materials.cost')}>{material.costamazon || ''}</td>
-                <td data-label={t('diy.materials.aliex')}>
+                <td data-label="AliExpress">
                   {Array.isArray(material.aliexpress) && material.aliexpress.length > 0 ? (
                     material.aliexpress.map((link, i) => (
                       <a key={i} href={link} target="_blank" rel="noopener noreferrer">

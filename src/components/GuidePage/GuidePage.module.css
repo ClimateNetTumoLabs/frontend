@@ -166,7 +166,8 @@ hr {
   }
 
   .tab:hover p{
-    color: #df7788; /* Change to a lighter shade on hover */
+    color: #df7788;
+    cursor: pointer;
   }
 
   .tab.active p{
