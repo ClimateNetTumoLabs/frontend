@@ -69,6 +69,7 @@ h2 {
 }
 
 .copy {
+  padding: 10px;
   cursor: pointer;
 }
 
@@ -113,6 +114,10 @@ h2 {
 
 .wrong{
   color: red;
+}
+
+.code{
+  cursor: text;
 }
 @media (max-width: 768px) {
   .downloadContainer {

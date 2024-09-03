@@ -51,7 +51,7 @@ function Commands() {
   
     return (
       <pre>
-        <code>{code}</code>
+        <code className={styles.code}>{code}</code>
         <span className={styles.copyContainer}>
           {copiedStates[id] ? (
             isMobile ? (
@@ -60,11 +60,12 @@ function Commands() {
               <p className={styles.copiedText}>Copied!</p>
             )
           ) : (
-            <FontAwesomeIcon
-              className={styles.copy}
-              icon={faCopy}
-              onClick={(e) => copyCode(e, id)}
-            />
+            <div className={styles.copy}>
+                <FontAwesomeIcon
+                  icon={faCopy}
+                  onClick={(e) => copyCode(e, id)}
+                />
+            </div>
           )}
         </span>
       </pre>
@@ -72,7 +73,7 @@ function Commands() {
   };
 
   return (
-    <section id="git" className={styles.section}>
+    <section id="commands" className={styles.section}>
       <h2 className={styles.subTitles}>{t('diy.tabs.setuptitle')}</h2>
       <div className={styles.readmeStyle}>
         <p>{t('diy.commands.image')}</p>

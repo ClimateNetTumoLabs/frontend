@@ -113,7 +113,7 @@ const resources = {
                     api_info_done: "Happy coding!"
                 },
                 banner: {
-                    title: 'Climate Network: Connecting Armenia through a growing network of real-time climate data.',
+                    title: 'Climate Net: Connecting Armenia through a growing network of real-time climate data.',
                     text: {
                         1: 'Monitor climate changes in real-time.',
                         2: 'Accurate temperature and humidity measurements.',

@@ -61,13 +61,15 @@
   border-radius: 5px; /* Make the tab circular */
 }
 
-.tab.active p {
+.tab.active a {
   display: inline;
 }
 
-.tab p {
+.tab a {
   font-size: 0.8rem;
   margin-bottom: 0;
+  text-decoration: none;
+  color: white;
 }
 
 .introduction {
@@ -99,7 +101,7 @@
   line-height: 1.2;
 }
 
-.info p {
+.info a {
   margin-top: 20px;
   font-size: 1.1rem;
 }
@@ -145,11 +147,11 @@ hr {
     transform: scale(1);
   }
 
-  .tab p {
+  .tab a {
     display: none;
   }
 
-  .tab.active p {
+  .tab.active a {
     display: inline;
     margin-left: 5px;
   }
@@ -160,17 +162,17 @@ hr {
     display: none;
   }
 
-  .tab p {
+  .tab a {
     display: inline-block;
     font-size: 1rem;
   }
 
-  .tab:hover p{
+  .tab:hover a{
     color: #df7788;
     cursor: pointer;
   }
 
-  .tab.active p{
+  .tab.active a{
     color: #df7788; /* Active tab background */
   }
 }
