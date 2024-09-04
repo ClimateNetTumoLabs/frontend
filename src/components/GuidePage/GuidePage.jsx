@@ -36,28 +36,28 @@ const Guide = () => {
 
       <nav className={styles.navbar}>
         <div
-          className={`${styles.tab} ${activeTab === 'materials' ? styles.active : ''}`}
+          className={`col-3 ${styles.tab} ${activeTab === 'materials' ? styles.active : ''}`}
           onClick={() => handleTabClick('materials')}
         >
           <FontAwesomeIcon icon={faList} className={styles.icon} />
           <a href="#materials">{t('diy.tabs.mat')}</a>
         </div>
         <div
-          className={`${styles.tab} ${activeTab === 'tools' ? styles.active : ''}`}
+          className={`col-3 ${styles.tab} ${activeTab === 'tools' ? styles.active : ''}`}
           onClick={() => handleTabClick('tools')}
         >
           <FontAwesomeIcon icon={faScrewdriverWrench} className={styles.icon} />
           <a href="#tools">{t('diy.tabs.tool')}</a>
         </div>
         <div
-          className={`${styles.tab} ${activeTab === 'videos' ? styles.active : ''}`}
+          className={`col-3 ${styles.tab} ${activeTab === 'videos' ? styles.active : ''}`}
           onClick={() => handleTabClick('videos')}
         >
           <FontAwesomeIcon icon={faUserGear} className={styles.icon} />
           <a href="#videos">{t('diy.tabs.asm')}</a>
         </div>
         <div
-          className={`${styles.tab} ${activeTab === 'commands' ? styles.active : ''}`}
+          className={`col-3 ${styles.tab} ${activeTab === 'commands' ? styles.active : ''}`}
           onClick={() => handleTabClick('commands')}
         >
           <FontAwesomeIcon icon={faTerminal} className={styles.icon} />
