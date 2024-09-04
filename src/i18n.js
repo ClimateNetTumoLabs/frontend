@@ -131,7 +131,7 @@ const resources = {
                         {
                             title: "Climate Friends:",
                             content: "Meet our partners and friends who have supported us and continue to do so.",
-                            partner1: "Amazon Web Services provides us with cloud credits to help us store and manage our data with high standards.",
+                            partner1: "Amazon Web Services provides us with cloud credits to help us store and manage our data with high standards. These cloud computing web services provide various services related to networking, computing, storage, middleware, IoT and other processing capacities, as well as software tools via AWS server farms. This frees clients from managing, scaling, and patching hardware and operating systems. ",
                             partner2: "TUMO Boxes are low-cost and easy-to-deploy facilities built out of shipping containers. Strategically placed so that every teen in Armenia can reach one in 40 minutes or less, these self-contained learning environments are equipped with state-of-the-art workstations and equipment and can host up to 320 students per week. The boxes provide access to the TUMO program and the entire network of coaches. These satellite locations act as the foundation for the ClimateNet devices. The devices are deployed on these boxes across the country to provide us with the local and accurate data.workshop leaders, and fellow students."
                         },
                         {
@@ -219,7 +219,7 @@ const resources = {
                         point2: "We provide step-by-step instructions on how to build both components.",
                         point3: "You do not need to know how to code, just how to copy and paste!",
                         point4: "The materials will cost you an average from $130 to $280.",
-                        end: "Ready to start? Just fill out the Request Access form, and we will send you all the necessary certificates via mail."
+                        end: "Ready to start? Just fill out the Request Access form, and we will send you all the necessary credentials via mail."
                     },
 
                     tools: {

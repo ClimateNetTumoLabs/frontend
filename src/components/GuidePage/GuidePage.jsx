@@ -77,22 +77,32 @@ const Guide = () => {
       </nav>
 
       {!activeTab && (
-        <section id="introduction" className={styles.introduction}>
-          <h2>{t('diy.intro.1')}<br/>
-              {t('diy.intro.2')}<br/>
-              {t('diy.intro.3')}</h2>
-          <div className={styles.info}>
-            <hr/>
-            <p>{t('diy.info.title')}</p>
-            <ul>
-              <li>{t('diy.info.point1')}</li>
-              <li>{t('diy.info.point2')}</li>
-              <li>{t('diy.info.point3')}</li>
-              <li>{t('diy.info.point4')}</li>
-            </ul>
-            <p>{t('diy.info.end')}</p>
-          </div>
+        <>
+        <section id="introduction" className={`mb-2 col-md-8 col-12 ${styles.introduction}`}>
+        <h2>{t('diy.intro.1')}<br/>
+            {t('diy.intro.2')}<br/>
+            {t('diy.intro.3')}</h2>
+        <div className={styles.info}>
+          <hr/>
+          <p>{t('diy.info.title')}</p>
+          <ul>
+            <li>{t('diy.info.point1')}</li>
+            <li>{t('diy.info.point2')}</li>
+            <li>{t('diy.info.point3')}</li>
+            <li>{t('diy.info.point4')}</li>
+          </ul>
+          <p>{t('diy.info.end')}</p>
+        </div>
+      </section>
+      <section id="request">
+      <Contact 
+        subject_state={false} 
+        className={`mb-2 col-md-8 col-12 ${styles.subTitles}`}
+        name={t('contact.title2')}
+        showCoordinates={true}
+      />
         </section>
+      </>
       )}
 
       <div className={styles.content}>
@@ -101,14 +111,6 @@ const Guide = () => {
         {activeTab === 'videos' && <Videos />}
         {activeTab === 'commands' && <Commands />}
       </div>
-      <section id="request">
-      <Contact 
-        subject_state={false} 
-        className={styles.subTitles} 
-        name={t('contact.title2')}
-        showCoordinates={true}
-      />
-        </section>
     </div>
   );
 };

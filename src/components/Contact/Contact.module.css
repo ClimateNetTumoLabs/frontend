@@ -84,7 +84,7 @@
 }
 
 @media only screen and (max-width: 600px) {
-    .name_field,.surname_field, .email_section, .subject_input {
+    .name_field, .surname_field, .email_section, .subject_input, .coordinates_section {
         padding: 0;
     }
 }

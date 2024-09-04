@@ -3,7 +3,7 @@ import styles from "./Contact.module.css";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 
-const ContactForm = ({ name, subject_state, subject = "Technical Support", showCoordinates = false }) => {
+const ContactForm = ({ name, subject_state, subject = "Request for Necessary Credentials", showCoordinates = false }) => {
   const { t } = useTranslation();
 
   const [focusedInput, setFocusedInput] = useState(null);
@@ -54,7 +54,7 @@ const ContactForm = ({ name, subject_state, subject = "Technical Support", showC
   };
 
   return (
-    <div className={`container mt-5 mb-5 col-md-6 col-12 ${styles.contact_us_section}`}>
+    <div className={`container mt-5 mb-5 col-md-8 col-12 ${styles.contact_us_section}`}>
       <h2 className={`${styles.contact_us_title}`}>{name}</h2>
       <form onSubmit={handleSubmit}>
         <div className={`d-flex flex-wrap`}>
