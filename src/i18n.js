@@ -175,7 +175,8 @@ const resources = {
                             message: "Message",
                             templateMessage: "Hello TUMO Labs Team,",
                             templateMessage2: "Regards,",
-                            submit: "Send"
+                            submit: "Send",
+                            coordinates: "Coordinates"
                         },
                     options: [
                         "Need Data",
@@ -699,7 +700,8 @@ const resources = {
                             message: "Հաղորդագրություն",
                             templateMessage: "Բարև ԹՈՒՄՈ Լաբերի թիմ,",
                             templateMessage2: "Հարգանքներով,",
-                            submit: "Ուղարկել"
+                            submit: "Ուղարկել",
+                            coordinates: "Կոորդինատներ"
                         },
                     options: [
                         "Տվյալների հարցում",

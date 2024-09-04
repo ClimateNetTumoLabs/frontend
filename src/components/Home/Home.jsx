@@ -17,7 +17,7 @@ function Home() {
             <ScrollableSection />
             <Description />
             <MapArmenia />
-            <ContactForm name = {t('contact.title')} subject_state = {true}/>
+            <ContactForm name = {t('contact.title1')} subject_state = {true}/>
         </div>
     );
 }

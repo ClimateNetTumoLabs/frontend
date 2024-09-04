@@ -29,11 +29,11 @@
 }
 
 
-.name_field, .subject_input {
+.name_field, .email_section {
     padding-right: 5px;
 }
 
-.surname_field, .email_section {
+.surname_field, .subject_input, .coordinates_section {
     padding-left: 5px;
 }
 

@@ -11,18 +11,29 @@ import { useTranslation } from "react-i18next";
 
 const Guide = () => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || null);
+  const [activeTab, setActiveTab] = useState(null);
+
 
   useEffect(() => {
-    if (activeTab) {
-      localStorage.setItem('activeTab', activeTab);
+    const isNewPageLoad = !sessionStorage.getItem('hasLoaded');
+    
+    if (isNewPageLoad) {
+      // It's a new page load, not a refresh
+      setActiveTab(null);
+      sessionStorage.setItem('hasLoaded', 'true');
     } else {
-      localStorage.removeItem('activeTab');
+      // It's a refresh, retrieve the last active tab
+      const storedTab = localStorage.getItem('activeTab');
+      if (storedTab && storedTab !== 'null') {
+        setActiveTab(storedTab);
+      }
     }
-  }, [activeTab]);
+  }, []);
 
   const handleTabClick = (tab) => {
-    setActiveTab(activeTab === tab ? null : tab);
+    const newActiveTab = activeTab === tab ? null : tab;
+    setActiveTab(newActiveTab);
+    localStorage.setItem('activeTab', newActiveTab);
   };
 
   return (
@@ -91,8 +102,13 @@ const Guide = () => {
         {activeTab === 'commands' && <Commands />}
       </div>
       <section id="request">
-        <Contact subject_state={false} className={styles.subTitles} name={t('contact.title2')} />
-      </section>
+      <Contact 
+        subject_state={false} 
+        className={styles.subTitles} 
+        name={t('contact.title2')}
+        showCoordinates={true}
+      />
+        </section>
     </div>
   );
 };
