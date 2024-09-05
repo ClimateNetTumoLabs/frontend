@@ -48,7 +48,7 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
       templateMessage += `\n\nCoordinates: ${coordinates}`;
     }
 
-    const mailtoLink = `mailto:erik.saryan@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
+    const mailtoLink = `mailto:eutumocc@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
 
     window.location.href = mailtoLink;
   };
@@ -114,13 +114,14 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
           {showCoordinates ? (
             <div className={`col-12 mb-3 col-sm-6 ${styles.coordinates_section} ${styles.contact_block}`}>
               <label className={`form-label ${labelClass("coordinates")}`} htmlFor="coordinates">
-                {t('contact.formFields.coordinates')}
+                {t('contact.formFields.coordinates')} (e.g., 40.7128, -74.0060)
               </label>
               <input
                 className={`form-control ${styles.input_block}`}
                 type="text"
                 id="coordinates"
                 name="coordinates"
+                placeholder="Latitude, Longitude (e.g., 40.7128, -74.0060)"
                 onChange={handleChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}

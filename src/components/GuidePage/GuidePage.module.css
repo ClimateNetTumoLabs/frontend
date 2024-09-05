@@ -107,6 +107,15 @@ hr {
   margin-top: 0;
 }
 
+.link {
+  color: #df7788;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link:hover {
+    color: #ff99aa;
+}
 @media (max-width: 768px) {
   .title {
     height: 30vh;
@@ -139,7 +148,7 @@ hr {
     height: auto;
     margin: 0 5px;
     background-color: #df7788;
-    transform: scale(1);
+    transform: scale(0.9);
   }
 
   .tab a {

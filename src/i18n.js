@@ -70,8 +70,8 @@ const resources = {
                             torrential: "Torrential",
                         },
                     },
-                    uv_intro: "The Climate Net device UV sensor provides both ambient light and UV sensing with UV spectral response from 280 nm to 430nm and raw data output.",
-                    uv_intro2: "It features high sensitivity, quick response, and strong anti-interference ability. Here's an in-depth look:",
+                    uv_intro: "The Climate Net device UV Index sensor provides both ambient light and UV sensing with UV spectral responses from 280nm to 430nm and raw data output.",
+                    uv_intro2: "It features high sensitivity, quick responses, and strong anti-interference ability. Here's an in-depth look:",
                     uva: "Wavelength 315-400nm",
                     uva2: "UVA rays are the longest-wavelength UV radiation reaching Earth's surface. They penetrate deep into the skin, reaching the dermis layer.",
                     uva3: "While UVA is less energetic, it contributes significantly to skin aging and wrinkles. It can also weaken the immune system and increase the risk of skin cancer",
@@ -199,6 +199,7 @@ const resources = {
                     title2: "ClimateNet",
                     title3: "Device!",
                     tabs: {
+                        home: "Home",
                         mat: "Materials",
                         tool: "Tools",
                         asm: "Assembly",
@@ -218,8 +219,9 @@ const resources = {
                         point1: "ClimateNet Devices are comprised of hardware and software elements.",
                         point2: "We provide step-by-step instructions on how to build both components.",
                         point3: "You do not need to know how to code, just how to copy and paste!",
-                        point4: "The materials will cost you an average from $130 to $280.",
-                        end: "Ready to start? Just fill out the Request Access form, and we will send you all the necessary credentials via mail."
+                        point4: "The materials will cost you an average of $130 to $280.",
+                        end1: "Ready to start? Just fill out the ",
+                        end2: " form, and we will send you all the necessary credentials via mail."
                     },
 
                     tools: {
@@ -600,7 +602,8 @@ const resources = {
                     lux1: "Լույսի ինտենսիվությունը, որը չափվում է լյուքսով, զգալիորեն ազդում է մարդու առողջության և բարեկեցության վրա:  ",
                     lux2: "Լույսի ցածր մակարդակը (200 լյուքսից պակաս) կարող է առաջացնել աչքերի լարվածություն և հոգնածություն, մինչդեռ չափավոր մակարդակը (մոտ 500 լյուքս) բարելավում է կենտրոնացումը և արտադրողականությունը:",
                     lux3: "Լույսի բարձր մակարդակը (ավելի քան 1000 լյուքս) կարող է բարելավել տրամադրությունը և բարձրացնել էներգիայի մակարդակը, բայց չափազանց պայծառ լույսը (ավելի քան 10,000 լյուքս) կարող է անհանգստություն և կուրություն առաջացնել:",
-                    uv_intro: "Մենք չափում ենք լույսի ինտենսիվությունը և սպեկտրային տեղեկատվությունը, ինչը արժեքավոր է դարձնում տարբեր ծրագրեր:",
+                    uv_intro: "Climate Net սարքի ուլտրամանուշակագույն ինդեքսի սենսորը ապահովում է ինչպես շրջակա միջավայրի լույսի, այնպես էլ ուլտրամանուշակագույն ճառագայթման չափում՝ սպեկտրալ բնութագրերով 280-ից 430 նմ միջակայքում և չմշակված տվյալների արդյունքով:",
+                    uv_intro2: "Այն ունի բարձր զգայունություն, արագ արձագանք և բարձր հակամիջամտություն: Ահա յուրաքանչյուրի մասին մանրամասներ.",
                     uva: "Ալիքի երկարություն 315-400 նմ",
                     uva2: "UVA ճառագայթները ամենաերկար ալիքի ուլտրամանուշակագույն ճառագայթումն են, որը հասնում է Երկրի մակերեսին: Նրանք ներթափանցում են մաշկի խորքերը՝ հասնելով դերմիսի շերտին:",
                     uva3: "Չնայած UVA-ն քիչ էներգետիկ է, այն զգալիորեն նպաստում է մաշկի ծերացմանը և կնճիռներին: Այն նաև կարող է թուլացնել իմունային համակարգը և մեծացնել մաշկի քաղցկեղի առաջացման վտանգը:",
@@ -656,7 +659,7 @@ const resources = {
                         {
                             title: "Կլիմայի ընկերներ։",
                             content: "Ծանոթացեք մեր գործընկերներին և ընկերներին, ովքեր աջակցել և շարունակում են մեզ աջակցել։",
-                            partner1: "Amazon Web Services-ը մեզ տրամադրում է ամպային վարկեր, որոնք օգնում են մեզ պահել և կառավարել մեր տվյալները բարձր չափանիշներին համապատասխան։",
+                            partner1: "Amazon Web Services-ը մեզ տրամադրում է ամպային վարկեր, որոնք օգնում են մեզ պահել և կառավարել մեր տվյալները բարձր չափանիշներին համապատասխան։ Ամպային հաշվարկի այս վեբ ծառայությունները տրամադրում են տարբեր ծառայություններ, որոնք կապված են ցանցերի, հաշվարկի, պահեստավորման, միջին շերտի ծրագրերի, IoT-ի և այլ մշակման հզորությունների հետ, ինչպես նաև ծրագրային գործիքներ՝ AWS սերվերային ֆերմաների միջոցով: Սա ազատում է հաճախորդներին սարքավորումների և օպերացիոն համակարգերի կառավարումից, մասշտաբավորումից և թարմացումից:",
                             partner2: "ԹՈՒՄՈ տուփերը էժան և հեշտ տեղադրվող սարքեր են, որոնք կառուցված են բեռնափոխադրման տարաներից։ Այս ինքնավար ուսումնական կենտրոնները, որոնք ռազմավարականորեն տեղակայված են այնպես, որ Հայաստանի յուրաքանչյուր դեռահաս կարողանա դրանց հասնել 40 րոպեում կամ ավելի քիչ, հագեցած են ամենաժամանակակից աշխատատեղերով և սարքավորումներով և կարող են ընդունել շաբաթական մինչև 320 սովորող։ Այս տուփերը հնարավորություն են տալիս մուտք գործել ԹՈՒՄՈ ծրագիր և ամբողջ ցանց: Այս արբանյակային վայրերը հիմք են հանդիսանում Կլիմայական ցանցի սարքերի համար: Սարքերը տեղադրված են այդ տուփերի վրա ամբողջ երկրում, որպեսզի մեզ տրամադրեն տեղական և ճշգրիտ տվյալներ։"
                         },
                         {
@@ -724,6 +727,7 @@ const resources = {
                     title2: "ClimateNet",
                     title3: "սարքը",
                     tabs: {
+                        home: "Գլխավոր",
                         mat: "Նյութեր",
                         tool: "Գործիքներ",
                         asm: "Հավաքում",
@@ -744,7 +748,8 @@ const resources = {
                         point2: "Մենք տրամադրում ենք քայլ առ քայլ հրահանգներ երկու բաղադրիչների հավաքման համար։",
                         point3: "Ձեզ հարկավոր չէ իմանալ, թե ինչպես ծրագրավորել, պարզապես ինչպես պատճենել և տեղադրել:",
                         point4: "Նյութերի արժեքը միջինում կկազմի 130-ից 280 ԱՄՆ դոլար։",
-                        end: "Պատրա՞ստ եք սկսել: Պարզապես լրացրեք Մուտքի հարցման ձևաչափը, և մենք էլեկտրոնային հասցեի միջոցով ձեզ կուղարկենք անհրաժեշտ փաստաթղթերը:"
+                        end1: "Պատրա՞ստ եք սկսել: Պարզապես լրացրեք ",
+                        end2: " ձևաչափը, և մենք էլեկտրոնային հասցեի միջոցով ձեզ կուղարկենք անհրաժեշտ փաստաթղթերը:"
                     },
                     tools: {
                         item: "Առարկա",

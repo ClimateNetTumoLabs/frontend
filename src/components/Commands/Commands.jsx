@@ -73,7 +73,7 @@ function Commands() {
   };
 
   return (
-    <section id="commands" className={styles.section}>
+    <section id="commands" className={`container mb-2 col-md-8 col-12 ${styles.section}`}>
       <h2 className={styles.subTitles}>{t('diy.tabs.setuptitle')}</h2>
       <div className={styles.readmeStyle}>
         <p>{t('diy.commands.image')}</p>

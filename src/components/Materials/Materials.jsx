@@ -247,7 +247,7 @@ const Materials = () => {
   ];
 
   return (
-    <div id="materials" className={styles.bomContainer}>
+    <div id="materials" className={`container mb-2 col-md-8 col-12 ${styles.bomContainer}`}>
       <h2 className={styles.title}>{t('diy.tabs.mattitle')}</h2>
 
       <div className={styles.section}>

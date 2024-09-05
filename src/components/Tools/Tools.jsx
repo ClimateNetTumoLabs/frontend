@@ -111,7 +111,7 @@ const Tools = () => {
   ];
 
   return (
-    <div id="tools" className={styles.bomContainer}>
+    <div id="tools" className={`container mb-2 col-md-8 col-12 ${styles.bomContainer}`}>
       <h2 className={styles.title}>{t('diy.tabs.tooltitle')}</h2>
 
       <div className={styles.section}>

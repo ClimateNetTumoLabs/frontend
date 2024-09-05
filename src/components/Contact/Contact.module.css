@@ -12,7 +12,9 @@
     top: 5px;
     left: 0;
 }
-
+.contact_us_section {
+    max-width: 1100px;
+}
 .contact_us_section input, .contact_us_section select, .contact_us_section textarea {
     padding: 15px 15px 15px 10px;
     background: none !important;

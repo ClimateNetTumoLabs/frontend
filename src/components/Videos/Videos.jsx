@@ -26,7 +26,7 @@ function Videos() {
     ];
 
     return (
-        <section id="videos" className={styles.section}>
+        <section id="videos" className={`container mb-2 col-md-8 col-12 ${styles.section}`}>
             <h2 className={styles.subTitles}>{t('diy.tabs.asmtitle')}</h2>
             <div className={styles.videos}>
                 {videoUrls.map((url, index) => (
