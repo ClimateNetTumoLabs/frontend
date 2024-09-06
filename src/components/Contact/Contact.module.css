@@ -52,7 +52,9 @@
     color : white;
     padding-left: 3px;
 }
-
+.input_block::placeholder {
+    color: white;
+}
 .input_block:-webkit-autofill,
 .input_block:-webkit-autofill:hover,
 .input_block:-webkit-autofill:focus,
@@ -84,7 +86,9 @@
     color : #df7788;
     border: 1px solid #df7788 ;
 }
-
+.success_message {
+    margin-top: 20px;
+}
 @media only screen and (max-width: 600px) {
     .name_field, .surname_field, .email_section, .subject_input, .coordinates_section {
         padding: 0;

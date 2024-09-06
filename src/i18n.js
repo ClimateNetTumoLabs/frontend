@@ -1052,7 +1052,7 @@ const resources = {
                     to: "ավարտ",
                     from: "սկիզբ",
                     oneM: "1 ամիս",
-                    sevenD: "1 շաբաթ",
+                    oneW: "1 շաբաթ",
                     oneD: "1 օր"
                 },
             },

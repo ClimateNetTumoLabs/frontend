@@ -7,7 +7,8 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
   const { t } = useTranslation();
 
   const [focusedInput, setFocusedInput] = useState(null);
-
+  const [submitted, setSubmitted] = useState(false);  // Ensure submitted is false initially
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -38,17 +39,32 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const storedEmail = localStorage.getItem("submittedEmail");
+
+    // Check if the email has already been submitted
+    if (storedEmail === formData.email) {
+      setError("This email has already submitted a response.");
+      setSubmitted(false);  // Ensure the success message doesn't appear
+      return;
+    }
+
+    // Save submission state and email to localStorage
+    localStorage.setItem("formSubmitted", "true");
+    localStorage.setItem("submittedEmail", formData.email); // Save the email
+
+    setSubmitted(true);  // Show the success message only after validation passes
+    setError("");  // Clear any previous errors
 
     const { name, surname, message, coordinates } = formData;
     const subjectToUse = subject_state ? formData.subject : subject;
 
     let templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name} ${surname}`;
-    
+
     if (showCoordinates) {
       templateMessage += `\n\nCoordinates: ${coordinates}`;
     }
 
-    const mailtoLink = `mailto:eutumocc@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
+    const mailtoLink = `mailto:sona.arzumanyan@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
 
     window.location.href = mailtoLink;
   };
@@ -114,14 +130,14 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
           {showCoordinates ? (
             <div className={`col-12 mb-3 col-sm-6 ${styles.coordinates_section} ${styles.contact_block}`}>
               <label className={`form-label ${labelClass("coordinates")}`} htmlFor="coordinates">
-                {t('contact.formFields.coordinates')} (e.g., 40.7128, -74.0060)
+                {t('contact.formFields.coordinates')}
               </label>
               <input
                 className={`form-control ${styles.input_block}`}
                 type="text"
                 id="coordinates"
                 name="coordinates"
-                placeholder="Latitude, Longitude (e.g., 40.7128, -74.0060)"
+                placeholder={focusedInput === "coordinates" ? "Latitude, Longitude (e.g., 40.7128, -74.0060)" : ""}
                 onChange={handleChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
@@ -166,9 +182,10 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
               onChange={handleChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
-              required
           />
         </div>
+        {error && <div className="alert alert-danger">{error}</div>}
+        {submitted && !error && <div className="alert alert-success">Your response has been submitted!</div>}
         <button type="submit" value="Send" className={`mt-3 btn ${styles.contact_us_button}`}>
           {t('contact.formFields.submit')}
         </button>
