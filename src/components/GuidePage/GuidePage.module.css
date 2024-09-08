@@ -1,6 +1,6 @@
 .app {
   min-height: 100vh;
-  color: #333; /* Darker text for readability */
+  color: #333;
 }
 
 .section {
@@ -16,9 +16,9 @@
   background-position: 30% 80%;
   padding: 10px;
   position: relative;
-  display: flex; /* Add this line */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .title h1 {
@@ -55,20 +55,19 @@
   justify-content: center;
   padding: 20px;
   transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.tab.active a {
-  display: inline;
-}
-
-.tab a {
-  font-size: 0.8rem;
-  margin-bottom: 0;
   text-decoration: none;
   color: white;
-  transition: color 0.3s ease;
 }
 
+.tab p {
+  font-size: 0.8rem;
+  margin-bottom: 0;
+  transition: color 0.3s ease;
+}
+.tab:hover p{
+  cursor: pointer;
+  color: #df7788
+}
 .introduction {
   margin: 0 auto;
   max-width: 1100px;
@@ -107,15 +106,6 @@ hr {
   margin-top: 0;
 }
 
-.link {
-  color: #df7788;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.link:hover {
-    color: #ff99aa;
-}
 @media (max-width: 768px) {
   .title {
     height: 30vh;
@@ -151,35 +141,60 @@ hr {
     transform: scale(0.9);
   }
 
-  .tab a {
+  .tab p {
     display: none;
   }
 
-  .tab.active a {
+  .tab .icon {
+    display: inline;
+    font-size: small;
+  }
+
+  .tab.active .icon {
+    color: white;
+  }
+
+  .tab.active p {
     display: inline;
     margin-left: 5px;
+    font-size: 0.8rem;
+    color: white;
   }
 }
 
+.link {
+  color:#df7788;
+  text-decoration: none;
+}
+
+.link:hover{
+  color:#ff99aa;
+  cursor: pointer;
+}
+
 @media (min-width: 769px) {
-  .icon {
-    display: none;
+  .tab {
+    padding: 20px 10px;
   }
 
-  .tab a {
-    display: inline-block;
+  .tab p {
+    display: inline;
     font-size: 1rem;
   }
 
-  .tab:hover a{
-    color: #df7788;
+  .tab .icon {
+    display: none;
+  }
+  .tab:hover {
     cursor: pointer;
+    color: #df7788,
   }
 
-  .tab.active a{
-    color: #df7788; /* Active tab background */
-  }
-  .tab.active{
+  .tab.active {
     background-color: #232222;
+  }
+
+  .tab.active p {
+    color: #df7788;
   }
 }

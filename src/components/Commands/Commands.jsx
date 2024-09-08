@@ -12,7 +12,7 @@ function Commands() {
   function isMobileDevice() {
     return window.innerWidth <= 768; // Adjust the width as needed
   }
-  
+
   function copyCode(event, id) {
     const codeElement = event.target.closest('pre').querySelector('code');
     const codeText = codeElement.innerText;
@@ -223,7 +223,7 @@ function Commands() {
 
           <li>
             <p>{t('diy.commands.app.env')} <b>DEVICE_ID</b> {t('diy.commands.app.and')} <b>MQTT_BROKER_ENDPOINT</b>.<br/>
-            {t('diy.commands.app.message')} <a className={styles.link}href="#request">{t('contact.title2')}</a>, {t('diy.commands.app.form')}<br/></p>
+            {t('diy.commands.app.message')} <a className={styles.link}href="#home">{t('contact.title2')}</a>, {t('diy.commands.app.form')}<br/></p>
             <p className={styles.wrong}>{t('diy.commands.app.id')} </p>
 
             <CodeBlock
