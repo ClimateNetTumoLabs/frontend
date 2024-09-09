@@ -243,7 +243,7 @@ useEffect(() => {
                 <img  loading="lazy" class=${styles.icon} src=${arrow} alt="Direction"/>
                 <span class="text-light d-flex align-content-center">
                     ${t('about.windDirection')}<br/>
-                    ${t('about.windDirection2')}     
+                    ${t('about.windDirection2')}
                 </span> 
             </div>
         </div>
@@ -299,6 +299,7 @@ useEffect(() => {
         <div class="mt-4">
             <span class="text-light d-flex align-items-center">
                 ${t('about.uv_intro')}<br/>
+                ${t('about.uv_intro2')}
             </span> 
         </div>
     `

@@ -12,7 +12,9 @@
     top: 5px;
     left: 0;
 }
-
+.contact_us_section {
+    max-width: 1100px;
+}
 .contact_us_section input, .contact_us_section select, .contact_us_section textarea {
     padding: 15px 15px 15px 10px;
     background: none !important;
@@ -29,11 +31,11 @@
 }
 
 
-.name_field, .subject_input {
+.name_field, .email_section {
     padding-right: 5px;
 }
 
-.surname_field, .email_section {
+.surname_field, .subject_input, .coordinates_section {
     padding-left: 5px;
 }
 
@@ -50,7 +52,9 @@
     color : white;
     padding-left: 3px;
 }
-
+.input_block::placeholder {
+    color: white;
+}
 .input_block:-webkit-autofill,
 .input_block:-webkit-autofill:hover,
 .input_block:-webkit-autofill:focus,
@@ -82,9 +86,11 @@
     color : #df7788;
     border: 1px solid #df7788 ;
 }
-
+.success_message {
+    margin-top: 20px;
+}
 @media only screen and (max-width: 600px) {
-    .name_field,.surname_field, .email_section, .subject_input {
+    .name_field, .surname_field, .email_section, .subject_input, .coordinates_section {
         padding: 0;
     }
 }

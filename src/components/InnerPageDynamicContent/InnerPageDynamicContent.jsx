@@ -21,7 +21,6 @@ function InnerPageDynamicContent(props) {
     const [VisibleLight, setVisibleLight] = useState([])
     const [RainCount, setRainCount] = useState([])
     const [WindSpeed, setWindSpeed] = useState([])
-    const [WindDirection, setWindDirection] = useState([])
     const ChartsRef = useRef(null)
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current
@@ -47,7 +46,6 @@ function InnerPageDynamicContent(props) {
         let pm10Array = []
         let UVIndexArray = []
         let VisibleLightArray = []
-        let IRArray = []
         let RainCountArray = []
         let WindSpeedArray = []
         let WindDirectionArray = []
@@ -77,7 +75,6 @@ function InnerPageDynamicContent(props) {
         setVisibleLight(VisibleLightArray)
         setRainCount(RainCountArray)
         setWindSpeed(WindSpeedArray)
-        setWindDirection(WindDirectionArray)
 
     }, [props.weather_data]);
 

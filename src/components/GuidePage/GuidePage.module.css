@@ -1,0 +1,200 @@
+.app {
+  min-height: 100vh;
+  color: #333;
+}
+
+.section {
+  margin: 0 auto;
+  max-width: 1100px;
+}
+
+.title {
+  background-image: url('../../assets/DIY/copper wire.jpeg');
+  height: 55vh;
+  background-size: cover;
+  overflow: hidden;
+  background-position: 30% 80%;
+  padding: 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title h1 {
+  text-align: center;
+  font-size: 3.5rem;
+  animation: fadeInDown 1.5s ease-out;
+}
+
+.title h1 b {
+  color: #df7788;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  background-color: #333232;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  color: white;
+}
+
+.tab p {
+  font-size: 0.8rem;
+  margin-bottom: 0;
+  transition: color 0.3s ease;
+}
+.tab:hover p{
+  cursor: pointer;
+  color: #df7788
+}
+.introduction {
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 20px;
+}
+
+.introduction h2 {
+  color: white;
+  font-size: 1.6rem;
+  line-height: 40px;
+}
+
+.info ul li {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 25px;
+  list-style: none;
+}
+
+.info ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #df7788;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.info a {
+  margin-top: 20px;
+  font-size: 1.1rem;
+}
+
+hr {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .title {
+    height: 30vh;
+  }
+  .title h1 {
+    font-size: 1.5rem;
+  }
+  .tab {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px; 
+  }
+  .introduction h2 {
+    font-size: 1rem;
+    left: auto;
+  }
+  .info ul {
+    font-size: 1rem;
+  }
+
+  .navbar {
+    justify-content: space-between;
+    padding: 5px;
+  }
+
+  .tab.active {
+    width: auto;
+    height: auto;
+    margin: 0 5px;
+    background-color: #df7788;
+    transform: scale(0.9);
+  }
+
+  .tab p {
+    display: none;
+  }
+
+  .tab .icon {
+    display: inline;
+    font-size: small;
+  }
+
+  .tab.active .icon {
+    color: white;
+  }
+
+  .tab.active p {
+    display: inline;
+    margin-left: 5px;
+    font-size: 0.8rem;
+    color: white;
+  }
+}
+
+.link {
+  color:#df7788;
+  text-decoration: none;
+}
+
+.link:hover{
+  color:#ff99aa;
+  cursor: pointer;
+}
+
+@media (min-width: 769px) {
+  .tab {
+    padding: 20px 10px;
+  }
+
+  .tab p {
+    display: inline;
+    font-size: 1rem;
+  }
+
+  .tab .icon {
+    display: none;
+  }
+  .tab:hover {
+    cursor: pointer;
+    color: #df7788,
+  }
+
+  .tab.active {
+    background-color: #232222;
+  }
+
+  .tab.active p {
+    color: #df7788;
+  }
+}

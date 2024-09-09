@@ -1,18 +1,18 @@
 @font-face {
-    font-family: 'Montserrat Armenian';
-    src: url('../public/fonts/montserrat-armenian/Montserratarm-Light.otf') format('opentype');
+    font-family: 'Ping';
+    src: url('../public/fonts/PingAmL_complete_OTF/PingAmL-Regular.otf') format('opentype');
     font-display: swap;
 }
 
 /* Global styles */
 .englishFont {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Ping', sans-serif;
     letter-spacing: 1.2px;
 }
 
 /* Armenian font style */
 .armenianFont {
-    font-family: 'Montserrat Armenian', sans-serif;
+    font-family: 'Ping', sans-serif;
     letter-spacing: 0.5px;
     font-weight: 300;
 }
@@ -145,7 +145,7 @@ th {
 
 .apexcharts-toolbar {
     display: flex;
-    align-items: start !important;
+    align-items: flex-start !important;
     position: relative;
     min-width: 100%;
 }
@@ -181,17 +181,6 @@ th {
 .custom-icon {
     position: relative;
 }
-
-/*.custom-icon:hover::after {*/
-/*    content: attr(data-tooltip);*/
-/*    position: absolute;*/
-/*    color: white;*/
-/*    border-radius: 5px;*/
-/*    bottom: 120%;*/
-/*    left: 50%;*/
-/*    transform: translateX(-50%);*/
-/*    white-space: nowrap;*/
-/*}*/
 
 .apexcharts-toolbar div:hover {
     cursor: pointer;

@@ -29,6 +29,7 @@
     line-height: 1.2;
     padding-top: 60px;
     font-weight: 500;
+    color:white;
 }
 
 .first_animation h2,
@@ -39,6 +40,7 @@
     line-height: 1.2;
     padding-top: 60px;
     font-weight: 500;
+    color: white;
 }
 
 @media (max-width: 767px) {

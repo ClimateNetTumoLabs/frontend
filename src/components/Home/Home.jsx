@@ -5,17 +5,21 @@ import ScrollableSection from "../ScrollableSection/ScrollableSection";
 import MapArmenia from "../Map/Map";
 import Description from "../DescriptionProject/Description";
 import ContactForm from "../Contact/Contact";
+import { useTranslation } from "react-i18next";
+import  "../../i18n";
 
 function Home() {
-  return (
-    <div className={styles.text_white}>
-      <Banner />
-      <ScrollableSection />
-      <Description />
-      <MapArmenia />
-      <ContactForm/>
-    </div>
-  );
+    const { t } = useTranslation();
+
+    return (
+        <div className={styles.text_white}>
+            <Banner />
+            <ScrollableSection />
+            <Description />
+            <MapArmenia />
+            <ContactForm name = {t('contact.title1')} subject_state = {true}/>
+        </div>
+    );
 }
 
 export default Home;

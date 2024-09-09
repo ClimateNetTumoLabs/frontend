@@ -132,7 +132,7 @@ const Header = () => {
                     <ul className="navbar-nav ms-auto">
                         <NavItem to={`/${i18n.language}/`} label={t("header.navItems.home")}/>
                         <NavItem to={`/${i18n.language}/about/`} label={t("header.navItems.about")}/>
-                        <NavItem to={`/${i18n.language}/guide/`} label={t("header.navItems.guide")}/>
+                        <NavItem to={`/${i18n.language}/diy/`} label={t("header.navItems.diy")}/>
                         <li>
                             <Link className={`nav-link ${styles.nav_link} nav-item`} to={`/${i18n.language}/#Map`}
                                   onClick={GoToSection}>

@@ -1,0 +1,126 @@
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-bottom: 50px;
+}
+
+h2 {
+  color: #df7788;
+  margin-bottom: 20px;
+
+}
+
+.downloadContainer {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.downloadButton {
+  width: 100%;
+  padding: 5px;
+  background-color: #df7788;
+  color: white;
+  border: 1px solid #df7788;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.downloadButton:hover {
+  background: transparent;
+  color : #df7788;
+  border: 1px solid #df7788;
+  transition: all 0.3s ease-in-out;
+}
+
+.readmeStyle {
+  display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.readmeStyle pre {
+  background-color: #423f3f;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+  overflow-x: auto;
+  display: flex;
+  align-items: center;
+  position: relative; 
+}
+
+.readmeStyle code {
+  display: inline-block;
+  white-space: pre-wrap;
+  flex: 1;
+}
+
+.copyContainer {
+  position: absolute;
+  right: 10px; /* Adjust to your preference */
+  display: flex;
+  align-items: center;
+  width: 60px; /* Fixed width to prevent layout shift */
+  justify-content: flex-end; /* Align text/icon to the right */
+}
+
+.copy {
+  cursor: pointer;
+}
+
+.copiedText {
+  color: rgb(3, 181, 3);
+  font-size: 0.8em;
+  margin-left: 5px;
+  white-space: nowrap;
+  position: relative;
+  top: 7px;
+}
+
+.doneIcon {
+  color: green;
+  font-size: 1.2em; /* Adjust size as needed */
+}
+
+.link {
+  text-decoration: none;
+  color: #df7788;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: #ff99aa;
+}
+
+.network ol{
+  padding-left: 20px;
+
+}
+
+.network ul{
+  padding-left: 0;
+  list-style: none;
+}
+
+.setup ol{
+  padding-left: 20px;
+
+}
+
+.wrong{
+  color: red;
+}
+
+.code{
+  cursor: text;
+}
+@media (max-width: 768px) {
+  .downloadContainer {
+    flex-direction: column;
+  }
+}
