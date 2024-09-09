@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from './Team.module.css'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import hovoImage from '../../assets/TeamMembers/hovo.png';
+import marinaImage from '../../assets/TeamMembers/marina.png';
+import arsenImage from '../../assets/TeamMembers/arsen.png';
+import vaheImage from '../../assets/TeamMembers/vahe.png';
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 
@@ -26,14 +30,45 @@ const responsive = {
 
 const Team = () => {
     const { t } = useTranslation();
-    const [participants, setParticipants] = useState([]);
 
-    useEffect(() => {
-        fetch('/api/participants/')
-            .then(response => response.json())
-            .then(data => setParticipants(data))
-            .catch(error => console.error('Error fetching participants:', error));
-    }, []);
+    const list_of_members = {
+        "2" : {
+            "Name": t('teamMembers.2.name'),
+            "Social": [
+                { "icon": "fa-github", "link": "https://github.com/ApinHovo" },
+                { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/hovhannes-apinyan/" }
+            ],
+            "Position": t('teamMembers.2.position'),
+            "Image" : hovoImage
+        },
+        "3" : {
+            "Name": t('teamMembers.3.name'),
+            "Social": [
+                { "icon": "fa-github", "link": "https://github.com/M-Marina4" },
+                { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/marina-melkonyan-650586245/" }
+            ],
+            "Position": t('teamMembers.3.position'),
+            "Image" : marinaImage
+        },
+        "4" : {
+            "Name": t('teamMembers.4.name'),
+            "Social": [
+                { "icon": "fa-github", "link": "https://github.com/Arsen-1" },
+                { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/arsen-gevorgyan-a650671a8/" }
+            ],
+            "Position": t('teamMembers.4.position'),
+            "Image" : arsenImage
+        },
+        "5" : {
+            "Name": t('teamMembers.5.name'),
+            "Social": [
+                { "icon": "fa-github", "link": "https://github.com/vahkhachatryan" },
+                { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/vahe-khachatryan-711a2823a/" }
+            ],
+            "Position": t('teamMembers.5.position'),
+            "Image" : vaheImage
+        }
+    }
 
     return (
         <div className={styles.team_section}>
@@ -50,30 +85,23 @@ const Team = () => {
                 dotListClass="team_member_dot_section"
                 itemClass="carousel-item-padding-40-px"
             >
-                {participants.map((participant) => (
-                    <div key={participant.id} className={styles.team_item}>
+                {Object.keys(list_of_members).map((key, index) => (
+                    <div key={key} className={styles.team_item}>
                          <div className={styles.team_member_image_block}>
                              <div className={styles.img_container}>
-                                 {participant.image_url && (
-                                     <img loading="lazy" src={participant.image_url} alt={participant.name} />
-                                 )}
+                                 <img loading="lazy" src={list_of_members[key].Image} alt={list_of_members[key].Name} />
                              </div>
                              <div className={styles.icon_section}>
-                                 {participant.github_link && (
-                                     <a href={participant.github_link} target="_blank" rel="noreferrer">
-                                         <i className={`fab fa-github icon ${styles.hovicon} ${styles.effect}`}></i>
+                                 {list_of_members[key].Social.map((socialItem) => (
+                                     <a key={socialItem.icon} href={socialItem.link} target="_blank" rel="noreferrer">
+                                         <i className={`fab ${socialItem.icon.toLowerCase()} icon ${styles.hovicon} ${styles.effect}`}></i>
                                      </a>
-                                 )}
-                                 {participant.linkedin_link && (
-                                     <a href={participant.linkedin_link} target="_blank" rel="noreferrer">
-                                         <i className={`fab fa-linkedin icon ${styles.hovicon} ${styles.effect}`}></i>
-                                     </a>
-                                 )}
+                                 ))}
                              </div>
                          </div>
                         <div className={styles.info}>
-                            <h3>{participant.name}</h3>
-                            <p>{participant.job}</p>
+                            <h3>{list_of_members[key].Name}</h3>
+                            <p>{list_of_members[key].Position}</p>
                         </div>
                     </div>
                 ))}

@@ -61,7 +61,7 @@ const resources = {
                     rain2: "Each tip of the bucket corresponds to a known quantity of rainfall, typically 0.2mm, which then generates a pulse signal used to calculate the total rainfall.",
                     rain: {
                         rainfall: "Rainfall",
-                        intensity: "Intensity (mm)",
+                        intensity: "Intensity (mm/hr)",
                         table: {
                             light: "Light",
                             moderate: "Moderate",
@@ -426,12 +426,19 @@ const resources = {
                         Berd: "Berd",
                         Azatamut: "Azatamut",
                         Ijevan: "Ijevan",
+                        Stepanavan: "Stepanavan",
+                        Spitak: "Spitak",
+                        Areni: "Areni",
+                        Vayk: "Vayk",
+                        Jermuk: "Jermuk",
                     },
                     parentNames: {
                         Shirak: "Shirak",
                         Yerevan: "Yerevan",
                         Gegharkunik: "Gegharkunik",
                         Tavush: "Tavush",
+                        Lori: "Lori",
+                        "Vayots Dzor": "Vayots Dzor",
                     }
                 },
                 header: {
@@ -587,7 +594,7 @@ const resources = {
                     titleRain: "Անձրևի քանակ",
                     rain: {
                         rainfall: "Անձրև",
-                        intensity: "Ուժգնություն (մմ)",
+                        intensity: "Ուժգնություն (մմ/ժ)",
                         table: {
                             light: "Թեթև",
                             moderate: "Չափավոր",
@@ -954,12 +961,19 @@ const resources = {
                         Berd: "Բերդ",
                         Azatamut: "Ազատամուտ",
                         Ijevan: "Իջևան",
+                        Stepanavan: "Ստեփանավան",
+                        Spitak: "Սպիտակ",
+                        Areni: "Արենի",
+                        Vayk: "Վայք",
+                        Jermuk: "Ջերմուկ",
                     },
                     parentNames: {
                         Gegharkunik: "Գեղարքունիք",
                         Shirak: "Շիրակ",
                         Yerevan: "Երևան",
                         Tavush: "Տավուշ",
+                        Lori: "Լոռի",
+                        "Vayots Dzor": "Վայոց ձոր",
                     }
                 },
                 header: {
