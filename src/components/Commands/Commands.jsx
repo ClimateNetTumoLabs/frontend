@@ -3,9 +3,35 @@ import styles from './Commands.module.css';
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 function Commands() {
+  const handleDownload = async (filename) => {
+    try {
+      const response = await axios({
+        url: `/api/files/${filename}`,
+        method: 'GET',
+        responseType: 'blob', // Important
+      });
 
+      // Create a URL for the file
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // Create a link element
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', filename); // Set file name for download
+
+      // Append to the document body and click it
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up and remove the link
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading the file', error);
+    }
+  };
   const { t } = useTranslation();
   const [copiedStates, setCopiedStates] = useState({});
 
@@ -78,15 +104,15 @@ function Commands() {
       <div className={styles.readmeStyle}>
         <p>{t('diy.commands.image')}</p>
         <div className={styles.downloadContainer}>
-          <a href="/downloads/imager_1.8.5.exe" download className={styles.downloadButton}>
+          <button onClick={()=>handleDownload('imager_win.exe')} download  className={styles.downloadButton} >
             {t('diy.commands.win')}
-          </a>
-          <a href="/downloads/imager_1.8.5.dmg" download className={styles.downloadButton}>
+          </button>
+          <button onClick={()=>handleDownload('imager_mac.dmg')} download className={styles.downloadButton}>
             {t('diy.commands.mac')}
-          </a>
-          <a href="/downloads/imager_1.8.5_amd64.deb" download className={styles.downloadButton}>
+          </button>
+          <button onClick={()=>handleDownload('imager_linux.deb')} download className={styles.downloadButton}>
             {t('diy.commands.ubun')}
-          </a>
+          </button>
         </div>
         <p>{t('diy.commands.inst1')}<br/>
            {t('diy.commands.inst2')}<br/>
