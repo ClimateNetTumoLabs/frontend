@@ -9,27 +9,38 @@ function Commands() {
   const handleDownload = async (filename) => {
     try {
       const response = await axios({
-        url: `/api/files/${filename}`,
+        url: `/api/files/${filename}`, // Adjust the URL according to your API
         method: 'GET',
-        responseType: 'blob', // Important
+        responseType: 'blob', // Ensures the response is treated as binary
       });
 
-      // Create a URL for the file
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      // Log the headers for debugging purposes
+      console.log(response.headers);
 
-      // Create a link element
+      // Check if Content-Length is provided
+      const contentLength = response.headers['content-length'];
+      if (contentLength) {
+        console.log('File size:', contentLength);
+      } else {
+        console.log('Content-Length header not provided.');
+      }
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', filename); // Set file name for download
-
-      // Append to the document body and click it
-      document.body.appendChild(link);
-      link.click();
-
-      // Clean up and remove the link
-      link.parentNode.removeChild(link);
+      link.setAttribute('download', filename); // Set the filename
+      document.body.appendChild(link); // Append the link to the body
+      link.click(); // Programmatically click the link to trigger download
+      document.body.removeChild(link); // Clean up after download
     } catch (error) {
-      console.error('Error downloading the file', error);
+      // Handle any errors in the download process
+      console.error('Error downloading the file:', error);
+
+      if (error.response && error.response.headers['content-length']) {
+        console.error('Content-Length:', error.response.headers['content-length']);
+      } else {
+        console.error('No content-length header or another issue.');
+      }
     }
   };
   const { t } = useTranslation();
@@ -42,7 +53,7 @@ function Commands() {
   function copyCode(event, id) {
     const codeElement = event.target.closest('pre').querySelector('code');
     const codeText = codeElement.innerText;
-  
+
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(codeText).then(() => {
         setCopiedStates(prev => ({ ...prev, [id]: true }));
@@ -57,7 +68,7 @@ function Commands() {
       textArea.value = codeText;
       document.body.appendChild(textArea);
       textArea.select();
-  
+
       try {
         document.execCommand('copy');
         setCopiedStates(prev => ({ ...prev, [id]: true }));
@@ -67,14 +78,14 @@ function Commands() {
       } catch (err) {
         console.error('Fallback: Unable to copy', err);
       }
-  
+
       document.body.removeChild(textArea);
     }
   }
 
   const CodeBlock = ({ id, code }) => {
     const isMobile = isMobileDevice();
-  
+
     return (
       <pre>
         <code className={styles.code}>{code}</code>
