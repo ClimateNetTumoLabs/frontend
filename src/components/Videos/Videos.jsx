@@ -17,11 +17,6 @@ function VideoItem({ src }) {
 function Videos() {
     const { t } = useTranslation();
     const videoUrls = [
-        "https://www.youtube.com/embed/VuWNqQF1fgs",
-        "https://www.youtube.com/embed/dhRydUGKB5U",
-        "https://www.youtube.com/embed/PDk8alIMWOw",
-        "https://www.youtube.com/embed/q6xyRU-Ux-g",
-        "https://www.youtube.com/embed/Zfda9yZjapE",
         "https://www.youtube.com/embed/EeiyPYogiG0"
     ];
 
