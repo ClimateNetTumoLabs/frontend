@@ -9,19 +9,14 @@ function VideoItem({ src }) {
             height="240"
             src={src}
             title="YouTube video player"
-            allowFullScreen>
-        </iframe>
+            allowFullScreen
+        />
     );
 }
 
 function Videos() {
     const { t } = useTranslation();
     const videoUrls = [
-        "https://www.youtube.com/embed/EeiyPYogiG0",
-        "https://www.youtube.com/embed/EeiyPYogiG0",
-        "https://www.youtube.com/embed/EeiyPYogiG0",
-        "https://www.youtube.com/embed/EeiyPYogiG0",
-        "https://www.youtube.com/embed/EeiyPYogiG0",
         "https://www.youtube.com/embed/EeiyPYogiG0"
     ];
 
