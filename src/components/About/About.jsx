@@ -87,13 +87,14 @@ useEffect(() => {
 }, [highlightedSection]);
 
     const temperatureContent = `
-    <div id="temperature" class="mt-4">
+    <div id="temperature" >
+        <p>${t('about.thpIntro')}</p>
         <h2 class=${styles.measure_title}>${t('about.measureTemp')}</h2>
         <div class="d-flex align-items-center">
             <img loading="lazy" class=${styles.icon} src=${temp} alt="Temperature"/>
             <span class="text-light d-flex align-content-center">
                 ${t('about.temperatureContent')}<br>
-                ${t('about.temperatureContent2')}
+                ${t('about.temperatureContent2')}<br>
             </span> 
         </div>
     </div>
@@ -113,7 +114,7 @@ useEffect(() => {
     `
 
     const pressureContent = `
-        <div id="pressure" class="mt-4">
+        <div id="pressure" class="mt-4 mb-3">
             <h2 class=${styles.measure_title} >${t('about.measurePressure')}</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${pressure} alt="Pressure"/>
@@ -125,7 +126,7 @@ useEffect(() => {
         </div>
     `
     const air_quality_intro = `
-        <div id="airquality" class="mt-4">
+        <div id="airquality" >
             <span class="text-light d-flex align-content-center">
                 ${t('about.airQualityIntro')}<br/>
                 ${t('about.airQualityIntro2')}<br/> 
@@ -225,7 +226,7 @@ useEffect(() => {
     `
 
     const windSpeed = `
-        <div id="wind" class="mt-4">
+        <div id="wind">
             <h2 class=${styles.measure_title} >${t('about.titleWindSpeed')}</h2>
             <div class="d-flex align-items-center">
                 <img  loading="lazy" class=${styles.icon} src=${anemometer} alt="Anemometer"/>
@@ -296,7 +297,7 @@ useEffect(() => {
     </div>
 `
     const uv_intro = `
-        <div class="mt-4">
+        <div>
             <span class="text-light d-flex align-items-center">
                 ${t('about.uv_intro')}<br/>
                 ${t('about.uv_intro2')}
@@ -312,7 +313,6 @@ const combinedUV = `
                 <span class="text-light d-flex align-content-center">
                     ${t('about.uva')}<br/>
                     ${t('about.uva2')}<br/>
-                    ${t('about.uva3')}<br/>
                 </span>
             </div>
         </div>
@@ -419,6 +419,9 @@ const combinedUV = `
                 <a
                     className={styles.link}
                     href={"https://42yerevan.am/"}>{t('about.section6')}</a> {t('about.section7')}
+            </div>
+            <div className={`${styles.about_section} ${styles.ab_2}`}>{t('about.section8')}
+                <br/>{t('about.section9')}
             </div>
 
             <div className={styles.measurement_description}>

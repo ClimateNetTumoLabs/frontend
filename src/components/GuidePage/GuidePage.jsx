@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './GuidePage.module.css';
 import Contact from '../Contact/Contact.jsx';
 import Commands from '../Commands/Commands.jsx';
@@ -12,6 +12,13 @@ import { useTranslation } from "react-i18next";
 const Guide = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('home');
+  const requestRef = useRef(null);
+  const [scrollToRequest, setScrollToRequest] = useState(false);
+
+  const handleRequestAccessClick = () => {
+    setScrollToRequest(true);
+    setActiveTab('home');
+  };
 
   useEffect(() => {
     const isNewPageLoad = !sessionStorage.getItem('hasLoaded');
@@ -33,6 +40,15 @@ const Guide = () => {
       localStorage.setItem('activeTab', tab);
     }
   };
+
+  useEffect(() => {
+    if (scrollToRequest && activeTab === 'home') {
+      const section = document.getElementById("request");
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [scrollToRequest, activeTab]);
 
   return (
     <div className={styles.app}>
@@ -104,7 +120,7 @@ const Guide = () => {
           <p>{t('diy.info.end1')}<a className={styles.link} href="#request">{t('contact.title2')}</a>{t('diy.info.end2')}</p>
         </div>
       </section>
-      <section id="request">
+      <section id="request" ref={requestRef}>
       <Contact
         subject_state={false}
         className={`mb-2 col-md-8 col-12 ${styles.subTitles}`}
@@ -119,7 +135,7 @@ const Guide = () => {
         {activeTab === 'materials' && <Materials />}
         {activeTab === 'tools' && <Tools />}
         {activeTab === 'videos' && <Videos />}
-        {activeTab === 'commands' && <Commands />}
+        {activeTab === 'commands' && <Commands onRequestAccessClick={handleRequestAccessClick} />}
       </div>
     </div>
   );
