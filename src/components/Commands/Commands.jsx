@@ -3,40 +3,32 @@ import styles from './Commands.module.css';
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 
-function Commands() {
-  const handleDownload = async (filename) => {
-    try {
-      const response = await axios({
-        url: `/api/files/${filename}`,
-        method: 'GET',
-        responseType: 'blob', // Important
-      });
+function Commands({ onRequestAccessClick }) {
+  const onButtonClick = (file) => {
+    const fileUrls = {
+      'imager_win.exe': 'https://downloads.raspberrypi.org/imager/imager_latest.exe',
+      'imager_mac.dmg': 'https://downloads.raspberrypi.org/imager/imager_latest.dmg',
+      'imager_linux.deb': 'https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb',
+    };
 
-      // Create a URL for the file
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-
-      // Create a link element
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', filename); // Set file name for download
-
-      // Append to the document body and click it
-      document.body.appendChild(link);
-      link.click();
-
-      // Clean up and remove the link
-      link.parentNode.removeChild(link);
-    } catch (error) {
-      console.error('Error downloading the file', error);
-    }
+    const fileUrl = fileUrls[file];
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = file;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
   const { t } = useTranslation();
   const [copiedStates, setCopiedStates] = useState({});
-
+  const handleRequestAccessClick = () => {
+    if (onRequestAccessClick) {
+      onRequestAccessClick(); // Notify parent component (Guide) to switch to 'home' tab and scroll
+    }
+  };
   function isMobileDevice() {
-    return window.innerWidth <= 768; // Adjust the width as needed
+    return window.innerWidth <= 768;
   }
 
   function copyCode(event, id) {
@@ -103,13 +95,13 @@ function Commands() {
         <div className={styles.readmeStyle}>
           <p>{t('diy.commands.image')}</p>
           <div className={styles.downloadContainer}>
-            <button onClick={()=>handleDownload('imager_win.exe')} download  className={styles.downloadButton} >
+            <button onClick={()=>onButtonClick('imager_win.exe')} className={styles.downloadButton} >
               {t('diy.commands.win')}
             </button>
-            <button onClick={()=>handleDownload('imager_mac.dmg')} download className={styles.downloadButton}>
+            <button onClick={() => onButtonClick('imager_mac.dmg')} className={styles.downloadButton}>
               {t('diy.commands.mac')}
             </button>
-            <button onClick={()=>handleDownload('imager_linux.deb')} download className={styles.downloadButton}>
+            <button onClick={()=>onButtonClick('imager_linux.deb')} className={styles.downloadButton}>
               {t('diy.commands.ubun')}
             </button>
           </div>
@@ -248,7 +240,7 @@ function Commands() {
 
               <li>
                 <p>{t('diy.commands.app.env')} <b>DEVICE_ID</b> {t('diy.commands.app.and')} <b>MQTT_BROKER_ENDPOINT</b>.<br/>
-                  {t('diy.commands.app.message')} <a className={styles.link}href="#home">{t('contact.title2')}</a>, {t('diy.commands.app.form')}<br/></p>
+                  {t('diy.commands.app.message')} <a href="#request" className={styles.link} onClick={handleRequestAccessClick}>{t('contact.title2')}</a>, {t('diy.commands.app.form')}<br/></p>
                 <p className={styles.wrong}>{t('diy.commands.app.id')} </p>
 
                 <CodeBlock
@@ -291,7 +283,7 @@ function Commands() {
               </li>
 
               <li>
-                <p>{t('diy.commands.app.test')} <a className={styles.link} href="#video">video</a>.<br/>
+                <p>{t('diy.commands.app.test')}.<br/>
                   {t('diy.commands.app.venv')}</p>
                 <CodeBlock
                     id="test"

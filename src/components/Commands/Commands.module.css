@@ -119,6 +119,14 @@ h2 {
 .code{
   cursor: text;
 }
+
+.scan p{
+  padding-left: 20px;
+}
+.scan pre{
+  margin-left: 20px;
+  padding-right: 20px;
+}
 @media (max-width: 768px) {
   .downloadContainer {
     flex-direction: column;
