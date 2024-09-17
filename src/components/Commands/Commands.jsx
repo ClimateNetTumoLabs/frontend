@@ -164,24 +164,27 @@ function Commands({ onRequestAccessClick }) {
               </li>
             </ol>
             <hr></hr>
-            <p>{t('diy.commands.after_install')}</p>
-            <CodeBlock
-                id="run-macos-arp-scan"
-                code="sudo arp-scan --localnet"
-            />
+            <div  className={styles.precode}>
+              <p>{t('diy.commands.after_install')}
+                <CodeBlock
+                    id="run-macos-arp-scan"
+                    code="sudo arp-scan --localnet"
+                />
+              </p>
 
-            <p>{t('diy.commands.appear')}
-              <CodeBlock
-                  code="<IP address>	<MAC address>	Raspberry Pi Foundation"
-              />
-              <p className={styles.wrong}>{t('diy.commands.wrong')}</p>
-              {t('diy.commands.correct')}</p>
-            <CodeBlock
-                id="ssh-command"
-                code="ssh raspberry@<IP>"
-            />
-
-            <p>{t('diy.commands.congratulations')}</p>
+              <p>{t('diy.commands.appear')}
+                <CodeBlock
+                    code="<IP address>	<MAC address>	Raspberry Pi Foundation"
+                />
+                <p className={styles.wrong}>{t('diy.commands.wrong')}</p>
+                {t('diy.commands.correct')}
+                <CodeBlock
+                    id="ssh-command"
+                    code="ssh raspberry@<IP>"
+                />
+              </p>
+              <p>{t('diy.commands.congratulations')}</p>
+            </div>
           </div>
 
           <div className={styles.setup}>

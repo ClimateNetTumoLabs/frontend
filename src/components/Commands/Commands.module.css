@@ -38,8 +38,8 @@ h2 {
 
 .readmeStyle {
   display: flex;
-    flex-direction: column;
-    align-items: stretch;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .readmeStyle pre {
@@ -47,7 +47,7 @@ h2 {
   border-radius: 5px;
   padding: 10px;
   margin: 10px 0;
-  width: 100%;
+  /*width: 100%;*/
   overflow-x: auto;
   display: flex;
   align-items: center;
@@ -99,7 +99,6 @@ h2 {
 
 .network ol{
   padding-left: 20px;
-
 }
 
 .network ul{
@@ -109,7 +108,6 @@ h2 {
 
 .setup ol{
   padding-left: 20px;
-
 }
 
 .wrong{
@@ -120,13 +118,10 @@ h2 {
   cursor: text;
 }
 
-.scan p{
-  padding-left: 20px;
-}
-.scan pre{
+.precode{
   margin-left: 20px;
-  padding-right: 20px;
 }
+
 @media (max-width: 768px) {
   .downloadContainer {
     flex-direction: column;
