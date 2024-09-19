@@ -17,7 +17,13 @@ function VideoItem({ src }) {
 function Videos() {
     const { t } = useTranslation();
     const videoUrls = [
-        "https://www.youtube.com/embed/EeiyPYogiG0"
+        "https://www.youtube.com/embed/C0n0P9NOhfE",
+        "https://www.youtube.com/embed/7zOt3_UaqwU",
+        "https://www.youtube.com/embed/pW5IYh4hQFU",
+        "https://www.youtube.com/embed/3kp3A7_Rvk4",
+        "https://www.youtube.com/embed/IlhG887PGi8",
+        "https://www.youtube.com/embed/m74jJkplO84",
+        "https://www.youtube.com/embed/kCacM60Wsno"
     ];
 
     return (
@@ -25,7 +31,9 @@ function Videos() {
             <h2 className={styles.subTitles}>{t('diy.tabs.asmtitle')}</h2>
             <div className={styles.videos}>
                 {videoUrls.map((url, index) => (
-                    <VideoItem key={index} src={url} />
+                    <div className={'col-sm-6 col-12'}>
+                        <VideoItem  key={index} src={url} />
+                    </div>
                 ))}
             </div>
         </section>

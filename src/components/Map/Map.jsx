@@ -151,16 +151,17 @@ const MapArmenia = () => {
 				console.error('Error fetching data:', error);
 			});
 	}, []);
-	useEffect(() => {
-		const handleScroll = () => {
-			setShowMessage(true);
-			setScrollEnabled(false);
-		};
-		window.addEventListener("scroll", handleScroll);
-		return () => {
-			window.removeEventListener("scroll", handleScroll);
-		};
-	}, [])
+
+	// useEffect(() => {
+	// 	const handleScroll = () => {
+	// 		setShowMessage(true);
+	// 		setScrollEnabled(false);
+	// 	};
+	// 	window.addEventListener("scroll", handleScroll);
+	// 	return () => {
+	// 		window.removeEventListener("scroll", handleScroll);
+	// 	};
+	// }, [])
 
 	return (
 		<div id="Map" style={{ cursor: 'pointer' }}>
@@ -243,7 +244,7 @@ const MapArmenia = () => {
 							left: 0,
 							width: '100%',
 							height: '100%',
-							backgroundColor: 'rgba(255, 255, 255, 0.8)',
+							backgroundColor: 'rgba(255, 255, 255, 0.4)',
 							display: 'flex',
 							justifyContent: 'center',
 							alignItems: 'center',

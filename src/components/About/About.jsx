@@ -416,12 +416,9 @@ const combinedUV = `
             </div>
             <div className={`${styles.about_section} ${styles.ab_3}`}>{t('about.section3')} <a
                 className={styles.link} href={"https://tumolabs.am/en/"}>{t('about.section4')}</a> {t('about.section5')}
-                <a
-                    className={styles.link}
-                    href={"https://42yerevan.am/"}>{t('about.section6')}</a> {t('about.section7')}
             </div>
             <div className={`${styles.about_section} ${styles.ab_2}`}>{t('about.section8')}
-                <br/>{t('about.section9')}
+                <br/><br/>{t('about.section9')}
             </div>
 
             <div className={styles.measurement_description}>
