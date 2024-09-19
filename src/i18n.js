@@ -18,13 +18,11 @@ const resources = {
                     measurePressure: " Pressure",
                     section1: " a pioneering hyper-local, student-led climate observatory. Our mission is to empower the next generation and raise awareness through real-time data tracking, all while making a significant contribution to mitigating climate change. We're dedicated to advocating for climate action beyond borders, because the challenges we face are global in nature.",
                     section2: "At The Climate Net, we believe in the power of youth to drive meaningful change. We're putting the future in the hands of those who will be most affected by it: the young citizens inheriting the consequences of choices made by previous generations. We're here to equip and inspire them to take charge of tracking climate change patterns that will have the most significant impact on their lives and the world they'll inherit.",
-                    section5: "TUMO Labs is a tuition-free education program based on the just-in-time methodology that connects higher-education with industry. Anyone over the age of 18 can participate in the program designed specifically for TUMO Labs. The TUMO Labs education program consists of guided self-learning, project-based learning, Tech Incubation, and ",
+                    section5: "a tuition-free education program based on the just-in-time methodology that connects higher education with industry. Anyone over the age of 18 can participate in the program. The TUMO Labs education program consists of guided self-learning, project-based learning, Tech Incubation, and the 42 Yerevan programming school.",
                     section3: "Climate Net project is empowered by",
                     section4: "TUMO Labs",
-                    section6: "the 42 Yerevan",
-                    section7: "programming school. These multi complementary methods enable students to acquire knowledge and practical skills in the fields of technology, applied science, and engineering. As a result, students are equipped with the competitive skills needed to succeed in a globally-connected job market and economy.",
-                    section8: "Our climate observatory uses IoT devices which are installed on TUMO Boxes (mini TUMO centers) across Armenia. IoT climate devices use various sensors and software to transfer data with other systems through the internet or other communication networks.",
-                    section9: "So how do these sensors work and what do they measure? Check out the tabs below to learn more. If you want to analyze all our climate data, be sure to click on the last tab.",
+                    section8: "Our climate observatory uses IoT devices which are installed on TUMO Boxes (mini TUMO centers) across Armenia. IoT climate devices use various sensors to capture and live-stream data, open to everyone to use on our website or through the Climate Net APIs.",
+                    section9: "So how do these sensors work and what do they measure? Check out the details below to learn more. Make sure you scroll to the end if you’re interested in accessing the data though our APIs.",
                     thpIntro: "This sensor measures the following:",
                     temperatureContent: "Temperature can be measured between the ranges of -40°C to 85°C.",
                     temperatureContent2: "Between the temperature range of 0 to 65°C, the accuracy is ±1.0°C; outside of that range, the accuracy drops to ±1.5°C.",
@@ -117,14 +115,14 @@ const resources = {
                 banner: {
                     title: 'Climate Net: Connecting Armenia through a growing network of real-time climate data.',
                     text: {
-                        1: 'Monitor climate changes in real-time.',
-                        2: 'Accurate temperature and humidity measurements.',
-                        3: 'Detect real-time climate changes in the regions of Armenia.',
+                        1: 'Monitor climate changes in real time.',
+                        2: 'Accurate data live streamed and open source.',
+                        3: 'Nine live measurements including temperature, pollution and UV index.',
                     },
                 },
                 scrollableSection: {
                     section1: "A pioneering hyper-local, student-led climate observatory. Our mission is to empower the next generation and raise awareness through real-time data tracking, all while making a significant contribution to mitigating climate change. We're dedicated to advocating for climate action beyond borders, because the challenges we face are global in nature.",
-                    section2: "Unlock the Power of Weather Insights",
+                    section2: "Unlock the Power of Climate Insights",
                     section3: "Powered by TUMO Labs",
                     section4: "Explore Climate Data"
                 },
@@ -133,7 +131,7 @@ const resources = {
                         {
                             title: "Climate Friends:",
                             content: "Meet our partners and friends who have supported us and continue to do so.",
-                            partner1: "Amazon Web Services provides us with cloud credits to help us store and manage our data with high standards. These cloud computing web services provide various services related to networking, computing, storage, middleware, IoT and other processing capacities, as well as software tools via AWS server farms. This frees clients from managing, scaling, and patching hardware and operating systems. ",
+                            partner1: "Amazon Web Services (AWS) provides cloud credits that allow us to store and manage data with top-tier security and performance. AWS offers a wide range of services, including networking, computing, storage, middleware, IoT, and other processing capacities, as well as software tools, all hosted on its global server farms. By leveraging AWS, we are relieved from the burdens of managing, scaling, and maintaining hardware and operating systems.",
                             partner2: "TUMO Boxes are low-cost and easy-to-deploy facilities built out of shipping containers. Strategically placed so that every teen in Armenia can reach one in 40 minutes or less, these self-contained learning environments are equipped with state-of-the-art workstations and equipment and can host up to 320 students per week. The boxes provide access to the TUMO program and the entire network of coaches. These satellite locations act as the foundation for the ClimateNet devices. The devices are deployed on these boxes across the country to provide us with the local and accurate data.workshop leaders, and fellow students."
                         },
                         {
@@ -221,7 +219,7 @@ const resources = {
                         point1: "ClimateNet Devices are comprised of hardware and software elements.",
                         point2: "We provide step-by-step instructions on how to build both components.",
                         point3: "You do not need to know how to code, just how to copy and paste!",
-                        point4: "The materials will cost you an average of $130 to $280.",
+                        point4: "The materials will cost you between of $130 to $280.",
                         end1: "Ready to start? Just fill out the ",
                         end2: " form, and we will send you all the necessary credentials via mail."
                     },
@@ -448,7 +446,7 @@ const resources = {
                         home: "Home",
                         about: "About",
                         map: "Map",
-                        devices: "Devices",
+                        devices: "Locations",
                         guide: "Guide",
                         diy: "DIY",
                     },
@@ -555,13 +553,13 @@ const resources = {
                     measurePressure: "Ճնշում",
                     section1: "Ուսանողների կողմից ղեկավարվող նորարարական հիպերլոկալ կլիմայի աստղադիտարան: Մեր առաքելությունն է ընդլայնել հաջորդ սերնդի հնարավորությունները և բարձրացնել իրազեկությունը իրական ժամանակում տվյալների հետևման միջոցով ՝ միաժամանակ զգալի ներդրում ունենալով կլիմայի փոփոխության մեղմացման գործում: Մենք հանձնառու ենք խթանել կլիմայի փոփոխության գործողությունները սահմաններից դուրս, քանի որ մեր առջև ծառացած մարտահրավերները գլոբալ են:",
                     section2: "Կլիմայական ցանցում մենք հավատում ենք երիտասարդների ՝ իմաստալից փոփոխություններ խթանելու ունակությանը: Մենք ապագան դնում ենք նրանց ձեռքում, ովքեր կժառանգեն նախորդ սերունդների կատարած ընտրության հետևանքները՝ երիտասարդ քաղաքացիների: Մենք այստեղ ենք, որպեսզի զինենք և ոգեշնչենք նրանց ստանձնել պատասխանատվություն ՝ հետևելու կլիմայի փոփոխության օրինաչափություններին, որոնք առավել էական ազդեցություն կունենան իրենց կյանքի և իրենց ժառանգած աշխարհի վրա:",
-                    section5: "ԹՈՒՄՈ Լաբերը «ճիշտ ժամանակին» մեթոդաբանության վրա հիմնված անվճար կրթական ծրագիր է, որը բարձրագույն կրթությունը կապում է արդյունաբերության հետ: 18 տարեկանից բարձր յուրաքանչյուր ոք կարող է մասնակցել հատուկ Թումո լաբերի համար մշակված ծրագրին: Թումո լաբերի կրթական ծրագիրը բաղկացած է ինքնուրույն ուղղորդված ուսուցումից, նախագծային ուսուցումից, տեխնիկական ինկուբացիայից և",
+                    section5: "Ուսուցման անվճար ծրագիր՝ հիմնված just-in-time մեթոդաբանության վրա, որը կապում է բարձրագույն կրթությունը արդյունաբերության հետ: Ծրագրին կարող են մասնակցել 18 տարեկանից բարձր բոլորը: TUMO Labs կրթական ծրագիրը բաղկացած է ինքնուրույն կառավարվող ուսուցումից, նախագծերի վրա հիմնված ուսուցումից, տեխնոլոգիական ինկուբացիայից և 42 Երևան ծրագրավորման դպրոցից։",
                     section3: "Կլիմայական ցանց նախագիծը լիազորված է",
                     section4: "ԹՈՒՄՈ Լաբերի կողմից։ ",
                     section6: " 42 Երևան",
                     section7: "ծրագրավորման դպրոցից: Այս բազմակողմանի մեթոդները ուսանողներին հնարավորություն են տալիս ձեռք բերել գիտելիքներ և գործնական հմտություններ տեխնոլոգիայի, կիրառական գիտության և ճարտարագիտության ոլորտներում: Արդյունքում այն ուսանողներին ապահովում է մրցակցային հմտություններով, որոնք անհրաժեշտ են գլոբալ կապակցված աշխատաշուկայում և տնտեսությունում հաջողության հասնելու համար:",
-                    section8: "Մեր կլիմայական դիտարկման կայանը օգտագործում է IoT սարքեր, որոնք տեղադրված են Թումո տուփերի (փոքր Թումո կենտրոնների) վրա Հայաստանի տարբեր վայրերում։ IoT կլիմայական սարքերն օգտագործում են տարբեր սենսորներ և ծրագրակազմ, որպեսզի տվյալները փոխանցեն այլ համակարգերին ինտերնետի կամ այլ հաղորդակցական ցանցերի միջոցով։",
-                    section9: "Իսկ ինչպե՞ս են աշխատում այս սենսորները և ի՞նչ են չափում։ Ստորև ներկայացված կետերից կարող եք ավելին իմանալ։ Եթե ցանկանում եք վերլուծել մեր եղանակի տվյալները, համոզվեք, որ բացել եք վերջին կետը։",
+                    section8: "Մեր կլիմայական դիտարանն օգտագործում է IoT սարքեր, որոնք տեղադրված են ամբողջ Հայաստանի ԹՈՒՄՈ տուփերում (մինի ԹՈՒՄՈ կենտրոններ): IoT կլիմայական սարքերը տարբեր սենսորների միջոցով տվյալներ են հավաքում և ուղիղ հեռարձակում՝ հասանելի բոլորի համար մեր կայքում կամ Climate Net API-ների միջոցով։",
+                    section9: "Ինչպե՞ս են աշխատում այս սենսորները, և ի՞նչ են նրանք չափում: Ստորև ներկայացված են մանրամասները, որպեսզի ավելին իմանաք: Եթե հետաքրքրված եք մեր API-ների միջոցով տվյալներին հասանելիություն ստանալով, համոզվեք, որ կարդում եք մինչև վերջ։",
                     thpIntro: "Այս սենսորը չափում է հետևյալը.",
                     temperatureContent: "Ջերմաստիճանը կարող է չափվել -40°C-ից մինչև 85°C տիրույթում։",
                     temperatureContent2: "0°C-ից 65°C ջերմաստիճանային տիրույթում ճշգրտությունը կազմում է ±1.0°C, իսկ այդ տիրույթից դուրս՝ ճշգրտությունը իջնում է մինչև ±1.5°C",
@@ -655,13 +653,13 @@ const resources = {
                     title: 'Կլիմայական ցանց. Հայաստանի միացումը կլիմայական տվյալների աճող ցանցին իրական ժամանակում։',
                     text: {
                         1: 'Իրական ժամանակում հետևեք կլիմայի փոփոխություններին։',
-                        2: 'Ջերմաստիճանի և խոնավության ճշգրիտ չափումներ։',
-                        3: 'Իրական ժամանակում հետևեք կլիմայի փոփոխություններին Հայաստանի մարզերում։',
+                        2: 'Ճշգրիտ տվյալներ՝ ուղիղ հեռարձակմամբ և բաց կոդով։',
+                        3: 'Ինը ուղիղ չափումներ, ներառյալ ջերմաստիճան, աղտոտվածություն և ուլտրամանուշակագույն ինդեքս։',
                     },
                 },
                 scrollableSection: {
                     section1: "Առաջատար հիպերտեղական, ուսանողների կողմից ղեկավարվող կլիմայական աստղադիտարան: Մեր առաքելությունն է հզորացնել հաջորդ սերնդին և բարձրացնել իրազեկությունը տվյալների իրական ժամանակում հետևելու միջոցով, այս ամենը միևնույն ժամանակ զգալի ներդրում ունենալով կլիմայի փոփոխությունը մեղմելու գործում։ Մենք նվիրված ենք պաշտպանելուն սահմաններից դուրս կլիմայական գործողությունների համար, քանի որ մեր առջև ծառացած մարտահրավերները գլոբալ բնույթ ունեն։",
-                    section2: "Բացահայտեք եղանակի կանխատեսումների ուժը",
+                    section2: "Բացահայտեք կլիմայական տվյալների ուժը",
                     section3: "ԹՈՒՄՈ Լաբերի աջակցությամբ",
                     section4: "Ուսումնասիրեք կլիմայական տվյալները"
                 },
@@ -670,7 +668,7 @@ const resources = {
                         {
                             title: "Կլիմայի ընկերներ։",
                             content: "Ծանոթացեք մեր գործընկերներին և ընկերներին, ովքեր աջակցել և շարունակում են մեզ աջակցել։",
-                            partner1: "Amazon Web Services-ը մեզ տրամադրում է ամպային վարկեր, որոնք օգնում են մեզ պահել և կառավարել մեր տվյալները բարձր չափանիշներին համապատասխան։ Ամպային հաշվարկի այս վեբ ծառայությունները տրամադրում են տարբեր ծառայություններ, որոնք կապված են ցանցերի, հաշվարկի, պահեստավորման, միջին շերտի ծրագրերի, IoT-ի և այլ մշակման հզորությունների հետ, ինչպես նաև ծրագրային գործիքներ՝ AWS սերվերային ֆերմաների միջոցով: Սա ազատում է հաճախորդներին սարքավորումների և օպերացիոն համակարգերի կառավարումից, մասշտաբավորումից և թարմացումից:",
+                            partner1: "Amazon Web Services (AWS)-ը տրամադրում է ամպային կրեդիտներ, որոնք մեզ հնարավորություն են տալիս տվյալները պահել և կառավարել բարձր մակարդակի անվտանգությամբ և արդյունավետությամբ: AWS-ն առաջարկում է ծառայությունների լայն տեսականի, ներառյալ ցանցային, հաշվարկային, պահեստավորման, միջնակարգ ծրագրային ապահովման, IoT և այլ մշակման հնարավորություններ, ինչպես նաև ծրագրային գործիքներ, որոնք բոլորն էլ հյուրընկալվում են նրա գլոբալ սերվերային ֆերմաներում: AWS-ի միջոցով մենք ազատվում ենք ապարատային և օպերացիոն համակարգերի կառավարումից, մասշտաբավորումից և սպասարկումից առաջացող դժվարություններից։",
                             partner2: "ԹՈՒՄՈ տուփերը էժան և հեշտ տեղադրվող սարքեր են, որոնք կառուցված են բեռնափոխադրման տարաներից։ Այս ինքնավար ուսումնական կենտրոնները, որոնք ռազմավարականորեն տեղակայված են այնպես, որ Հայաստանի յուրաքանչյուր դեռահաս կարողանա դրանց հասնել 40 րոպեում կամ ավելի քիչ, հագեցած են ամենաժամանակակից աշխատատեղերով և սարքավորումներով և կարող են ընդունել շաբաթական մինչև 320 սովորող։ Այս տուփերը հնարավորություն են տալիս մուտք գործել ԹՈՒՄՈ ծրագիր և ամբողջ ցանց: Այս արբանյակային վայրերը հիմք են հանդիսանում Կլիմայական ցանցի սարքերի համար: Սարքերը տեղադրված են այդ տուփերի վրա ամբողջ երկրում, որպեսզի մեզ տրամադրեն տեղական և ճշգրիտ տվյալներ։"
                         },
                         {
@@ -758,7 +756,7 @@ const resources = {
                         point1: "Climate Net սարքերը բաղկացած են hardware և software բաղադրիչներից։",
                         point2: "Մենք տրամադրում ենք քայլ առ քայլ հրահանգներ երկու բաղադրիչների հավաքման համար։",
                         point3: "Ձեզ հարկավոր չէ իմանալ, թե ինչպես ծրագրավորել, պարզապես ինչպես պատճենել և տեղադրել:",
-                        point4: "Նյութերի արժեքը միջինում կկազմի 130-ից 280 ԱՄՆ դոլար։",
+                        point4: "Նյութերի արժեքը կկազմի մոտ $130-ից $280:",
                         end1: "Պատրա՞ստ եք սկսել: Պարզապես լրացրեք ",
                         end2: " ձևաչափը, և մենք էլեկտրոնային հասցեի միջոցով ձեզ կուղարկենք անհրաժեշտ փաստաթղթերը:"
                     },
