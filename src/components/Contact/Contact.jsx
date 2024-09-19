@@ -10,7 +10,6 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
 
   const [formData, setFormData] = useState({
     name: '',
-    surname: '',
     email: '',
     subject: subject,
     message: '',
@@ -39,10 +38,10 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const { name, surname, message, coordinates } = formData;
+    const { name,  message, coordinates } = formData;
     const subjectToUse = subject_state ? formData.subject : subject;
 
-    let templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name} ${surname}`;
+    let templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name}`;
 
     if (showCoordinates) {
       templateMessage += `\n\nCoordinates: ${coordinates}`;
@@ -77,40 +76,6 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
                   value={formData.name}
               />
             </div>
-            <div className={`col-12 mb-3 col-sm-6 ${styles.surname_field} ${styles.contact_block}`}>
-              <label className={`form-label ${labelClass("surname")}`} htmlFor="surname">
-                {t('contact.formFields.surname')}
-              </label>
-              <input
-                  className={`form-control ${styles.input_block}`}
-                  type="text"
-                  id="surname"
-                  name="surname"
-                  onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  required
-                  value={formData.surname}
-              />
-            </div>
-          </div>
-          <div className={`d-flex flex-wrap`}>
-            <div className={`col-12 mb-3 col-sm-6 ${styles.email_section} ${styles.contact_block}`}>
-              <label className={`form-label ${labelClass("email")}`} htmlFor="email">
-                {t('contact.formFields.email')}
-              </label>
-              <input
-                  className={`form-control ${styles.input_block}`}
-                  type="email"
-                  id="email"
-                  name="email"
-                  onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  required
-                  value={formData.email}
-              />
-            </div>
             {showCoordinates ? (
                 <div className={`col-12 mb-3 col-sm-6 ${styles.coordinates_section} ${styles.contact_block}`}>
                   <label className={`form-label ${labelClass("coordinates")}`} htmlFor="coordinates">
@@ -134,7 +99,8 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
                   <label className={`form-label ${styles.focused} ${labelClass("subject")}`} htmlFor="subject">
                     {t('contact.formFields.subject')}
                   </label>
-                  <select
+                  <input
+                      type="text"
                       required
                       className={`form-control ${styles.input_block}`}
                       id="subject"
@@ -143,16 +109,38 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
                       onFocus={handleFocus}
                       onBlur={handleBlur}
                       onChange={handleChange}
-                  >
-                    <option value="Need Data">{t('contact.options.0')}</option>
-                    <option value="Join To Project">{t('contact.options.1')}</option>
-                    <option value="Technical Support">{t('contact.options.2')}</option>
-                    <option value="Feedback">{t('contact.options.3')}</option>
-                  </select>
+                      maxLength="100"
+                      list="subjectSuggestions"
+                  />
+                  <datalist id="subjectSuggestions">
+                    <option value={t('contact.options.0')} />
+                    <option value={t('contact.options.1')} />
+                    <option value={t('contact.options.2')} />
+                    <option value={t('contact.options.3')} />
+                  </datalist>
                 </div>
             ) : (
                 <input type="hidden" name="subject" value={subject} />
             )}
+          </div>
+          <div className={`d-flex flex-wrap`}>
+            <div className={`col-12 mb-3 col-sm-6 ${styles.email_section} ${styles.contact_block}`}>
+              <label className={`form-label ${labelClass("email")}`} htmlFor="email">
+                {t('contact.formFields.email')}
+              </label>
+              <input
+                  className={`form-control ${styles.input_block}`}
+                  type="email"
+                  id="email"
+                  name="email"
+                  onChange={handleChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  required
+                  value={formData.email}
+              />
+            </div>
+
           </div>
           <div className={`mb-3 ${styles.contact_block}`}>
             <label className={`form-label ${labelClass("message")}`} htmlFor="message">

@@ -163,7 +163,7 @@ const resources = {
                 map: {
                     mapHeader: "Map",
                     mapDescription: "The highlighted locations indicate the current active climate devices. Click on a location to access the dataset specific to that device.",
-                    clickOnMap: "Click on map to zoom in or out",
+                    clickOnMap: "Click anywhere on the map to activate zoom functionality.",
                 },
                 contact: {
                     title1: "Contact Us",
@@ -700,7 +700,7 @@ const resources = {
                 map: {
                     mapHeader: "Քարտեզ",
                     mapDescription: "Առանձնացված վայրերը մատնանշում են ներկայիս ակտիվ կլիմայական սարքերը։ Սեղմեք գտնվելու վայրին ՝ այդ սարքին վերաբերող տվյալների հավաքածու մուտք գործելու համար։",
-                    clickOnMap: "Սեղմեք քարտեզի վրա՝ մեծացնելու կամ փոքրացնելու համար",
+                    clickOnMap: "Սեղմեք քարտեզի ցանկացած կետի վրա՝ մեծացնելու կամ փոքրացնելու հնարավորությունը ակտիվացնելու համար։",
                 },
                 contact: {
                     title1: "Կապ մեզ հետ",
