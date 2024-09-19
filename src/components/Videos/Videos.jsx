@@ -31,7 +31,9 @@ function Videos() {
             <h2 className={styles.subTitles}>{t('diy.tabs.asmtitle')}</h2>
             <div className={styles.videos}>
                 {videoUrls.map((url, index) => (
-                    <VideoItem key={index} src={url} />
+                    <div className={'col-sm-6 col-12'}>
+                        <VideoItem  key={index} src={url} />
+                    </div>
                 ))}
             </div>
         </section>

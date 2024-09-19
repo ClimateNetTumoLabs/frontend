@@ -16,7 +16,7 @@ const resources = {
                     measureTemp: " Temperature",
                     measureHumidity: " Humidity",
                     measurePressure: " Pressure",
-                    section1: " a pioneering hyper-local, student-led climate observatory. Our mission is to empower the next generation and raise awareness through real-time data tracking, all while making a significant contribution to mitigating climate change. We're dedicated to advocating for climate action beyond borders, because the challenges we face are global in nature.",
+                    section1: " a pioneering hyper-local, student-led climate observatory. Our mission is to empower the next generation and raise awareness through real time data tracking, all while making a significant contribution to mitigating climate change. We're dedicated to advocating for climate action beyond borders, because the challenges we face are global in nature.",
                     section2: "At The Climate Net, we believe in the power of youth to drive meaningful change. We're putting the future in the hands of those who will be most affected by it: the young citizens inheriting the consequences of choices made by previous generations. We're here to equip and inspire them to take charge of tracking climate change patterns that will have the most significant impact on their lives and the world they'll inherit.",
                     section5: "a tuition-free education program based on the just-in-time methodology that connects higher education with industry. Anyone over the age of 18 can participate in the program. The TUMO Labs education program consists of guided self-learning, project-based learning, Tech Incubation, and the 42 Yerevan programming school.",
                     section3: "Climate Net project is empowered by",
@@ -113,7 +113,7 @@ const resources = {
                     api_info_done: "Happy coding!"
                 },
                 banner: {
-                    title: 'Climate Net: Connecting Armenia through a growing network of real-time climate data.',
+                    title: 'Climate Net: Connecting Armenia through a growing network of real time climate data.',
                     text: {
                         1: 'Monitor climate changes in real time.',
                         2: 'Accurate data live streamed and open source.',
