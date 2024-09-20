@@ -6,6 +6,10 @@ import hovoImage from '../../assets/TeamMembers/hovo.png';
 import marinaImage from '../../assets/TeamMembers/marina.png';
 import arsenImage from '../../assets/TeamMembers/arsen.png';
 import vaheImage from '../../assets/TeamMembers/vahe.png';
+import sonaImage from '../../assets/TeamMembers/sona.png';
+import sofiImage from '../../assets/TeamMembers/sofi.png';
+import karenImage from '../../assets/TeamMembers/karen.png';
+import arevikImage from '../../assets/TeamMembers/arevik.png';
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 
@@ -41,7 +45,16 @@ const Team = () => {
             "Position": t('teamMembers.2.position'),
             "Image" : hovoImage
         },
-        "3" : {
+        "7" : {
+            "Name": t('teamMembers.6.name'),
+            "Social": [
+                { "icon": "fa-github", "link": "https://github.com/Ssofi1a" },
+                { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/sofi-abovyan-a9557025a" }
+            ],
+            "Position": t('teamMembers.6.position'),
+            "Image" : sofiImage
+        },
+        "8" : {
             "Name": t('teamMembers.3.name'),
             "Social": [
                 { "icon": "fa-github", "link": "https://github.com/M-Marina4" },
@@ -49,6 +62,15 @@ const Team = () => {
             ],
             "Position": t('teamMembers.3.position'),
             "Image" : marinaImage
+        },
+        "5" : {
+            "Name": t('teamMembers.7.name'),
+            "Social": [
+                { "icon": "fa-github", "link": "https://github.com/sarzumanyan" },
+                { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/sona-arzumanyan-857517273/" }
+            ],
+            "Position": t('teamMembers.7.position'),
+            "Image" : sonaImage
         },
         "4" : {
             "Name": t('teamMembers.4.name'),
@@ -59,7 +81,16 @@ const Team = () => {
             "Position": t('teamMembers.4.position'),
             "Image" : arsenImage
         },
-        "5" : {
+        "9" : {
+            "Name": t('teamMembers.8.name'),
+            "Social": [
+                { "icon": "fa-github", "link": "https://github.com/KarenDanielyan" },
+                { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/karen-danielyan-723812124/" }
+            ],
+            "Position": t('teamMembers.8.position'),
+            "Image" : karenImage
+        },
+        "6" : {
             "Name": t('teamMembers.5.name'),
             "Social": [
                 { "icon": "fa-github", "link": "https://github.com/vahkhachatryan" },
@@ -67,6 +98,15 @@ const Team = () => {
             ],
             "Position": t('teamMembers.5.position'),
             "Image" : vaheImage
+        },
+        "3" : {
+            "Name": t('teamMembers.9.name'),
+            "Social": [
+                { "icon": "fa-github", "link": "https://github.com/areviksol" },
+                { "icon": " fa-linkedin", "link": "https://www.linkedin.com/in/arevik-mkrtchyan-b2b979223/" }
+            ],
+            "Position": t('teamMembers.9.position'),
+            "Image" : arevikImage
         }
     }
 

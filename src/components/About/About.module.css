@@ -60,7 +60,8 @@
 }
 
 .highlighted {
-    border-left: solid #df7788; 
+    padding: 5px 0;
+    border-left: solid #df7788;
     background-color: rgba(223, 119, 136, 0.1); 
     transition: all 0.3s ease;
 }

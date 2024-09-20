@@ -47,7 +47,7 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
       templateMessage += `\n\nCoordinates: ${coordinates}`;
     }
 
-    const mailtoLink = `mailto:eutumocc@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
+    const mailtoLink = `mailto:labs@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
 
     window.location.href = mailtoLink;
   };

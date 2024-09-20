@@ -65,9 +65,9 @@ const Footer = () => {
                             </a>
                         </p>
                         <p className={styles.company_information}>
-                            <a href="mailto:eutumocc@tumo.org">
+                            <a href="mailto:labs@tumo.org">
                                 <img loading="lazy" src={mail} alt="Email Icon" className="icon" />
-                                eutumocc@tumo.org
+                                labs@tumo.org
                             </a>
                         </p>
                     </div>

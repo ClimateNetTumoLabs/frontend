@@ -17,13 +17,13 @@ function VideoItem({ src }) {
 function Videos() {
     const { t } = useTranslation();
     const videoUrls = [
-        "https://www.youtube.com/embed/C0n0P9NOhfE",
-        "https://www.youtube.com/embed/7zOt3_UaqwU",
-        "https://www.youtube.com/embed/pW5IYh4hQFU",
-        "https://www.youtube.com/embed/3kp3A7_Rvk4",
-        "https://www.youtube.com/embed/IlhG887PGi8",
-        "https://www.youtube.com/embed/m74jJkplO84",
-        "https://www.youtube.com/embed/kCacM60Wsno"
+        "https://www.youtube.com/embed/N49blz2DgQs",
+        "https://www.youtube.com/embed/dxPIET6XfwY",
+        "https://www.youtube.com/embed/ZcX6-r9DRKQ",
+        "https://www.youtube.com/embed/S3IDfitBtuA",
+        "https://www.youtube.com/embed/9SejlR-vPhY",
+        "https://www.youtube.com/embed/YHpYE7WvYas",
+        "https://www.youtube.com/embed/XIqDQbgPmSY"
     ];
 
     return (
