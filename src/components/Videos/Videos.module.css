@@ -31,6 +31,7 @@
 }
 .videos div:nth-child(even) {
   padding-left: 10px;
+  padding-bottom: 10px;
 }
 
 .videos iframe {

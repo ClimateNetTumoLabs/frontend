@@ -46,9 +46,15 @@ const About = () => {
 
             if (ref && ref.current) {
                 ref.current.scrollIntoView({ behavior: 'smooth' });
-                ref.current.click(); // This will toggle the collapse
-                setHighlightedSection(hash);
 
+                const section = ref.current.querySelector(".collapsible-content");
+                const isCollapsed = section && section.style.display === 'none';
+
+                if (isCollapsed) {
+                    ref.current.click();
+                }
+
+                setHighlightedSection(hash);
                 setTimeout(() => setHighlightedSection(null), 3500);
             }
         }
@@ -58,10 +64,8 @@ useEffect(() => {
     if (highlightedSection) {
         const element = document.getElementById(highlightedSection);
         if (element) {
-            // Scroll into view with smooth behavior
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-            // Manually adjust the scroll position to ensure the element is fully visible on mobile
             setTimeout(() => {
                 const rect = element.getBoundingClientRect();
                 const isVisible = (
@@ -73,15 +77,13 @@ useEffect(() => {
                     window.scrollBy({ top: rect.top - 20, behavior: 'smooth' });
                 }
 
-                // Add highlight class
                 element.classList.add(styles.highlighted);
 
-                // Remove highlight class after 3.5 seconds
                 setTimeout(() => {
                     element.classList.remove(styles.highlighted);
                     setHighlightedSection(null);
                 }, 3500);
-            }, 300); // Give some time for the initial scrollIntoView to complete
+            }, 300);
         }
     }
 }, [highlightedSection]);
