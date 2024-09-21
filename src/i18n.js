@@ -408,7 +408,7 @@ const resources = {
                         Vayk: "Vayk",
                         Jermuk: "Jermuk",
                         "New York 1": "New York 1",
-                        "New York 2": "New York 2",
+                        "New York": "New York",
                     },
                     parentNames: {
                         Shirak: "Shirak",
@@ -922,7 +922,7 @@ const resources = {
                         Vayk: "Վայք",
                         Jermuk: "Ջերմուկ",
                         "New York 1": "Նյու Յորք 1",
-                        "New York 2": "Նյու Յորք 2",
+                        "New York": "Նյու Յորք",
                     },
                     parentNames: {
                         Gegharkunik: "Գեղարքունիք",
