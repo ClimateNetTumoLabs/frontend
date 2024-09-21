@@ -407,7 +407,6 @@ const resources = {
                         Areni: "Areni",
                         Vayk: "Vayk",
                         Jermuk: "Jermuk",
-                        "New York 1": "New York 1",
                         "New York": "New York",
                     },
                     parentNames: {
@@ -479,9 +478,9 @@ const resources = {
                 },
                 innerPageFilter: {
                     options: {
-                        hourly: "Hourly",
-                        daily: "7 Days",
-                        monthly: "Current Month",
+                        hourly: "1 Day",
+                        daily: "1 Week",
+                        monthly: "1 Month",
                         range: "Range",
                         filter: "Filter"
                     },
@@ -921,7 +920,6 @@ const resources = {
                         Areni: "Արենի",
                         Vayk: "Վայք",
                         Jermuk: "Ջերմուկ",
-                        "New York 1": "Նյու Յորք 1",
                         "New York": "Նյու Յորք",
                     },
                     parentNames: {
@@ -991,9 +989,9 @@ const resources = {
                 },
                 innerPageFilter: {
                     options: {
-                        hourly: "Ժամային",
+                        hourly: "1 օր",
                         daily: "1 շաբաթ",
-                        monthly: "Ընթացիկ ամիս",
+                        monthly: "1 ամիս",
                         range: "Միջակայք",
                         filter: "Ֆիլտր"
                     },
