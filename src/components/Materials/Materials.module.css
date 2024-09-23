@@ -7,8 +7,9 @@
 
 .title {
   font-size: 2rem;
-  color: #df7788;
+  color: #e07789;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .section {
@@ -19,7 +20,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
+  background-color: #eae6e2;
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -33,8 +34,9 @@
 }
 
 .table th {
-  background-color: #df7788;
-  color: white;
+  background-color: #e07789;
+  color: #eae6e2;
+  font-weight: bold;
 }
 
 .table tr:hover {
@@ -42,7 +44,7 @@
 }
 
 .table td a {
-  color: #007acc;
+  color: #609ea8;
   text-decoration: none;
 }
 

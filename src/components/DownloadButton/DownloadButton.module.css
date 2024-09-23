@@ -1,19 +1,19 @@
 .download_button_block {
-    border: white;
+    border: #eae6e2;
     margin-left: 25px;
 }
 
 .download_button {
-    color : white;
-    border : 1px solid white;
+    color : #eae6e2;
+    border : 1px solid #eae6e2;
     transition: 0.4s;
     padding: 5px 15px;
 }
 
 .download_button:hover {
-    color: white;
-    background-color: #df7788;
-    border : 1px solid #df7788;
+    color: #eae6e2;
+    background-color: #e07789;
+    border : 1px solid #e07789;
 }
 
 @media (max-width: 480px) {

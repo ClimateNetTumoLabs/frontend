@@ -16,22 +16,22 @@
 }
 
 .tabs_section button[aria-selected='true'] {
-    color: #DF7788 !important;
+    color: #e07789 !important;
     background-color: #232222 !important;
     margin: 0 !important;
 }
 
 .tabs_section button:hover {
-    color: #DF7788;
+    color: #e07789;
 }
 
 .tabs_section button {
     border: none !important;
-    color: white;
+    color: #eae6e2;
 }
 
 .filter_section {
-    color: #df7788;
+    color: #e07789;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -50,15 +50,15 @@
 
 .filter_button {
     border: 1px solid #232222;
-    background-color: #df7788;
+    background-color: #e07789;
     padding: 5px 15px;
     border-radius: 5px;
     transition: 0.4s;
 }
 
 .filter_button:hover {
-    border: 1px solid #df7788;
-    color: #df7788;
+    border: 1px solid #e07789;
+    color: #e07789;
     background-color: #232222;
 }
 
@@ -69,8 +69,8 @@
 #chart text,
 tspan,
 span {
-    fill: white;
-    color: white !important;
+    fill: #eae6e2;
+    color: #eae6e2 !important;
 }
 
 #chart .apexcharts-tooltip {
@@ -83,7 +83,7 @@ span {
 }
 
 .chart_section text {
-    fill: white
+    fill: #eae6e2
 }
 
 @media (min-width: 481px) and (max-width: 992px) {

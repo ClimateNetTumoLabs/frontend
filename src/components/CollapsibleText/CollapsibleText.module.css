@@ -28,7 +28,7 @@
 
 .point {
     font-size: 20px;
-    color: #df7788 !important;
+    color: #e07789 !important;
     margin-right: 30px;
     font-weight: 500;
 }
@@ -44,7 +44,7 @@
 .icon:before, .icon:after {
     content: "";
     display: block;
-    background-color: #df7788;
+    background-color: #e07789;
     position: absolute;
     top: 50%; left: 0;
     transition: .35s;

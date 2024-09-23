@@ -19,7 +19,7 @@
 } 
 
 .footer h3, p {
-    color : white;
+    color : #eae6e2;
 }
 
 .footer_inner {
@@ -52,7 +52,7 @@
 }
 
 .social_icons_block a:hover svg{
-    color : #DF7788;
+    color : #e07789;
 }
 
 .social_icons_block a:last-of-type {
@@ -62,7 +62,7 @@
 .social_icon svg{
     width: 46px;
     height: 46px;
-    color: white;
+    color: #eae6e2;
 }
 
 @keyframes wave {
@@ -78,14 +78,14 @@
 }
 
 .company_information a, .company_information{
-    color: white;
+    color: #eae6e2;
     text-decoration: none;
     transition: color 0.4s;
     cursor: pointer;
 }
 
 .company_information a:hover, .company_information:hover {
-    color: #DF7788;
+    color: #e07789;
 }
 
 .company_information img {

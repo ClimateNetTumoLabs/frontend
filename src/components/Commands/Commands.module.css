@@ -6,9 +6,9 @@
 }
 
 h2 {
-  color: #df7788;
+  color: #e07789;
   margin-bottom: 20px;
-
+  font-weight: bold;
 }
 
 .downloadContainer {
@@ -20,9 +20,9 @@ h2 {
 .downloadButton {
   width: 100%;
   padding: 5px;
-  background-color: #df7788;
-  color: white;
-  border: 1px solid #df7788;
+  background-color: #e07789;
+  color: #eae6e2;
+  border: 1px solid #e07789;
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
@@ -31,8 +31,8 @@ h2 {
 
 .downloadButton:hover {
   background: transparent;
-  color : #df7788;
-  border: 1px solid #df7788;
+  color : #e07789;
+  border: 1px solid #e07789;
   transition: all 0.3s ease-in-out;
 }
 
@@ -74,7 +74,7 @@ h2 {
 }
 
 .copiedText {
-  color: rgb(3, 181, 3);
+  color: #008e63;
   font-size: 0.8em;
   margin-left: 5px;
   white-space: nowrap;
@@ -83,13 +83,13 @@ h2 {
 }
 
 .doneIcon {
-  color: green;
+  color: #008e63;
   font-size: 1.2em; /* Adjust size as needed */
 }
 
 .link {
   text-decoration: none;
-  color: #df7788;
+  color: #e07789;
   cursor: pointer;
 }
 
@@ -111,7 +111,7 @@ h2 {
 }
 
 .wrong{
-  color: red;
+  color: #c7bc42;
 }
 
 .code{
