@@ -40,27 +40,27 @@
 }
 
 .contact_us_title {
-    color : #df7788;
+    color : #e07789;
     font-size: 28px;
 }
 
 .input_block {
     background: none;
     border: none;
-    border-bottom: 1px solid #df7788;
+    border-bottom: 1px solid #e07789;
     border-radius: 0;
-    color : white;
+    color : #eae6e2;
     padding-left: 3px;
 }
 .input_block::placeholder {
-    color: white;
+    color: #eae6e2;
 }
 .input_block:-webkit-autofill,
 .input_block:-webkit-autofill:hover,
 .input_block:-webkit-autofill:focus,
 .input_block:-webkit-autofill:active{
     -webkit-background-clip: text;
-    -webkit-text-fill-color: #ffffff;
+    -webkit-text-fill-color: #eae6e2;
     transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -69,22 +69,22 @@
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
-    border-bottom: 1px solid #df7788;
-    color : white
+    border-bottom: 1px solid #e07789;
+    color : #eae6e2
 }
 
 .contact_us_button {
     min-width: 150px;
-    background: #df7788;
-    border: 1px solid #df7788;
+    background: #e07789;
+    border: 1px solid #e07789;
     border-radius: 5px;
-    color : white;
+    color : #eae6e2;
 }
 
 .contact_us_button:hover {
     background: #232222;
-    color : #df7788;
-    border: 1px solid #df7788 ;
+    color : #e07789;
+    border: 1px solid #e07789 ;
 }
 .success_message {
     margin-top: 20px;

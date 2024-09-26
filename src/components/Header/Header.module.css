@@ -7,7 +7,7 @@
 }
 
 .label span {
-  background: #fff;
+  background: #eae6e2;
   border-radius: 10px;
   height: 2px;
   margin: 5px 0;
@@ -50,7 +50,7 @@
 }
 
 .navbar {
-  color: white;
+  color: #eae6e2;
 }
 
 .drop {
@@ -59,12 +59,12 @@
 }
 
 .nav_link {
-  color: white !important;
+  color: #eae6e2 !important;
   cursor: pointer;
 }
 
 .nav_link:hover {
-  color: #df7788 !important;
+  color: #e07789 !important;
   cursor: pointer;
 }
 
@@ -81,7 +81,7 @@
 
 .active,
 .nav_link.active .root_item {
-  color: #df7788 !important;
+  color: #e07789 !important;
 }
 
 .navbar_toggler {
@@ -98,7 +98,7 @@
 }
 
 .text_white {
-  color: white;
+  color: #eae6e2;
 }
 
 .dropdown__item {
@@ -114,7 +114,7 @@
     transform: rotate(-90deg);
   }
   .dropdown__item:active {
-    background-color: white !important;
+    background-color: #eae6e2 !important;
     color: black !important;
   }
 
@@ -138,7 +138,7 @@
 }
 
 .map_name {
-  color: white !important;
+  color: #eae6e2 !important;
 }
 
 .navigation a,
@@ -152,7 +152,7 @@
 }
 
 .languageBtn {
-  color: white !important;
+  color: #eae6e2 !important;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -160,5 +160,5 @@
 }
 
 .languageBtn:hover {
-  color: #df7788 !important; /* Change to hover color */
+  color: #e07789 !important; /* Change to hover color */
 }

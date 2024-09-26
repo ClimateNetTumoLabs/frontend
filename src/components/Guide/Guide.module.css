@@ -1,6 +1,6 @@
 .guideContainer {
     padding: 0 15px 23px;
-    color: white;
+    color: #eae6e2;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -9,7 +9,7 @@
 .guideTitle {
     padding-top: 15px;
     font-size: 24px;
-    color: #df7788 !important;
+    color: #e07789 !important;
 }
 
 .guideSection {
@@ -17,7 +17,7 @@
 }
 
 .guideSubTitle {
-    color: #df7788;
+    color: #e07789;
     font-size: 16px;
     margin-bottom: 10px;
 }
@@ -28,7 +28,7 @@
 
 
 .title {
-  color: #df7788;
+  color: #e07789;
   padding-top: 15px;
   font-weight: bold;
   font-size: 50px;
@@ -42,7 +42,7 @@
   position: absolute;
   width: 5px;
   height: 5px;
-  background-color: #df7788;
+  background-color: #e07789;
   border-radius: 30%;
   animation: firework 2.5s ease-out forwards;
 }

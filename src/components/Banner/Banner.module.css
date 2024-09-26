@@ -89,7 +89,7 @@
         border-right-color: transparent;
     }
     50% {
-        border-right-color: white;
+        border-right-color: #eae6e2;
     }
 }
 
@@ -114,6 +114,7 @@
 
 .carouselCaption h1 {
     font-size: 28px;
+    color: #eae6e2;
 }
 
 /* Media query for desktop */

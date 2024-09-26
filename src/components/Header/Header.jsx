@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Header.module.css";
-import logo from "../../assets/Logo/tumolabslogo.svg";
+import logo from "../../assets/Logo/logo.svg";
 import axios from "axios";
 import {useTranslation} from "react-i18next";
 

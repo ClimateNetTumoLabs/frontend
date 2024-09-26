@@ -71,7 +71,7 @@ footer {
 .hover_inner {
     height: 100%;
     width: 100%;
-    background-color: white;
+    background-color: #eae6e2;
     color: black;
     font-size: 6em;
     border-radius: 5px;
@@ -84,7 +84,7 @@ table {
     border-collapse: collapse;
     overflow: hidden;
     width: 100%;
-    border: 1px solid white;
+    border: 1px solid #eae6e2;
     border-radius: 20px;
 }
 
@@ -92,27 +92,27 @@ caption {
     font-weight: bold;
     text-align: center;
     padding: 10px;
-    color: white !important;
+    color: #eae6e2 !important;
 }
 
 tr {
     border-bottom: 1px solid #444746 !important;
-    border-left: 1px solid white !important;
+    border-left: 1px solid #eae6e2 !important;
 }
 
 th,
 td {
-    border: 1px solid #ddd;
+    border: 1px solid #eae6e2;
     text-align: left;
     border-spacing: 0;
     border-collapse: separate;
-    color: white;
+    color: #eae6e2;
     padding: 18.5px 16px;
 }
 
 th {
     background-color: #444746;
-    color: white;
+    color: #eae6e2;
     padding: 18.5px 16px;
     font-size: .875rem;
     font-weight: 400;
@@ -121,7 +121,7 @@ th {
 }
 
 * {
-    color: white
+    color: #eae6e2
 }
 
 *:hover {
@@ -209,7 +209,7 @@ th {
     border-radius: 5px;
     position: absolute;
     z-index: 1;
-    background: white;
+    background: #eae6e2;
     color: black !important;
     font-size: 12px;
     padding: 5px;
@@ -224,9 +224,9 @@ th {
 
 .custom-icon {
     background-color: transparent;
-    border: 1px solid #ccc;
+    border: 1px solid #eae6e2;
     border-radius: 5px;
-    color: #fff;
+    color: #eae6e2;
     cursor: pointer;
     font-size: 14px;
     display: flex;
@@ -255,9 +255,9 @@ th {
     flex-direction: column;
     text-align: center;
     background-color: transparent;
-    border: 1px solid #ccc;
+    border: 1px solid #eae6e2;
     border-radius: 5px;
-    color: #fff;
+    color: #eae6e2;
     cursor: pointer;
     font-size: 17px;
     margin-left: 10px;
@@ -278,13 +278,13 @@ th {
 }
 
 .custom-icon:hover{
-    border: 1px solid #df7788;
-    color: #df7788;
+    border: 1px solid #e07789;
+    color: #e07789;
     background-color: #232222;
 }
 
 .custom-icon.from:hover .selected_date, .to:hover .selected_date {
-    color: #df7788;
+    color: #e07789;
 }
 .pickerDropdown {
     display: flex;

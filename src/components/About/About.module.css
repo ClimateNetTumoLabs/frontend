@@ -1,6 +1,6 @@
 .about_us_page {
     padding: 0 15px 23px;
-    color: white;
+    color: #eae6e2;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -8,7 +8,7 @@
 
 .welcome_to {
     font-size: 24px;
-    color: #df7788 !important;
+    color: #e07789 !important;
 }
 
 .about_section {
@@ -17,7 +17,7 @@
 }
 
 .link {
-    color: #df7788;
+    color: #e07789;
     transition: color 0.3s ease-in-out;
 }
 
@@ -36,13 +36,13 @@
 }
 
 .measure_title {
-    color: #df7788;
+    color: #e07789;
     font-size: 16px;
     margin-bottom: 20px;
 }
 
 .sub_title_3 {
-    color: #df7788;
+    color: #e07789;
     font-size: 14px;
     margin-bottom: 10px;
 }
@@ -61,7 +61,7 @@
 
 .highlighted {
     padding: 5px 0;
-    border-left: solid #df7788;
+    border-left: solid #e07789;
     background-color: rgba(223, 119, 136, 0.1); 
     transition: all 0.3s ease;
 }

@@ -27,18 +27,18 @@
 }
 
 .tabs_section button[aria-selected='true'] {
-    color: #DF7788 !important;
+    color: #e07789 !important;
     background-color: #232222 !important;
     margin: 0 !important;
 }
 
 .tabs_section button:hover {
-    color: #DF7788;
+    color: #e07789;
 }
 
 .tabs_section button {
     border: none !important;
-    color: white;
+    color: #eae6e2;
 }
 
 .tabs_section {

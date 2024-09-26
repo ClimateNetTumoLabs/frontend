@@ -11,7 +11,7 @@ import  "../../i18n";
 
 const StyledDatePicker = styled(DatePicker)`
     color: black;
-    background-color: white;
+    background-color: #eae6e2;
     padding: 5px;
     border: 1px solid #ccc;
 `;
