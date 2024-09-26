@@ -2,7 +2,6 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 20px;
-  margin-bottom: 50px;
 }
 
 .title {
@@ -29,8 +28,8 @@
 .table th, .table td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
   color: black;
+  border: 1px solid #ddd; /* Adds border around each cell (column and row separator) */
 }
 
 .table th {
@@ -40,7 +39,7 @@
 }
 
 .table tr:hover {
-  background-color: #f1f1f1;
+  background-color: #f3f0ec;
 }
 
 .table td a {
@@ -60,7 +59,16 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 768px) {
+
+@media (max-width: 1452px) {
+  .table td{
+    font-size: small;
+  }
+  .table th{
+    font-size: small;
+  }
+}
+@media (max-width: 982px) {
   .title {
     font-size: 1.6rem;
   }
