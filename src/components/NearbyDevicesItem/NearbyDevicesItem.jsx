@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import  "../../i18n";
 
 const NearbyDeviceItem = (props) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [truncatedName, setTruncatedName] = useState('');
     const [tooltipPosition, setTooltipPosition] = useState(window.innerWidth <= 768 ? 'top' : 'bottom');
 

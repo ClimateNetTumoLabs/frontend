@@ -382,43 +382,6 @@ const resources = {
                         }
                     }
                 },
-                devices: {
-                    deviceNames: {
-                        Maralik: "Maralik",
-                        Panik: "Panik",
-                        Azatan: "Azatan",
-                        Artik: "Artik",
-                        "V. Sargsyan": "V. Sargsyan",
-                        Sevan: "Sevan",
-                        Gavar: "Gavar",
-                        Amasia: "Amasia",
-                        Yerazgavors: "Yerazgavors",
-                        Akhuryan: "Akhuryan",
-                        Hatsik: "Hatsik",
-                        Ashotsk: "Ashotsk",
-                        TUMO: "TUMO",
-                        Chambarak: "Chambarak",
-                        Artsvaberd: "Artsvaberd",
-                        Berd: "Berd",
-                        Azatamut: "Azatamut",
-                        Ijevan: "Ijevan",
-                        Stepanavan: "Stepanavan",
-                        Spitak: "Spitak",
-                        Areni: "Areni",
-                        Vayk: "Vayk",
-                        Jermuk: "Jermuk",
-                        "New York": "New York",
-                    },
-                    parentNames: {
-                        Shirak: "Shirak",
-                        Yerevan: "Yerevan",
-                        Gegharkunik: "Gegharkunik",
-                        Tavush: "Tavush",
-                        Lori: "Lori",
-                        "Vayots Dzor": "Vayots Dzor",
-                        USA: "USA",
-                    }
-                },
                 header: {
                     navItems: {
                         home: "Home",
@@ -894,43 +857,6 @@ const resources = {
                         }
                     }
 
-                },
-                devices: {
-                    deviceNames: {
-                        Maralik: "Մարալիկ",
-                        Panik: "Փանիկ",
-                        Azatan: "Ազատան",
-                        Artik: "Արթիկ",
-                        "V. Sargsyan": "Վ. Սարգսյան",
-                        Sevan: "Սևան",
-                        Gavar: "Գավառ",
-                        Amasia: "Ամասիա",
-                        Yerazgavors: "Երազգավորս",
-                        Akhuryan: "Ախուրյան",
-                        Hatsik: "Հացիկ",
-                        Ashotsk: "Աշոցք",
-                        TUMO: "ԹՈՒՄՈ",
-                        Chambarak: "Ճամբարակ",
-                        Artsvaberd: "Արծվաբերդ",
-                        Berd: "Բերդ",
-                        Azatamut: "Ազատամուտ",
-                        Ijevan: "Իջևան",
-                        Stepanavan: "Ստեփանավան",
-                        Spitak: "Սպիտակ",
-                        Areni: "Արենի",
-                        Vayk: "Վայք",
-                        Jermuk: "Ջերմուկ",
-                        "New York": "Նյու Յորք",
-                    },
-                    parentNames: {
-                        Gegharkunik: "Գեղարքունիք",
-                        Shirak: "Շիրակ",
-                        Yerevan: "Երևան",
-                        Tavush: "Տավուշ",
-                        Lori: "Լոռի",
-                        "Vayots Dzor": "Վայոց ձոր",
-                        USA: "ԱՄՆ",
-                    }
                 },
                 header: {
                     navItems: {
