@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import styles from './Team.module.css'
+import React, { useEffect, useState } from "react";
+import styles from './Team.module.css';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useTranslation } from "react-i18next";
@@ -25,13 +25,13 @@ const responsive = {
 };
 
 const Team = () => {
-    const { t } = useTranslation();
-    const [teamMember, setTeamMember] = useState([]);
+    const { i18n } = useTranslation(); // Get i18n instance for current language
+    const [teamMembers, setTeamMembers] = useState([]);
 
     useEffect(() => {
         fetch('/api/teamMember/')
             .then(response => response.json())
-            .then(data => setTeamMember(data))
+            .then(data => setTeamMembers(data))
             .catch(error => console.error('Error fetching team members:', error));
     }, []);
 
@@ -50,36 +50,36 @@ const Team = () => {
                 dotListClass="team_member_dot_section"
                 itemClass="carousel-item-padding-40-px"
             >
-                {teamMember.map((teamMember) => (
-                    <div key={teamMember.generated_id} className={styles.team_item}>
+                {teamMembers.map((member) => (
+                    <div key={member.generated_id} className={styles.team_item}>
                         <div className={styles.team_member_image_block}>
                             <div className={styles.img_container}>
-                                {teamMember.image && (
-                                    <img loading="lazy" src={teamMember.image} alt={teamMember.name}/>
+                                {member.image && (
+                                    <img loading="lazy" src={member.image} alt={member.name} />
                                 )}
                             </div>
                             <div className={styles.icon_section}>
-                            {teamMember.github_link && (
-                                <a href={teamMember.github_link} target="_blank" rel="noreferrer">
-                                    <i className={`fab fa-github icon ${styles.hovicon} ${styles.effect}`}></i>
-                                </a>
-                            )}
-                            {teamMember.linkedin_link && (
-                                <a href={teamMember.linkedin_link} target="_blank" rel="noreferrer">
-                                    <i className={`fab fa-linkedin icon ${styles.hovicon} ${styles.effect}`}></i>
-                                </a>
-                            )}
+                                {member.github_link && (
+                                    <a href={member.github_link} target="_blank" rel="noreferrer">
+                                        <i className={`fab fa-github icon ${styles.hovicon} ${styles.effect}`}></i>
+                                    </a>
+                                )}
+                                {member.linkedin_link && (
+                                    <a href={member.linkedin_link} target="_blank" rel="noreferrer">
+                                        <i className={`fab fa-linkedin icon ${styles.hovicon} ${styles.effect}`}></i>
+                                    </a>
+                                )}
                             </div>
                         </div>
                         <div className={styles.info}>
-                            <h3>{teamMember.name}</h3>
-                            <p>{teamMember.position}</p>
+                            <h3>{member[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</h3>
+                            <p>{member[i18n.language === 'hy' ? 'position_hy' : 'position_en']}</p>
                         </div>
                     </div>
                 ))}
             </Carousel>
         </div>
-    )
-}
+    );
+};
 
 export default Team;
