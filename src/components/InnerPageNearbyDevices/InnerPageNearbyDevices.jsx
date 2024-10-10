@@ -120,7 +120,7 @@ function InnerPageNearbyDevices(props) {
         )}
             {nearby_list.map((device, i) => (
                 <Link
-                    to={`/${i18n.language}/device/${device.id}/?${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}`}
+                    to={`/${i18n.language}/device/${device.id}/?${device.name}`}
                     key={device.id}
                     className={styles.link}
                     onClick={() => {
@@ -130,7 +130,7 @@ function InnerPageNearbyDevices(props) {
                 >
                     <NearbyDevicesItem
                         id={device.id}
-                        name={device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}
+                        name={device.name}
                         distance={device.distance}
                         value={device.value}
                         temperature={deviceDataArrays.length > 0 ? deviceDataArrays[i][0] : null}

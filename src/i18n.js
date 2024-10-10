@@ -893,9 +893,6 @@ const resources = {
                     kmhour: "կմ/ժ",
                     micro: "միկրո"
                 },
-                nearbyDevicesItem: {
-                    km: "կմ"
-                },
                 innerPageDynamicContent: {
                     tabTitles: {
                         temperatureAndHumidity: "Ջերմաստիճան և խոնավություն",
