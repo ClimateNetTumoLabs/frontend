@@ -140,40 +140,6 @@ const resources = {
                         }
                     ]
                 },
-                teamMembers: {
-                    2: {
-                        name: "Hovhannes",
-                        position: "Software Engineer"
-                    },
-                    3: {
-                        name: "Marina",
-                        position: "Backend Developer"
-                    },
-                    4: {
-                        name: "Arsen",
-                        position: "DevOps Engineer"
-                    },
-                    5: {
-                        name: "Vahe",
-                        position: "Frontend Developer"
-                    },
-                    6: {
-                        name: "Sofi",
-                        position: "Student"
-                    },
-                    7: {
-                        name: "Sona",
-                        position: "Backend Developer"
-                    },
-                    8: {
-                        name: "Karen",
-                        position: "Student"
-                    },
-                    9: {
-                        name: "Arevik",
-                        position: "Frontend Developer"
-                    }
-                },
                 map: {
                     mapHeader: "Map",
                     mapDescription: "The highlighted locations indicate the current active climate devices. Click on a location to access the dataset specific to that device.",
@@ -616,40 +582,6 @@ const resources = {
                             content: "Ծանոթացեք ԹՈՒՄՈ Լաբերի պրակտիկանտներին ծրագրի ընթացքում։ Ծրագրի շրջանակներում յուրաքանչյուր 6 ամիսը մեկ իրականացվում է նոր մասնակիցների հավաքագրում։ Երեք ամիս տևած ինտենսիվ տեսական և գործնական սեմինարներից հետո կընտրվեն լավագույն ուսանողները, ովքեր կմիանան եզրափակիչ փուլին ՝ որպես պրակտիկանտ։ Պրակտիկայի ընթացքում ուսանողները կօգնեն սարքի հավաքմանը, տեղադրմանը և մոնիտորինգին:"
                         }
                     ]
-                },
-                teamMembers: {
-                    2: {
-                        name: "Հովհաննես",
-                        position: "Ծրագրային ճարտարագետ"
-                    },
-                    3: {
-                        name: "Մարինա",
-                        position: "Backend ծրագրավորող"
-                    },
-                    4: {
-                        name: "Արսեն",
-                        position: "DevOps ճարտարագետ"
-                    },
-                    5: {
-                        name: "Վահե",
-                        position: "Frontend ծրագրավորող"
-                    },
-                    6: {
-                        name: "Սոֆի",
-                        position: "Ուսանող"
-                    },
-                    7: {
-                        name: "Սոնա",
-                        position: "Backend ծրագրավորող"
-                    },
-                    8: {
-                        name: "Կարեն",
-                        position: "Ուսանող"
-                    },
-                    9: {
-                        name: "Արևիկ",
-                        position: "Frontend ծրագրավորող"
-                    }
                 },
                 map: {
                     mapHeader: "Քարտեզ",
