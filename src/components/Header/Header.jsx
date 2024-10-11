@@ -88,13 +88,13 @@ const Header = () => {
     };
 
     const menuData = devices.reduce((acc, data) => {
-        const parentTitle = t(`devices.parentNames.${data.parent_name}`);
+        const parentTitle = data[i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en'];
         let menu = acc.find((menu) => menu.title === parentTitle);
         if (!menu) {
             menu = {title: parentTitle, submenus: []};
             acc.push(menu);
         }
-        const submenuTitle = t(`devices.deviceNames.${data.name}`);
+        const submenuTitle = data[i18n.language === 'hy' ? 'name_hy' : 'name_en'];
         if (!menu.submenus.some((submenu) => submenu.title === submenuTitle)) {
             menu.submenus.push({title: submenuTitle, device_id: data.generated_id});
         }

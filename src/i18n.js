@@ -140,40 +140,6 @@ const resources = {
                         }
                     ]
                 },
-                teamMembers: {
-                    2: {
-                        name: "Hovhannes",
-                        position: "Software Engineer"
-                    },
-                    3: {
-                        name: "Marina",
-                        position: "Backend Developer"
-                    },
-                    4: {
-                        name: "Arsen",
-                        position: "DevOps Engineer"
-                    },
-                    5: {
-                        name: "Vahe",
-                        position: "Frontend Developer"
-                    },
-                    6: {
-                        name: "Sofi",
-                        position: "Student"
-                    },
-                    7: {
-                        name: "Sona",
-                        position: "Backend Developer"
-                    },
-                    8: {
-                        name: "Karen",
-                        position: "Student"
-                    },
-                    9: {
-                        name: "Arevik",
-                        position: "Frontend Developer"
-                    }
-                },
                 map: {
                     mapHeader: "Map",
                     mapDescription: "The highlighted locations indicate the current active climate devices. Click on a location to access the dataset specific to that device.",
@@ -380,43 +346,6 @@ const resources = {
                             program: "Start the main program: Enable and start the ",
                             automate: " which will run continuously and start automatically on boot:",
                         }
-                    }
-                },
-                devices: {
-                    deviceNames: {
-                        Maralik: "Maralik",
-                        Panik: "Panik",
-                        Azatan: "Azatan",
-                        Artik: "Artik",
-                        "V. Sargsyan": "V. Sargsyan",
-                        Sevan: "Sevan",
-                        Gavar: "Gavar",
-                        Amasia: "Amasia",
-                        Yerazgavors: "Yerazgavors",
-                        Akhuryan: "Akhuryan",
-                        Hatsik: "Hatsik",
-                        Ashotsk: "Ashotsk",
-                        TUMO: "TUMO",
-                        Chambarak: "Chambarak",
-                        Artsvaberd: "Artsvaberd",
-                        Berd: "Berd",
-                        Azatamut: "Azatamut",
-                        Ijevan: "Ijevan",
-                        Stepanavan: "Stepanavan",
-                        Spitak: "Spitak",
-                        Areni: "Areni",
-                        Vayk: "Vayk",
-                        Jermuk: "Jermuk",
-                        "New York": "New York",
-                    },
-                    parentNames: {
-                        Shirak: "Shirak",
-                        Yerevan: "Yerevan",
-                        Gegharkunik: "Gegharkunik",
-                        Tavush: "Tavush",
-                        Lori: "Lori",
-                        "Vayots Dzor": "Vayots Dzor",
-                        USA: "USA",
                     }
                 },
                 header: {
@@ -654,40 +583,6 @@ const resources = {
                         }
                     ]
                 },
-                teamMembers: {
-                    2: {
-                        name: "Հովհաննես",
-                        position: "Ծրագրային ճարտարագետ"
-                    },
-                    3: {
-                        name: "Մարինա",
-                        position: "Backend ծրագրավորող"
-                    },
-                    4: {
-                        name: "Արսեն",
-                        position: "DevOps ճարտարագետ"
-                    },
-                    5: {
-                        name: "Վահե",
-                        position: "Frontend ծրագրավորող"
-                    },
-                    6: {
-                        name: "Սոֆի",
-                        position: "Ուսանող"
-                    },
-                    7: {
-                        name: "Սոնա",
-                        position: "Backend ծրագրավորող"
-                    },
-                    8: {
-                        name: "Կարեն",
-                        position: "Ուսանող"
-                    },
-                    9: {
-                        name: "Արևիկ",
-                        position: "Frontend ծրագրավորող"
-                    }
-                },
                 map: {
                     mapHeader: "Քարտեզ",
                     mapDescription: "Առանձնացված վայրերը մատնանշում են ներկայիս ակտիվ կլիմայական սարքերը։ Սեղմեք գտնվելու վայրին ՝ այդ սարքին վերաբերող տվյալների հավաքածու մուտք գործելու համար։",
@@ -895,43 +790,6 @@ const resources = {
                     }
 
                 },
-                devices: {
-                    deviceNames: {
-                        Maralik: "Մարալիկ",
-                        Panik: "Փանիկ",
-                        Azatan: "Ազատան",
-                        Artik: "Արթիկ",
-                        "V. Sargsyan": "Վ. Սարգսյան",
-                        Sevan: "Սևան",
-                        Gavar: "Գավառ",
-                        Amasia: "Ամասիա",
-                        Yerazgavors: "Երազգավորս",
-                        Akhuryan: "Ախուրյան",
-                        Hatsik: "Հացիկ",
-                        Ashotsk: "Աշոցք",
-                        TUMO: "ԹՈՒՄՈ",
-                        Chambarak: "Ճամբարակ",
-                        Artsvaberd: "Արծվաբերդ",
-                        Berd: "Բերդ",
-                        Azatamut: "Ազատամուտ",
-                        Ijevan: "Իջևան",
-                        Stepanavan: "Ստեփանավան",
-                        Spitak: "Սպիտակ",
-                        Areni: "Արենի",
-                        Vayk: "Վայք",
-                        Jermuk: "Ջերմուկ",
-                        "New York": "Նյու Յորք",
-                    },
-                    parentNames: {
-                        Gegharkunik: "Գեղարքունիք",
-                        Shirak: "Շիրակ",
-                        Yerevan: "Երևան",
-                        Tavush: "Տավուշ",
-                        Lori: "Լոռի",
-                        "Vayots Dzor": "Վայոց ձոր",
-                        USA: "ԱՄՆ",
-                    }
-                },
                 header: {
                     navItems: {
                         home: "Գլխավոր",
@@ -966,9 +824,6 @@ const resources = {
                     myum: "μմ",
                     kmhour: "կմ/ժ",
                     micro: "միկրո"
-                },
-                nearbyDevicesItem: {
-                    km: "կմ"
                 },
                 innerPageDynamicContent: {
                     tabTitles: {

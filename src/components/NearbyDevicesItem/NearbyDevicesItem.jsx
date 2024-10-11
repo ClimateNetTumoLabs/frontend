@@ -4,21 +4,20 @@ import distanceIcon from '../../assets/Weather/arrows.webp'
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import temp from "../../assets/AboutIcons/temperature.png"
 import { useTranslation } from "react-i18next";
-import  "../../i18n";
+import "../../i18n";
 
 const NearbyDeviceItem = (props) => {
-    const { t } = useTranslation();
+    const { i18n } = useTranslation();
     const [truncatedName, setTruncatedName] = useState('');
     const [tooltipPosition, setTooltipPosition] = useState(window.innerWidth <= 768 ? 'top' : 'bottom');
 
     const calculateNewPosition = () => {
-        const newPosition = { top: window.innerWidth <= 768 ? 'top' : 'bottom' };
-        return newPosition;
+        return window.innerWidth <= 768 ? 'top' : 'bottom';
     };
 
     useEffect(() => {
         const handleResize = () => {
-            setTooltipPosition(calculateNewPosition().top);
+            setTooltipPosition(calculateNewPosition());
         };
 
         window.addEventListener('resize', handleResize);
@@ -29,15 +28,18 @@ const NearbyDeviceItem = (props) => {
     }, []);
 
     useEffect(() => {
-        const translatedName = t(`devices.deviceNames.${props.name}`, props.name);
-        if (translatedName.length > 12) {
-            setTruncatedName(`${translatedName.slice(0, 12)}...`);
+        if (props.name) {
+            if (props.name.length > 12) {
+                setTruncatedName(`${props.name.slice(0, 12)}...`);
+            } else {
+                setTruncatedName(props.name);
+            }
         } else {
-            setTruncatedName(translatedName);
+            setTruncatedName('Unknown Device');
         }
-    }, [props.name, t]);
+    }, [props.name]);
 
-    if (!props.temperature) {
+    if (!props.temperature || !props.name) {
         return null;
     }
 
@@ -47,7 +49,7 @@ const NearbyDeviceItem = (props) => {
                 {truncatedName}
             </span>
             <div className={styles.distance_display}>
-                <span>{isNaN(props.distance) ? 'N/A' : `${props.distance} ${t('nearbyDevicesItem.km')}`}</span>
+                <span>{isNaN(props.distance) ? 'N/A' : `${props.distance} ${i18n.language === 'hy' ? 'կմ' : 'km'}`}</span>
                 <img className={styles.distance_icon} src={distanceIcon} alt="Distance Icon" />
             </div>
             <div className={styles.measure}>
@@ -58,9 +60,7 @@ const NearbyDeviceItem = (props) => {
             <ReactTooltip
                 id={`${props.name + props.id}`}
                 place={tooltipPosition}
-                content={truncatedName !== t(`devices.deviceNames.${props.name}`, props.name) ? (
-                    <span dangerouslySetInnerHTML={{ __html: t(`devices.deviceNames.${props.name}`, props.name) }} />
-                ) : null}
+                content={truncatedName !== props.name ? props.name : null}
             />
         </div>
     );
