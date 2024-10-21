@@ -14,7 +14,12 @@ import { Link } from 'react-router-dom';
 
 const WeatherState = () => {
     return (
-        <img src={Device} alt="Device" className={styles.weatherStatusImage} />
+        <img 
+            loading="eager"
+            src={Device} 
+            alt="Device" 
+            className={styles.weatherStatusImage} 
+        />
     )
 }
 
