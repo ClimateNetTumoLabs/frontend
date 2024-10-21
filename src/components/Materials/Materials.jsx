@@ -86,7 +86,7 @@ const Materials = () => {
       amazon: 'https://www.amazon.com/dp/B07DH83YXT?psc=1&ref=ppx_yo2ov_dt_b_product_details',
       costaliexpress: '$3.25',
       aliexpress: 'https://aliexpress.ru/item/32968895113.html?sku_id=66585085843&spm=a2g2w.productlist.search_results.0.12479b5b48Wra0',
-      image:  getImage('blackplastic.png')
+      image:  getImage('plastic.png')
     },
     {
       name: t('diy.materials.item.9'),
