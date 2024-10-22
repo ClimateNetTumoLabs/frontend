@@ -1,6 +1,5 @@
 import React from "react";
 import styles from './InnerPageStaticContent.module.css'
-import Device from '../../assets/Weather/device.svg'
 import { useLocation } from "react-router-dom";
 import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
@@ -16,7 +15,7 @@ const WeatherState = () => {
     return (
         <img 
             loading="eager"
-            src={Device} 
+            src={'https://firebasestorage.googleapis.com/v0/b/testbackground-97a83.appspot.com/o/device.svg?alt=media&token=3eb02145-3c5f-41f5-a4ce-bd6586dc7718'}
             alt="Device" 
             className={styles.weatherStatusImage} 
         />
