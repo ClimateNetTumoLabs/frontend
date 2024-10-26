@@ -403,7 +403,7 @@ const combinedUV = `
 
         <p><strong>${t('about.api_info_note')}</strong> ${t('about.api_info_note2')}</p>
 
-        <p>${t('about.api_info_note3')}<a class=${styles.link} href="mailto:eutumocc@tumo.org">eutumocc@tumo.org</a>.</p>
+        <p>${t('about.api_info_note3')}<a class=${styles.link} href="mailto:labs@tumo.org">labs@tumo.org</a>.</p>
         <h2 class=${styles.measure_title}>${t('about.api_info_note4')} <code>&lt;source&gt;${t('about.api_info_note5')}&lt;/source&gt;</code></h2>
         <p>${t('about.api_info_done')}</p>
     `
