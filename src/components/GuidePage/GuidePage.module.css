@@ -9,7 +9,7 @@
 }
 
 .title {
-  background : url(https://firebasestorage.googleapis.com/v0/b/testbackground-97a83.appspot.com/o/copper%20wire.webp?alt=media&token=fcc6455f-c25f-4de6-94ad-f23e3de72d24);
+  background : url("https://images-in-website.s3.us-east-1.amazonaws.com/DIY/copper+wire.webp");
   height: 55vh;
   background-size: cover;
   overflow: hidden;

@@ -15,7 +15,7 @@ const WeatherState = () => {
     return (
         <img 
             loading="eager"
-            src={'https://firebasestorage.googleapis.com/v0/b/testbackground-97a83.appspot.com/o/device.svg?alt=media&token=3eb02145-3c5f-41f5-a4ce-bd6586dc7718'}
+            src={'https://images-in-website.s3.us-east-1.amazonaws.com/Weather/device.svg'}
             alt="Device" 
             className={styles.weatherStatusImage} 
         />
