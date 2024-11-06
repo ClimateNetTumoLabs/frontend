@@ -8,6 +8,8 @@ import Tools from '../Tools/Tools.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faScrewdriverWrench, faTerminal, faList, faUserGear, faHouse } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from "react-i18next";
+import { Helmet } from 'react-helmet';
+
 
 const Guide = () => {
   const { t } = useTranslation();
@@ -52,6 +54,10 @@ const Guide = () => {
 
   return (
     <div className={styles.app}>
+          <Helmet>
+                <title>How to build a DIY Climate Device</title>
+                <meta name="description" content="Welcome to ClimateNet, the platform for environmental monitoring." />
+      </Helmet>
       <div className={styles.title}>
         <h1>
           {t('diy.title1')}<br/>

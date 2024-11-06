@@ -9,7 +9,7 @@
 }
 
 .title {
-  background-image: url('../../assets/DIY/copper wire.webp');
+  background : url("https://images-in-website.s3.us-east-1.amazonaws.com/DIY/copper+wire.webp");
   height: 55vh;
   background-size: cover;
   overflow: hidden;

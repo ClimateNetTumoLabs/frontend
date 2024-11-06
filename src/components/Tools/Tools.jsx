@@ -4,109 +4,99 @@ import {useTranslation} from "react-i18next";
 
 const Tools = () => {
     const { t } = useTranslation()
-    const images = require.context('../../assets/Tools', false, /\.(png|jpe?g|svg)$/);
-
-    const getImage = (imageName) => {
-      try {
-        return images(`./${imageName}`);
-      } catch (err) {
-        console.error(`Image ${imageName} not found`);
-        return null;
-      }
-    };
 
   const tools = [
   {
     name: t('diy.tools.1'),
-    image: getImage('shurupovert.jpg'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/shurupovert.jpg"
   },
   {
     name: t('diy.tools.2'),
-    image: getImage('skotch.jpg')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/skotch.jpg"
   },
   {
     name: t('diy.tools.3'),
-    image: getImage('nasadki.png'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/nasadki.png"
   },
   {
     name: t('diy.tools.4'),
-    image: getImage('payalnik.png')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/payalnik.png"
   },
   {
     name: t('diy.tools.5'),
-    image: getImage('lanmaker.png'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/lanmaker.png"
   },
   {
     name: t('diy.tools.6'),
-    image: getImage('metr.jpg')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/metr.jpg"
   },
   {
     name: t('diy.tools.7'),
-    image: getImage('scissors.jpeg'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/scissors.jpeg"
   },
   {
     name: t('diy.tools.8'),
-    image: getImage('fen.jpg')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/fen.jpg"
   },
   {
     name: t('diy.tools.9'),
-    image: getImage('provoda.png'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/provoda.png"
   },
   {
     name: t('diy.tools.10'),
-    image: getImage('cutter.png')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/cutter.png"
   },
   {
     name: t('diy.tools.11'),
-    image: getImage('father.png'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/father.png"
   },
   {
     name: t('diy.tools.12'),
-    image: getImage('gubci.jpg')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/gubci.jpg"
   },
   {
     name: t('diy.tools.13'),
-    image: getImage('rosin.jpeg'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/rosin.jpeg"
   },
   {
     name: t('diy.tools.14'),
-    image: getImage('spacer.png')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/spacer.png"
   },
   {
     name: t('diy.tools.15'),
-    image: getImage('spirt.jpg'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/spirt.jpg"
   },
   {
     name: t('diy.tools.16'),
-    image: getImage('brush.jpeg')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/brush.jpeg"
   },
   {
     name: t('diy.tools.17'),
-    image: getImage('compass.png')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/compass.png"
   },
   {
     name: t('diy.tools.18'),
-    image: getImage('pincet.png'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/pincet.png"
   },
   {
     name: t('diy.tools.19'),
-    image: getImage('silicone.jpg')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/silicone.jpg"
   },
   {
     name: t('diy.tools.20'),
-    image: getImage('tester.jpg'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/tester.jpg"
   },
   {
     name: t('diy.tools.21'),
-    image: getImage('screwdriver.jpeg')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/screwdriver.jpeg"
   },
   {
     name: t('diy.tools.22'),
-    image: getImage('solder wire.jpeg'),
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/solder wire.jpeg"
   },
   {
     name: t('diy.tools.23'),
-    image: getImage('laq.jpeg')
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/laq.jpeg"
   },
   ];
 

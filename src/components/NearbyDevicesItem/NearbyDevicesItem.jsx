@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './NearbyDevicesItem.module.css';
-import distanceIcon from '../../assets/Weather/arrows.webp'
+// import distanceIcon from '../../assets/Weather/arrows.webp'
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import temp from "../../assets/AboutIcons/temperature.png"
+// import temp from "../../assets/AboutIcons/temperature.png"
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 
@@ -50,12 +50,12 @@ const NearbyDeviceItem = (props) => {
             </span>
             <div className={styles.distance_display}>
                 <span>{isNaN(props.distance) ? 'N/A' : `${props.distance} ${i18n.language === 'hy' ? 'կմ' : 'km'}`}</span>
-                <img className={styles.distance_icon} src={distanceIcon} alt="Distance Icon" />
+                <img className={styles.distance_icon} src={"https://images-in-website.s3.us-east-1.amazonaws.com/Weather/arrows.webp"} alt="Distance Icon" />
             </div>
             <div className={styles.measure}>
                 <span>{Math.round(props.temperature)}</span>
                 <sup>°C</sup>
-                <img className={styles.measurement_icon} src={temp} alt="Temperature" />
+                <img className={styles.measurement_icon} src={"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/temperature.png"} alt="Temperature" />
             </div>
             <ReactTooltip
                 id={`${props.name + props.id}`}

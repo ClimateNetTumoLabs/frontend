@@ -1,6 +1,5 @@
 import React from "react";
 import styles from './InnerPageStaticContent.module.css'
-import Device from '../../assets/Weather/device.svg'
 import { useLocation } from "react-router-dom";
 import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
@@ -16,7 +15,7 @@ const WeatherState = () => {
     return (
         <img 
             loading="eager"
-            src={Device} 
+            src={'https://images-in-website.s3.us-east-1.amazonaws.com/Weather/device.svg'}
             alt="Device" 
             className={styles.weatherStatusImage} 
         />
