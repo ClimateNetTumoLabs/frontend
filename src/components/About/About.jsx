@@ -14,6 +14,7 @@ import CollapsibleText from "../CollapsibleText/CollapsibleText";
 import {useTranslation} from "react-i18next";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Helmet } from 'react-helmet';
 import "../../i18n";
 
 const About = () => {
@@ -409,7 +410,12 @@ const combinedUV = `
     `
 
     return (
+
         <div className={styles.about_us_page}>
+             <Helmet>
+                <title>ClimateNet | A Student-led Climate Initiative</title>
+                <meta name="description" content="ClimateNet offers real-time environmental monitoring solutions to help communities and organizations track key climate data like temperature, humidity, and air quality for a sustainable future." />
+             </Helmet>
             <div className={`${styles.about_section} ${styles.ab_1}`}><span
                 className={styles.welcome_to}>{t('about.welcome')}</span>
                 {t('about.section1')}

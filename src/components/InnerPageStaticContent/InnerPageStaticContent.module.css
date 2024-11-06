@@ -98,10 +98,12 @@
 .tr, .td {
     padding: 4px;
     text-align: center;
+    border:none;
     border-top: 1px solid red;
 }
 
 .td {
+
     text-align: start;
 }
 

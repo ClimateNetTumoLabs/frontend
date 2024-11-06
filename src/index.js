@@ -1,15 +1,17 @@
-import React from "react";
+import React, {lazy, Suspense} from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import PositionProvider from "./context/PositionContext";
 
+const App = lazy(() => import('./App.js'));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <PositionProvider>
-      <App />
+     <Suspense fallback={<div>Loading...</div>}>  {/* Fallback UI while loading */}
+        <App />
+     </Suspense>
     </PositionProvider>
   </BrowserRouter>
 );

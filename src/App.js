@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
-import Guide from "./components/Guide/Guide";
 import InnerPage from "./components/InnerPage/InnerPage";
 import GuidePage from "./components/GuidePage/GuidePage";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
@@ -27,7 +26,6 @@ function App() {
             <Routes>
                 <Route path={`/${i18n.language}/`} element={<Home />} />
                 <Route path={`/${i18n.language}/about`} element={<About />} />
-                <Route path={`/${i18n.language}/guide`} element={<Guide />} />
                 <Route path={`/${i18n.language}/diy`} element={<GuidePage />} />
                 <Route path={`/${i18n.language}/device/:id`} element={<InnerPage/>} />
             </Routes>

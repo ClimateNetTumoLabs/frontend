@@ -53,10 +53,11 @@ function Banner() {
                 {images.map((image, idx) => (
                     <Carousel.Item key={idx} className={styles.carouselItem}>
                         <img
-                            loading="eager"  // Load critical images eagerly
+                            loading="lazy"  // Load critical images eagerly
                             className={styles.carouselImg}
                             src={image}
-                            sizes="(max-width: 600px) 100vw, 50vw"
+                            srcSet={`${image} 600w , ${image} 1200w ,${image} 1800w `}
+                            sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             alt={`Slide ${idx + 1}`}
                         />
                         <Carousel.Caption className={`${styles.carouselCaption} ${styles.carousel_text_section}`}>
