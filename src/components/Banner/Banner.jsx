@@ -61,7 +61,7 @@ function Banner() {
                             alt={`Slide ${idx + 1}`}
                         />
                         <Carousel.Caption className={`${styles.carouselCaption} ${styles.carousel_text_section}`}>
-                            <h1 className={`${styles.static_name}`}>{t('banner.title')}</h1>
+                            <h3 className={`${styles.static_name}`}>{t('banner.title')}</h3>
                             <p className={`${styles.animated_text}`}>
                                 <TypeAnimation
                                     key={animationKey} // Use key to force re-mount on language change
@@ -75,7 +75,7 @@ function Banner() {
                                     ]}
                                     speed={60}
                                     repeat={Infinity}
-                                    style={{ whiteSpace: 'pre-line', fontSize: '2em', display: 'flex', justifyContent: 'flex-start' }}
+                                    style={{ whiteSpace: 'pre-line', fontSize: '1.5em', display: 'flex', justifyContent: 'flex-start' }}
                                 />
                             </p>
                         </Carousel.Caption>

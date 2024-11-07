@@ -50,7 +50,9 @@
 .table_block {
     overflow-x: auto;
 }
-
+.table_block td, th {
+    border: none;
+}
 .API_section ul, ol, .examples{
     padding-left: 60px;
 }

@@ -40,6 +40,14 @@
     background-color: #0056b3;
 }
 
+.react-leaflet-resetview{
+    background-size: contain;
+    box-sizing:border-box;
+    border: 5px solid white;
+}
+
+.react-leaflet-resetview:hover{
+}
 .blur {
     -webkit-filter: blur(5px);
     -moz-filter: blur(5px);
@@ -53,7 +61,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    content: "dkfalkjf";
 }
 
 span {
