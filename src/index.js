@@ -2,7 +2,6 @@ import React, {lazy, Suspense} from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import PositionProvider from "./context/PositionContext";
-import styles from "./AppStyles.module.css"
 import Loading from './components/loading/Loading.jsx'
 const App = lazy(() => import('./App.js'));
 
