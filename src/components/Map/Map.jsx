@@ -11,10 +11,12 @@ import InnerPage from "../InnerPage/InnerPage";
 import "react-leaflet-fullscreen/styles.css";
 import { FullscreenControl } from "react-leaflet-fullscreen";
 import styles from "./Map.module.css";
+import "./Map.module.css"
 import { PositionContext } from "../../context/PositionContext";
 import clickIcon from "../../assets/Icons/tap.png"
 import { Polygon } from "react-leaflet";
 import { useTranslation } from "react-i18next";
+import ResetViewControl from '@20tab/react-leaflet-resetview';
 
 function circleWithText2(latLng, txt, radius, borderWidth) {
 	var size = radius;
@@ -47,6 +49,26 @@ const PolygonWithText = ({ coords, text }) => {
 		<Polygon color="blue" positions={[center]} />
 	);
 }
+
+// const ResetViewControl = () => {
+// 	const map = useMap();
+//
+// 	useEffect(() => {
+// 		const resetControl = L.control({ position: "topright" });
+//
+// 		resetControl.onAdd = () => {
+// 			const container = L.DomUtil.create("div", "leaflet-control-reset-view leaflet-bar");
+// 			container.innerHTML = "&#x21bb;"; // Unicode symbol for a circular arrow
+// 			container.title = "Reset View";
+// 			container.onclick = () => map.setView(INITIAL_CENTER, INITIAL_ZOOM);
+// 			return container;
+// 		};
+//
+// 		resetControl.addTo(map);
+// 	}, [map]);
+//
+// 	return null;
+// };
 
 const MapArmenia = () => {
 	const { t, i18n } = useTranslation();
@@ -153,17 +175,6 @@ const MapArmenia = () => {
 			});
 	}, []);
 
-	// useEffect(() => {
-	// 	const handleScroll = () => {
-	// 		setShowMessage(true);
-	// 		setScrollEnabled(false);
-	// 	};
-	// 	window.addEventListener("scroll", handleScroll);
-	// 	return () => {
-	// 		window.removeEventListener("scroll", handleScroll);
-	// 	};
-	// }, [])
-
 	return (
 		<div id="Map" style={{ cursor: 'pointer' }}>
 			<div className={styles.map_section}>
@@ -233,6 +244,11 @@ const MapArmenia = () => {
 				}
 				<GeoJSON data={armeniaGeoJSON} style={geoJSONStyle} />
 				<FullscreenControl forceSeparateButton={true} position={"topright"} />
+                <ResetViewControl
+                                title="Reset view"
+                                position={"topright"}
+                                icon="url(https://images-in-website.s3.us-east-1.amazonaws.com/Icons/synchronize.png)"
+                />
 				<Routes>
 					<Route path="/device/:id" element={<InnerPage />} />
 				</Routes>

@@ -25,6 +25,7 @@
 
 .carousel-item img {
     width: 100%;
+
 }
 
 /* If you want to control the spacing between slides */
@@ -41,10 +42,12 @@
 /* Banner.module.css */
 .carouselContainer {
     overflow: hidden;
-    height: 55vh;
-    background : #232222;
+    width:100%;
+    height: clamp(200px, 35rem, 900px); /* Responsive height from 300px to 700px */
+    background: #232222;
     z-index: 1;
     position: relative;
+    object-fit:contain;
 }
 
 .carouselItem, .carouselItem img {

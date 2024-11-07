@@ -13,6 +13,7 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
+
 function App() {
     const { i18n } = useTranslation();
     const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
                 <Route path={`/${i18n.language}/about`} element={<About />} />
                 <Route path={`/${i18n.language}/diy`} element={<GuidePage />} />
                 <Route path={`/${i18n.language}/device/:id`} element={<InnerPage/>} />
+
             </Routes>
             <div className={`${isInnerPage ? "footerPadding" : ""}`}>
                 <Footer />
