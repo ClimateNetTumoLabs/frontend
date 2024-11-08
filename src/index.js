@@ -2,7 +2,8 @@ import React, {lazy, Suspense} from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import PositionProvider from "./context/PositionContext";
-import Loading from './components/Loading/Loading.jsx'
+import Loading from './components/loading/Loading.jsx'
+
 const App = lazy(() => import('./App.js'));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

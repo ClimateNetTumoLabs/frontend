@@ -33,6 +33,9 @@ jobs:
             cd /home/ubuntu/django-app/climatenet && \
             source venv/bin/activate && \
             python manage.py collectstatic --noinput && \
+            cd /home/ubuntu/frontend && \
+            npm run copy-sitemap && \
+            cd /home/ubuntu/django-app/climatenet && \
             
             sudo systemctl daemon-reload && \
             sudo systemctl restart gunicorn.service && \
