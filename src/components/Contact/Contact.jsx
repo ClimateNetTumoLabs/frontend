@@ -45,7 +45,7 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
     let templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name}`;
 
     if (showCoordinates) {
-      templateMessage += `\n\nCoordinates: ${coordinates}`;
+      templateMessage += `\n\n${t('contact.formFields.coordinates')}: ${coordinates}`;
     }
 
     const mailtoLink = `mailto:labs@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
