@@ -56,8 +56,6 @@ function Banner() {
                             loading="lazy"  // Load critical images eagerly
                             className={styles.carouselImg}
                             src={image}
-                            srcSet={`${image} 600w , ${image} 1200w ,${image} 1800w `}
-                            sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             alt={`Slide ${idx + 1}`}
                         />
                         <Carousel.Caption className={`${styles.carouselCaption} ${styles.carousel_text_section}`}>
