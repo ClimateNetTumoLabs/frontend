@@ -160,12 +160,13 @@ const resources = {
                             submit: "Send",
                             coordinates: "Coordinates"
                         },
-                    options: [
-                        "Need Data",
-                        "Join To Project",
-                        "Technical Support",
-                        "Feedback"
-                    ]
+                    options: {
+                        data: "Need Data",
+                        join: "Join To Project",
+                        support: "Technical Support",
+                        feedback: "Feedback",
+                        request: "Request for Necessary Credentials"
+                    }
                 },
                 footer: {
                     title: "Follow Us",
@@ -601,12 +602,13 @@ const resources = {
                             submit: "Ուղարկել",
                             coordinates: "Կոորդինատներ"
                         },
-                    options: [
-                        "Տվյալների հարցում",
-                        "Միացում նախագծին",
-                        "Տեխնիկական աջակցություն",
-                        "Հետադարձ կապ"
-                    ]
+                    options: {
+                        data: "Տվյալների հարցում",
+                        join: "Միացում նախագծին",
+                        support: "Տեխնիկական աջակցություն",
+                        feedback: "Հետադարձ կապ",
+                        request: "Հարցում անհրաժեշտ հավատարմագրերի համար"
+                    }
                 },
                 footer: {
                     title: "Հետևեք մեզ",

@@ -3,15 +3,16 @@ import styles from "./Contact.module.css";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 
-const ContactForm = ({ name, subject_state, subject = "Request for Necessary Credentials", showCoordinates = false }) => {
+const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) => {
   const { t } = useTranslation();
+  const translatedSubject = subject || t('contact.options.request');
 
   const [focusedInput, setFocusedInput] = useState(null);
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: subject,
+    subject: translatedSubject,
     message: '',
     coordinates: '',
   });
@@ -44,7 +45,7 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
     let templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name}`;
 
     if (showCoordinates) {
-      templateMessage += `\n\nCoordinates: ${coordinates}`;
+      templateMessage += `\n\n${t('contact.formFields.coordinates')}: ${coordinates}`;
     }
 
     const mailtoLink = `mailto:labs@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
@@ -113,10 +114,10 @@ const ContactForm = ({ name, subject_state, subject = "Request for Necessary Cre
                       list="subjectSuggestions"
                   />
                   <datalist id="subjectSuggestions">
-                    <option value={t('contact.options.0')} />
-                    <option value={t('contact.options.1')} />
-                    <option value={t('contact.options.2')} />
-                    <option value={t('contact.options.3')} />
+                    <option value={t('contact.options.data')} />
+                    <option value={t('contact.options.join')} />
+                    <option value={t('contact.options.support')} />
+                    <option value={t('contact.options.feedback')} />
                   </datalist>
                 </div>
             ) : (

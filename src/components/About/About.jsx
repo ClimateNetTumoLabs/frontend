@@ -1,16 +1,5 @@
 import styles from "./About.module.css";
 import CollapsibleText from "../CollapsibleText/CollapsibleText";
-// import temp from "../../assets/AboutIcons/temperature.png"
-// import hum from "../../assets/AboutIcons/humidity.png"
-// import pressure from "../../assets/AboutIcons/pressure.png"
-// import pm_1 from "../../assets/AboutIcons/lungs.png"
-// import pm_2 from "../../assets/AboutIcons/pm2.png"
-// import pm_10 from "../../assets/AboutIcons/dust.png"
-// import anemometer from "../../assets/AboutIcons/anemometer.png"
-// import arrow from "../../assets/AboutIcons/arrow.png"
-// import uv_a from "../../assets/AboutIcons/uv.png"
-// import lux from "../../assets/AboutIcons/lux.png"
-// import rain from "../../assets/AboutIcons/rain.png"
 import {useTranslation} from "react-i18next";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -414,7 +403,7 @@ const combinedUV = `
         <div className={styles.about_us_page}>
              <Helmet>
                 <title>ClimateNet | A Student-led Climate Initiative</title>
-                <meta name="description" content="ClimateNet offers real-time environmental monitoring solutions to help communities and organizations track key climate data like temperature, humidity, and air quality for a sustainable future." />
+                <meta name="description" content="Learn about ClimateNet, an innovative project dedicated to monitoring and analyzing environmental data. This initiative aims to provide sustainable solutions for climate awareness. Discover our mission, team, and how ClimateNet is making an impact in Armenia and beyond." />
              </Helmet>
             <div className={`${styles.about_section} ${styles.ab_1}`}><span
                 className={styles.welcome_to}>{t('about.welcome')}</span>

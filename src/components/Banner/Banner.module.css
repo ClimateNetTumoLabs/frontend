@@ -43,7 +43,7 @@
 .carouselContainer {
     overflow: hidden;
     width:100%;
-    height: clamp(200px, 35rem, 900px); /* Responsive height from 300px to 700px */
+    height: 55vh;
     background: #232222;
     z-index: 1;
     position: relative;
@@ -115,8 +115,8 @@
     margin-top: 80px;
 }
 
-.carouselCaption h1 {
-    font-size: 28px;
+.carouselCaption h3 {
+    /* font-size: 28px; */
     color: #eae6e2;
 }
 
@@ -138,6 +138,7 @@
     }
     .carouselCaption h3 {
         font-size: 16px;
+        color: #eae6e2;
     }
     .carousel_section  div, .carousel_section img {
         height: 100%;
@@ -153,7 +154,4 @@
     .carouselCaption p {
         margin-top: 30px;
     }
-}
-
-@media (max-width: 576px) {
 }

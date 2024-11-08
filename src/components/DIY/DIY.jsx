@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './GuidePage.module.css';
+import styles from './DIY.module.css';
 import Contact from '../Contact/Contact.jsx';
 import Commands from '../Commands/Commands.jsx';
 import Videos from '../Videos/Videos.jsx';
@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Helmet } from 'react-helmet';
 
 
-const Guide = () => {
+const DIY = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('home');
   const requestRef = useRef(null);
@@ -56,7 +56,7 @@ const Guide = () => {
     <div className={styles.app}>
           <Helmet>
                 <title>How to build a DIY Climate Device</title>
-                <meta name="description" content="Welcome to ClimateNet, the platform for environmental monitoring." />
+                <meta name="description" content="Discover the step-by-step guide for building your own ClimateNet device. Access materials, tools, setup instructions, and more for creating a sustainable IoT device to monitor environmental data." />
       </Helmet>
       <div className={styles.title}>
         <h1>
@@ -128,7 +128,7 @@ const Guide = () => {
       </section>
       <section id="request" ref={requestRef}>
       <Contact
-        subject_state={false}
+        subject_state={t('contact.options.request')}
         className={`mb-2 col-md-8 col-12 ${styles.subTitles}`}
         name={t('contact.title2')}
         showCoordinates={true}
@@ -147,4 +147,4 @@ const Guide = () => {
   );
 };
 
-export default Guide;
+export default DIY;

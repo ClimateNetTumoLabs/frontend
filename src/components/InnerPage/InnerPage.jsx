@@ -24,11 +24,6 @@ function InnerPage() {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [filterPressed, setFilterPressed] = useState(false);
     const prevUrlRef = useRef(null);
-      console.log("===========================================")
-      console.log(window.location.href.split('?')[1])
-
-      console.log("===========================================")
-
 
     const handleCloseDatePicker = () => {
         setShowDatePicker(false);
@@ -142,7 +137,6 @@ function InnerPage() {
         <div className={styles.inner_page}>
               <Helmet>
                 <title>{window.location.href.split('?')[1]}</title>
-                <meta name="description" content="ClimateNet offers real-time environmental monitoring solutions to help communities and organizations track key climate data like temperature, humidity, and air quality for a sustainable future." />
            </Helmet>
             <InnerPageLeftNav
                 filterState={filterState}
