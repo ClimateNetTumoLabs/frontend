@@ -120,7 +120,7 @@
 
   .navigation_bar_for_mobile {
     position: absolute;
-    z-index: 2;
+    z-index: 15;
     background: #232222;
     width: 100%;
     top: 82%;
