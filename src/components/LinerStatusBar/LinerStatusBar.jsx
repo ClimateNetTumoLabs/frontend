@@ -9,7 +9,11 @@ const ColoredProgressBar = (props) => {
     const { t } = useTranslation();
     const { i18n } = useTranslation();
     const [, setProgress] = useState(0);
-    const [airQuality] = useState(props.air_quality);
+    const [airQuality,setAirQuality] = useState(props.air_quality);
+    
+    useEffect(()=>{
+        setAirQuality(props.air_quality)
+    },[props])
 
     const scale = [
         { max: 12, color: '#00ff00', status: t('linerStatusBar.good'), number: "1" },
