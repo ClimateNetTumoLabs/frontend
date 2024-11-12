@@ -55,8 +55,7 @@ const DIY = () => {
   return (
     <div className={styles.app}>
           <Helmet>
-                <title>How to build a DIY Climate Device</title>
-                <meta name="description" content="Discover the step-by-step guide for building your own ClimateNet device. Access materials, tools, setup instructions, and more for creating a sustainable IoT device to monitor environmental data." />
+                <title>How to build a DIY ClimateNet Device</title>
       </Helmet>
       <div className={styles.title}>
         <h1>

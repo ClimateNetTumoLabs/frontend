@@ -403,7 +403,6 @@ const combinedUV = `
         <div className={styles.about_us_page}>
              <Helmet>
                 <title>ClimateNet | A Student-led Climate Initiative</title>
-                <meta name="description" content="Learn about ClimateNet, an innovative project dedicated to monitoring and analyzing environmental data. This initiative aims to provide sustainable solutions for climate awareness. Discover our mission, team, and how ClimateNet is making an impact in Armenia and beyond." />
              </Helmet>
             <div className={`${styles.about_section} ${styles.ab_1}`}><span
                 className={styles.welcome_to}>{t('about.welcome')}</span>
