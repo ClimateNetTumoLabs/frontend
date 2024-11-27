@@ -202,7 +202,7 @@ const resources = {
                         point1: "ClimateNet Devices are comprised of hardware and software elements.",
                         point2: "We provide step-by-step instructions on how to build both components.",
                         point3: "You do not need to know how to code, just how to copy and paste!",
-                        point4: "The materials will cost you between $130 to $280.",
+                        point4: "The materials will cost you between $130 to $280 depending on where you purchase them from and how many sensors you wish to include.",
                         end1: "Ready to start? Just fill out the ",
                         end2: " form, and we will send you all the necessary credentials via mail."
                     },

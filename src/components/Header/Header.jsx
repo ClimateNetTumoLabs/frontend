@@ -175,10 +175,10 @@ const Header = () => {
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <button className={`nav-link btn ${styles.languageBtn}`}
+                            <span className={`nav-link ${styles.languageBtn}`}
                                     onClick={() => changeLanguage(i18n.language === 'en' ? 'hy' : 'en')}>
                                 {languageButtonText}
-                            </button>
+                            </span>
                         </li>
                     </ul>
                 </div>
