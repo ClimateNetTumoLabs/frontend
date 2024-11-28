@@ -7,6 +7,8 @@ import { ReactComponent as Calendar } from '../../assets/FilterIcons/calendar.sv
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 import { useTranslation } from "react-i18next";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import  "../../i18n";
 
 const StyledDatePicker = styled(DatePicker)`
