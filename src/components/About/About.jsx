@@ -377,7 +377,7 @@ const combinedUV = `
             
             <h3 class=${styles.sub_title_3}>${t('about.api_info_24')}</h3>
             <p>${t('about.api_info_24_request')} <code>start_time</code> ${t('about.and')} <code>end_time</code>, ${t('about.api_info_24_request2')}</p>
-            <pre><a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=3</a></pre>
+            <pre><a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=1">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=1</a></pre>
 
             <h3 class=${styles.sub_title_3} >${t('about.api_info_response')}</h3>
             <p>${t('about.api_info_json')}</p>
