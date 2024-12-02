@@ -83,17 +83,9 @@ const Footer = () => {
                             {t('footer.projects.pastProjects')}
                         </a>
                     </p>
-                    {/*<MapContainer center={center} zoom={13} style={{ width: '100%', height: '200px' }}>*/}
-                    {/*    <TileLayer*/}
-                    {/*        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"*/}
-                    {/*        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'*/}
-                    {/*    />*/}
-                    {/*    <Marker position={center} icon={customIcon}>*/}
-                    {/*        <Popup>*/}
-                    {/*            Halabyan 2a, Yerevan, Armenia*/}
-                    {/*        </Popup>*/}
-                    {/*    </Marker>*/}
-                    {/*</MapContainer>*/}
+                    <p className={styles.company_information}>
+                        <a href="/privacy-policy">Privacy And Policy</a>
+                    </p>
                 </div>
             </div>
             <div className="row  mb-0">

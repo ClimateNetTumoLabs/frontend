@@ -12,6 +12,7 @@ import DIY from "./components/DIY/DIY";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import PrivacyPolicy from "./components/PrivacyAndpolicy/PrivacyAndPolicy";
 
 function App() {
     const { i18n } = useTranslation();
@@ -27,6 +28,7 @@ function App() {
                 <Route path={`/${i18n.language}/about`} element={<About />} />
                 <Route path={`/${i18n.language}/diy`} element={<DIY />} />
                 <Route path={`/${i18n.language}/device/:id`} element={<InnerPage />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             </Routes>
             <div className={`${isInnerPage ? "footerPadding" : ""}`}>
                 <Footer />
