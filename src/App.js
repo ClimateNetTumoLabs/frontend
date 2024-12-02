@@ -13,6 +13,7 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import PrivacyPolicy from "./components/PrivacyAndpolicy/PrivacyAndPolicy";
+import CookieManager from "./components/CookieManager/CookieManager";
 
 function App() {
     const { i18n } = useTranslation();
@@ -21,6 +22,7 @@ function App() {
 
     return (
         <div className="App">
+            <CookieManager />
             <Header />
             <ScrollToTop />
             <Routes>

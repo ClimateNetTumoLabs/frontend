@@ -1,0 +1,66 @@
+.container {
+    position: relative;
+    padding: 20px;
+}
+
+.banner {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.description {
+    font-size: 14px;
+    color: #555;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.accept {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.accept:hover {
+    background-color: #444;
+}
+
+.preferences {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.preferences:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
