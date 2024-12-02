@@ -414,6 +414,7 @@ const resources = {
                         range: "Range",
                         filter: "Filter"
                     },
+                    mobile_text: "Please select a start and end date to display the data for the chosen time period."
                 },
                 innerPageNearbyDevices: {
                     titles: {
@@ -850,6 +851,7 @@ const resources = {
                         range: "Միջակայք",
                         filter: "Ֆիլտր"
                     },
+                    mobile_text: "Խնդրում ենք ընտրել մեկնարկի և ավարտի ամսաթվերը՝ նշված ժամանակահատվածի տվյալները ցուցադրելու համար:"
                 },
                 innerPageNearbyDevices: {
                     titles: {

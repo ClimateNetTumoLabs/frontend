@@ -64,10 +64,17 @@ function InnerPageFilter(props) {
             {
                 props.showDatePicker &&
                 ReactDOM.createPortal(
+                    <>
+                    <div className={styles.blurOverlay} onClick={() => props.setShowDatePicker(false)}></div>
                     <div
                         className={`${styles.pickerContainer} ${styles.datePickerWrapper}`}>
-                        <button className={styles.closeBtn} onClick={() => props.setShowDatePicker(false)}>X</button>
+                        <button className={styles.closeBtn} onClick={() => props.setShowDatePicker(false)}>
+                            <FontAwesomeIcon
+                            icon={faXmark}/>
+                        </button>
+                        <p className={styles.mobile_range_text}>{t("innerPageFilter.mobile_text")}</p>
                         <StyledDatePicker
+                            className={styles.mobile_range}
                             selected={selectedStartDate}
                             onChange={date => setSelectedStartDate(date)}
                             popperClassName="propper"
@@ -91,6 +98,7 @@ function InnerPageFilter(props) {
                             maxDate={today}
                         />
                         <StyledDatePicker
+                            className={styles.mobile_range}
                             selected={selectedEndDate}
                             onChange={date => setSelectedEndDate(date)}
                             popperClassName="propper"
@@ -114,9 +122,9 @@ function InnerPageFilter(props) {
                             minDate={selectedStartDate}
                             maxDate={today}
                         />
-
                         <button className={styles.filter_button} onClick={handleApply}>{t('innerPageFilter.options.filter')}</button>
-                    </div>,
+                    </div>
+                    </>,
                     document.body
                 )
             }
