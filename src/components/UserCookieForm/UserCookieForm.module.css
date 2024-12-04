@@ -3,7 +3,7 @@
     padding: 20px;
 }
 
-.banner {
+.cookies {
     position: fixed;
     bottom: 20px;
     left: 20px;
@@ -37,7 +37,7 @@
 }
 
 .accept {
-    background-color: #000;
+    background-color: #232222;
     color: #fff;
     border: none;
     padding: 10px 20px;

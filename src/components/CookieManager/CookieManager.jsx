@@ -1,49 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserCookieForm from "../UserCookieForm/UserCookieForm";
 import CookiePreferencesModal from "../CookiePreferencesModal/CookiePreferencesModal";
 
 function CookieManager() {
     const [isPreferencesOpen, setPreferencesOpen] = useState(false);
     const [cookiePreferences, setCookiePreferences] = useState({
-        analytics: false,
-        marketing: false,
-        functional: false
+        name: false,
+        email: false,
+        phone: false,
+        location: false,
+        address: false,
     });
 
+    const [showBanner, setShowBanner] = useState(false); // Initially hidden
+
+    useEffect(() => {
+        // Load preferences from localStorage if available
+        const savedPreferences = localStorage.getItem("cookiePreferences");
+        if (!savedPreferences) {
+            setShowBanner(true); // Show the banner if no preferences are saved
+        }
+    }, []);
+
+    const savePreferencesToLocalStorage = (preferences) => {
+        localStorage.setItem("cookiePreferences", JSON.stringify(preferences));
+    };
+
     const handleAcceptCookies = () => {
-        const allCookies = { analytics: true, marketing: true, functional: true };
+        const allCookies = {
+            name: true,
+            email: true,
+            phone: true,
+            location: true,
+            address: true,
+        };
         setCookiePreferences(allCookies);
-        sendPreferencesToBackend(allCookies);
+        savePreferencesToLocalStorage(allCookies);
+        setShowBanner(false); // Hide the banner
     };
 
     const handleOpenPreferences = () => {
         setPreferencesOpen(true);
     };
 
-    const handleSavePreferences = (preferences) => {
-        setCookiePreferences(preferences);
-        sendPreferencesToBackend(preferences);
-        setPreferencesOpen(false);
+    const validatePreferences = (preferences) => {
+        const requiredProperties = ["name", "email", "phone", "location", "address"];
+        return requiredProperties.every((prop) => prop in preferences && typeof preferences[prop] === "boolean");
     };
 
-    const sendPreferencesToBackend = (preferences) => {
-        console.log(preferences)
-        // fetch("/api/cookies/preferences", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify(preferences),
-        // })
-        //     .then((response) => response.json())
-        //     .then((data) => console.log("Preferences saved:", data))
-        //     .catch((error) => console.error("Error saving preferences:", error));
+    const handleSavePreferences = (preferences) => {
+        if (validatePreferences(preferences)) {
+            setCookiePreferences(preferences);
+            savePreferencesToLocalStorage(preferences);
+            setPreferencesOpen(false);
+            setShowBanner(false); // Hide the banner
+        } else {
+            console.error("Invalid preferences object:", preferences);
+        }
     };
 
     return (
         <>
-            <UserCookieForm
-                onAccept={handleAcceptCookies}
-                onPreferences={handleOpenPreferences}
-            />
+            <div className={`d-flex ${showBanner ? "" : "d-none"}`}>
+                <UserCookieForm
+                    onAccept={handleAcceptCookies}
+                    onPreferences={handleOpenPreferences}
+                />
+            </div>
+
             <CookiePreferencesModal
                 isOpen={isPreferencesOpen}
                 onClose={() => setPreferencesOpen(false)}

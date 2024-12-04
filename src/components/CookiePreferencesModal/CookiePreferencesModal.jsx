@@ -3,12 +3,30 @@ import styles from "./CookiePreferencesModal.module.css";
 
 const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
     const [localPreferences, setLocalPreferences] = useState({
-        personalData: false
+        name: false,
+        email: false,
+        phone: false,
+        location: false,
+        address: false
     });
+    useEffect(() => {
+        if (isOpen) {
+            // Add no-scroll class to body
+            document.body.classList.add("no-scroll");
+        } else {
+            // Remove no-scroll class from body
+            document.body.classList.remove("no-scroll");
+        }
+
+        // Cleanup on component unmount
+        return () => {
+            document.body.classList.remove("no-scroll");
+        };
+    }, [isOpen]);
 
     useEffect(() => {
         if (preferences) {
-            setLocalPreferences(prev => ({
+            setLocalPreferences((prev) => ({
                 ...prev,
                 ...preferences
             }));
@@ -34,52 +52,64 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
         <div className={styles.modal}>
             <div className={styles.modalContent}>
                 <h2 className={styles.title}>Data Collection Preferences</h2>
-
-                <div className={styles.dataCollection}>
-                    <h3>What personal information do we collect?</h3>
-                    <ul>
-                        <li>Full Name</li>
-                        <li>Email Address</li>
-                        <li>Phone Number</li>
-                        <li>Location Coordinates (Longitude/Latitude)</li>
-                    </ul>
-
-                    <h3>Why do we collect this data?</h3>
-                    <p>To provide personalized customer service, contact you effectively, and improve our understanding of user demographics and preferences.</p>
-                </div>
+                <p className={styles.legalInfo}>
+                    Manage your consent for data collection below. You can
+                    select specific options based on your preferences.
+                </p>
 
                 <div className={styles.consentOptions}>
-                    <h4>Consent Options:</h4>
                     <label className={styles.checkboxLabel}>
                         <input
                             type="checkbox"
-                            name="personalData"
-                            checked={localPreferences.personalData}
+                            name="name"
+                            checked={localPreferences.name}
                             onChange={handleCheckboxChange}
                         />
-                        I consent to the collection and processing of my personal data
+                        Collect my Name
+                    </label>
+                    <label className={styles.checkboxLabel}>
+                        <input
+                            type="checkbox"
+                            name="email"
+                            checked={localPreferences.email}
+                            onChange={handleCheckboxChange}
+                        />
+                        Collect my Email
+                    </label>
+                    <label className={styles.checkboxLabel}>
+                        <input
+                            type="checkbox"
+                            name="phone"
+                            checked={localPreferences.phone}
+                            onChange={handleCheckboxChange}
+                        />
+                        Collect my Phone Number
+                    </label>
+                    <label className={styles.checkboxLabel}>
+                        <input
+                            type="checkbox"
+                            name="location"
+                            checked={localPreferences.location}
+                            onChange={handleCheckboxChange}
+                        />
+                        Collect my Location (Latitude/Longitude)
+                    </label>
+                    <label className={styles.checkboxLabel}>
+                        <input
+                            type="checkbox"
+                            name="address"
+                            checked={localPreferences.address}
+                            onChange={handleCheckboxChange}
+                        />
+                        Collect my Address
                     </label>
                 </div>
 
-                <div className={styles.legalInfo}>
-                    <p>
-                        By providing consent, you agree that we may store and process
-                        your personal information for the purposes described above.
-                        You can withdraw your consent at any time.
-                    </p>
-                </div>
-
                 <div className={styles.actions}>
-                    <button
-                        className={styles.saveButton}
-                        onClick={handleSave}
-                    >
+                    <button className={styles.saveButton} onClick={handleSave}>
                         Save Preferences
                     </button>
-                    <button
-                        className={styles.cancelButton}
-                        onClick={onClose}
-                    >
+                    <button className={styles.cancelButton} onClick={onClose}>
                         Cancel
                     </button>
                 </div>

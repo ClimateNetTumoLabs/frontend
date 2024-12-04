@@ -11,6 +11,11 @@ body, .App {
     font-weight: 300; /* Adjust as needed */
 }
 
+/* Disable scrolling when modal is open */
+.no-scroll {
+    overflow: hidden;
+    height: 100vh; /* Prevent vertical scrolling */
+}
 
 /* Existing styles */
 .carousel-control-prev,
