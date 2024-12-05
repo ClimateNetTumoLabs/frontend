@@ -33,23 +33,28 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
     setFocusedInput(null);
   };
 
-  const labelClass = (inputName) =>
-      `${styles.label_for_input} ${focusedInput === inputName || formData[inputName] ? styles.focused : ""}`;
+  const labelClass = (inputName) => `${styles.label_for_input} ${focusedInput === inputName || formData[inputName] ? styles.focused : ""}`;
 
+  const saveCookies = () => {
+    const preferences = JSON.parse(localStorage.getItem('cookiePreferences')) || {};
+    const { name, email } = formData;
+    if (preferences?.name) {
+      document.cookie = `name=${name}; path=/;`;
+    }
+    if (preferences?.email) {
+      document.cookie = `email=${email}; path=/;`;
+    }
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const { name,  message, coordinates } = formData;
     const subjectToUse = subject_state ? formData.subject : subject;
-
     let templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name}`;
-
     if (showCoordinates) {
       templateMessage += `\n\n${t('contact.formFields.coordinates')}: ${coordinates}`;
     }
-
+    saveCookies()
     const mailtoLink = `mailto:labs@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
-
     window.location.href = mailtoLink;
   };
 
@@ -157,7 +162,7 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
                 onBlur={handleBlur}
             />
           </div>
-          <button type="submit" value="Send" className={`mt-3 btn ${styles.contact_us_button}`}>
+          <button  type="submit" value="Send" className={`mt-3 btn ${styles.contact_us_button}`}>
             {t('contact.formFields.submit')}
           </button>
         </form>

@@ -84,7 +84,7 @@ const Footer = () => {
                         </a>
                     </p>
                     <p className={styles.company_information}>
-                        <a href="/privacy-policy">Privacy And Policy</a>
+                        <a href="/privacy-policy">Privacy Policy</a>
                     </p>
                 </div>
             </div>

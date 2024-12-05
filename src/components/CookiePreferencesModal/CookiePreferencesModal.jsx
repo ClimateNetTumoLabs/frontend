@@ -11,14 +11,10 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
     });
     useEffect(() => {
         if (isOpen) {
-            // Add no-scroll class to body
             document.body.classList.add("no-scroll");
         } else {
-            // Remove no-scroll class from body
             document.body.classList.remove("no-scroll");
         }
-
-        // Cleanup on component unmount
         return () => {
             document.body.classList.remove("no-scroll");
         };
