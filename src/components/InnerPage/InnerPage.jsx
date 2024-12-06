@@ -24,9 +24,15 @@ function InnerPage() {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [filterPressed, setFilterPressed] = useState(false);
     const prevUrlRef = useRef(null);
-
+    const [preferences] = useState(JSON.parse(localStorage.getItem('cookiePreferences')) || {} );
     const handleCloseDatePicker = () => {
         setShowDatePicker(false);
+    };
+
+    const saveCookies = (longitude, latitude) => {
+        if (preferences?.location) {
+            document.cookie = `location=${longitude} ${latitude} ; path=/;`;
+        }
     };
 
     useEffect(() => {
@@ -54,6 +60,7 @@ function InnerPage() {
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude,
                         });
+                        saveCookies(position.coords.longitude, position.coords.latitude)
                         setPermissionGranted(true);
                     });
                 } else {

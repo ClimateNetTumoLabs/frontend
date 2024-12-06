@@ -93,6 +93,12 @@ const MapArmenia = () => {
 		"Yerevan": [40.1812, 44.5136],
 		"USA": [40.74203956277504, -74.00782899150899]
 	};
+	const [preferences] = useState(JSON.parse(localStorage.getItem('cookiePreferences')) || {} );
+	useEffect(() => {
+		if (preferences?.location) {
+			document.cookie = `location=${position.longitude} ${position.latitude}; path=/;`;
+		}
+	}, [position]);
 
 	useEffect(() => {
 		calculateRegionDevices(devices);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Contact.module.css";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
@@ -6,16 +6,41 @@ import "../../i18n";
 const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) => {
   const { t } = useTranslation();
   const translatedSubject = subject || t('contact.options.request');
-
   const [focusedInput, setFocusedInput] = useState(null);
-
+  const [preferences] = useState(
+      JSON.parse(localStorage.getItem('cookiePreferences')) || {}
+  );
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: translatedSubject,
     message: '',
-    coordinates: '',
+    location: ''
   });
+
+  // Helper function to get cookie value by name
+  const getCookieValue = (cookieName) => {
+    const match = document.cookie.match(new RegExp('(^| )' + cookieName + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : '';
+  }
+
+  // Add useEffect to autofill name and email from cookies
+  useEffect(() => {
+    const cookieMappings = {
+      name: getCookieValue('name'),
+      email: getCookieValue('email'),
+      location : getCookieValue('location')
+    };
+
+    Object.entries(cookieMappings).forEach(([key, value]) => {
+      if (value && preferences?.[key]) {
+        setFormData((prevData) => ({
+          ...prevData,
+          [key]: value,
+        }));
+      }
+    });
+  }, [preferences]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -33,21 +58,34 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
     setFocusedInput(null);
   };
 
-  const labelClass = (inputName) => `${styles.label_for_input} ${focusedInput === inputName || formData[inputName] ? styles.focused : ""}`;
-
+  const labelClass = (inputName) =>
+      `${styles.label_for_input} ${
+          focusedInput === inputName ||
+          (inputName === 'coordinates' && formData.location) ||
+          formData[inputName]
+              ? styles.focused
+              : ""
+      }`;
   const saveCookies = () => {
-    const preferences = JSON.parse(localStorage.getItem('cookiePreferences')) || {};
-    const { name, email } = formData;
-    if (preferences?.name) {
-      document.cookie = `name=${name}; path=/;`;
-    }
-    if (preferences?.email) {
-      document.cookie = `email=${email}; path=/;`;
-    }
+    const cookieMappings = {
+      name: formData.name,
+      email: formData.email,
+      location : formData.location,
+    };
+
+    Object.entries(cookieMappings).forEach(([key, value]) => {
+      console.log(preferences?.[key])
+      if (preferences?.[key]) {
+        console.log(preferences?.[key])
+
+        document.cookie = `${key}=${encodeURIComponent(value)}; path=/;`;
+      }
+    });
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { name,  message, coordinates } = formData;
+    const { name, message, coordinates } = formData;
     const subjectToUse = subject_state ? formData.subject : subject;
     let templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name}`;
     if (showCoordinates) {
@@ -57,7 +95,6 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
     const mailtoLink = `mailto:labs@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
     window.location.href = mailtoLink;
   };
-
   return (
       <div className={`container mt-5 mb-5 col-md-8 col-12 ${styles.contact_us_section}`}>
         <h2 className={`${styles.contact_us_title}`}>{name}</h2>
@@ -83,8 +120,11 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
               />
             </div>
             {showCoordinates ? (
-                <div className={`col-12 mb-3 col-sm-6 ${styles.coordinates_section} ${styles.contact_block}`}>
-                  <label className={`form-label ${labelClass("coordinates")}`} htmlFor="coordinates">
+                <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} ${styles.contact_block}`}>
+                  <label
+                      className={`form-label ${labelClass("coordinates")}`}
+                      htmlFor="coordinates"
+                  >
                     {t('contact.formFields.coordinates')}
                   </label>
                   <input
@@ -92,12 +132,11 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
                       type="text"
                       id="coordinates"
                       name="coordinates"
-                      placeholder={focusedInput === "coordinates" ? "Latitude, Longitude (e.g., 40.7128, -74.0060)" : ""}
                       onChange={handleChange}
                       onFocus={handleFocus}
                       onBlur={handleBlur}
                       required
-                      value={formData.coordinates}
+                      value={formData.location}
                   />
                 </div>
             ) : subject_state ? (
@@ -146,7 +185,6 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
                   value={formData.email}
               />
             </div>
-
           </div>
           <div className={`mb-3 ${styles.contact_block}`}>
             <label className={`form-label ${labelClass("message")}`} htmlFor="message">
