@@ -50,26 +50,6 @@ const PolygonWithText = ({ coords, text }) => {
 	);
 }
 
-// const ResetViewControl = () => {
-// 	const map = useMap();
-//
-// 	useEffect(() => {
-// 		const resetControl = L.control({ position: "topright" });
-//
-// 		resetControl.onAdd = () => {
-// 			const container = L.DomUtil.create("div", "leaflet-control-reset-view leaflet-bar");
-// 			container.innerHTML = "&#x21bb;"; // Unicode symbol for a circular arrow
-// 			container.title = "Reset View";
-// 			container.onclick = () => map.setView(INITIAL_CENTER, INITIAL_ZOOM);
-// 			return container;
-// 		};
-//
-// 		resetControl.addTo(map);
-// 	}, [map]);
-//
-// 	return null;
-// };
-
 const MapArmenia = () => {
 	const { t, i18n } = useTranslation();
 	const [devices, setDevices] = useState([]);
