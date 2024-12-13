@@ -3,22 +3,6 @@ import styles from "./Contact.module.css";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 
-// Added getCookie utility function
-const getCookie = (name) => {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-};
-
 const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) => {
     const { t } = useTranslation();
     const translatedSubject = subject || t('contact.options.request');
@@ -33,6 +17,21 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
         message: '',
         location: '' // Changed from 'location' for clarity
     });
+
+    const getCookie = (name) => {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    };
 
     // Helper function to get cookie value by name
     const getCookieValue = (cookieName) => {
@@ -91,7 +90,6 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
                 dataToSend[key] = value;
             }
         });
-        console.log(dataToSend)
         try {
             const response = await fetch('/api/save-cookies/', {
                 method: 'POST',
@@ -103,12 +101,12 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
             });
 
             if (response.ok) {
-                console.log('Data successfully sent to the Django server');
+                console.log('Data successfully sent to the server');
             } else {
-                console.error('Failed to send data to the Django server:', response.statusText);
+                console.error('Failed to send data to the server:', response.statusText);
             }
         } catch (error) {
-            console.error('Error while sending data to the Django server:', error);
+            console.error('Error while sending data to the server:', error);
         }
     };
 
@@ -124,6 +122,8 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
                 document.cookie = `${key}=${encodeURIComponent(value)}; path=/;`;
             }
         });
+        console.log(cookieMappings)
+
         send_cookies_to_the_server(cookieMappings);
     };
 
