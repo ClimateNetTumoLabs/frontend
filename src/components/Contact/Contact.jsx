@@ -90,6 +90,8 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
                 dataToSend[key] = value;
             }
         });
+        if(!Object.keys(dataToSend).length > 0)
+            return
         try {
             const response = await fetch('/api/save-cookies/', {
                 method: 'POST',
