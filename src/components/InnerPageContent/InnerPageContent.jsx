@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from './InnerPageContent.module.css'
 import InnerPageDynamicContent from "../InnerPageDynamicContent/InnerPageDynamicContent";
 import InnerPageStaticContent from "../InnerPageStaticContent/InnerPageStaticContent";
 
 function InnerPageContent(props) {
+     const [loading, setLoading] = useState(false);
     return (
         <div className={`${styles.innerContent}`}>
             <InnerPageStaticContent
+                loading={loading}
+                setLoading={setLoading}
+                problematicDeviceIds={["Maralik", "Ashotsk", "Gavar", "Yerazgavors", "Artsvaberd", "Chambarak", "Areni",
+                "Մարալիկ", "Աշոցք", "Գավառ", "Երազգավորս", "Արծվաբերդ", "Ճամբարակ", "Արենի"]}
                 leftLoad={props.leftLoad}
                 data={props.data}
             />

@@ -117,26 +117,33 @@ const WeatherInformation = (props) => {
 }
 
 function InnerPageStaticContent(props) {
+    const { t } = useTranslation();
     const data = props.data[0]
     const location = useLocation();
     const queryString = location.search;
     const nameOfDevice = decodeURI(queryString.substring(1));
+    const isProblematicDevice = props.problematicDeviceIds.includes(nameOfDevice);
 
     return (
         <div className={`${styles.InnerPageStaticContent}`}>
             {
                 props.leftLoad ? (
                     <div className={styles.loader}>
-                        <Loader type="spinner-circle"
+                        <Loader
+                            type="spinner-circle"
                             bgColor={"#FFFFFF"}
                             color={"#FFFFFF"}
-                            size={100} />
+                            size={100}
+                        />
                     </div>
                 ) : (
                     <>
                         <div className={`${styles.nameAndDevice} d-flex`}>
                             <h2>{nameOfDevice}</h2>
                         </div>
+                        {isProblematicDevice && (
+                            <h3 className={styles.errorMessage}>{t("innerPageStaticContent.issue")}</h3>
+                        )}
                         <div className={styles.staticContent}>
                             <div className={styles.weatherInfo}>
                                 <WeatherState />
@@ -154,12 +161,12 @@ function InnerPageStaticContent(props) {
                                     <DataTable data={data} />
                                 </div>
                             </div>
-
                         </div>
+
                     </>
                 )
             }
         </div>
-    )
+    );
 }
 export default InnerPageStaticContent;

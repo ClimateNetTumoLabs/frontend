@@ -406,6 +406,9 @@ const resources = {
                     light_uv : "UV index",
                     light_intensity : "Light intensity"
                 },
+                innerPageStaticContent: {
+                    issue: "Note: At this moment this device has technical issues."
+                },
                 innerPageFilter: {
                     options: {
                         hourly: "1 Day",
@@ -842,6 +845,9 @@ const resources = {
                     windDirection: "Քամու ուղղություն",
                     light_uv : "UV ինդեքս",
                     light_intensity : "Լույսի ինտենսիվություն"
+                },
+                innerPageStaticContent: {
+                    issue: "Տվյալ պահին այս սարքն ունի տեխնիկական խնդիրներ։"
                 },
                 innerPageFilter: {
                     options: {
