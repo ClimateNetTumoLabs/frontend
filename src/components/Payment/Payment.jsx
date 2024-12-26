@@ -44,7 +44,7 @@ const PaymentButton = () => {
     };
 
     return (
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <div style={{  marginTop: "20px" }}>
             <button
                 onClick={handlePayment}
                 disabled={loading}

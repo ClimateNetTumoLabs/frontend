@@ -6,8 +6,12 @@ import MapArmenia from "../Map/Map";
 import Description from "../DescriptionProject/Description";
 import ContactForm from "../Contact/Contact";
 import { useTranslation } from "react-i18next";
+import Payment from "../Payment/Payment";
+
 import { Helmet } from 'react-helmet';
 import  "../../i18n";
+import PaymentSection from "../Payment/PaymentSection";
+
 
 function Home() {
     const { t } = useTranslation();
@@ -19,7 +23,8 @@ function Home() {
                 <meta name="description" content="ClimateNet offers real-time environmental monitoring solutions to help communities and organizations track key climate data like temperature, humidity, and air quality for a sustainable future." />
             </Helmet>
             <Banner />
-            <ScrollableSection />
+            {/* <ScrollableSection /> */}
+            <PaymentSection/>
             <Description />
             <MapArmenia />
             <ContactForm name = {t('contact.title1')} subject_state = {true}/>
