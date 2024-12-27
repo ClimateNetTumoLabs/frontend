@@ -202,7 +202,7 @@ const resources = {
                         point1: "ClimateNet Devices are comprised of hardware and software elements.",
                         point2: "We provide step-by-step instructions on how to build both components.",
                         point3: "You do not need to know how to code, just how to copy and paste!",
-                        point4: "The materials will cost you between $130 to $280.",
+                        point4: "The materials will cost you between $130 to $280 depending on where you purchase them from and how many sensors you wish to include.",
                         end1: "Ready to start? Just fill out the ",
                         end2: " form, and we will send you all the necessary credentials via mail."
                     },
@@ -406,6 +406,9 @@ const resources = {
                     light_uv : "UV index",
                     light_intensity : "Light intensity"
                 },
+                innerPageStaticContent: {
+                    issue: "Note: At this moment this device has technical issues."
+                },
                 innerPageFilter: {
                     options: {
                         hourly: "1 Day",
@@ -414,6 +417,7 @@ const resources = {
                         range: "Range",
                         filter: "Filter"
                     },
+                    mobile_text: "Please select a start and end date to display the data for the chosen time period."
                 },
                 innerPageNearbyDevices: {
                     titles: {
@@ -842,6 +846,9 @@ const resources = {
                     light_uv : "UV ինդեքս",
                     light_intensity : "Լույսի ինտենսիվություն"
                 },
+                innerPageStaticContent: {
+                    issue: "Տվյալ պահին այս սարքն ունի տեխնիկական խնդիրներ։"
+                },
                 innerPageFilter: {
                     options: {
                         hourly: "1 օր",
@@ -850,6 +857,7 @@ const resources = {
                         range: "Միջակայք",
                         filter: "Ֆիլտր"
                     },
+                    mobile_text: "Խնդրում ենք ընտրել մեկնարկի և ավարտի ամսաթվերը՝ նշված ժամանակահատվածի տվյալները ցուցադրելու համար:"
                 },
                 innerPageNearbyDevices: {
                     titles: {

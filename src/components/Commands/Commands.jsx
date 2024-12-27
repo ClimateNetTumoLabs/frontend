@@ -265,7 +265,7 @@ function Commands({ onRequestAccessClick }) {
                 <p>{t('diy.commands.app.include')}</p>
                 <CodeBlock
                     id="certificates"
-                    code="scp -r <folder_path>/certificates/ <username>@<IP>:/home/raspberry/workspace/raspberry_soft/app/data/"
+                    code={`scp -r <folder_path>/certificates/ \n<username>@<IP>:/home/raspberry/workspace/raspberry_soft/app/data/`}
                 />
               </li>
 

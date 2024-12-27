@@ -184,6 +184,9 @@
     .value  {
     font-size: inherit;
     }
+    .errorMessage{
+    margin-right: 15px;
+    }
 }
 
 .loaderContent{
@@ -199,4 +202,35 @@
     cursor: pointer;
     font-size: 12px;
     vertical-align: baseline;
+}
+
+.errorMessage {
+    box-sizing: border-box;
+    padding: 5px 5px 5px 5px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #856404;
+    background-color: #fff3cd;
+    width: fit-content;
+    border-radius: 5px;
+    margin-left: 15px;
+    border: 1px solid #856405;
+}
+
+@media screen and (min-width: 768px) {
+    /* Desktop version - place under static content */
+    .isProblematic {
+        position: relative;
+        margin-top: 1rem;
+        margin-bottom: 0;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    /* Mobile version - place before static content */
+    .isProblematic {
+        position: relative;
+        margin-bottom: 1rem;
+        margin-top: 0;
+    }
 }
