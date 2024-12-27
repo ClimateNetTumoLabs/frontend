@@ -55,6 +55,7 @@ const PaymentButton = () => {
                     border: "none",
                     borderRadius: "5px",
                     cursor: loading ? "not-allowed" : "pointer",
+                    
                 }}
             >
                 {loading ? "Processing..." : "Pay Now"}
