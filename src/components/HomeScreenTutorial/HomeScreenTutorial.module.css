@@ -28,16 +28,19 @@
     border: 2px solid #eae6e2;
     background: transparent;
     color: #eae6e2;
-    border-radius: 5px;
+    border-radius: 25px;
     font-size: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
+.platformButton:hover {
+    background: rgba(234, 230, 226, 0.1);
+}
+
 .platformButton.active {
-    background: #e07789;
-    color : #eae6e2;
-    border: 2px solid #e07789 ;
+    background: #eae6e2;
+    color: #232222;
 }
 
 .mobileTutorials {
@@ -77,7 +80,7 @@
     border-radius: 60px;
 }
 .androidVideo {
-    border-radius: 49px;
+    border-radius: 50px;
 }
 .tutorialDescription {
     flex: 1;
@@ -97,13 +100,11 @@
     margin-bottom: 30px;
 }
 
-.tutorialDescription li{
+.tutorialDescription p {
     margin-bottom: 10px;
     line-height: 1.4;
 }
-.tutorialDescription ol{
-    padding-left: 20px
-}
+
 /* Telegram Bot Section */
 .telegramBot {
     display: flex;
@@ -117,7 +118,6 @@
 .qrContainer img {
     width: 200px;
     border-radius: 8px;
-    cursor: pointer;
 }
 
 .qrContainer p {
