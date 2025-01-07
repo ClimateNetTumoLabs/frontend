@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./Contact.module.css";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
+import axios from 'axios';
 
 const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) => {
     const { t } = useTranslation();
@@ -10,6 +11,7 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
     const [preferences] = useState(
         JSON.parse(localStorage.getItem('cookiePreferences')) || {}
     );
+    const [responseStatus, setResponseStatus] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -17,7 +19,6 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
         message: '',
         location: '' // Changed from 'location' for clarity
     });
-
     const getCookie = (name) => {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -58,6 +59,7 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
     }, [preferences]);
 
     const handleChange = (event) => {
+        setResponseStatus(null)
         const { name, value } = event.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -129,15 +131,39 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
         send_cookies_to_the_server(cookieMappings);
     };
 
-    const handleSubmit = (event) => {
+    const submitFormApi = async (formData) => {
+        try {
+            const response = await axios.post('/api/contact/submit/', {
+                name: formData.name,
+                email: formData.email,
+                message: formData.message,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response.data;
+        } catch (error) {
+            throw error.response ? error.response.data : { error: "Unknown error" };
+        }
+    };
+
+    const handleSubmit =async (event) => {
         event.preventDefault();
-        const { name, message, location } = formData;
+        setResponseStatus(null)
+        const { name, message, location,email } = formData;
         const subjectToUse = subject_state ? formData.subject : subject;
         let templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name}`;
         if (showCoordinates) {
             templateMessage += `\n\n${t('contact.formFields.location')}: ${location}`;
         }
         saveCookies();
+        try {
+            const response = await submitFormApi({ name, email, message, location });
+            setResponseStatus({ success: true, message: t('contact.formFields.successMessage') });
+        } catch (error) {
+            setResponseStatus({ success: false, message: t('contact.formFields.errorMessage') });
+        }
         // const mailtoLink = `mailto:labs@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
         // window.location.href = mailtoLink;
     };
@@ -145,6 +171,16 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
     return (
         <div className={`container mt-5 mb-5 col-md-8 col-12 ${styles.contact_us_section}`}>
             <h2 className={`${styles.contact_us_title}`}>{name}</h2>
+            {responseStatus && (
+                <div
+                    className={`alert ${
+                        responseStatus.success ? styles.success : styles.error
+                    }`}
+                    role="alert"
+                >
+                    {responseStatus.message}
+                </div>
+            )}
             <form onSubmit={handleSubmit}>
                 <div className={`d-flex flex-wrap`}>
                     <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} ${styles.contact_block}`}>
@@ -244,6 +280,7 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
                         value={formData.message}
                         onChange={handleChange}
                         onFocus={handleFocus}
+                        required
                         onBlur={handleBlur}
                     />
                 </div>

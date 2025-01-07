@@ -158,7 +158,10 @@ const resources = {
                             templateMessage: "Hello TUMO Labs Team,",
                             templateMessage2: "Regards,",
                             submit: "Send",
-                            coordinates: "Coordinates"
+                            coordinates: "Coordinates",
+                            successMessage:"exav!!",
+                            errorMessage:"Chexav!!"
+                            
                         },
                     options: {
                         data: "Need Data",

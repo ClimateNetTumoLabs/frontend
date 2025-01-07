@@ -25,9 +25,22 @@
 
 .carousel-item img {
     width: 100%;
+    
 
 }
+.carouselItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000; /* Optional: background color for padding */
+}
 
+.carouselImg {
+    width: 100%;        /* Adjust width */
+    height: auto;       /* Maintain aspect ratio */
+    max-height: 90vh;   /* Optional: Max height on large screens */
+    object-fit: cover;  /* Ensure image fills the space */
+}
 /* If you want to control the spacing between slides */
 .carousel-item:not(:last-child) {
     margin-right: 15px;
@@ -43,11 +56,13 @@
 .carouselContainer {
     overflow: hidden;
     width:100%;
+    max-width: 1920px;
     height: 55vh;
     background: #232222;
     z-index: 1;
     position: relative;
     object-fit:contain;
+    margin: 0 auto;
 }
 
 .carouselItem, .carouselItem img {
@@ -124,6 +139,9 @@
 @media (min-width: 768px) {
     .carouselCaption {
         text-align: left;
+    }
+    .carouselImg {
+        max-height: 50vh; /* Adjust for smaller screens */
     }
 }
 

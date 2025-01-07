@@ -4,6 +4,16 @@
     left: 10px;
 }
 
+.success{
+    border:3px solid #008e63;
+    /* color: #008e63; */
+}
+
+.error{
+    border:3px solid #c7bc42;
+    /* color:#c7bc42 ; */
+}
+
 .label_for_input {
     transition: all 0.3s ease-in-out;
 }

@@ -9,10 +9,11 @@ import { useTranslation } from 'react-i18next';
 // import banner2 from 'https://firebasestorage.googleapis.com/v0/b/testbackground-97a83.appspot.com/o/banner_2.webp?alt=media&token=6837e111-807f-4e19-989e-59c86a09e1ab';
 // import banner3 from 'https://firebasestorage.googleapis.com/v0/b/testbackground-97a83.appspot.com/o/banner_3.webp?alt=media&token=69931232-fe54-4d6f-b1e6-3ee569524b85';
 import '../../i18n';
+import Example from './Example';
 
 function Banner() {
     const { t, i18n } = useTranslation();
-    const images = useMemo(() => ['https://images-in-website.s3.us-east-1.amazonaws.com/Banner/banner_1.webp', 'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/banner_2.webp', 'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/banner_3.webp'], []);
+    const images = useMemo(() => [ 'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/box_and_device.png','https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.jpeg'], []);
 
     const [index, setIndex] = useState(0);
 
@@ -37,50 +38,32 @@ function Banner() {
     }, [i18n.language]);
 
     return (
-        <div className={styles.carouselContainer}>
-            <Helmet>
-                <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/banner_1.webp'} as="image" />
-                <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/banner_2.webp'} as="image" />
-                <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/banner_3.webp'} as="image" />
-            </Helmet>
-            <Carousel
-                className={styles.carousel_section}
-                activeIndex={index}
-                onSelect={handleSelect}
-                interval={null}
-                fade
-            >
-                {images.map((image, idx) => (
-                    <Carousel.Item key={idx} className={styles.carouselItem}>
-                        <img
-                            loading="lazy"  // Load critical images eagerly
-                            className={styles.carouselImg}
-                            src={image}
-                            alt={`Slide ${idx + 1}`}
-                        />
-                        <Carousel.Caption className={`${styles.carouselCaption} ${styles.carousel_text_section}`}>
-                            <h3 className={`${styles.static_name}`}>{t('banner.title')}</h3>
-                            <p className={`${styles.animated_text}`}>
-                                <TypeAnimation
-                                    key={animationKey} // Use key to force re-mount on language change
-                                    sequence={[
-                                        t('banner.text.1'),
-                                        1000,
-                                        t('banner.text.2'),
-                                        1000,
-                                        t('banner.text.3'),
-                                        1000,
-                                    ]}
-                                    speed={60}
-                                    repeat={Infinity}
-                                    style={{ whiteSpace: 'pre-line', fontSize: '1.5em', display: 'flex', justifyContent: 'flex-start' }}
-                                />
-                            </p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                ))}
-            </Carousel>
-        </div>
+        <Example/>
+        // <div className={styles.carouselContainer}>
+        //     <Helmet>
+        //         <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/box_and_device.png'} as="image" />
+        //         <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.jpeg'} as="image" />
+        //     </Helmet>
+        //     <Carousel
+        //         className={styles.carousel_section}
+        //         activeIndex={index}
+        //         onSelect={handleSelect}
+        //         interval={null}
+        //         fade
+        //     >
+        //         {images.map((image, idx) => (
+        //             <Carousel.Item key={idx} className={styles.carouselItem}>
+        //                 <img
+        //                     loading="lazy"  // Load critical images eagerly
+        //                     className={styles.carouselImg}
+        //                     src={image}
+        //                     alt={`Slide ${idx + 1}`}
+        //                 />
+                        
+        //             </Carousel.Item>
+        //         ))}
+        //     </Carousel>
+        // </div>
     );
 }
 
