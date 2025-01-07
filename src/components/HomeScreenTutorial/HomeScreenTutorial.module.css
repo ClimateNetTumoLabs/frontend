@@ -1,0 +1,177 @@
+/* General Container Styles */
+.homeScreenTools {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+    background-color: #232222;
+    color: #eae6e2;
+}
+
+.homeScreenTools h2 {
+    color: #eae6e2;
+    margin: 0;
+    margin-top: 10px;
+}
+/* Mobile Styles */
+.mobilePlatformButtons {
+    display: none;
+    justify-content: center;
+    gap: 20px;
+    margin: 17px 0;
+}
+
+.platformButton {
+    padding: 10px 30px;
+    border: 2px solid #eae6e2;
+    background: transparent;
+    color: #eae6e2;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.platformButton:hover {
+    background: rgba(234, 230, 226, 0.1);
+}
+
+.platformButton.active {
+    background: #eae6e2;
+    color: #232222;
+}
+
+.mobileTutorials {
+    display: none;
+}
+
+/* Desktop Styles */
+.desktopTutorials {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.tutorialContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.tutorialColumn {
+    flex: 1;
+    max-width: 400px;
+    text-align: center;
+}
+
+.tutorialColumn video{
+    width: 100%;
+    margin-bottom: 10px;
+}
+.iosVideo {
+    border-radius: 60px;
+}
+.androidVideo {
+    border-radius: 50px;
+}
+.tutorialDescription {
+    flex: 1;
+    max-width: 400px;
+    padding: 15px;
+    color: #eae6e2;
+    text-align: left;
+}
+
+.tutorialDescription h3 {
+    margin-bottom: 15px;
+    color: #eae6e2;
+    font-size: 17px;
+}
+
+.iosSteps, .androidSteps {
+    margin-bottom: 30px;
+}
+
+.tutorialDescription p {
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+/* Telegram Bot Section */
+.telegramBot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+}
+
+.qrContainer img {
+    width: 200px;
+    border-radius: 8px;
+}
+
+.qrContainer p {
+    max-width: 300px;
+    margin-top: 10px;
+}
+
+/* Mobile Breakpoint */
+@media (max-width: 767px) {
+    .homeScreenTools h2{
+        font-size: 18px;
+    }
+
+    .mobilePlatformButtons {
+        display: flex;
+    }
+
+    .mobileTutorials {
+        display: block;
+    }
+
+    .desktopTutorials {
+        display: none;
+    }
+
+    .tutorialItem {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .tutorialItem video  {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+    .iosVideo {
+        border-radius: 40px;
+    }
+    .androidVideo {
+        border-radius: 32px;
+    }
+    .homeScreenTools {
+        padding: 15px;
+    }
+}
+
+/* Ensure proper spacing on medium screens */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .tutorialContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .tutorialColumn {
+        max-width: 300px;
+    }
+}
