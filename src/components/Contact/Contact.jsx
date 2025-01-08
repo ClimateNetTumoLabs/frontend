@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "./Contact.module.css";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
-import axios from 'axios';
+import axios from "../../axiosConfig";
+// import axios from 'axios';
 
 const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) => {
     const { t } = useTranslation();
