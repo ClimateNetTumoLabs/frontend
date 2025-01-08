@@ -38,32 +38,32 @@ function Banner() {
     }, [i18n.language]);
 
     return (
-        <Example/>
-        // <div className={styles.carouselContainer}>
-        //     <Helmet>
-        //         <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/box_and_device.png'} as="image" />
-        //         <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.jpeg'} as="image" />
-        //     </Helmet>
-        //     <Carousel
-        //         className={styles.carousel_section}
-        //         activeIndex={index}
-        //         onSelect={handleSelect}
-        //         interval={null}
-        //         fade
-        //     >
-        //         {images.map((image, idx) => (
-        //             <Carousel.Item key={idx} className={styles.carouselItem}>
-        //                 <img
-        //                     loading="lazy"  // Load critical images eagerly
-        //                     className={styles.carouselImg}
-        //                     src={image}
-        //                     alt={`Slide ${idx + 1}`}
-        //                 />
+        // <Example/>
+        <div className={styles.carouselContainer}>
+            <Helmet>
+                <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/box_and_device.png'} as="image" />
+                <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.jpeg'} as="image" />
+            </Helmet>
+            <Carousel
+                className={styles.carousel_section}
+                activeIndex={index}
+                onSelect={handleSelect}
+                interval={null}
+                fade
+            >
+                {images.map((image, idx) => (
+                    <Carousel.Item key={idx} className={styles.carouselItem}>
+                        <img
+                            loading="lazy"  // Load critical images eagerly
+                            className={styles.carouselImg}
+                            src={image}
+                            alt={`Slide ${idx + 1}`}
+                        />
                         
-        //             </Carousel.Item>
-        //         ))}
-        //     </Carousel>
-        // </div>
+                    </Carousel.Item>
+                ))}
+            </Carousel>
+        </div>
     );
 }
 
