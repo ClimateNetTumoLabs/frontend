@@ -18,8 +18,9 @@ import { Polygon } from "react-leaflet";
 import { useTranslation } from "react-i18next";
 import ResetViewControl from '@20tab/react-leaflet-resetview';
 import "leaflet.locatecontrol";
+import 'leaflet-easybutton';
+import 'leaflet-easybutton/src/easy-button.css';
 import "leaflet-easybutton/src/easy-button.js";
-import "leaflet-easybutton/src/easy-button.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function circleWithText2(latLng, txt, radius, borderWidth) {
