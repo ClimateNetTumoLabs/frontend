@@ -127,10 +127,10 @@ const DIY = () => {
       </section>
       <section id="request" ref={requestRef}>
       <Contact
-        subject_state={t('contact.options.request')}
         className={`mb-2 col-md-8 col-12 ${styles.subTitles}`}
         name={t('contact.title2')}
         showCoordinates={true}
+        subject={t('contact.options.request')}
       />
         </section>
       </>
