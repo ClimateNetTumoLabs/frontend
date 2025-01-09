@@ -5,7 +5,7 @@ import "../../i18n";
 
 const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) => {
   const { t } = useTranslation();
-  const translatedSubject = subject || t('contact.options.request');
+  const translatedSubject = subject || t('contact.options.join');
 
   const [focusedInput, setFocusedInput] = useState(null);
 

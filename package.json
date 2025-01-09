@@ -37,7 +37,7 @@
     "latest-version": "^7.0.0",
     "leaflet": "^1.9.4",
     "leaflet-easybutton": "^2.4.0",
-    "leaflet.locatecontrol": "^0.83.0",
+    "leaflet.locatecontrol": "^0.83.1",
     "mdb-react-ui-kit": "^6.3.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "pg": "^8.11.3",

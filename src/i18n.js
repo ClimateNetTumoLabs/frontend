@@ -120,11 +120,25 @@ const resources = {
                         3: 'Nine live measurements including temperature, pollution and UV index.',
                     },
                 },
-                scrollableSection: {
-                    section1: "A pioneering hyper-local, student-led climate observatory. Our mission is to empower the next generation and raise awareness through real-time data tracking, all while making a significant contribution to mitigating climate change. We're dedicated to advocating for climate action beyond borders, because the challenges we face are global in nature.",
-                    section2: "Unlock the Power of Climate Insights",
-                    section3: "Powered by TUMO Labs",
-                    section4: "Explore Climate Data"
+                homeScreenTutorial : {
+                    title: "Add to Home Screen",
+                    ios: {
+                        title: "iOS Installation Steps:",
+                        point1: "Open Safari and navigate to our website",
+                        point2: "Tap the Share button at the bottom of the screen",
+                        point3: 'Scroll down and tap "Add to Home Screen"',
+                        point4: 'Customize the name if desired and tap "Add"',
+                    },
+                    android: {
+                        title: "Android Installation Steps:",
+                        point1: "Open Chrome and visit our website",
+                        point2: "Tap the three-dot menu in the top right",
+                        point3: 'Select "Add to Home screen"',
+                        point4: 'Confirm by tapping "Add"'
+                    },
+                    bot: {
+                        title: "Scan this QR code or click on it to connect with our Telegram Bot"
+                    }
                 },
                 description: {
                     sections: [
@@ -566,11 +580,25 @@ const resources = {
                         3: 'Ինը ուղիղ չափումներ, ներառյալ ջերմաստիճան, աղտոտվածություն և ուլտրամանուշակագույն ինդեքս։',
                     },
                 },
-                scrollableSection: {
-                    section1: "Առաջատար հիպերտեղական, ուսանողների կողմից ղեկավարվող կլիմայական աստղադիտարան: Մեր առաքելությունն է հզորացնել հաջորդ սերնդին և բարձրացնել իրազեկությունը տվյալների իրական ժամանակում հետևելու միջոցով, այս ամենը միևնույն ժամանակ զգալի ներդրում ունենալով կլիմայի փոփոխությունը մեղմելու գործում։ Մենք նվիրված ենք պաշտպանելուն սահմաններից դուրս կլիմայական գործողությունների համար, քանի որ մեր առջև ծառացած մարտահրավերները գլոբալ բնույթ ունեն։",
-                    section2: "Բացահայտեք կլիմայական տվյալների ուժը",
-                    section3: "ԹՈՒՄՈ Լաբերի աջակցությամբ",
-                    section4: "Ուսումնասիրեք կլիմայական տվյալները"
+                homeScreenTutorial: {
+                    title: "Ավելացնել գլխավոր էկրանին",
+                    ios: {
+                        title: "iOS տեղադրման քայլեր․",
+                        point1: "Բացեք Safari-ն և անցեք մեր կայք",
+                        point2: "Սեղմեք «Share» կոճակը էկրանի ներքևում",
+                        point3: "Գտեք և սեղմեք «Add to Home Screen»",
+                        point4: "Փոխեք անվանումը, եթե ցանկանում եք, և սեղմեք «Add»"
+                    },
+                    android: {
+                        title: "Android տեղադրման քայլեր․",
+                        point1: "Բացեք Chrome-ը և անցեք մեր կայք",
+                        point2: "Սեղմեք վերևի աջ անկյան երեք կետով մենյուն",
+                        point3: "Ընտրեք «Add to Home Screen»",
+                        point4: "Հաստատեք՝ սեղմելով «Add»"
+                    },
+                    bot: {
+                        title: "Սկանավորեք այս QR կոդը կամ սեղմեք վրան՝ մեր Telegram բոտին միանալու համար"
+                    }
                 },
                 description: {
                     sections: [
