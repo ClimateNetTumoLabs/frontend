@@ -44,13 +44,7 @@ const Team = () => {
     return (
         <div className={styles.team_section}>
             {/* React Helmet for Dynamic Meta Injection */}
-            <Helmet>
-                <meta property="og:title" content={ogTitle} />
-                <meta property="og:description" content={ogDescription} />
-                <meta property="og:image" content={ogImageUrl} />
-                <meta property="og:image:width" content="1200" />
-                <meta property="og:image:height" content="630" />
-            </Helmet>
+         
 
             <Carousel
                 responsive={responsive}
@@ -75,7 +69,7 @@ const Team = () => {
                                     <Helmet>
                                         <meta property="og:title" content={ogTitle} />
                                         <meta property="og:description" content={ogDescription} />
-                                        <meta property="og:image" content={member.image ?? ''} />
+                                        <meta property="og:image" content={'htpps://climatenet.am' +  member.image ?? ''} />
                                         <meta property="og:image:width" content="425" />
                                         <meta property="og:image:height" content="425" />
                                     </Helmet>
