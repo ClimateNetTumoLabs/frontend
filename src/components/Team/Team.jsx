@@ -4,6 +4,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
+import { Helmet } from "react-helmet"; // Import React Helmet
 
 const responsive = {
     superLargeDesktop: {
@@ -35,8 +36,22 @@ const Team = () => {
             .catch(error => console.error('Error fetching team members:', error));
     }, []);
 
+    // Determine the Open Graph meta information for the first team member
+    const ogImageUrl = teamMembers.length > 0 && teamMembers[0].image ? teamMembers[0].image : 'https://your-default-image-url.com/default-image.jpg';
+    const ogTitle = "Our Team"; // You can also fetch this from your backend if needed
+    const ogDescription = "Meet our talented team members.";
+
     return (
         <div className={styles.team_section}>
+            {/* React Helmet for Dynamic Meta Injection */}
+            <Helmet>
+                <meta property="og:title" content={ogTitle} />
+                <meta property="og:description" content={ogDescription} />
+                <meta property="og:image" content={ogImageUrl} />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
+            </Helmet>
+
             <Carousel
                 responsive={responsive}
                 autoPlaySpeed={4000}
@@ -55,7 +70,17 @@ const Team = () => {
                         <div className={styles.team_member_image_block}>
                             <div className={styles.img_container}>
                                 {member.image && (
+                                    
+                                    <>
+                                    <Helmet>
+                                        <meta property="og:title" content={ogTitle} />
+                                        <meta property="og:description" content={ogDescription} />
+                                        <meta property="og:image" content={member.image ?? ''} />
+                                        <meta property="og:image:width" content="425" />
+                                        <meta property="og:image:height" content="425" />
+                                    </Helmet>
                                     <img loading="lazy" src={member.image} alt={member.name} />
+                                    </>
                                 )}
                             </div>
                             <div className={styles.icon_section}>
