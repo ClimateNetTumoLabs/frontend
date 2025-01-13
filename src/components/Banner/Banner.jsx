@@ -13,7 +13,7 @@ import Example from './Example';
 
 function Banner() {
     const { t, i18n } = useTranslation();
-    const images = useMemo(() => [ 'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/koghb.png'], []);
+    const images = useMemo(() => [ 'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.webp'], []);
 
     const [index, setIndex] = useState(0);
 
@@ -41,7 +41,7 @@ function Banner() {
         // <Example/>
         <div className={styles.carouselContainer}>
             <Helmet>
-                <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/koghb.png'} as="image" />
+                <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.webp'} as="image" />
                 {/* <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.jpeg'} as="image" /> */}
             </Helmet>
             <Carousel
@@ -59,7 +59,15 @@ function Banner() {
                             src={image}
                             alt={`Slide ${idx + 1}`}
                         />
-                        
+                         <Carousel.Caption>
+                         <div className={styles.captionContainer}>
+                                <div className={styles.leftCaption}>ClimateNet</div>
+                                <div className={styles.rightCaption}>
+                                    A youth-led IoT observatory network for climate action by 
+                                    <strong> TUMO Labs</strong>
+                                </div>
+                            </div>
+                         </Carousel.Caption>
                     </Carousel.Item>
                 ))}
             </Carousel>

@@ -35,12 +35,12 @@
     /* background: #000; */
 }
 
-/* .carouselImg {
+.carouselImg {
     width: 100%;        
     height: auto;       
     max-height: 90vh;   
     object-fit: cover;  
-} */
+}
 /* If you want to control the spacing between slides */
 .carousel-item:not(:last-child) {
     margin-right: 15px;
@@ -134,14 +134,42 @@
     /* font-size: 28px; */
     color: #eae6e2;
 }
+.captionContainer {
+    color: black;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allows stacking on small screens */
+    text-align: center;
+    color: black;
+    /* Ensures alignment when stacked */
+}
 
+.leftCaption {
+    font-size: 2rem; /* Adjust as needed */
+    font-weight: bold;
+    flex: 1; /* Ensures it takes equal space */
+    text-align: left; /* Align to the left on larger screens */
+    margin: 5px;
+    color: black;
+
+}
+
+.rightCaption {
+    font-size: 1rem; /* Adjust as needed */
+    flex: 2; /* Gives more space to the right text */
+    text-align: right; /* Align to the right on larger screens */
+    margin: 5px;
+    /* color: black; */
+}
 /* Media query for desktop */
 @media (min-width: 768px) {
     .carouselCaption {
         text-align: left;
     }
     .carouselImg {
-        max-height: 50vh; /* Adjust for smaller screens */
+        max-height: 55vh; /* Adjust for smaller screens */
     }
 }
 
@@ -161,6 +189,8 @@
     .carousel_section  div, .carousel_section img {
         height: 100%;
         object-fit: cover;
+        object-position: 50%;
+
     }
     .animated_text {
         margin-top: 50px;
@@ -169,7 +199,35 @@
     .animated_text span {
         font-size: 15px !important;
     }
-    .carouselCaption p {
+    .carouselCaption  {
+        color: black;
         margin-top: 30px;
     }
+    .carouselImg {
+        width: 100%;        
+        height: auto;       
+        max-height: 90vh;   
+        object-fit: contain;  
+    }
+
+    .captionContainer {
+        display: block;
+        flex-direction: column; /* Stack items vertically */
+        text-align: center; /* Center-align on mobile */
+    }
+
+    
+    .rightCaption {
+        text-align: center; /* Override alignment for smaller screens */
+        flex: unset; /* Remove flex sizing for stacked layout */
+    }
+    .leftCaption{
+        width: 100%;
+    }
 }
+
+
+
+
+
+
