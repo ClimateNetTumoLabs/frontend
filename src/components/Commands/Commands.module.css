@@ -5,7 +5,7 @@
   margin-bottom: 50px;
 }
 
-h2 {
+.section > h2 {
   color: #e07789;
   margin-bottom: 20px;
   font-weight: bold;

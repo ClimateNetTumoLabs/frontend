@@ -97,7 +97,7 @@
         text-align: center;
         background-color: #eae6e2;
         border-radius: 5px;
-        z-index: 9999;
+        z-index: 14;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
@@ -111,7 +111,6 @@
     .closeBtn {
         display: block;
         position: relative;
-        color: black;
         border: none;
         cursor: pointer;
         align-self: flex-end;

@@ -143,7 +143,7 @@ const resources = {
                 description: {
                     sections: [
                         {
-                            title: "Climate Friends:",
+                            title: "ClimateNet Friends:",
                             content: "Meet our partners and friends who have supported us and continue to do so.",
                             partner1: "Amazon Web Services (AWS) provides cloud credits that allow us to store and manage data with top-tier security and performance. AWS offers a wide range of services, including networking, computing, storage, middleware, IoT, and other processing capacities, as well as software tools, all hosted on its global server farms. By leveraging AWS, we are relieved from the burdens of managing, scaling, and maintaining hardware and operating systems.",
                             partner2: "TUMO Boxes are low-cost and easy-to-deploy facilities built out of shipping containers. Strategically placed so that every teen in Armenia can reach one in 40 minutes or less, these self-contained learning environments are equipped with state-of-the-art workstations and equipment and can host up to 320 students per week. The boxes provide access to the TUMO program and the entire network of coaches. These satellite locations act as the foundation for the ClimateNet devices. The devices are deployed on these boxes across the country to provide us with the local and accurate data.workshop leaders, and fellow students."
@@ -603,7 +603,7 @@ const resources = {
                 description: {
                     sections: [
                         {
-                            title: "Կլիմայի ընկերներ։",
+                            title: "Կլիմայական ցանցի ընկերներ։",
                             content: "Ծանոթացեք մեր գործընկերներին և ընկերներին, ովքեր աջակցել և շարունակում են մեզ աջակցել։",
                             partner1: "Amazon Web Services (AWS)-ը տրամադրում է ամպային կրեդիտներ, որոնք մեզ հնարավորություն են տալիս տվյալները պահել և կառավարել բարձր մակարդակի անվտանգությամբ և արդյունավետությամբ: AWS-ն առաջարկում է ծառայությունների լայն տեսականի, ներառյալ ցանցային, հաշվարկային, պահեստավորման, միջնակարգ ծրագրային ապահովման, IoT և այլ մշակման հնարավորություններ, ինչպես նաև ծրագրային գործիքներ, որոնք բոլորն էլ հյուրընկալվում են նրա գլոբալ սերվերային ֆերմաներում: AWS-ի միջոցով մենք ազատվում ենք ապարատային և օպերացիոն համակարգերի կառավարումից, մասշտաբավորումից և սպասարկումից առաջացող դժվարություններից։",
                             partner2: "ԹՈՒՄՈ տուփերը էժան և հեշտ տեղադրվող սարքեր են, որոնք կառուցված են բեռնափոխադրման տարաներից։ Այս ինքնավար ուսումնական կենտրոնները, որոնք ռազմավարականորեն տեղակայված են այնպես, որ Հայաստանի յուրաքանչյուր դեռահաս կարողանա դրանց հասնել 40 րոպեում կամ ավելի քիչ, հագեցած են ամենաժամանակակից աշխատատեղերով և սարքավորումներով և կարող են ընդունել շաբաթական մինչև 320 սովորող։ Այս տուփերը հնարավորություն են տալիս մուտք գործել ԹՈՒՄՈ ծրագիր և ամբողջ ցանց: Այս արբանյակային վայրերը հիմք են հանդիսանում Կլիմայական ցանցի սարքերի համար: Սարքերը տեղադրված են այդ տուփերի վրա ամբողջ երկրում, որպեսզի մեզ տրամադրեն տեղական և ճշգրիտ տվյալներ։"

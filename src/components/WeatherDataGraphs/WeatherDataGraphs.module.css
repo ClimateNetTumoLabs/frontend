@@ -168,8 +168,6 @@ span {
     align-items: center;
 }
 
-
-
 .chartContainer {
     position: relative;
 }
@@ -191,7 +189,7 @@ span {
     background-color: rgba(255, 255, 255, 0.7);
     padding: 10px 20px;
     border-radius: 5px;
-    z-index: 10000;
+    z-index: 5;
     pointer-events: none;
     opacity: 0.7;
 }

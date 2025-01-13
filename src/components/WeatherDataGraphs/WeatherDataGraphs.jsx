@@ -364,7 +364,7 @@ const WeatherDataGraphs = (props) => {
     }, [props.data]);
 
     return (
-        <div className={styles.chart_section}>
+        <div id="chart" className={styles.chart_section}>
             <div style={{height: "100%"}}>
                 <div className={styles.toolbarAndFilter}>
                     <div className={styles.FilterSection}>
