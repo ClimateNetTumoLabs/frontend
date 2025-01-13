@@ -32,15 +32,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #000; /* Optional: background color for padding */
+    /* background: #000; */
 }
 
-.carouselImg {
-    width: 100%;        /* Adjust width */
-    height: auto;       /* Maintain aspect ratio */
-    max-height: 90vh;   /* Optional: Max height on large screens */
-    object-fit: cover;  /* Ensure image fills the space */
-}
+/* .carouselImg {
+    width: 100%;        
+    height: auto;       
+    max-height: 90vh;   
+    object-fit: cover;  
+} */
 /* If you want to control the spacing between slides */
 .carousel-item:not(:last-child) {
     margin-right: 15px;
@@ -56,9 +56,9 @@
 .carouselContainer {
     overflow: hidden;
     width:100%;
-    max-width: 1920px;
+    /* max-width: 1920px; */
     height: 55vh;
-    background: #232222;
+    /* background: #232222; */
     z-index: 1;
     position: relative;
     object-fit:contain;

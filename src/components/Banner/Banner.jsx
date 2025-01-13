@@ -13,7 +13,7 @@ import Example from './Example';
 
 function Banner() {
     const { t, i18n } = useTranslation();
-    const images = useMemo(() => [ 'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/box_and_device.png','https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.jpeg'], []);
+    const images = useMemo(() => [ 'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/koghb.png'], []);
 
     const [index, setIndex] = useState(0);
 
@@ -41,8 +41,8 @@ function Banner() {
         // <Example/>
         <div className={styles.carouselContainer}>
             <Helmet>
-                <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/box_and_device.png'} as="image" />
-                <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.jpeg'} as="image" />
+                <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/koghb.png'} as="image" />
+                {/* <link rel="preload" href={'https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.jpeg'} as="image" /> */}
             </Helmet>
             <Carousel
                 className={styles.carousel_section}
