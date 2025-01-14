@@ -8,11 +8,11 @@ const Tools = () => {
   const tools = [
   {
     name: t('diy.tools.1'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/shurupovert.jpg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/shurupovert.png"
   },
   {
     name: t('diy.tools.2'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/skotch.jpg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/skotch.png"
   },
   {
     name: t('diy.tools.3'),
@@ -28,15 +28,15 @@ const Tools = () => {
   },
   {
     name: t('diy.tools.6'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/metr.jpg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/metr.png"
   },
   {
     name: t('diy.tools.7'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/scissors.jpeg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/scissors.png"
   },
   {
     name: t('diy.tools.8'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/fen.jpg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/fen.png"
   },
   {
     name: t('diy.tools.9'),
@@ -52,11 +52,11 @@ const Tools = () => {
   },
   {
     name: t('diy.tools.12'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/gubci.jpg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/gubci.png"
   },
   {
     name: t('diy.tools.13'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/rosin.jpeg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/rosin.png"
   },
   {
     name: t('diy.tools.14'),
@@ -64,11 +64,11 @@ const Tools = () => {
   },
   {
     name: t('diy.tools.15'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/spirt.jpg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/spirt.png"
   },
   {
     name: t('diy.tools.16'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/brush.jpeg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/brush.png"
   },
   {
     name: t('diy.tools.17'),
@@ -80,23 +80,23 @@ const Tools = () => {
   },
   {
     name: t('diy.tools.19'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/silicone.jpg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/silicone.png"
   },
   {
     name: t('diy.tools.20'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/tester.jpg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/tester.png"
   },
   {
     name: t('diy.tools.21'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/screwdriver.jpeg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/screwdriver.png"
   },
   {
     name: t('diy.tools.22'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/solder wire.jpeg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/solder wire.png"
   },
   {
     name: t('diy.tools.23'),
-    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/laq.jpeg"
+    image: "https://images-in-website.s3.us-east-1.amazonaws.com/Tools/laq.png"
   },
   ];
 
@@ -116,7 +116,7 @@ const Tools = () => {
             {tools.map((tools, index) => (
               <tr key={index}>
                 <td data-label={t('diy.tools.item')}>{tools.name}</td>
-                <td data-label={t('diy.tools.image')}><img src={tools.image} alt={tools.name} className={styles.image} /></td>
+                <td data-label={t('diy.tools.image')}><img src={tools.image} className={styles.image} /></td>
               </tr>
             ))}
           </tbody>

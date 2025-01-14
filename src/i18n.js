@@ -113,12 +113,8 @@ const resources = {
                     api_info_done: "Happy coding!"
                 },
                 banner: {
-                    title: 'Climate Net: Connecting Armenia through a growing network of real time climate data.',
-                    text: {
-                        1: 'Monitor climate changes in real time.',
-                        2: 'Accurate data live streamed and open source.',
-                        3: 'Nine live measurements including temperature, pollution and UV index.',
-                    },
+                    title: 'a youth-led IoT observatory',
+                    title2: "network for climate action by"
                 },
                 homeScreenTutorial : {
                     title: "Add to Home Screen",
@@ -573,12 +569,8 @@ const resources = {
                     api_info_done: "Հաճելի կոդավորում)"
                 },
                 banner: {
-                    title: 'Կլիմայական ցանց. Հայաստանի միացումը կլիմայական տվյալների աճող ցանցին իրական ժամանակում։',
-                    text: {
-                        1: 'Իրական ժամանակում հետևեք կլիմայի փոփոխություններին։',
-                        2: 'Ճշգրիտ տվյալներ՝ ուղիղ հեռարձակմամբ և բաց կոդով։',
-                        3: 'Ինը ուղիղ չափումներ, ներառյալ ջերմաստիճան, աղտոտվածություն և ուլտրամանուշակագույն ինդեքս։',
-                    },
+                    title: 'ուսանողների նախաձեռնած IoT ցանց`',
+                    title2: " կլիմայական գործողությունների համար"
                 },
                 homeScreenTutorial: {
                     title: "Ավելացնել գլխավոր էկրանին",
