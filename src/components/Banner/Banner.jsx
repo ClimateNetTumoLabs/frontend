@@ -59,14 +59,14 @@ function Banner() {
                             src={image}
                             alt={`Slide ${idx + 1}`}
                         />
-                         <Carousel.Caption>
-                         <div className={styles.captionContainer}>
-                                <div className={styles.leftCaption}>ClimateNet</div>
+                         <Carousel.Caption className={styles.captionContainer}>
+                         
+                                <div className={styles.leftCaption}></div>
                                 <div className={styles.rightCaption}>
-                                    A youth-led IoT observatory network for climate action by 
-                                    <strong> TUMO Labs</strong>
+                                    a youth-led IoT observatory<br/> network for climate action by
+                                    
                                 </div>
-                            </div>
+
                          </Carousel.Caption>
                     </Carousel.Item>
                 ))}
