@@ -126,7 +126,7 @@
 }
 
 /* Mobile Breakpoint */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .homeScreenTools h2{
         font-size: 18px;
     }
@@ -171,5 +171,13 @@
 
     .tutorialColumn {
         max-width: 300px;
+    }
+
+    .iosVideo {
+        border-radius: 49px;
+    }
+
+    .androidVideo {
+        border-radius: 39px;
     }
 }
