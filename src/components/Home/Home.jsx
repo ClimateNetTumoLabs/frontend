@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Home.module.css";
 import Banner from "../Banner/Banner";
-import ScrollableSection from "../ScrollableSection/ScrollableSection";
+import HomeScreenTutorial from "../HomeScreenTutorial/HomeScreenTutorial";
 import MapArmenia from "../Map/Map";
 import Description from "../DescriptionProject/Description";
 import ContactForm from "../Contact/Contact";
@@ -19,7 +19,7 @@ function Home() {
                 <meta name="description" content="ClimateNet offers real-time environmental monitoring solutions to help communities and organizations track key climate data like temperature, humidity, and air quality for a sustainable future." />
             </Helmet>
             <Banner />
-            <ScrollableSection />
+            <HomeScreenTutorial />
             <Description />
             <MapArmenia />
             <ContactForm name = {t('contact.title1')} subject_state = {true}/>

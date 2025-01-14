@@ -73,7 +73,13 @@ const Footer = () => {
             </div>
             <div className="row  mb-0">
                 <div className="col-md-12 text-center">
-                    <p className="mb-0">© {currentYear} {t('footer.rightsReserved')}</p>
+                    <p className="mb-0 d-none d-md-block">
+                      © {currentYear} {t('footer.rightsReserved')} | Version 1.3
+                    </p>
+                    <p className="mb-0 d-block d-md-none">
+                      © {currentYear} {t('footer.rightsReserved')}
+                    </p>
+                    <p className="mb-0 d-block d-md-none">Version 1.3</p>
                 </div>
             </div>
         </footer>

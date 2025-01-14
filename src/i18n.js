@@ -113,18 +113,28 @@ const resources = {
                     api_info_done: "Happy coding!"
                 },
                 banner: {
-                    title: 'Climate Net: Connecting Armenia through a growing network of real time climate data.',
-                    text: {
-                        1: 'Monitor climate changes in real time.',
-                        2: 'Accurate data live streamed and open source.',
-                        3: 'Nine live measurements including temperature, pollution and UV index.',
-                    },
+                    title: 'a youth-led IoT observatory',
+                    title2: "network for climate action by"
                 },
-                scrollableSection: {
-                    section1: "A pioneering hyper-local, student-led climate observatory. Our mission is to empower the next generation and raise awareness through real-time data tracking, all while making a significant contribution to mitigating climate change. We're dedicated to advocating for climate action beyond borders, because the challenges we face are global in nature.",
-                    section2: "Unlock the Power of Climate Insights",
-                    section3: "Powered by TUMO Labs",
-                    section4: "Explore Climate Data"
+                homeScreenTutorial : {
+                    title: "Add to Home Screen",
+                    ios: {
+                        title: "iOS Installation Steps:",
+                        point1: "Open Safari and navigate to our website",
+                        point2: "Tap the Share button at the bottom of the screen",
+                        point3: 'Scroll down and tap "Add to Home Screen"',
+                        point4: 'Customize the name if desired and tap "Add"',
+                    },
+                    android: {
+                        title: "Android Installation Steps:",
+                        point1: "Open Chrome and visit our website",
+                        point2: "Tap the three-dot menu in the top right",
+                        point3: 'Select "Add to Home screen"',
+                        point4: 'Confirm by tapping "Add"'
+                    },
+                    bot: {
+                        title: "Scan this QR code or click on it to connect with our Telegram Bot"
+                    }
                 },
                 description: {
                     sections: [
@@ -559,18 +569,28 @@ const resources = {
                     api_info_done: "Հաճելի կոդավորում)"
                 },
                 banner: {
-                    title: 'Կլիմայական ցանց. Հայաստանի միացումը կլիմայական տվյալների աճող ցանցին իրական ժամանակում։',
-                    text: {
-                        1: 'Իրական ժամանակում հետևեք կլիմայի փոփոխություններին։',
-                        2: 'Ճշգրիտ տվյալներ՝ ուղիղ հեռարձակմամբ և բաց կոդով։',
-                        3: 'Ինը ուղիղ չափումներ, ներառյալ ջերմաստիճան, աղտոտվածություն և ուլտրամանուշակագույն ինդեքս։',
-                    },
+                    title: 'ուսանողների նախաձեռնած IoT ցանց`',
+                    title2: " կլիմայական գործողությունների համար"
                 },
-                scrollableSection: {
-                    section1: "Առաջատար հիպերտեղական, ուսանողների կողմից ղեկավարվող կլիմայական աստղադիտարան: Մեր առաքելությունն է հզորացնել հաջորդ սերնդին և բարձրացնել իրազեկությունը տվյալների իրական ժամանակում հետևելու միջոցով, այս ամենը միևնույն ժամանակ զգալի ներդրում ունենալով կլիմայի փոփոխությունը մեղմելու գործում։ Մենք նվիրված ենք պաշտպանելուն սահմաններից դուրս կլիմայական գործողությունների համար, քանի որ մեր առջև ծառացած մարտահրավերները գլոբալ բնույթ ունեն։",
-                    section2: "Բացահայտեք կլիմայական տվյալների ուժը",
-                    section3: "ԹՈՒՄՈ Լաբերի աջակցությամբ",
-                    section4: "Ուսումնասիրեք կլիմայական տվյալները"
+                homeScreenTutorial: {
+                    title: "Ավելացնել գլխավոր էկրանին",
+                    ios: {
+                        title: "iOS տեղադրման քայլեր․",
+                        point1: "Բացեք Safari-ն և անցեք մեր կայք",
+                        point2: "Սեղմեք «Share» կոճակը էկրանի ներքևում",
+                        point3: "Գտեք և սեղմեք «Add to Home Screen»",
+                        point4: "Փոխեք անվանումը, եթե ցանկանում եք, և սեղմեք «Add»"
+                    },
+                    android: {
+                        title: "Android տեղադրման քայլեր․",
+                        point1: "Բացեք Chrome-ը և անցեք մեր կայք",
+                        point2: "Սեղմեք վերևի աջ անկյան երեք կետով մենյուն",
+                        point3: "Ընտրեք «Add to Home Screen»",
+                        point4: "Հաստատեք՝ սեղմելով «Add»"
+                    },
+                    bot: {
+                        title: "Սկանավորեք այս QR կոդը կամ սեղմեք վրան՝ մեր Telegram բոտին միանալու համար"
+                    }
                 },
                 description: {
                     sections: [
