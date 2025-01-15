@@ -59,6 +59,53 @@ footer {
     height: 100%;
 }
 
+.react-card-flip {
+    height : 100%
+}
+
+.react-tel-input {
+    padding: 15px 15px 15px 0px;
+}
+
+.flag-dropdown, .selected-flag  {
+    background-color: transparent !important;
+    border: none !important;
+}
+.flag-dropdown .arrow {
+    display: none;
+}
+.react-tel-input .form-control {
+    background: none !important;
+    border: none !important;
+    border-bottom: 1px solid #e07789 !important;
+    border-radius: 0 !important;
+    color : #eae6e2 !important;
+    width: 100% !important;
+    padding-bottom: 24px !important;
+}
+
+.react-tel-input .selected-flag .flag {
+    margin-top: -10px !important;
+}
+
+.country-list {
+    background-color: #232222 !important;
+}
+
+.react-tel-input .country-list {
+    z-index: 100 !important;
+    padding-bottom: 60px;
+}
+.react-card-flip {
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+
+.country-list .country-name, .dial-code {
+    color : #e07789 !important;
+}
+
 .team_member_dot_section {
     padding-bottom: 20px !important;
     bottom: -20px !important;

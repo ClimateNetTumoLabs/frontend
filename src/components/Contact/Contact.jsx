@@ -149,7 +149,7 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
         }
     };
 
-    const handleSubmit =async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setResponseStatus(null)
         const { name, message, location,email } = formData;
