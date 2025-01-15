@@ -100,9 +100,10 @@ export default class Example extends Component {
           offsetRadius={this.state.offsetRadius}
           showNavigation={false}
           animationConfig={this.state.config}
-         
+
         />
       </div>
     );
   }
 }
+

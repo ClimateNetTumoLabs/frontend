@@ -56,12 +56,11 @@ h2 {
 
 .readmeStyle code {
   display: inline-block;
-  white-space: pre-wrap;
   flex: 1;
 }
 
 .copyContainer {
-  position: absolute;
+  position: sticky;
   right: 10px; /* Adjust to your preference */
   display: flex;
   align-items: center;
@@ -116,6 +115,7 @@ h2 {
 
 .code{
   cursor: text;
+  overflow: auto;
 }
 
 .precode{

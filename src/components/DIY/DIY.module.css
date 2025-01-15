@@ -44,7 +44,7 @@
 
 .navbar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   background-color: #333232;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

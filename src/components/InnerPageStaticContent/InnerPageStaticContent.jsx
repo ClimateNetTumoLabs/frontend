@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styles from './InnerPageStaticContent.module.css'
 import { useLocation } from "react-router-dom";
 import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
@@ -117,26 +117,49 @@ const WeatherInformation = (props) => {
 }
 
 function InnerPageStaticContent(props) {
+    const { t } = useTranslation();
     const data = props.data[0]
     const location = useLocation();
     const queryString = location.search;
     const nameOfDevice = decodeURI(queryString.substring(1));
+    const isProblematicDevice = props.problematicDeviceIds.includes(nameOfDevice);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 767);
+        };
+
+        // Initial check
+        handleResize();
+
+        // Add event listener
+        window.addEventListener("resize", handleResize);
+
+        // Cleanup event listener
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     return (
         <div className={`${styles.InnerPageStaticContent}`}>
             {
                 props.leftLoad ? (
                     <div className={styles.loader}>
-                        <Loader type="spinner-circle"
+                        <Loader
+                            type="spinner-circle"
                             bgColor={"#FFFFFF"}
                             color={"#FFFFFF"}
-                            size={100} />
+                            size={100}
+                        />
                     </div>
                 ) : (
                     <>
                         <div className={`${styles.nameAndDevice} d-flex`}>
                             <h2>{nameOfDevice}</h2>
                         </div>
+                        {isMobile && isProblematicDevice && (
+                            <h3 className={styles.errorMessage}>{t("innerPageStaticContent.issue")}</h3>
+                        )}
                         <div className={styles.staticContent}>
                             <div className={styles.weatherInfo}>
                                 <WeatherState />
@@ -154,12 +177,14 @@ function InnerPageStaticContent(props) {
                                     <DataTable data={data} />
                                 </div>
                             </div>
-
                         </div>
+                        {!isMobile && isProblematicDevice && (
+                            <h3 className={styles.errorMessage}>{t("innerPageStaticContent.issue")}</h3>
+                        )}
                     </>
                 )
             }
         </div>
-    )
+    );
 }
 export default InnerPageStaticContent;
