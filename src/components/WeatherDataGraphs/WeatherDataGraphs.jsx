@@ -450,7 +450,12 @@ const WeatherDataGraphs = (props) => {
                             <div className={`${styles.chartContainer}`}>
                                 {(loading || props.leftLoad) && <div className={styles.loadingOverlay}>{t('chartTitles.update')}</div>}
                                 <div className={`${styles.chartWrapper} ${loading ? styles.blur : ''}`}>
-                                    <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500}/>
+                                    <ReactApexChart
+                                        ref={chartRef}
+                                        options={chartState.options}
+                                        series={chartState.series}
+                                        type="line"
+                                        height={500}/>
                                 </div>
                             </div>
                         </>
