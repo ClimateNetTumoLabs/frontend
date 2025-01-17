@@ -22,13 +22,13 @@ const resources = {
                     section3: "Climate Net project is empowered by",
                     section4: "TUMO Labs",
                     section8: "Our climate observatory uses IoT devices which are installed on TUMO Boxes (mini TUMO centers) across Armenia. IoT climate devices use various sensors to capture and live-stream data, open to everyone to use on our website or through the Climate Net APIs.",
-                    section9: "So how do these sensors work and what do they measure? Check out the details below to learn more. Make sure you scroll to the end if you’re interested in accessing the data though our APIs.",
+                    section9: "So how do these sensors work and what do they measure? Check out the details below to learn more.",
                     thpIntro: "This sensor measures the following:",
                     temperatureContent: "Temperature can be measured between the ranges of -40°C to 85°C.",
                     temperatureContent2: "Between the temperature range of 0 to 65°C, the accuracy is ±1.0°C; outside of that range, the accuracy drops to ±1.5°C.",
                     humidityContent: "Humidity can be measured between the range of 0 to 100% with an accuracy of ±3%.",
                     humidityContent2: "According to this sensor's data sheet, it can measure up to 100% humidity between the temperature range of 0 to 60°C. However, the maximum measurable humidity decreases at extremely high and low temperatures.",
-                    pressureContent: "Pressure can be measured between 300Pa to 1100 hPa with an absolute accuracy of ±1 hPa.",
+                    pressureContent: "Pressure can be measured between 300 hPa to 1100 hPa with an absolute accuracy of ±1 hPa.",
                     pressureContent2: "Full accuracy is obtained between the temperature range of 0 to 65°C, resulting in an altitude measurement accuracy of approximately ±1 meter. Outside of that range, the accuracy drops to 1.7 hPa.",
                     airQualityIntro: "The high-precision particulate matter (PM) sensor has a sensitivity of 50% for 0.3 μm particles and 98% for 0.5 μm and larger particles.",
                     airQualityIntro2: "It provides a resolution of 1 μg/m³ and operates in temperatures ranging from -10 °C to 60 °C.",
@@ -97,7 +97,7 @@ const resources = {
                     api_info_24: "Retrieve Last 24 Hours Data:",
                     api_info_24_request: "If you use the following link without specifying",
                     and: "and",
-                    api_info_24_request2: " you will receive the climate data for the last 24 hours.",
+                    api_info_24_request2: " you will receive the climate data for the last day.",
                     api_info_response: "Response:",
                     api_info_json: "The API returns climate data in JSON format, containing relevant information based on the provided parameters.",
                     api_info_usage: "Usage:",
@@ -113,23 +113,33 @@ const resources = {
                     api_info_done: "Happy coding!"
                 },
                 banner: {
-                    title: 'Climate Net: Connecting Armenia through a growing network of real time climate data.',
-                    text: {
-                        1: 'Monitor climate changes in real time.',
-                        2: 'Accurate data live streamed and open source.',
-                        3: 'Nine live measurements including temperature, pollution and UV index.',
-                    },
+                    title: 'a youth-led IoT observatory',
+                    title2: "network for climate action by"
                 },
-                scrollableSection: {
-                    section1: "A pioneering hyper-local, student-led climate observatory. Our mission is to empower the next generation and raise awareness through real-time data tracking, all while making a significant contribution to mitigating climate change. We're dedicated to advocating for climate action beyond borders, because the challenges we face are global in nature.",
-                    section2: "Unlock the Power of Climate Insights",
-                    section3: "Powered by TUMO Labs",
-                    section4: "Explore Climate Data"
+                homeScreenTutorial : {
+                    title: "Add to Home Screen",
+                    ios: {
+                        title: "iOS Installation Steps:",
+                        point1: "Open Safari and navigate to our website",
+                        point2: "Tap the Share button at the bottom of the screen",
+                        point3: 'Scroll down and tap "Add to Home Screen"',
+                        point4: 'Customize the name if desired and tap "Add"',
+                    },
+                    android: {
+                        title: "Android Installation Steps:",
+                        point1: "Open Chrome and visit our website",
+                        point2: "Tap the three-dot menu in the top right",
+                        point3: 'Select "Add to Home screen"',
+                        point4: 'Confirm by tapping "Add"'
+                    },
+                    bot: {
+                        title: "Scan this QR code or click on it to connect with our Telegram Bot"
+                    }
                 },
                 description: {
                     sections: [
                         {
-                            title: "Climate Friends:",
+                            title: "ClimateNet Friends:",
                             content: "Meet our partners and friends who have supported us and continue to do so.",
                             partner1: "Amazon Web Services (AWS) provides cloud credits that allow us to store and manage data with top-tier security and performance. AWS offers a wide range of services, including networking, computing, storage, middleware, IoT, and other processing capacities, as well as software tools, all hosted on its global server farms. By leveraging AWS, we are relieved from the burdens of managing, scaling, and maintaining hardware and operating systems.",
                             partner2: "TUMO Boxes are low-cost and easy-to-deploy facilities built out of shipping containers. Strategically placed so that every teen in Armenia can reach one in 40 minutes or less, these self-contained learning environments are equipped with state-of-the-art workstations and equipment and can host up to 320 students per week. The boxes provide access to the TUMO program and the entire network of coaches. These satellite locations act as the foundation for the ClimateNet devices. The devices are deployed on these boxes across the country to provide us with the local and accurate data.workshop leaders, and fellow students."
@@ -458,7 +468,7 @@ const resources = {
                     titleAir: "Օդի աղտոտվածության սենսոր",
                     titleWind: "Քամու արագության, ուղղության և անձրևի սենսորներ",
                     titleUv: "UV ինդեքսի և լույսի ինտենսիվության սենսոր",
-                    titleWeather: "Կլիմայական տվյալներ. API Documentation",
+                    titleWeather: "Կլիմայական տվյալներ. API-ի ուղեցույց",
                     measureTemp: "Ջերմաստիճան",
                     measureHumidity: "Խոնավություն",
                     measurePressure: "Ճնշում",
@@ -468,13 +478,13 @@ const resources = {
                     section3: "Կլիմայական ցանց նախագիծը լիազորված է",
                     section4: "ԹՈՒՄՈ Լաբերի կողմից։ ",
                     section8: "Մեր կլիմայական դիտարանն օգտագործում է IoT սարքեր, որոնք տեղադրված են ամբողջ Հայաստանի ԹՈՒՄՈ տուփերում (մինի ԹՈՒՄՈ կենտրոններ): IoT կլիմայական սարքերը տարբեր սենսորների միջոցով տվյալներ են հավաքում և ուղիղ հեռարձակում՝ հասանելի բոլորի համար մեր կայքում կամ Climate Net API-ների միջոցով։",
-                    section9: "Ինչպե՞ս են աշխատում այս սենսորները, և ի՞նչ են նրանք չափում: Ստորև ներկայացված են մանրամասները, որպեսզի ավելին իմանաք: Եթե հետաքրքրված եք մեր API-ների միջոցով տվյալներին հասանելիություն ստանալով, համոզվեք, որ կարդում եք մինչև վերջ։",
+                    section9: "Ինչպե՞ս են աշխատում այս սենսորները, և ի՞նչ են նրանք չափում: Ավելին իմանալու համար ստորև ներկայացված են մանրամասները։",
                     thpIntro: "Այս սենսորը չափում է հետևյալը.",
                     temperatureContent: "Ջերմաստիճանը կարող է չափվել -40°C-ից մինչև 85°C տիրույթում։",
                     temperatureContent2: "0°C-ից 65°C ջերմաստիճանային տիրույթում ճշգրտությունը կազմում է ±1.0°C, իսկ այդ տիրույթից դուրս՝ ճշգրտությունը իջնում է մինչև ±1.5°C",
                     humidityContent: "Խոնավությունը կարող է չափվել 0-ից 100% տիրույթում ±3% ճշգրտությամբ։ ",
                     humidityContent2: "Ըստ սենսորի տվյալների աղյուսակի, այն կարող է չափել մինչև 100% խոնավություն 0-ից 60°C ջերմաստիճանի միջակայքում: Այնուամենայնիվ, առավելագույն չափելի խոնավությունը նվազում է չափազանց բարձր և ցածր ջերմաստիճաններում։",
-                    pressureContent: "Ճնշումը կարող է չափվել 300Պա-ից մինչև 1100 հՊա տիրույթում՝ բացարձակ ±1 հՊա ճշգրտությամբ։",
+                    pressureContent: "Ճնշումը կարող է չափվել 300 հՊա-ից մինչև 1100 հՊա տիրույթում՝ բացարձակ ±1 հՊա ճշգրտությամբ։",
                     pressureContent2: "Ամբողջական ճշգրտությունը ձեռք է բերվում 0-ից 65°C ջերմաստիճանային տիրույթում, ինչի արդյունքում բարձրության չափման ճշգրտությունը կազմում է մոտ ±1 մետր։ Այդ տիրույթից դուրս ճշգրտությունը նվազում է մինչև 1.7 հՊա։",
                     airQualityIntro: "Բարձր ճշգրիտ մասնիկների (PM) ցուցիչ՝ 50% զգայունությամբ 0,3 մկմ մասնիկների համար և 98% 0,5 մկմ և ավելի մեծ մասնիկների համար։",
                     airQualityIntro2: "Այն ապահովում է 1 մկգ/մ³ թույլտվություն և գործում է -10 °C-ից մինչև 60 °C ջերմաստիճաններում:",
@@ -543,7 +553,7 @@ const resources = {
                     api_info_24: "Առբերել վերջին 24 ժամվա տվյալները.",
                     api_info_24_request: "Եթե օգտագործում եք հետևյալ հղումը՝ առանց նշելու",
                     and: "և",
-                    api_info_24_request2: "Դուք կստանաք կլիմայական տվյալները վերջին 24 ժամվա համար",
+                    api_info_24_request2: "Դուք կստանաք վերջին օրվա կլիմայական տվյալները։",
                     api_info_response: "Պատասխան.",
                     api_info_json: "API-ն վերադարձնում է կլիմայական տվյալները JSON ձևաչափով, որը պարունակում է համապատասխան տեղեկատվություն՝ հիմնված տրամադրված պարամետրերի վրա:",
                     api_info_usage: "Օգտագործում:",
@@ -559,23 +569,33 @@ const resources = {
                     api_info_done: "Հաճելի կոդավորում)"
                 },
                 banner: {
-                    title: 'Կլիմայական ցանց. Հայաստանի միացումը կլիմայական տվյալների աճող ցանցին իրական ժամանակում։',
-                    text: {
-                        1: 'Իրական ժամանակում հետևեք կլիմայի փոփոխություններին։',
-                        2: 'Ճշգրիտ տվյալներ՝ ուղիղ հեռարձակմամբ և բաց կոդով։',
-                        3: 'Ինը ուղիղ չափումներ, ներառյալ ջերմաստիճան, աղտոտվածություն և ուլտրամանուշակագույն ինդեքս։',
-                    },
+                    title: 'ուսանողների նախաձեռնած IoT ցանց`',
+                    title2: " կլիմայական գործողությունների համար"
                 },
-                scrollableSection: {
-                    section1: "Առաջատար հիպերտեղական, ուսանողների կողմից ղեկավարվող կլիմայական աստղադիտարան: Մեր առաքելությունն է հզորացնել հաջորդ սերնդին և բարձրացնել իրազեկությունը տվյալների իրական ժամանակում հետևելու միջոցով, այս ամենը միևնույն ժամանակ զգալի ներդրում ունենալով կլիմայի փոփոխությունը մեղմելու գործում։ Մենք նվիրված ենք պաշտպանելուն սահմաններից դուրս կլիմայական գործողությունների համար, քանի որ մեր առջև ծառացած մարտահրավերները գլոբալ բնույթ ունեն։",
-                    section2: "Բացահայտեք կլիմայական տվյալների ուժը",
-                    section3: "ԹՈՒՄՈ Լաբերի աջակցությամբ",
-                    section4: "Ուսումնասիրեք կլիմայական տվյալները"
+                homeScreenTutorial: {
+                    title: "Ավելացնել գլխավոր էկրանին",
+                    ios: {
+                        title: "iOS տեղադրման քայլեր․",
+                        point1: "Բացեք Safari-ն և անցեք մեր կայք",
+                        point2: "Սեղմեք «Share» կոճակը էկրանի ներքևում",
+                        point3: "Գտեք և սեղմեք «Add to Home Screen»",
+                        point4: "Փոխեք անվանումը, եթե ցանկանում եք, և սեղմեք «Add»"
+                    },
+                    android: {
+                        title: "Android տեղադրման քայլեր․",
+                        point1: "Բացեք Chrome-ը և անցեք մեր կայք",
+                        point2: "Սեղմեք վերևի աջ անկյան երեք կետով մենյուն",
+                        point3: "Ընտրեք «Add to Home Screen»",
+                        point4: "Հաստատեք՝ սեղմելով «Add»"
+                    },
+                    bot: {
+                        title: "Սկանավորեք այս QR կոդը կամ սեղմեք վրան՝ մեր Telegram բոտին միանալու համար"
+                    }
                 },
                 description: {
                     sections: [
                         {
-                            title: "Կլիմայի ընկերներ։",
+                            title: "Կլիմայական ցանցի ընկերներ։",
                             content: "Ծանոթացեք մեր գործընկերներին և ընկերներին, ովքեր աջակցել և շարունակում են մեզ աջակցել։",
                             partner1: "Amazon Web Services (AWS)-ը տրամադրում է ամպային կրեդիտներ, որոնք մեզ հնարավորություն են տալիս տվյալները պահել և կառավարել բարձր մակարդակի անվտանգությամբ և արդյունավետությամբ: AWS-ն առաջարկում է ծառայությունների լայն տեսականի, ներառյալ ցանցային, հաշվարկային, պահեստավորման, միջնակարգ ծրագրային ապահովման, IoT և այլ մշակման հնարավորություններ, ինչպես նաև ծրագրային գործիքներ, որոնք բոլորն էլ հյուրընկալվում են նրա գլոբալ սերվերային ֆերմաներում: AWS-ի միջոցով մենք ազատվում ենք ապարատային և օպերացիոն համակարգերի կառավարումից, մասշտաբավորումից և սպասարկումից առաջացող դժվարություններից։",
                             partner2: "ԹՈՒՄՈ տուփերը էժան և հեշտ տեղադրվող սարքեր են, որոնք կառուցված են բեռնափոխադրման տարաներից։ Այս ինքնավար ուսումնական կենտրոնները, որոնք ռազմավարականորեն տեղակայված են այնպես, որ Հայաստանի յուրաքանչյուր դեռահաս կարողանա դրանց հասնել 40 րոպեում կամ ավելի քիչ, հագեցած են ամենաժամանակակից աշխատատեղերով և սարքավորումներով և կարող են ընդունել շաբաթական մինչև 320 սովորող։ Այս տուփերը հնարավորություն են տալիս մուտք գործել ԹՈՒՄՈ ծրագիր և ամբողջ ցանց: Այս արբանյակային վայրերը հիմք են հանդիսանում Կլիմայական ցանցի սարքերի համար: Սարքերը տեղադրված են այդ տուփերի վրա ամբողջ երկրում, որպեսզի մեզ տրամադրեն տեղական և ճշգրիտ տվյալներ։"

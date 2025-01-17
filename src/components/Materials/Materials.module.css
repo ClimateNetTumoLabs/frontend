@@ -28,8 +28,7 @@
 .table th, .table td {
   padding: 12px 15px;
   text-align: left;
-  color: black;
-  border: 1px solid #ddd; /* Adds border around each cell (column and row separator) */
+  color: #232222;
 }
 
 .table th {
@@ -42,6 +41,11 @@
   background-color: #f3f0ec;
 }
 
+.table td{
+  border-bottom: 1px solid #cbcbcb;
+  border-top: 1px solid #cbcbcb;
+
+}
 .table td a {
   color: #609ea8;
   text-decoration: none;
@@ -55,8 +59,6 @@
 .image {
   width: 90px;
   height: auto;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -84,17 +86,16 @@
 
   .table tr {
     display: block;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #ddd;
     padding: 10px;
+    border-bottom: 1px solid #cbcbcb !important;
   }
 
   .table td {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 8px 0;
     font-size: small;
+    border: hidden;
   }
 
   .table td:before {
@@ -102,6 +103,7 @@
     flex: 1;
     font-weight: bold;
     text-transform: uppercase;
+    padding-right: 20px;
   }
 
   .table td img {

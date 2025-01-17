@@ -18,23 +18,28 @@ import { Polygon } from "react-leaflet";
 import { useTranslation } from "react-i18next";
 import ResetViewControl from '@20tab/react-leaflet-resetview';
 import "leaflet.locatecontrol";
+import 'leaflet-easybutton';
+import 'leaflet-easybutton/src/easy-button.css';
+import "leaflet-easybutton/src/easy-button.js";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import "leaflet.locatecontrol";
 import "leaflet-easybutton/src/easy-button.js";
 import "leaflet-easybutton/src/easy-button.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function circleWithText2(latLng, txt, radius, borderWidth) {
-    var size = radius;
-    var iconSize = size + (borderWidth * 2);
-    var textSize = '16px';
-    var icon = L.divIcon({
-        html: '<div style="width: ' + iconSize + 'px; height: ' + iconSize + 'px; border-radius: 50%; background-color: rgba(93, 76, 220, 0.8); display: flex; justify-content: center; align-items: center; font-size: ' + textSize + 'px; cursor: pointer;">' + txt + '</div>',
-        className: '',
-        iconSize: [iconSize, iconSize]
-    });
-    var marker = L.marker(latLng, {
-        icon: icon
-    });
-    return marker;
+	var size = radius;
+	var iconSize = size + (borderWidth * 2);
+	var textSize = '16px'
+	var icon = L.divIcon({
+		html: '<div style="width: ' + iconSize + 'px; height: ' + iconSize + 'px; border-radius: 50%; background-color: rgba(93, 76, 220, 0.8); display: flex; justify-content: center; align-items: center; font-size: ' + textSize + 'px;">' + txt + '</div>',
+		className: '',
+		iconSize: [iconSize, iconSize]
+	});
+	var marker = L.marker(latLng, {
+		icon: icon
+	});
+	return marker;
 }
 
 const PolygonWithText = ({ coords, text, region }) => {
@@ -67,11 +72,31 @@ const PolygonWithText = ({ coords, text, region }) => {
     );
 }
 
+// const ResetViewControl = () => {
+// 	const map = useMap();
+//
+// 	useEffect(() => {
+// 		const resetControl = L.control({ position: "topright" });
+//
+// 		resetControl.onAdd = () => {
+// 			const container = L.DomUtil.create("div", "leaflet-control-reset-view leaflet-bar");
+// 			container.innerHTML = "&#x21bb;"; // Unicode symbol for a circular arrow
+// 			container.title = "Reset View";
+// 			container.onclick = () => map.setView(INITIAL_CENTER, INITIAL_ZOOM);
+// 			return container;
+// 		};
+//
+// 		resetControl.addTo(map);
+// 	}, [map]);
+//
+// 	return null;
+// };
+
 const MapArmenia = () => {
     const { t, i18n } = useTranslation();
     const [devices, setDevices] = useState([]);
     const [scrollEnabled, setScrollEnabled] = useState(false);
-    const { position, setPosition } = useContext(PositionContext);
+    const { position } = useContext(PositionContext);
     const [showMessage, setShowMessage] = useState(true);
     const markerRef = useRef(null);
     const [regionDevices, setRegionDevices] = useState({});
@@ -100,41 +125,6 @@ const MapArmenia = () => {
     useEffect(() => {
         setShowMessage(false);
     }, []);
-
-useEffect(() => {
-    if (mapRef.current) {
-        const map = mapRef.current;
-
-        // Add custom location button
-        L.easyButton({
-            states: [{
-                stateName: 'get-location',
-                icon: '<i class="fas fa-location-arrow" style="color: black; cursor: pointer"></i>', // Icon with custom color
-                title: 'Get Current Location',
-                onClick: function(btn, map) {
-                    map.locate({
-                        setView: true,
-                        maxZoom: 10,
-                        enableHighAccuracy: true
-                    }).on('locationfound', (e) => {
-                        setPosition({
-                            latitude: e.latlng.lat,
-                            longitude: e.latlng.lng
-                        });
-                    }).on('locationerror', (e) => {
-                        // Check if the error is caused by disallowed permissions
-                        if (e.code === 1) { // 1 indicates PERMISSION_DENIED
-                            alert('Location access is denied. Please enable location permissions in your browser.');
-                        }
-                    });
-                }
-            }],
-            position:'bottomright',
-            forceSeparateButton:'true'
-        }).addTo(map);
-    }
-}, [mapRef.current]);
-
 
     const handleMessage = () => {
         setShowMessage(scrollEnabled);

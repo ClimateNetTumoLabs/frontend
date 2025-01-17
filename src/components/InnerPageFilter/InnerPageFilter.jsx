@@ -132,4 +132,4 @@ function InnerPageFilter(props) {
     )
 }
 
-export default InnerPageFilter
+export default InnerPageFilter;
