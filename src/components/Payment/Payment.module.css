@@ -1,7 +1,7 @@
 .paymentSection {
     display: flex;
     flex-direction: column;
-    padding: 24px;
+    padding: 25px;
     border-radius: 8px;
     /* margin: 0 auto; */
     height: 60vh;
@@ -72,6 +72,18 @@
     position: relative; /* Maintains relative positioning */
 }
 
+.sale_front button{
+    padding: 6px 12px;
+    max-width: 150px;
+    transition: all 0.3s ease-in-out;
+}
+
+.sale_front button:hover{
+    background: #232222;
+    color : #e07789;
+    border: 1px solid #e07789 ;
+}
+
 .device_sale_section .sale_front,
 .device_sale_section .sale_back {
     display: flex;
@@ -110,11 +122,25 @@
 
 
 
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .paymentSection {
-        flex-direction: column;
         text-align: center;
+        height: auto;
+        padding: 0;
+    }
+
+    .payment_information_section {
+        flex-direction: column-reverse;
+    }
+
+    .benefit_card {
+        flex-direction: column;
+    }
+    .sale_front button {
+        margin: 25px auto;
     }
 
     .paymentSection img {

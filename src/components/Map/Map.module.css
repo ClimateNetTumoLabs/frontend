@@ -1,5 +1,5 @@
-.map_section {
-    padding: 0 15px;
+.map_wrapper {
+    padding : 25px
 }
 
 .map_header {
@@ -93,3 +93,10 @@ a > span {
     margin-left: 10px;  /* Added margin-left property */
     margin-right: 10px;
 }
+
+@media (max-width: 768px) {
+    .map_wrapper {
+        padding: 0;
+    }
+}
+

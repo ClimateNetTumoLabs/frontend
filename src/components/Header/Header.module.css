@@ -1,3 +1,7 @@
+.header_wrapper {
+  padding: 0 3%
+}
+
 .label {
   display: flex;
   flex-direction: column;
@@ -94,7 +98,8 @@
 }
 
 .navigation {
-  padding: 15px 0 !important;
+  padding: 15px 3% !important;
+
 }
 
 .text_white {
