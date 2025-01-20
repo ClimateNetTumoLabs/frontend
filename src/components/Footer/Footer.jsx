@@ -12,7 +12,8 @@ const Footer = () => {
     const { t } = useTranslation();
 
     return (
-        <footer className={`text-light" ${styles.footer}`}>
+        <footer className={`text-light ${styles.footer}`}>
+
             <div className={`${styles.footer_inner} "container-fluid d-flex justify-content-center"`}>
                 <div className='col-md-4 col-12'>
                     <h3 className='mb-4 d-flex'>{t('footer.title')}</h3>

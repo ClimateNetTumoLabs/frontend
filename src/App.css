@@ -64,7 +64,7 @@ footer {
 }
 
 .react-tel-input {
-    padding: 15px 15px 15px 0px;
+    padding: 15px 0px 15px 0px;
 }
 
 .flag-dropdown, .selected-flag  {
@@ -340,6 +340,17 @@ th {
     z-index: 100;
     background-color: #222;
 }
+.react-tel-input {
+    padding: 0;
+}
+
+.react-tel-input .form-control {
+    height: unset !important;
+}
+
+.selected-flag {
+    height: 65px !important;
+}
 
 @media (max-width: 767px) {
     .footerPadding {
@@ -352,4 +363,6 @@ th {
     .custom-icon {
         display: none
     }
+
+
 }

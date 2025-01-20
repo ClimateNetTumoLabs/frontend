@@ -150,7 +150,7 @@ const CheckoutAndDelivery = () => {
                                 value={formData.address}
                             />
                         </div>
-                        <div className={`col-12 mb-3 col-sm-6 ${styles.name_field}`}>
+                        <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} ${styles.country_wrapper}`}>
                             <label className={`form-label ${styles.label_for_input}`} htmlFor="country">
                             </label>
                             <select
@@ -212,7 +212,7 @@ const CheckoutAndDelivery = () => {
 
                     </div>
                     <div className={`d-flex flex-wrap`}>
-                        <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} `}>
+                        <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} ${styles.phone_input_wrapper} `}>
                             <label className={`form-label ${styles.label_for_input}`} htmlFor="phone">
                             </label>
                             <PhoneInput
@@ -222,7 +222,7 @@ const CheckoutAndDelivery = () => {
                                 inputClass={`${styles.input_block} ${styles.phone_input}`}
                             />
                         </div>
-                        <div className={`col-12 mb-3 col-sm-6 ${styles.name_field}}`}>
+                        <div className={`col-12 mb-3 col-sm-6 ${styles.name_field}`}>
                             <label
                                 className={`form-label ${labelClass("email")}`}
                                 htmlFor="email"

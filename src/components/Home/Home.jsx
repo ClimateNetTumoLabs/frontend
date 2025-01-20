@@ -8,6 +8,7 @@ import ContactForm from "../Contact/Contact";
 import { useTranslation } from "react-i18next";
 import { Helmet } from 'react-helmet';
 import  "../../i18n";
+import PaymentSection from "../Payment/PaymentSection";
 
 function Home() {
     const { t } = useTranslation();
@@ -20,6 +21,7 @@ function Home() {
             </Helmet>
             <Banner />
             <HomeScreenTutorial />
+            <PaymentSection/>
             <Description />
             <MapArmenia />
             <ContactForm name = {t('contact.title1')} subject_state = {true}/>

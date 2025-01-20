@@ -1,3 +1,6 @@
+.Description_section {
+  padding : 25px
+}
 .about_us_section {
   color: #eae6e2;
 }
@@ -47,6 +50,9 @@
 
 
 @media (max-width: 767px) {
+  .Description_section {
+    padding: 0;
+  }
   .boxes {
     max-height: none;
   }
