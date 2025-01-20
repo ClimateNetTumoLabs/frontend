@@ -1,135 +1,110 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import styles from './InnerPageFilter.module.css'
 import { ReactComponent as Clock } from '../../assets/FilterIcons/clock.svg'
 import { ReactComponent as Calendar } from '../../assets/FilterIcons/calendar.svg'
-import styled from 'styled-components';
-import ReactDOM from 'react-dom';
 import { useTranslation } from "react-i18next";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faXmark} from '@fortawesome/free-solid-svg-icons';
-import  "../../i18n";
-
-const StyledDatePicker = styled(DatePicker)`
-    color: black;
-    background-color: #eae6e2;
-    padding: 5px;
-    border: 1px solid #ccc;
-`;
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import styles from "./InnerPageFilter.module.css";
 
 function InnerPageFilter(props) {
-    const { t } = useTranslation();
-    const today = new Date();
-    const [selectedStartDate, setSelectedStartDate] = useState(props.startDate);
-    const [selectedEndDate, setSelectedEndDate] = useState(props.endDate);
+  const { t } = useTranslation();
+  const today = new Date();
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
+  const [isRangeActive, setIsRangeActive] = useState(false);
 
-    const handleApply = () => {
-        props.setLeftLoad(true);
-        props.filterChange("Range")
-        props.setStartDate(selectedStartDate);
-        props.setEndDate(selectedEndDate);
-        props.setShowDatePicker(false);
-    };
+  const handleApply = () => {
+    props.setLeftLoad(true);
+    props.filterChange("Range");
+    props.setStartDate(startDate);
+    props.setEndDate(endDate);
+    props.setShowDatePicker(false);
+    setIsRangeActive(false);
+  };
 
-    return (
-        <div className={`${styles.InnerPageFilterSection}`}>
-            <div className={`option ${styles.filterItemBlock} ${props.filterState === 'Hourly' ? styles.active : ''}`}
-                onClick={() => {
-                    props.filterChange("Hourly");
-                    props.setLeftLoad(true);
-                }}
+  const handleRangeClick = () => {
+    setIsRangeActive(true);
+    props.setShowDatePicker(true);
+  };
+
+  const closeDatePicker = () => {
+    props.setShowDatePicker(false);
+    setIsRangeActive(false);
+  };
+
+  return (
+    <div className={styles.InnerPageFilterSection}>
+      <div
+        className={`option ${styles.filterItemBlock} ${
+          props.filterState === "Hourly" && !isRangeActive ? styles.active : ""
+        }`}
+        onClick={() => !isRangeActive && props.filterChange("Hourly")}
+      >
+        <Clock/>
+        <span>{t("innerPageFilter.options.hourly")}</span>
+      </div>
+      <div
+        className={`option ${styles.filterItemBlock} ${
+          props.filterState === "Daily" && !isRangeActive ? styles.active : ""
+        }`}
+        onClick={() => !isRangeActive && props.filterChange("Daily")}
+      >
+        <Calendar/>
+        <span>{t("innerPageFilter.options.daily")}</span>
+      </div>
+      <div
+        className={`option ${styles.filterItemBlock} ${
+          props.filterState === "Monthly" && !isRangeActive ? styles.active : ""
+        }`}
+        onClick={() => !isRangeActive && props.filterChange("Monthly")}
+      >
+        <Calendar/>
+        <span>{t("innerPageFilter.options.monthly")}</span>
+      </div>
+      <div
+        className={`option ${styles.filterItemBlock} ${
+          isRangeActive ? styles.active : ""
+        }`}
+        onClick={handleRangeClick}
+      >
+        <Calendar/>
+        <span>{t("innerPageFilter.options.range")}</span>
+      </div>
+      {props.showDatePicker && (
+        <>
+          <div className={styles.blurOverlay} onClick={closeDatePicker}></div>
+          <div className={styles.pickerContainer}>
+            <button className={styles.closeBtn} onClick={closeDatePicker}>
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <p className={styles.mobile_range_text}>
+              {t("innerPageFilter.mobile_text")}
+            </p>
+            <DatePicker
+              selected={startDate}
+              onChange={(update) => setDateRange(update)}
+              startDate={startDate}
+              endDate={endDate}
+              selectsRange
+              inline
+              maxDate={today}
+            />
+            <button
+              className={`${styles.filter_button} ${
+                !startDate || !endDate ? styles.disabled : ""
+              }`}
+              onClick={handleApply}
+              disabled={!startDate || !endDate}
             >
-                <Clock />
-                <span >{t('innerPageFilter.options.hourly')}</span>
-            </div>
-            <div className={`option ${styles.filterItemBlock} ${props.filterState === 'Daily' ? styles.active : ''}`}
-                onClick={() => props.filterChange("Daily")}>
-                <Calendar />
-                <span>{t('innerPageFilter.options.daily')}</span>
-            </div>
-            <div className={`option ${styles.filterItemBlock} ${props.filterState === 'Monthly' ? styles.active : ''}`}
-                onClick={() => {
-                    props.setLeftLoad(true);
-                    props.filterChange("Monthly")
-                }}>
-                <Calendar />
-                <span className={styles.button_popup}>{t('innerPageFilter.options.monthly')}</span>
-            </div>
-            <div className={`option ${styles.filterItemBlock} ${props.filterState === 'Range' ? styles.active : ''}`}
-                onClick={() => props.setShowDatePicker(true)}>
-                <Calendar className={styles.state_button} />
-                <span className={styles.button_popup}>{t('innerPageFilter.options.range')}</span>
-            </div>
-            {
-                props.showDatePicker &&
-                ReactDOM.createPortal(
-                    <>
-                    <div className={styles.blurOverlay} onClick={() => props.setShowDatePicker(false)}></div>
-                    <div
-                        className={`${styles.pickerContainer} ${styles.datePickerWrapper}`}>
-                        <button className={styles.closeBtn} onClick={() => props.setShowDatePicker(false)}>
-                            <FontAwesomeIcon
-                            icon={faXmark}/>
-                        </button>
-                        <p className={styles.mobile_range_text}>{t("innerPageFilter.mobile_text")}</p>
-                        <StyledDatePicker
-                            className={styles.mobile_range}
-                            selected={selectedStartDate}
-                            onChange={date => setSelectedStartDate(date)}
-                            popperClassName="propper"
-                            popperPlacement="top"
-                            popperModifiers={[
-                                {
-                                    name: "offset",
-                                    options: {
-                                        offset: [0, 0],
-                                    },
-                                },
-                                {
-                                    name: "preventOverflow",
-                                    options: {
-                                        rootBoundary: "viewport",
-                                        tether: false,
-                                        altAxis: true,
-                                    },
-                                },
-                            ]}
-                            maxDate={today}
-                        />
-                        <StyledDatePicker
-                            className={styles.mobile_range}
-                            selected={selectedEndDate}
-                            onChange={date => setSelectedEndDate(date)}
-                            popperClassName="propper"
-                            popperPlacement="top"
-                            popperModifiers={[
-                                {
-                                    name: "offset",
-                                    options: {
-                                        offset: [0, 0],
-                                    },
-                                },
-                                {
-                                    name: "preventOverflow",
-                                    options: {
-                                        rootBoundary: "viewport",
-                                        tether: false,
-                                        altAxis: true,
-                                    },
-                                },
-                            ]}
-                            minDate={selectedStartDate}
-                            maxDate={today}
-                        />
-                        <button className={styles.filter_button} onClick={handleApply}>{t('innerPageFilter.options.filter')}</button>
-                    </div>
-                    </>,
-                    document.body
-                )
-            }
-        </div>
-    )
+              {t("innerPageFilter.options.filter")}
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
 export default InnerPageFilter;

@@ -53,3 +53,15 @@
     text-decoration:  none;
 }
 
+
+@media (max-width: 425px) {
+    .title{
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 425px) and (max-width: 768px) {
+    .title{
+        font-size: 20px;
+    }
+}
