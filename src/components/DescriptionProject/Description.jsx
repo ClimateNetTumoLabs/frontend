@@ -21,11 +21,11 @@ const Description = () => {
     return (
         <div className={`${styles.Description_section} container-fluid`}>
             <div className={` container ${styles.about_us_section}`}>
-                <div>
+                <div className={styles.description_item}>
                     <div data-aos="fade-up" className={`${styles.boxes}`}>
                         <h2 className={styles.title}>{t('description.sections.0.title')}</h2>
                         <p className={"mb-3"}> {t('description.sections.0.content')}</p>
-                        <div className={`d-flex mb-3`}>
+                        <div className={`d-flex mb-3 ${styles.partner_item}`}>
                             <p className={`${styles.partners} ${styles.partner_link}`}>
                                 <a href='https://aws.amazon.com/' >
                                     <img loading="lazy" className={`${styles.partner_logo}`} src={aws} alt={"AWS Logo"}/>
@@ -33,7 +33,7 @@ const Description = () => {
                             </p>
                             <p>{t('description.sections.0.partner1')}</p>
                         </div>
-                        <div className={`d-flex `}>
+                        <div className={`d-flex ${styles.partner_item} `}>
                             <p className={`${styles.partners} ${styles.partner_link}`}>
                                 <a href='https://armenia.tumo.org/'>
                                     <img  loading="lazy" className={`${styles.partner_logo}`} src={tumo} alt={"TUMO Logo"}/>

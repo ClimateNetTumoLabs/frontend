@@ -1,5 +1,5 @@
 .map_wrapper {
-    padding : 25px
+    padding : 25px 25px
 }
 
 .map_header {
@@ -97,6 +97,6 @@ a > span {
 @media (max-width: 768px) {
     .map_wrapper {
         padding: 0;
+        margin-bottom: 50px;
     }
 }
-

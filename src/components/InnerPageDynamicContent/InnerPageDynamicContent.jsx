@@ -85,7 +85,7 @@ function InnerPageDynamicContent(props) {
                 <FullScreen className={`fas fa-expand ${styles.fullscreen_button}`}/>
             </div>
             <div className={styles.chart}>
-                <div className={styles.tabContainer}>
+                <div className={styles.tabContainer} id="dynamicContent">
                     <Tabs
                         defaultActiveKey={selectedTab}
                         className={styles.tabs_section}

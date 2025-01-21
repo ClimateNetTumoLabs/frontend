@@ -96,7 +96,14 @@ const PaymentSection = () => {
                             </div>
                             <div className={styles.sale_back}>
                                 <CheckoutAndDelivery/>
-                                <button onClick={handleClick}>Flip</button>
+                                <div className={styles.sale_buttons_block}>
+                                    <button onClick={handleClick}>Back</button>
+                                    <div>
+                                        <button onClick={handleClick}>Checkout</button>
+                                    </div>
+
+                                </div>
+
                             </div>
                         </ReactCardFlip>
                     </div>

@@ -1,3 +1,5 @@
+/* Banner.css */
+
 .carousel {
     display: flex;
     flex-direction: row;
@@ -23,6 +25,8 @@
 
 .carousel-item img {
     width: 100%;
+
+
 }
 .carouselItem {
     display: flex;
@@ -35,6 +39,7 @@
     height: auto;
     max-height: 90vh;
     object-fit: cover;
+    /* object-position: 35%!important; */
 }
 /* If you want to control the spacing between slides */
 .carousel-item:not(:last-child) {
@@ -53,6 +58,7 @@
     width:100%;
     /* max-width: 1920px; */
     height: 55vh;
+    /* background: #232222; */
     z-index: 1;
     position: relative;
     object-fit:contain;
@@ -68,6 +74,10 @@
     transform: translateY(-30%);
     width: fit-content;
 }
+
+/* .carouselCaption {
+    left: 72px !important;
+} */
 
 .carouselItem {
     position: absolute;
@@ -116,11 +126,16 @@
     height: 100%;
 }
 
+/* .carouselCaption p {
+    margin-top: 80px;
+} */
+
 .carouselCaption h3 {
+    /* font-size: 28px; */
     color: #eae6e2;
 }
 .captionContainer {
-    color: #232222;
+    color: black;
     display: flex;
     width: 100%;
     height: 100%;
@@ -130,40 +145,64 @@
     align-items: top;
     flex-wrap: wrap; /* Allows stacking on small screens */
     text-align: center;
+    color: black;
+    /* Ensures alignment when stacked */
 }
 
 .leftCaption {
     background: url('https://images-in-website.s3.us-east-1.amazonaws.com/Banner/logo.png');
     background-repeat: no-repeat;
-    background-size: 60%;
-    background-position-y: 25%;
+    background-size: 70%;
+    background-position-y:25%;
     background-position-x: right;
     height: 100%;
-    flex: 1.15; /* Ensures it takes equal space */
+    font-size: 5rem; /* Adjust as needed */
+    font-weight: bold;
+    flex: 1; /* Ensures it takes equal space */
     text-align: right; /* Align to the left on larger screens */
     margin: 5px;
     padding-top: 0;
+    color: black;
+    font-family:"Ping";
+    font-weight: 500;
     text-wrap: nowrap;
+
+}
+.leftCaption b{
+    color: rgb(13, 13, 13);
+    font-weight: 900;
+    font-family: sans-serif;
+    font-weight: 900;
+
+
 }
 
 .rightCaption {
+    /* max-width: 45%; */
     padding-left: 5%;
-    padding-top: 6%;
+    padding-top: 5%;
     font-size: 2.1rem; /* Adjust as needed */
     flex: 1; /* Gives more space to the right text */
     text-align: center; /* Align to the right on larger screens */
-    color: #232222;
+    margin: 5px;
+    color: black;
 }
-@media (max-width: 1440px) {
+/* Media query for desktop */
+
+
+
+@media (max-width: 1480px) {
     .rightCaption {
         /* max-width: 500px; */
-        padding-left: 5%;
         width: 100%;
-        padding-top: 8%;
+        padding-top: 5%;
         font-size: 1.5rem; /* Adjust as needed */
         flex: 1; /* Gives more space to the right text */
         text-align: center; /* Align to the right on larger screens */
-        color: #232222;
+        margin: 5px;
+
+
+        color: black;
     }
     .leftCaption{
         background-position-x: 100%;
@@ -171,12 +210,14 @@
 }
 @media (max-width: 1230px) {
     .captionContainer {
+
         display: flex;
         flex-direction: column; /* Stack items vertically */
         text-align: center;
         justify-content: start;
         padding-top: 15%;
         align-items: start;
+        padding-left: 10%;
         flex-wrap: nowrap; /* Center-align on mobile */
     }
     .leftCaption {
@@ -184,6 +225,14 @@
         flex: none;
         height:100px;
         background-position-x: left;
+        /* padding: 5px; */
+        /* font-size: 3.5rem;
+        font-weight: bold;
+        flex: unset;
+        text-align: left;
+        padding-top: 0;
+        color: black; */
+
     }
 
     .rightCaption {
@@ -193,10 +242,14 @@
         font-size: 1.6rem; /* Adjust as needed */
         flex: none; /* Gives more space to the right text */
         text-align: left; /* Align to the right on larger screens */
+        margin: 5px;
         padding: 0;
-        color: #232222;
+
+
+        color: black;
     }
 }
+
 
 @media (min-width: 768px) {
     .carouselCaption {
@@ -211,6 +264,7 @@
 @media (max-width: 767px) {
     .carouselContainer {
         height: 30vh;
+        margin-bottom: 50px;
     }
     .carouselCaption {
         text-align: left;
@@ -223,7 +277,8 @@
     .carousel_section  div, .carousel_section img {
         height: 100%;
         object-fit: cover;
-        object-position: 30%;
+        object-position: 28%;
+
     }
     .animated_text {
         margin-top: 50px;
@@ -233,7 +288,7 @@
         font-size: 15px !important;
     }
     .carouselCaption  {
-        color: #232222;
+        color: black;
         margin-top: 30px;
     }
     .carouselImg {
@@ -244,8 +299,10 @@
     }
 
     .captionContainer {
+
         gap: 15px;
-        display: grid;
+        display: grid
+    ;
         flex-direction: column;
         flex-wrap: nowrap;
         text-align: center;
@@ -257,30 +314,36 @@
     }
     .leftCaption {
         display: none;
+
+
     }
     .rightCaption {
+
+        max-width: 300px;
         padding-top: 0%;
-        font-size: 18px; /* Adjust as needed */
+        font-size: 14px; /* Adjust as needed */
         flex: unset; /* Gives more space to the right text */
         text-align: left;
-        margin-left: 25px;
+        /* Align to the right on larger screens */
+        margin: 5px;
+
+
+        color: black;
     }
 }
 
 
-@media (max-width: 420px) {
-    .armenianMobile {
-        max-width: 250px;
-        bottom: 20%;
-        font-size: 10px; /* Set your desired font size for Armenian */
-    }
+@media (max-width: 410px) {
     .rightCaption {
         /* max-width: 230px; */
         padding-top: 5%;
         /* text-wrap: nowrap; */
-        font-size: 15px; /* Adjust as needed */
+        font-size: 16px; /* Adjust as needed */
         flex: 1; /* Gives more space to the right text */
         text-align: left; /* Align to the right on larger screens */
-        color: #232222;
+        margin: 5px;
+
+
+        color: black;
     }
 }

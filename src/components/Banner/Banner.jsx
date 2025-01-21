@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { TypeAnimation } from 'react-type-animation';
 import { useTranslation } from 'react-i18next';
 import '../../i18n';
-import Example from './Example';
 
 function Banner() {
     const { t, i18n } = useTranslation();
@@ -36,7 +35,6 @@ function Banner() {
     const isArmenian = i18n.language === 'hy'; // Check if the language is Armenian
 
     return (
-        // <Example/>
         <div className={styles.carouselContainer}>
             <Helmet>
                 <link

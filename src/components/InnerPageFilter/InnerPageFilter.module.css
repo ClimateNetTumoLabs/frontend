@@ -1,3 +1,62 @@
+:global(.react-datepicker) {
+  font-family: "Ping", sans-serif;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0.8;
+}
+
+:global(.react-datepicker__header) {
+  background-color: #eae6e2;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+:global(.react-datepicker__day--in-range){
+  border-radius: 5px;
+  background-color: #e07789;
+}
+
+:global(.react-datepicker__day,
+.react-datepicker__day-name) {
+  font-size: 14px;
+  margin: 0.2rem;
+  width: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.react-datepicker__day:hover) {
+  border-radius: 5px;
+  background-color: #e07789;
+  color: #fff;
+}
+
+:global(.react-datepicker__day--selected) {
+  border-radius: 5px;
+  background-color: #e07789;
+  color: #fff;
+}
+
+:global(.react-datepicker__day--keyboard-selected) {
+  background-color: #e077898f;
+}
+:global(.react-datepicker__close-icon::after) {
+  background-color: transparent;
+  font-size: 14px;
+}
+:global(.react-datepicker__navigation-icon::before) {
+  border-color: #4f5255;
+}
+:global(.react-datepicker__navigation:hover *::before) {
+  border-color: #4f5255;
+}
+
 .InnerPageFilterSection {
     display: none;
 }
@@ -34,12 +93,10 @@
 }
 
 .filter_button {
-    border: 1px solid #232222;
     background-color: #e07789;
     padding: 5px 15px;
     border-radius: 5px;
     transition: 0.4s;
-    margin-top: 40px;
 }
 
 .filter_button:hover {
@@ -48,18 +105,17 @@
     background-color: #232222;
 }
 
-.blurOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-    backdrop-filter: blur(4px); /* Apply blur */
-    z-index: 13; /* Ensure it appears below the popup */
-}
-
 @media (max-width: 767px) {
+    .blurOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        backdrop-filter: blur(4px); /* Apply blur */
+        z-index: 13; /* Ensure it appears below the popup */
+    }
     .InnerPageFilterSection {
         display: grid;
         align-items: center;
@@ -97,7 +153,7 @@
 
     .pickerContainer {
         position: fixed;
-        top: 48%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 80%;
@@ -111,6 +167,7 @@
         z-index: 14;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         border: 1px solid #606060;
+        padding: 20px;
     }
 
     .btnWrapper {
@@ -122,29 +179,24 @@
 
     .closeBtn {
         display: block;
-        position: relative;
         border: none;
         cursor: pointer;
         align-self: flex-end;
-        margin: 10px 10px 0 20px;
         background: transparent;
         font-size: 25px;
     }
 
     .mobile_range_text {
         font-family: 'Ping';
-        padding: 10px 20px 0 20px;
+        max-width: 90%;
     }
     .filter_button{
-        border: 1px solid #606060;
-        margin-top: 20px;
-        margin-bottom: 50px;
+        border: hidden;
+        margin-top: 10px;
+        margin-bottom: 10px;
         font-family: 'Ping';
-        width: 190px;
     }
-    .filter_button:hover{
-        background-color: transparent;
-    }
+
     .mobile_range{
         border-radius: 5px;
         margin-bottom: 10px;

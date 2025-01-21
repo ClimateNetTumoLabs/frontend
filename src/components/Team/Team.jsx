@@ -43,9 +43,6 @@ const Team = () => {
 
     return (
         <div className={styles.team_section}>
-            {/* React Helmet for Dynamic Meta Injection */}
-         
-
             <Carousel
                 responsive={responsive}
                 autoPlaySpeed={4000}

@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./Home.module.css";
 import Banner from "../Banner/Banner";
-import HomeScreenTutorial from "../HomeScreenTutorial/HomeScreenTutorial";
 import MapArmenia from "../Map/Map";
 import Description from "../DescriptionProject/Description";
 import ContactForm from "../Contact/Contact";
 import { useTranslation } from "react-i18next";
 import { Helmet } from 'react-helmet';
 import  "../../i18n";
+import HomeScreenTutorial from "../HomeScreenTutorial/HomeScreenTutorial";
 import PaymentSection from "../Payment/PaymentSection";
 
 function Home() {
