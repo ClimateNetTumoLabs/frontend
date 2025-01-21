@@ -1,8 +1,12 @@
 .Description_section {
-    padding : 25px
+    padding : 25px 25px
 }
 .about_us_section {
     color: #eae6e2;
+}
+
+.description_item {
+    margin-bottom: 50px;
 }
 
 .boxes {

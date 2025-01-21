@@ -1,6 +1,6 @@
 /* General Container Styles */
 .homeScreenTools {
-    padding: 25px;
+    padding: 50px 25px 25px 25px;
 }
 
 .homeScreenTools h2 {
@@ -43,11 +43,12 @@
 .tutorialContainer {
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
 }
 
 .tutorialColumn {
     flex: 1;
-    max-width: 400px;
+    max-width: 350px;
     text-align: center;
 }
 
@@ -63,7 +64,7 @@
 }
 .tutorialDescription {
     flex: 1;
-    max-width: 400px;
+    max-width: 420px;
     padding: 15px;
     color: #eae6e2;
     text-align: left;

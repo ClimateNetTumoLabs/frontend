@@ -1,13 +1,18 @@
-.paymentSection {
+.paymentSection{
     display: flex;
     flex-direction: column;
-    padding: 25px;
+    padding: 50px 25px;
     border-radius: 8px;
     /* margin: 0 auto; */
-    height: 60vh;
-    min-height: 60vh;
     text-align: left;
     /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+    position: relative;
+    z-index: 10;
+}
+
+.sale_buttons_block {
+    display: flex;
+    justify-content: space-between;
 }
 .image_section {
 

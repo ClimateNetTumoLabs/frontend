@@ -23,7 +23,8 @@
     left: 0;
 }
 .contact_us_section {
-    padding: 24px
+    padding: 25px 25px 50px 25px
+
 }
 .contact_us_section input, .contact_us_section select, .contact_us_section textarea {
     padding: 15px 15px 15px 10px;

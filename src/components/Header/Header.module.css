@@ -115,6 +115,9 @@
 }
 
 @media (max-width: 768px) {
+  .navigation {
+    padding: 15px 0% !important;
+  }
   .dropdown__item::before {
     transform: rotate(-90deg);
   }

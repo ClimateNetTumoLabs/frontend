@@ -21,7 +21,7 @@ const Description = () => {
     return (
         <div className={`${styles.Description_section} container-fluid`}>
             <div className={` container ${styles.about_us_section}`}>
-                <div>
+                <div className={styles.description_item}>
                     <div data-aos="fade-up" className={`${styles.boxes}`}>
                         <h2 className={styles.title}>{t('description.sections.0.title')}</h2>
                         <p className={"mb-3"}> {t('description.sections.0.content')}</p>
