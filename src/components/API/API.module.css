@@ -99,7 +99,10 @@
 .apiResponse {
     margin-top: 20px;
     padding: 15px;
-    background-color: #e0e0e0;
+    /* background-color: #e0e0e0; */
+    max-height: 40vh;
+    height: min-content;
+    overflow-y: scroll;
     border-radius: 8px;
     font-size: 14px;
     color: #333;
@@ -108,4 +111,24 @@
 .error {
     color: red;
     margin-top: 10px;
+}
+
+
+.deviceTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.deviceTable th,
+/* .deviceTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+} */
+
+.deviceTable th {
+    /* background-color: #f4f4f4; */
+    font-weight: bold;
 }
