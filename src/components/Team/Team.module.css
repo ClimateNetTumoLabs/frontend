@@ -1,6 +1,5 @@
 .team_section {
     color: #eae6e2;
-    padding-top: 20px;
 }
 
 .team_section div {
@@ -190,5 +189,11 @@
     .team_member_image_block img {
         width: 100%;
         height: auto; /* Ensure the image maintains its aspect ratio */
+    }
+}
+
+@media (max-width: 768px) {
+    .team_section {
+        margin-bottom: 50px;
     }
 }

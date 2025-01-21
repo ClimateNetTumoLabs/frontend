@@ -104,3 +104,9 @@ div.leaflet-control-attribution a[title="A JavaScript library for interactive ma
     cursor: pointer !important;
 
 }
+
+@media (max-width: 767px) {
+    .footer_inner {
+        padding: 25px 0;
+    }
+}

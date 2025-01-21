@@ -117,5 +117,6 @@
 @media (max-width: 768px) {
     .contact_us_section {
         padding: 0;
+        margin-bottom: 50px;
     }
 }

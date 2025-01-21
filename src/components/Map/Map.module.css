@@ -97,6 +97,7 @@ a > span {
 @media (max-width: 768px) {
     .map_wrapper {
         padding: 0;
+        margin-bottom: 50px;
     }
 }
 

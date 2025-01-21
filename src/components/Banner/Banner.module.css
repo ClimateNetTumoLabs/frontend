@@ -265,6 +265,7 @@
 @media (max-width: 767px) {
     .carouselContainer {
         height: 30vh;
+        margin-bottom: 50px;
     }
     .carouselCaption {
         text-align: left;

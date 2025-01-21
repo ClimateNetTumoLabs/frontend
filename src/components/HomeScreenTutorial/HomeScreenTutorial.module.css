@@ -104,7 +104,7 @@
 
 .qrContainer p {
     max-width: 300px;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 /* Mobile Breakpoint */
@@ -148,7 +148,12 @@
 }
 
 /* Ensure proper spacing on medium screens */
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (max-width: 768px) {
+    .homeScreenTools {
+        padding:0;
+        margin-bottom: 50px;
+    }
+
     .tutorialContainer {
         gap: 20px;
     }
