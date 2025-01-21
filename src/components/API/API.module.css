@@ -54,6 +54,85 @@
 }
 
 
+
+.apiTester {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 15px;
+    /* background-color: #f9f9f9; */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.apiTester label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.apiTester input {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: black;
+}
+
+.apiTester button {
+    align-self: start;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.apiTester button:hover {
+    background-color: #0056b3;
+}
+
+.apiResponse {
+    margin-top: 20px;
+    padding: 15px;
+    /* background-color: #e0e0e0; */
+    max-height: 40vh;
+    height: min-content;
+    overflow-y: scroll;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+
+.deviceTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.deviceTable th,
+/* .deviceTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+} */
+
+.deviceTable th {
+    /* background-color: #f4f4f4; */
+    font-weight: bold;
+}
+
 @media (max-width: 425px) {
     .title{
         font-size: 18px;
