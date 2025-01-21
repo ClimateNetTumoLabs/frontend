@@ -3,7 +3,6 @@ import { Carousel } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 import styles from './Banner.module.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { TypeAnimation } from 'react-type-animation';
 import { useTranslation } from 'react-i18next';
 import '../../i18n';
 
@@ -18,7 +17,7 @@ function Banner() {
         setIsImageLoaded(false); // Reset image load state on new slide
     };
 
-    const [animationKey, setAnimationKey] = useState(0);
+    const [,setAnimationKey] = useState(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
