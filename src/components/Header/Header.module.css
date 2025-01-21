@@ -161,10 +161,9 @@
 
 .languageBtn {
   color: #eae6e2 !important;
-  background-color: transparent;
-  border: none;
   cursor: pointer;
   transition: color 0.3s, transform 0.3s;
+  display: flex;
 }
 
 .languageBtn:hover {

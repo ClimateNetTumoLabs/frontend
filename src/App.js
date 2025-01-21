@@ -9,11 +9,10 @@ import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import InnerPage from "./components/InnerPage/InnerPage";
 import DIY from "./components/DIY/DIY";
+import API from "./components/API/API";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import PrivacyPolicy from "./components/PrivacyAndpolicy/PrivacyAndPolicy";
-import CookieManager from "./components/CookieManager/CookieManager";
 
 function App() {
     const { i18n } = useTranslation();
@@ -26,13 +25,13 @@ function App() {
             <Header />
             <ScrollToTop />
             <Routes>
-               <Route path={`/${i18n.language}/`} element={<Home />} />
-               <Route path={`/${i18n.language}/about`} element={<About />} />
-               <Route path={`/${i18n.language}/diy`} element={<DIY />} />
-               <Route path={`/${i18n.language}/device/:id`} element={<InnerPage />} />
-               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path={`/${i18n.language}/`} element={<Home />} />
+                <Route path={`/${i18n.language}/diy`} element={<DIY />} />
+                <Route path={`/${i18n.language}/api`} element={<API />} />
+                <Route path={`/${i18n.language}/about`} element={<About />} />
+                <Route path={`/${i18n.language}/device/:id`} element={<InnerPage />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             </Routes>
-            
             <div className={`${isInnerPage ? "footerPadding" : ""}`}>
                 <Footer />
             </div>

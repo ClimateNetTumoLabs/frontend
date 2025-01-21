@@ -18,24 +18,23 @@ import { Polygon } from "react-leaflet";
 import { useTranslation } from "react-i18next";
 import ResetViewControl from '@20tab/react-leaflet-resetview';
 import "leaflet.locatecontrol";
-import 'leaflet-easybutton';
-import 'leaflet-easybutton/src/easy-button.css';
 import "leaflet-easybutton/src/easy-button.js";
+import "leaflet-easybutton/src/easy-button.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function circleWithText2(latLng, txt, radius, borderWidth) {
-    var size = radius;
-    var iconSize = size + (borderWidth * 2);
-    var textSize = '16px';
-    var icon = L.divIcon({
-        html: '<div style="width: ' + iconSize + 'px; height: ' + iconSize + 'px; border-radius: 50%; background-color: rgba(93, 76, 220, 0.8); display: flex; justify-content: center; align-items: center; font-size: ' + textSize + 'px; cursor: pointer;">' + txt + '</div>',
-        className: '',
-        iconSize: [iconSize, iconSize]
-    });
-    var marker = L.marker(latLng, {
-        icon: icon
-    });
-    return marker;
+	var size = radius;
+	var iconSize = size + (borderWidth * 2);
+	var textSize = '16px'
+	var icon = L.divIcon({
+		html: '<div style="width: ' + iconSize + 'px; height: ' + iconSize + 'px; border-radius: 50%; background-color: rgba(93, 76, 220, 0.8); display: flex; justify-content: center; align-items: center; font-size: ' + textSize + 'px;">' + txt + '</div>',
+		className: '',
+		iconSize: [iconSize, iconSize]
+	});
+	var marker = L.marker(latLng, {
+		icon: icon
+	});
+	return marker;
 }
 
 const PolygonWithText = ({ coords, text, region }) => {
@@ -174,104 +173,102 @@ const MapArmenia = () => {
     }, []);
 
     return (
-        <div className={styles.map_wrapper} id="Map" style={{ cursor: 'pointer' }}>
-            <div className={'container-md'}>
-                <div className={styles.map_section}>
-                    <h2 className={styles.map_header}>{t('map.mapHeader')}</h2>
-                    <p>{t('map.mapDescription')}</p>
-                </div>
-                <MapContainer
-                    ref={mapRef}
-                    center={[40.15912, 45.002717]}
-                    zoom={8}
-                    style={{
-                        height: "600px", width: "100%",
-                        cursor: 'pointer'
-                    }}
-                    className={`${styles.mapContainer}`}
-                    onMouseWheel={handleMessage}
-                    scrollWheelZoom={showMessage ? "enabled" : "disabled"}
-                >
-                    <ToggleScroll />
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    {zoomLevel < 9 ? (
-                        <>
-                            {Object.entries(regionDevices).map(([region, count]) => {
-                                const regionCoordinates = regionCoordinatesMap[region];
-                                if (!regionCoordinates) return null;
-                                return (
-                                    <PolygonWithText
-                                        key={region}
-                                        coords={regionCoordinates}
-                                        text={count}
-                                        region={region} />
-                                );
-                            })}
-                        </>
-                    ) : (
-                        <>
-                            {devices.map(device => (
+        <div id="Map" style={{ cursor: 'pointer' }}>
+            <div className={styles.map_section}>
+                <h2 className={styles.map_header}>{t('map.mapHeader')}</h2>
+                <p>{t('map.mapDescription')}</p>
+            </div>
+            <MapContainer
+                ref={mapRef}
+                center={[40.15912, 45.002717]}
+                zoom={8}
+                style={{
+                    height: "600px", width: "100%",
+                    cursor: 'pointer'
+                }}
+                className={`${styles.mapContainer}`}
+                onMouseWheel={handleMessage}
+                scrollWheelZoom={showMessage ? "enabled" : "disabled"}
+            >
+                <ToggleScroll />
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                />
+                {zoomLevel < 9 ? (
+                    <>
+                        {Object.entries(regionDevices).map(([region, count]) => {
+                            const regionCoordinates = regionCoordinatesMap[region];
+                            if (!regionCoordinates) return null;
+                            return (
+                                <PolygonWithText
+                                key={region}
+                                coords={regionCoordinates}
+                                text={count}
+                                region={region} />
+                            );
+                        })}
+                    </>
+                ) : (
+                    <>
+                        {devices.map(device => (
+                            <Marker
+                                key={device.id}
+                                position={[parseFloat(device.latitude), parseFloat(device.longitude)]}
+                                icon={customIcon}
+                            >
+                                <Popup>
+                                    <Link to={`/${i18n.language}/device/${device.generated_id}/?${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}`}>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</Link>
+                                </Popup>
+                            </Marker>
+                        ))}
+                        {
+                            position && position.latitude !== null && position.longitude !== null && (
                                 <Marker
-                                    key={device.id}
-                                    position={[parseFloat(device.latitude), parseFloat(device.longitude)]}
-                                    icon={customIcon}
+                                    ref={markerRef}
+                                    position={position && position.latitude !== null && position.longitude !== null ? [parseFloat(position.latitude), parseFloat(position.longitude)] : [0, 0]}
+                                    icon={blinkIcon}
                                 >
-                                    <Popup>
-                                        <Link to={`/${i18n.language}/device/${device.generated_id}/?${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}`}>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</Link>
-                                    </Popup>
                                 </Marker>
-                            ))}
-                            {
-                                position && position.latitude !== null && position.longitude !== null && (
-                                    <Marker
-                                        ref={markerRef}
-                                        position={position && position.latitude !== null && position.longitude !== null ? [parseFloat(position.latitude), parseFloat(position.longitude)] : [0, 0]}
-                                        icon={blinkIcon}
-                                    >
-                                    </Marker>
-                                )
-                            }
-                        </>
-                    )}
-                    <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle} />
-                    <FullscreenControl forceSeparateButton={true} position={"topright"} />
-                    <ResetViewControl
-                        title="Reset view"
-                        position={"topright"}
-                        icon="url(https://images-in-website.s3.us-east-1.amazonaws.com/Icons/synchronize.png)"
-                    />
-                    <Routes>
-                        <Route path="/device/:id" element={<InnerPage />} />
-                    </Routes>
-                    {showMessage && (
-                        <div
-                            className={styles.messageBox}
-                            style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: '100%',
-                                height: '100%',
-                                backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                zIndex: 1000,
-                            }}
-                        >
+                            )
+                        }
+                    </>
+                )}
+                <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle} />
+                <FullscreenControl forceSeparateButton={true} position={"topright"} />
+                <ResetViewControl
+                    title="Reset view"
+                    position={"topright"}
+                    icon="url(https://images-in-website.s3.us-east-1.amazonaws.com/Icons/synchronize.png)"
+                />
+                <Routes>
+                    <Route path="/device/:id" element={<InnerPage />} />
+                </Routes>
+                {showMessage && (
+                    <div
+                        className={styles.messageBox}
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            zIndex: 1000,
+                        }}
+                    >
                         <span >
                             {t('map.clickOnMap')}
                             <img className={`${styles.click_icon}`}
-                                 src={clickIcon} alt="Click icon"
+                                src={clickIcon} alt="Click icon"
                             />
                         </span>
-                        </div>
-                    )}
-                </MapContainer>
-            </div>
+                    </div>
+                )}
+            </MapContainer>
         </div>
     );
 };

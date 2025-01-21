@@ -357,47 +357,6 @@ const combinedUV = `
         </div>
     </div>
 `
-
-    const api_info = `
-        <p>${t('about.api_info')}</p>
-
-        <h2 class=${styles.measure_title}>API Endpoint:</h2>
-        <pre>https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData</pre>
-
-        <h2 class=${styles.measure_title}>${t('about.api_info_param')}</h2>
-        <ul>
-            <li><strong>device_id</strong> ${t('about.api_info_deviceId')}</li>
-            <li><strong>start_time</strong>${t('about.api_info_startTime')} (${t('about.api_info_format')} <code>YYYY-MM-DD</code>).</li>
-            <li><strong>end_time</strong> ${t('about.api_info_endTime')} (${t('about.api_info_format')} <code>YYYY-MM-DD</code>).</li>
-        </ul>
-
-        <h2 class=${styles.measure_title}>${t('about.api_info_example')}</h2>
-        <div class=${styles.examples}>
-            <pre>GET <a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=8&amp;start_time=2023-11-10&amp;end_time=2024-1-8</a></pre>
-            
-            <h3 class=${styles.sub_title_3}>${t('about.api_info_24')}</h3>
-            <p>${t('about.api_info_24_request')} <code>start_time</code> ${t('about.and')} <code>end_time</code>, ${t('about.api_info_24_request2')}</p>
-            <pre><a class=${styles.link} target="_blank" href="https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=1">https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData?device_id=1</a></pre>
-
-            <h3 class=${styles.sub_title_3} >${t('about.api_info_response')}</h3>
-            <p>${t('about.api_info_json')}</p>
-        
-        </div>
-
-        <h2 class=${styles.measure_title}>${t('about.api_info_usage')}</h2>
-        <ul>
-            <li>${t('about.api_info_usage2')} (<code>https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData</code>)${t('about.api_info_usage3')}(<code>device_id</code>, <code>start_time</code>, <code>end_time</code>).</li>
-            <li>${t('about.api_info_usage4')}</li>
-            <li>${t('about.api_info_usage5')}</li>
-        </ul>
-
-        <p><strong>${t('about.api_info_note')}</strong> ${t('about.api_info_note2')}</p>
-
-        <p>${t('about.api_info_note3')}<a class=${styles.link} href="mailto:labs@tumo.org">labs@tumo.org</a>.</p>
-        <h2 class=${styles.measure_title}>${t('about.api_info_note4')} <code>&lt;source&gt;${t('about.api_info_note5')}&lt;/source&gt;</code></h2>
-        <p>${t('about.api_info_done')}</p>
-    `
-
     return (
 
         <div className={styles.about_us_page}>
@@ -437,13 +396,6 @@ const combinedUV = `
                 ref={uvRef}
                 text={uv_intro + luxContent + combinedUV }
                 point={t('about.titleUv')}/>
-            </div>
-
-            <div className={styles.API_section}>
-                <CollapsibleText
-                ref={apiRef}
-                text={api_info}
-                point={t('about.titleWeather')}/>
             </div>
         </div>
     );

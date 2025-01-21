@@ -43,9 +43,6 @@ const Team = () => {
 
     return (
         <div className={styles.team_section}>
-            {/* React Helmet for Dynamic Meta Injection */}
-         
-
             <Carousel
                 responsive={responsive}
                 autoPlaySpeed={4000}
@@ -64,7 +61,7 @@ const Team = () => {
                         <div className={styles.team_member_image_block}>
                             <div className={styles.img_container}>
                                 {member.image && (
-                                    
+
                                     <>
                                     <Helmet>
                                         <meta property="og:title" content={ogTitle} />

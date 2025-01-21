@@ -130,9 +130,9 @@ const Header = () => {
                 <div className={`collapse navbar-collapse ${styles.navigation_bar_for_mobile}`} id="navbarNav"
                      ref={navRef}>
                     <ul className="navbar-nav ms-auto">
-                        <NavItem to={`/${i18n.language}/`} label={t("header.navItems.home")}/>
                         <NavItem to={`/${i18n.language}/about/`} label={t("header.navItems.about")}/>
                         <NavItem to={`/${i18n.language}/diy/`} label={t("header.navItems.diy")}/>
+                        <NavItem to={`/${i18n.language}/api/`} label="API"/>
                         <li>
                             <Link className={`nav-link ${styles.nav_link} nav-item`} to={`/${i18n.language}/#Map`}
                                   onClick={GoToSection}>
@@ -175,10 +175,10 @@ const Header = () => {
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <button className={`nav-link btn ${styles.languageBtn}`}
+                            <span className={`nav-link ${styles.languageBtn}`}
                                     onClick={() => changeLanguage(i18n.language === 'en' ? 'hy' : 'en')}>
                                 {languageButtonText}
-                            </button>
+                            </span>
                         </li>
                     </ul>
                 </div>

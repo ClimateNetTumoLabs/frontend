@@ -1,14 +1,13 @@
 import React from "react";
 import styles from "./Home.module.css";
 import Banner from "../Banner/Banner";
-import HomeScreenTutorial from "../HomeScreenTutorial/HomeScreenTutorial";
+import ScrollableSection from "../ScrollableSection/ScrollableSection";
 import MapArmenia from "../Map/Map";
 import Description from "../DescriptionProject/Description";
 import ContactForm from "../Contact/Contact";
 import { useTranslation } from "react-i18next";
 import { Helmet } from 'react-helmet';
 import  "../../i18n";
-import PaymentSection from "../Payment/PaymentSection";
 
 function Home() {
     const { t } = useTranslation();
@@ -21,7 +20,6 @@ function Home() {
             </Helmet>
             <Banner />
             <HomeScreenTutorial />
-            <PaymentSection/>
             <Description />
             <MapArmenia />
             <ContactForm name = {t('contact.title1')} subject_state = {true}/>

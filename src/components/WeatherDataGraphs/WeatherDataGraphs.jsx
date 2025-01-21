@@ -364,7 +364,7 @@ const WeatherDataGraphs = (props) => {
     }, [props.data]);
 
     return (
-        <div className={styles.chart_section}>
+        <div id="chart" className={styles.chart_section}>
             <div style={{height: "100%"}}>
                 <div className={styles.toolbarAndFilter}>
                     <div className={styles.FilterSection}>
@@ -450,7 +450,12 @@ const WeatherDataGraphs = (props) => {
                             <div className={`${styles.chartContainer}`}>
                                 {(loading || props.leftLoad) && <div className={styles.loadingOverlay}>{t('chartTitles.update')}</div>}
                                 <div className={`${styles.chartWrapper} ${loading ? styles.blur : ''}`}>
-                                    <ReactApexChart ref={chartRef} options={chartState.options} series={chartState.series} type="line" height={500}/>
+                                    <ReactApexChart
+                                        ref={chartRef}
+                                        options={chartState.options}
+                                        series={chartState.series}
+                                        type="line"
+                                        height={500}/>
                                 </div>
                             </div>
                         </>
