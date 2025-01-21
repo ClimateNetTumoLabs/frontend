@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./API.module.css";
 import "../../i18n";
 import axios from "axios";
+import { saveAs } from "file-saver";  // Import file-saver
 
 const API = () => {
     const { t } = useTranslation();
@@ -56,6 +57,16 @@ const API = () => {
         }
     };
 
+    const handleDownload = () => {
+        if (response ) {
+            // Convert response data to a Blob and trigger a download
+            const blob = new Blob([JSON.stringify(response, null, 2)], {
+                type: "application/json",
+            });
+            saveAs(blob, "response.json");
+        }
+    };
+
     // Pagination calculations
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -86,7 +97,7 @@ const API = () => {
                             </thead>
                             <tbody>
                                 {currentDevices.map((device) => (
-                                    <tr key={device.generated_id}>
+                                    <tr key={device.id}>
                                         <td>{device.id}</td>
                                         <td>{device.name_hy}</td>
                                         <td>{device.parent_name_hy}</td>
@@ -149,6 +160,11 @@ const API = () => {
                     />
                 </label>
                 <button onClick={handleTestAPI}>Test API</button>
+                {response  && (
+                    <button className={styles.downloadButton} onClick={handleDownload}>
+                        Download Response
+                    </button>
+                )}
             </div>
 
             {response && (
