@@ -23,17 +23,10 @@ const DIY = () => {
   };
 
   useEffect(() => {
-    const isNewPageLoad = !sessionStorage.getItem('hasLoaded');
-
-    if (isNewPageLoad) {
-      setActiveTab('home');
-      sessionStorage.setItem('hasLoaded', 'true');
-    } else {
       const storedTab = localStorage.getItem('activeTab');
       if (storedTab && storedTab !== 'null') {
         setActiveTab(storedTab);
       }
-    }
   }, []);
 
   const handleTabClick = (tab) => {

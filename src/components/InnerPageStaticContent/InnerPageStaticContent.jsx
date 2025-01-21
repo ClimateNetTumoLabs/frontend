@@ -177,6 +177,7 @@ function InnerPageStaticContent(props) {
                                     <DataTable data={data} />
                                 </div>
                             </div>
+
                         </div>
                         {!isMobile && isProblematicDevice && (
                             <h3 className={styles.errorMessage}>{t("innerPageStaticContent.issue")}</h3>

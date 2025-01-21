@@ -48,6 +48,17 @@
     background-color: #232222;
 }
 
+.blurOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    backdrop-filter: blur(4px); /* Apply blur */
+    z-index: 13; /* Ensure it appears below the popup */
+}
+
 @media (max-width: 767px) {
     .InnerPageFilterSection {
         display: grid;
@@ -86,19 +97,20 @@
 
     .pickerContainer {
         position: fixed;
-        top: 50%;
+        top: 48%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 80%;
-        height: 80%;
+        height: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        background-color: #eae6e2;
+        background-color: #353030;
         border-radius: 5px;
-        z-index: 9999;
+        z-index: 14;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: 1px solid #606060;
     }
 
     .btnWrapper {
@@ -111,11 +123,30 @@
     .closeBtn {
         display: block;
         position: relative;
-        color: black;
         border: none;
         cursor: pointer;
         align-self: flex-end;
-        margin: 20px;
-        padding: 5px;
+        margin: 10px 10px 0 20px;
+        background: transparent;
+        font-size: 25px;
+    }
+
+    .mobile_range_text {
+        font-family: 'Ping';
+        padding: 10px 20px 0 20px;
+    }
+    .filter_button{
+        border: 1px solid #606060;
+        margin-top: 20px;
+        margin-bottom: 50px;
+        font-family: 'Ping';
+        width: 190px;
+    }
+    .filter_button:hover{
+        background-color: transparent;
+    }
+    .mobile_range{
+        border-radius: 5px;
+        margin-bottom: 10px;
     }
 }

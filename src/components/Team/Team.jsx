@@ -64,7 +64,7 @@ const Team = () => {
                         <div className={styles.team_member_image_block}>
                             <div className={styles.img_container}>
                                 {member.image && (
-                                    
+
                                     <>
                                     <Helmet>
                                         <meta property="og:title" content={ogTitle} />
