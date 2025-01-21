@@ -80,7 +80,6 @@ useEffect(() => {
 
     const temperatureContent = `
     <div id="temperature" >
-        <p>${t('about.thpIntro')}</p>
         <h2 class=${styles.measure_title}>${t('about.measureTemp')}</h2>
         <div class="d-flex align-items-center">
             <img loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/temperature.png"} alt="Temperature"/>
@@ -360,6 +359,7 @@ const combinedUV = `
     return (
 
         <div className={styles.about_us_page}>
+            <div className={'container'}>
              <Helmet>
                 <title>ClimateNet | A Student-led Climate Initiative</title>
              </Helmet>
@@ -397,6 +397,7 @@ const combinedUV = `
                 text={uv_intro + luxContent + combinedUV }
                 point={t('about.titleUv')}/>
             </div>
+                </div>
         </div>
     );
 };
