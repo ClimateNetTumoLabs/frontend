@@ -214,9 +214,9 @@
         display: flex;
         flex-direction: column; /* Stack items vertically */
         text-align: center;
-        justify-content: start;
+        justify-content: flex-start;
         padding-top: 15%;
-        align-items: start;
+        align-items: flex-start;
         padding-left: 10%;
         flex-wrap: nowrap; /* Center-align on mobile */
     }
@@ -264,25 +264,22 @@
 @media (max-width: 767px) {
     .carouselContainer {
         height: 30vh;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
     }
-
     .carouselCaption {
         text-align: left;
         left: 30px !important;
     }
-
     .carouselCaption h3 {
         font-size: 16px;
         color: #eae6e2;
     }
-
     .carousel_section  div, .carousel_section img {
         height: 100%;
         object-fit: cover;
         object-position: 28%;
-    }
 
+    }
     .animated_text {
         margin-top: 50px;
     }
@@ -315,11 +312,11 @@
         justify-content: start;
         align-content: center;
     }
-
     .leftCaption {
         display: none;
-    }
 
+
+    }
     .rightCaption {
         max-width: 300px;
         padding-top: 0%;
