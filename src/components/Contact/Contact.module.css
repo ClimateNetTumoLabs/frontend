@@ -120,4 +120,8 @@
         padding: 0;
         margin-bottom: 50px;
     }
+    .contact_us_button {
+        width: 100%;
+    }
+
 }

@@ -9,8 +9,10 @@ import "aos/dist/aos.css";
 const BenefitCard = ({ icon, title, description }) => {
     return (
         <div className={styles.benefit_card}>
-            <div className={styles.icon_container}>{icon}</div>
-            <h4 className={styles.benefit_title}>{title}</h4>
+            <div className={styles.benefit_card_title}>
+                <div className={styles.icon_container}>{icon}</div>
+                <h4 className={styles.benefit_title}>{title}</h4>
+            </div>
             <p className={styles.benefit_description}>{description}</p>
         </div>
     );

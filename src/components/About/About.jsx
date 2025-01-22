@@ -79,7 +79,7 @@ useEffect(() => {
 }, [highlightedSection]);
 
     const temperatureContent = `
-    <div id="temperature" >
+    <div class = "mt-2 mb-5" id="temperature" >
         <h2 class=${styles.measure_title}>${t('about.measureTemp')}</h2>
         <div class="d-flex align-items-center">
             <img loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/temperature.png"} alt="Temperature"/>
@@ -92,7 +92,7 @@ useEffect(() => {
 `;
 
     const humidityContent = `
-        <div id="humidity" class="mt-4">
+        <div id="humidity" class="mt-5 mb-5">
             <h2 class=${styles.measure_title} >${t('about.measureHumidity')}</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/humidity.png"} alt="Humidity"/>
@@ -105,7 +105,7 @@ useEffect(() => {
     `
 
     const pressureContent = `
-        <div id="pressure" class="mt-4 mb-3">
+        <div id="pressure" class="mt-5 mb-5">
             <h2 class=${styles.measure_title} >${t('about.measurePressure')}</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/pressure.png"} alt="Pressure"/>
@@ -117,7 +117,7 @@ useEffect(() => {
         </div>
     `
     const air_quality_intro = `
-        <div id="airquality" >
+        <div class="mt-2 mb-5" id="airquality" >
             <span class="d-flex align-content-center">
                 ${t('about.airQualityIntro')}<br/>
                 ${t('about.airQualityIntro2')}<br/> 
@@ -127,7 +127,7 @@ useEffect(() => {
     `
 
     const pm1 = `
-        <div id="pm1" class="mt-4">
+        <div id="pm1" class="mt-5 mb-5">
             <h2 class=${styles.measure_title} >PM 1.0</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/lungs.png"} alt="PM1.0"/>
@@ -140,7 +140,7 @@ useEffect(() => {
         </div>
     `
     const pm2 = `
-        <div id="pm2_5" class="mt-4">
+        <div id="pm2_5" class="mt-5 mb-5">
             <h2 class=${styles.measure_title} >PM 2.5</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/pm2.png"} alt="PM2.5"/>
@@ -153,7 +153,7 @@ useEffect(() => {
         </div>
     `
     const pm10 = `
-        <div id="pm10" class="mt-4">
+        <div id="pm10" class="mt-5 mb-5">
             <h2 class=${styles.measure_title} >PM 10.0</h2>
             <div class="d-flex align-items-center">
                 <img loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/dust.png"} alt="PM2.5"/>
@@ -166,7 +166,7 @@ useEffect(() => {
         </div>
     `
     const table = `
-        <div id="pm" class="mt-4">
+        <div id="pm" class="mt-5 mb-5">
             <h2 class=${styles.measure_title} >${t('about.pmDanger')}</h2>
             <div class=${styles.table_block}>
                 <table>
@@ -217,7 +217,7 @@ useEffect(() => {
     `
 
     const windSpeed = `
-        <div id="wind">
+        <div id="wind" class="mt-2 mb-5">
             <h2 class=${styles.measure_title} >${t('about.titleWindSpeed')}</h2>
             <div class="d-flex align-items-center">
                 <img  loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/anemometer.png"} alt="Anemometer"/>
@@ -229,7 +229,7 @@ useEffect(() => {
         </div>
     `
     const windDirection = `
-        <div id="direction" class="mt-4">
+        <div id="direction" class="mt-5 mb-5">
             <h2 class=${styles.measure_title} >${t('about.titleWindDirection')}</h2>
             <div class="d-flex align-items-center">
                 <img  loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/arrow.png"} alt="Direction"/>
@@ -241,7 +241,7 @@ useEffect(() => {
         </div>
     `
     const rainSensor = `
-    <div id="rain" class="mt-4">
+    <div id="rain" class="mt-5 mb-5">
         <h2 class=${styles.measure_title} >${t('about.titleRain')}</h2>
         <div class="d-flex align-items-center">
             <img loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/rain.png"} alt="rain"/>
@@ -250,7 +250,7 @@ useEffect(() => {
                 ${t('about.rain2')}<br/>
             </span>
         </div>
-        <div  class="mt-4">
+        <div  class="mt-5 mb-5">
             <div class=${styles.table_block}>
                 <table>
                     <thead>
@@ -288,7 +288,7 @@ useEffect(() => {
     </div>
 `
     const uv_intro = `
-        <div>
+        <div class="mt-2 mb-5">
             <span class="d-flex align-items-center">
                 ${t('about.uv_intro')}<br/>
                 ${t('about.uv_intro2')}
@@ -296,7 +296,7 @@ useEffect(() => {
         </div>
     `
 const combinedUV = `
-    <div id="uv" class="mt-4">
+    <div id="uv" class="mt-5 mb-5">
         <div>
             <h2 class=${styles.measure_title}>${t('about.tableuv')}</h2>
             <div class="d-flex align-items-center">
@@ -307,7 +307,7 @@ const combinedUV = `
                 </span>
             </div>
         </div>
-        <div class="mt-4">
+        <div class="mt-5 mb-5">
             <div class=${styles.table_block}>
                 <table>
                     <thead>
@@ -344,7 +344,7 @@ const combinedUV = `
     </div>
 `;
     const luxContent = `
-    <div id="lux" class="mt-4">
+    <div id="lux" class="mt-5 mb-2">
         <h2 class=${styles.measure_title} >${t('about.lux')}</h2>
         <div class="d-flex align-items-center ">
             <img loading="lazy" class=${styles.icon} src=${"https://images-in-website.s3.us-east-1.amazonaws.com/AboutIcons/lux.png"} alt="LUX"/>

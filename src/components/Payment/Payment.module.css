@@ -89,6 +89,8 @@
     border: 1px solid #e07789 ;
 }
 
+
+
 .device_sale_section .sale_front,
 .device_sale_section .sale_back {
     display: flex;
@@ -125,6 +127,10 @@
 
 }
 
+.benefit_card_title {
+    display: flex;
+}
+
 
 
 
@@ -132,7 +138,6 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .paymentSection {
-        text-align: center;
         height: auto;
         padding: 0;
         margin-bottom: 50px;
@@ -149,10 +154,23 @@
         margin: 25px auto;
     }
 
+    .benefit_description {
+        padding-left: 0 !important;
+    }
+
+    .benefit_card {
+        margin-bottom: 20px;
+    }
+
     .paymentSection img {
         max-width: 100%;
         margin-right: 0;
         margin-bottom: 16px; /* Adds space between image and text on small screens */
+    }
+
+    .sale_front button {
+        max-width: unset;
+        width: 100%;
     }
 }
   

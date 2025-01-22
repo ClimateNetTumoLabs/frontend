@@ -180,15 +180,19 @@ const MapArmenia = () => {
                     <h2 className={styles.map_header}>{t('map.mapHeader')}</h2>
                     <p>{t('map.mapDescription')}</p>
                 </div>
+            </div>
+            <div className={`${styles.mapContainer} container-md`} >
                 <MapContainer
                     ref={mapRef}
                     center={[40.15912, 45.002717]}
                     zoom={8}
                     style={{
-                        height: "600px", width: "100%",
-                        cursor: 'pointer'
+                        height: "600px",
+                        width: "100%",
+                        cursor: 'pointer',
+                        borderRadius: "20px",
+                        boxShadow: "rgb(183 183 194 / 10%) 0px 8px 24px, rgb(221 221 224 / 10%) 0px 16px 56px, rgb(223 223 225 / 10%) 0px 24px 80px"
                     }}
-                    className={`${styles.mapContainer}`}
                     onMouseWheel={handleMessage}
                     scrollWheelZoom={showMessage ? "enabled" : "disabled"}
                 >

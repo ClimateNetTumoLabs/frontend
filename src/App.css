@@ -360,6 +360,10 @@ th {
         background-color: #333232;
     }
 
+    .leaflet-retina {
+        border-radius: 5px !important;
+    }
+
     .custom-icon {
         display: none
     }

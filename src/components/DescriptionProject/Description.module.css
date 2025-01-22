@@ -60,10 +60,4 @@
     .boxes {
         max-height: none;
     }
-    .partner_item {
-        flex-direction: column;
-    }
-    .partners {
-        text-align: center;
-    }
 }
