@@ -3,32 +3,38 @@
     padding: 20px;
 }
 
+.cookies_image {
+    height: 25px;
+}
+
 .cookies {
     position: fixed;
     bottom: 20px;
     left: 20px;
     right: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: #232222;
+    width: 600px;
+    border: 1px solid #eae6e2;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: rgba(239, 237, 237, 0.16) 0px 10px 36px 0px, rgba(241, 239, 239, 0.06) 0px 0px 0px 1px;
     padding: 20px;
     z-index: 1000;
     display: flex;
     flex-direction: column;
     gap: 10px;
     align-items: flex-start;
+    color : #eae6e2;
 }
 
 .title {
     font-size: 18px;
     font-weight: bold;
-    color: #333;
+    margin-bottom: 0;
+    margin-left: 15px;
 }
 
 .description {
     font-size: 14px;
-    color: #555;
 }
 
 .actions {
@@ -37,30 +43,41 @@
 }
 
 .accept {
-    background-color: #232222;
-    color: #fff;
+    background-color: #e07789;
+    color: #eae6e2;
     border: none;
-    padding: 10px 20px;
+    padding: 6px 12px;
+    min-width: 150px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .accept:hover {
-    background-color: #444;
+    background: #232222;
+    color : #e07789;
+    border: 1px solid #e07789 ;
 }
 
 .preferences {
-    background-color: #f5f5f5;
-    color: #333;
-    border: 1px solid #ccc;
-    padding: 10px 20px;
+    background-color: #232222;
+    color: #e07789;
+    padding: 6px 12px;
+    min-width: 150px;
+    border: 1px solid #e07789;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .preferences:hover {
-    background-color: #e0e0e0;
-    color: #000;
+    color: #eae6e2;
+    background-color: #e07789;
+}
+
+@media (max-width: 768px) {
+    .cookies {
+        width: calc(99% - 20px);
+        left: 10px;
+        right: 10px;    }
 }

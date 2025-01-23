@@ -16,23 +16,24 @@
 
 /* Modal Content */
 .modalContent {
-    background-color: #ffffff; /* Clean white background */
-    padding: 15px 15px; /* Balanced padding */
+    background-color: #232222;
+    box-shadow: rgba(239, 237, 237, 0.06) 0px 10px 36px 0px, rgba(241, 239, 239, 0.06) 0px 0px 0px 1px;
     border-radius: 12px; /* Softer corner radius */
     width: 100%;
-    max-width: 450px; /* Desktop width limit */
+    max-width: 500px; /* Desktop width limit */
     max-height: 90vh; /* Prevent overflow on small screens */
     overflow-y: auto; /* Scrollable content */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Modern shadow */
+    color : #eae6e2;
+    padding: 35px;
 }
 
 /* Title Styles */
 .title {
-    text-align: center;
-    color: #232222; /* Darker gray for readability */
+    text-align: start;
     font-size: 1.5em;
     font-weight: bold;
     margin-bottom: 20px;
+    color : #eae6e2;
 }
 
 /* Consent Options */
@@ -45,19 +46,18 @@
     align-items: center;
     cursor: pointer;
     margin-bottom: 15px;
-    color: #232222;
+    color: #eae6e2;
 }
 
 .checkboxLabel input {
     margin-right: 10px;
-    accent-color: #232222; /* Blue checkbox accent */
+    accent-color: #e07789; /* Blue checkbox accent */
 }
 
 /* Legal Info Box */
 .legalInfo {
     font-size: 0.9em;
-    color: #232222;
-    background-color: #f9f9f9; /* Light gray background */
+    color: #eae6e2;
     border-radius: 8px;
     margin-bottom: 20px;
 }
@@ -71,47 +71,50 @@
 
 /* Save Button */
 .saveButton {
-    padding: 12px 20px;
-    background-color: #232222; /* Blue */
-    color: #ffffff; /* White text */
-    border: none;
-    border-radius: 6px;
+    background-color: #e07789;
+    color: #eae6e2;
+    padding: 6px 12px;
+    min-width: 150px;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border : 1px solid #e07789;
+}
+
+.saveButton:hover {
+    background: #232222;
+    color : #e07789;
+    border: 1px solid #e07789 ;}
+
+/* Cancel Button */
+.cancelButton {
+    background-color: #232222;
+    color: #e07789;
+    padding: 6px 12px;
+    min-width: 150px;
+    border: 1px solid #e07789;
+    border-radius: 5px;
     font-size: 1em;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.saveButton:hover {
-    background-color: #444;
-}
-
-/* Cancel Button */
-.cancelButton {
-    padding: 12px 20px;
-    background-color: #e07789; /* Red */
-    color: #ffffff; /* White text */
-    border: none;
-    border-radius: 6px;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: opacity 0.3s ease, transform 0.2s ease;
-}
-
 .cancelButton:hover {
-    background-color: #e07789; /* Darker red for hover */
-    opacity: 0.7;
+    color: #eae6e2;
+    background-color: #e07789;
 }
 
 /* Mobile Styles */
 @media (max-width: 768px) {
     .modalContent {
-        max-width: 90%; /* Use most of the screen width */
+        max-width: 99%; /* Use most of the screen width */
+        padding: 15px 15px;
     }
-
     .title {
-        font-size: 1.2em; /* Slightly smaller for mobile */
+        font-size: 1.3em; /* Slightly smaller for mobile */
     }
 
     .actions {
