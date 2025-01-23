@@ -9,11 +9,12 @@
 }
 
 .title {
-  background : url("https://images-in-website.s3.us-east-1.amazonaws.com/DIY/copper+wire.webp");
+  background: radial-gradient(circle closest-corner at 43% 71%, transparent 5%, rgba(0, 0, 0, 0.15) 20%),
+  url("https://images-in-website.s3.us-east-1.amazonaws.com/DIY/diy_banner.webp");
   height: 55vh;
   background-size: cover;
   overflow: hidden;
-  background-position: 30% 80%;
+  background-position: 0 41%;
   padding: 10px;
   position: relative;
   display: flex;
@@ -25,6 +26,7 @@
   text-align: center;
   font-size: 3.5rem;
   animation: fadeInDown 1.5s ease-out;
+  filter: brightness(1.15);
 }
 
 .title h1 b {
@@ -118,6 +120,8 @@ hr {
 @media (max-width: 768px) {
   .title {
     height: 30vh;
+    background-size: 125%;
+    background-position: 30% 23%;
   }
   .title h1 {
     font-size: 1.5rem;
