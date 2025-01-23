@@ -3,6 +3,12 @@
     padding: 50px 25px 25px 25px;
 }
 
+.home_screen_title {
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: #e07789;
+}
+
 .homeScreenTools h2 {
     text-align: start;
     color: #e07789;
