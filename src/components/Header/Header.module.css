@@ -161,7 +161,7 @@
 
 .languageBtn {
   color: #eae6e2 !important;
-  cursor: pointer;
+  cursor: pointer !important;
   transition: color 0.3s, transform 0.3s;
   display: flex;
 }

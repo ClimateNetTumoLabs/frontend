@@ -17,7 +17,6 @@
 /* Modal Content */
 .modalContent {
     background-color: #232222;
-    box-shadow: rgba(239, 237, 237, 0.06) 0px 10px 36px 0px, rgba(241, 239, 239, 0.06) 0px 0px 0px 1px;
     border-radius: 12px; /* Softer corner radius */
     width: 100%;
     max-width: 500px; /* Desktop width limit */
@@ -77,7 +76,6 @@
     min-width: 150px;
     border-radius: 5px;
     font-size: 1em;
-    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     border : 1px solid #e07789;
@@ -97,7 +95,6 @@
     border: 1px solid #e07789;
     border-radius: 5px;
     font-size: 1em;
-    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }

@@ -1,12 +1,11 @@
 import React from 'react';
 import styles from './UserCookieForm.module.css';
-import Cookies from '../../assets/Cookies/cookies.png'
 
 const UserCookieForm = ({ onAccept, onPreferences }) => {
     return (
         <div className={styles.cookies}>
             <div className={'d-flex align-items-center'}>
-                <img className={styles.cookies_image} src={Cookies} alt="Cookies image" />
+                <img className={styles.cookies_image} src={"https://images-in-website.s3.us-east-1.amazonaws.com/Cookies/cookies.png"} alt="Cookies image" />
                 <h2 className={styles.title}>Cookies</h2>
 
             </div>
