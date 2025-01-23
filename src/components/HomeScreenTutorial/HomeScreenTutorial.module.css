@@ -170,4 +170,8 @@
     .androidVideo {
         border-radius: 39px;
     }
+
+    .qrContainer img {
+        width: 150px;
+    }
 }
