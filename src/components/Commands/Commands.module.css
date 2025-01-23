@@ -55,12 +55,11 @@
 }
 
 .readmeStyle code {
-  display: inline-block;
   flex: 1;
 }
 
 .copyContainer {
-  position: sticky;
+  position: absolute;
   right: 10px; /* Adjust to your preference */
   display: flex;
   align-items: center;
@@ -108,7 +107,10 @@
 .setup ol{
   padding-left: 20px;
 }
-
+.setup h2{
+  color:#e07789;
+  font-weight: bold;
+}
 .wrong{
   color: #c7bc42;
 }
@@ -125,5 +127,8 @@
 @media (max-width: 768px) {
   .downloadContainer {
     flex-direction: column;
+  }
+  .readmeStyle code {
+    max-width: 90%;
   }
 }

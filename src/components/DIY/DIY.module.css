@@ -106,6 +106,15 @@ hr {
   margin-top: 0;
 }
 
+.link {
+  color: #e07789;
+  text-decoration: none;
+}
+
+.link:hover{
+  color: #ff99aa;
+  cursor: pointer;
+}
 @media (max-width: 768px) {
   .title {
     height: 30vh;
@@ -160,16 +169,6 @@ hr {
     font-size: 0.8rem;
     color: #eae6e2;
   }
-}
-
-.link {
-  color: #e07789;
-  text-decoration: none;
-}
-
-.link:hover{
-  color: #ff99aa;
-  cursor: pointer;
 }
 
 @media (min-width: 769px) {
