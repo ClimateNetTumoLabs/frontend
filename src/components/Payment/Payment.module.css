@@ -169,6 +169,8 @@
         max-width: 100%;
         margin-right: 0;
         margin-bottom: 16px; /* Adds space between image and text on small screens */
+        width: 100%;
+
     }
 
     .sale_front button {

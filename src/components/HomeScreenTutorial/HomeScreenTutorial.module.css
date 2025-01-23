@@ -116,9 +116,6 @@
 
 /* Mobile Breakpoint */
 @media (max-width: 768px) {
-    .homeScreenTools h2 {
-        text-align: center;
-    }
     .mobilePlatformButtons {
         display: flex;
         justify-content: space-evenly;
