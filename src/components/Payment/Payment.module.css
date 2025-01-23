@@ -28,11 +28,14 @@
     width : 100%;
     justify-content: center;
 }
-
+.buy_section_title {
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: #e07789;;
+}
 .benefits_grid {
     display: flex;
     flex-direction: column;
-    padding-top: 20px;
 }
 
 .benefit_card {
@@ -166,6 +169,8 @@
         max-width: 100%;
         margin-right: 0;
         margin-bottom: 16px; /* Adds space between image and text on small screens */
+        width: 100%;
+
     }
 
     .sale_front button {

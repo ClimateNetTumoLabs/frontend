@@ -3,6 +3,12 @@
     padding: 50px 25px 25px 25px;
 }
 
+.home_screen_title {
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: #e07789;
+}
+
 .homeScreenTools h2 {
     text-align: start;
     color: #e07789;
@@ -110,12 +116,9 @@
 
 /* Mobile Breakpoint */
 @media (max-width: 768px) {
-    .homeScreenTools h2 {
-        text-align: center;
-    }
     .mobilePlatformButtons {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-evenly;
         margin-bottom: 30px;
     }
 

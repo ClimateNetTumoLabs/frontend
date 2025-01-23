@@ -5,6 +5,7 @@
 .map_header {
     font-size: 28px;
     color: #e07789;
+    margin-bottom: 25px;
 }
 
 @keyframes blink {

@@ -264,22 +264,25 @@
 @media (max-width: 767px) {
     .carouselContainer {
         height: 30vh;
-        margin-bottom: 50px;
+        margin-bottom: 25px;
     }
+
     .carouselCaption {
         text-align: left;
         left: 30px !important;
     }
+
     .carouselCaption h3 {
         font-size: 16px;
         color: #eae6e2;
     }
+
     .carousel_section  div, .carousel_section img {
         height: 100%;
         object-fit: cover;
         object-position: 28%;
-
     }
+
     .animated_text {
         margin-top: 50px;
     }
@@ -287,10 +290,12 @@
     .animated_text span {
         font-size: 15px !important;
     }
+
     .carouselCaption  {
         color: black;
         margin-top: 30px;
     }
+
     .carouselImg {
         width: 100%;
         height: auto;
@@ -299,10 +304,8 @@
     }
 
     .captionContainer {
-
         gap: 15px;
-        display: grid
-    ;
+        display: grid;
         flex-direction: column;
         flex-wrap: nowrap;
         text-align: center;
@@ -312,22 +315,18 @@
         justify-content: start;
         align-content: center;
     }
+
     .leftCaption {
         display: none;
-
-
     }
-    .rightCaption {
 
+    .rightCaption {
         max-width: 300px;
         padding-top: 0%;
         font-size: 14px; /* Adjust as needed */
         flex: unset; /* Gives more space to the right text */
         text-align: left;
-        /* Align to the right on larger screens */
         margin: 5px;
-
-
         color: black;
     }
 }
@@ -342,8 +341,6 @@
         flex: 1; /* Gives more space to the right text */
         text-align: left; /* Align to the right on larger screens */
         margin: 5px;
-
-
         color: black;
     }
 }

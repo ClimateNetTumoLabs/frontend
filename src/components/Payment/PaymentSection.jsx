@@ -71,7 +71,7 @@ const PaymentSection = () => {
     return (
         <div className={styles.paymentSection}>
             <div data-aos="fade-up" className={'container'}>
-                <h2>Buy Your Own Device</h2>
+                <h2 className={styles.buy_section_title}>Buy Your Own Device</h2>
                 <div className={styles.payment_information_section}>
                     <div className={styles.device_sale_section}>
                         <ReactCardFlip
