@@ -444,7 +444,7 @@ const WeatherDataGraphs = (props) => {
                         ) : null}
                     </div>
                     {props.leftLoad ? (
-                        <Loader type="spinner-circle" bgColor={"#FFFFFF"} color={"#FFFFFF"} size={100}/>
+                        <Loader type="spinner" bgColor={"#FFFFFF"} color={"#FFFFFF"} size={70}/>
                     ) : (
                         <>
                             <div className={`${styles.chartContainer}`}>

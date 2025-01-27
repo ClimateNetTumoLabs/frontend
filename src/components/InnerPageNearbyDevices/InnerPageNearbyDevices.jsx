@@ -101,10 +101,10 @@ function InnerPageNearbyDevices(props) {
 
     if (props.leftLoad) {
         return <div className={styles.loader}>
-            <Loader type="spinner-circle"
+            <Loader type="spinner"
                 bgColor={"#FFFFFF"}
                 color={"#FFFFFF"}
-                size={100} />
+                size={70} />
         </div>
     }
 

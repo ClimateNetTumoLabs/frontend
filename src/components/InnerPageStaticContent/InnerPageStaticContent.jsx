@@ -146,10 +146,10 @@ function InnerPageStaticContent(props) {
                 props.leftLoad ? (
                     <div className={styles.loader}>
                         <Loader
-                            type="spinner-circle"
+                            type="spinner"
                             bgColor={"#FFFFFF"}
                             color={"#FFFFFF"}
-                            size={100}
+                            size={70}
                         />
                     </div>
                 ) : (
