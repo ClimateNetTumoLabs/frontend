@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import React, {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
 import styles from "./API.module.css";
 import "../../i18n";
 import axios from "axios";
-import { saveAs } from "file-saver";  // Import file-saver
+import {saveAs} from "file-saver";  // Import file-saver
 
 const API = () => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     // States for testing the API
     const [deviceId, setDeviceId] = useState("");
@@ -39,12 +39,12 @@ const API = () => {
         // Prepare parameters
         const params =
             startTime && endTime
-                ? { device_id: deviceId, start_time: startTime, end_time: endTime }
-                : { device_id: deviceId };
+                ? {device_id: deviceId, start_time: startTime, end_time: endTime}
+                : {device_id: deviceId};
 
         try {
             // Send GET request
-            const res = await axios.get(endpoint, { params });
+            const res = await axios.get(endpoint, {params});
             console.log(res.data);
             setResponse(res.data);
         } catch (error) {
@@ -58,7 +58,7 @@ const API = () => {
     };
 
     const handleDownload = () => {
-        if (response ) {
+        if (response) {
             // Convert response data to a Blob and trigger a download
             const blob = new Blob([JSON.stringify(response, null, 2)], {
                 type: "application/json",
@@ -88,32 +88,32 @@ const API = () => {
                     <>
                         <table className={styles.deviceTable}>
                             <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Parent Name</th>
-                                    <th>Select</th>
-                                </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Parent Name</th>
+                                <th>Select</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {currentDevices.map((device) => (
-                                    <tr key={device.id}>
-                                        <td>{device.id}</td>
-                                        <td>{device.name_hy}</td>
-                                        <td>{device.parent_name_hy}</td>
-                                        <td>
-                                            <button
-                                                className={styles.selectButton}
-                                                onClick={() => setDeviceId(device.id)}
-                                            >
-                                                Select
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
+                            {currentDevices.map((device) => (
+                                <tr key={device.generated_id}>
+                                    <td>{device.generated_id}</td>
+                                    <td>{device.name_en}</td>
+                                    <td>{device.parent_name_en}</td>
+                                    <td>
+                                        <button
+                                            className={styles.selectButton}
+                                            onClick={() => setDeviceId(device.generated_id)}
+                                        >
+                                            Select
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                             </tbody>
                         </table>
-                        <div className={styles.pagination}>
+                        <div>
                             {[...Array(totalPages)].map((_, index) => (
                                 <button
                                     key={index}
@@ -134,15 +134,19 @@ const API = () => {
 
             <div className={styles.apiTester}>
                 <h2 className={styles.measure_title}>Test the API:</h2>
-                <label>
-                    Selected Device ID:
-                    <input
-                        type="text"
-                        value={deviceId}
-                        onChange={(e) => setDeviceId(e.target.value)}
-                        placeholder="e.g., 8"
-                    />
-                </label>
+                <div>
+                    <label>
+                        Selected Device ID:
+                        <input
+                            className={styles.starLabel}
+                            type="text"
+                            value={deviceId}
+                            onChange={(e) => setDeviceId(e.target.value)}
+                            placeholder="e.g., 8"
+                            required
+                        />
+                    </label>
+                </div>
                 <label>
                     Start Time:
                     <input
@@ -159,9 +163,9 @@ const API = () => {
                         onChange={(e) => setEndTime(e.target.value)}
                     />
                 </label>
-                <button onClick={handleTestAPI}>Test API</button>
-                {response  && (
-                    <button className={styles.downloadButton} onClick={handleDownload}>
+                <button className={styles.button} onClick={handleTestAPI}>Execute API</button>
+                {response && (
+                    <button className={styles.button} onClick={handleDownload}>
                         Download Response
                     </button>
                 )}

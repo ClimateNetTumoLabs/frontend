@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState} from "react";
 import styles from "./Videos.module.css";
 import { useTranslation } from "react-i18next";
 import Loader from "react-js-loader";
@@ -11,15 +11,15 @@ function VideoItem({ src, onLoad }) {
             src={src}
             title="YouTube video player"
             allowFullScreen
-            onLoad={onLoad} // Trigger when iframe finishes loading
+            onLoad={onLoad}
         />
     );
 }
 
 function Videos() {
     const { t } = useTranslation();
+    const [loadedVideos, setLoadedVideos] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
-    const [loadedCount, setLoadedCount] = useState(0); // Tracks loaded iframes
 
     const videoUrls = [
         "https://www.youtube.com/embed/N49blz2DgQs",
@@ -31,21 +31,20 @@ function Videos() {
         "https://www.youtube.com/embed/XIqDQbgPmSY",
     ];
 
-    // Track when a video has loaded
     const handleVideoLoad = () => {
-        setLoadedCount((prev) => prev + 1);
+        setLoadedVideos(prev => {
+            const newCount = prev + 1;
+            if (newCount === videoUrls.length) {
+                setIsLoading(false);
+            }
+            return newCount;
+        });
     };
-
-    // Hide spinner when all videos are loaded
-    useEffect(() => {
-        if (loadedCount === videoUrls.length) {
-            setIsLoading(false);
-        }
-    }, [loadedCount, videoUrls.length]);
 
     return (
         <section id="videos" className={`container mb-2 col-sm-8 col-12 ${styles.section}`}>
-            {isLoading ? (
+            <h2 className={styles.subTitles}>{t("diy.tabs.asmtitle")}</h2>
+            {isLoading && (
                 <div className={styles.loader}>
                     <Loader
                         type="spinner"
@@ -54,18 +53,14 @@ function Videos() {
                         size={70}
                     />
                 </div>
-            ) : (
-                <>
-                    <h2 className={styles.subTitles}>{t("diy.tabs.asmtitle")}</h2>
-                    <div className={styles.videos}>
-                        {videoUrls.map((url, index) => (
-                            <div key={index} className="col-md-6 col-12">
-                                <VideoItem src={url} onLoad={handleVideoLoad} />
-                            </div>
-                        ))}
-                    </div>
-                </>
             )}
+            <div className={styles.videos} style={{ display: isLoading ? 'none' : '' }}>
+                {videoUrls.map((url, index) => (
+                    <div key={index} className="col-md-6 col-12">
+                        <VideoItem src={url} onLoad={handleVideoLoad} />
+                    </div>
+                ))}
+            </div>
         </section>
     );
 }
