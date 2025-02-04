@@ -9,7 +9,7 @@ import { Helmet } from "react-helmet"; // Import React Helmet
 const responsive = {
     superLargeDesktop: {
         breakpoint: { max: 4000, min: 1600 },
-        items: 5,
+        items: 4,
     },
     desktop: {
         breakpoint: { max: 1600, min: 1024 },

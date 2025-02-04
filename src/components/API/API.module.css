@@ -8,6 +8,7 @@
 .title {
     font-size: 24px;
     color: #e07789;
+    font-weight: bold;
 }
 
 .about_section {
@@ -31,6 +32,7 @@
 
 
 .measure_title {
+    font-weight: bold;
     color: #e07789;
     font-size: 16px;
     margin: 0;
@@ -40,6 +42,7 @@
     color: #e07789;
     font-size: 14px;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .API_section ul, ol{
@@ -48,6 +51,7 @@
 
 .examples{
     padding-left: 20px;
+    margin-top: 10px;
 }
 
 .link {
@@ -94,6 +98,10 @@
     color: black;
 }
 
+.calendar{
+    display: flex;
+    gap: 20px;
+}
 .button {
     align-self: flex-end;
     min-width: 150px;
@@ -147,10 +155,8 @@
     font-size: 14px;
     color: darkgray;
     /* border: 1px solid; */
-    box-shadow: rgba(183, 183, 194, 0.1) 0px 8px 12px, rgba(221, 221, 224, 0.1) 0px 12px 30px, rgba(223, 223, 225, 0.1) 0px 20px 80px;
+    box-shadow: rgba(183, 183, 194, 0.1) 0 8px 12px, rgba(221, 221, 224, 0.1) 0 12px 30px, rgba(223, 223, 225, 0.1) 0 20px 80px;
 }
-
-
 
 .error {
     color: red;
@@ -166,16 +172,53 @@
 }
 
 .deviceTable th {
-    /* background-color: #f4f4f4; */
     font-weight: bold;
+    cursor: pointer;
 }
 
+.deviceTable td{
+    width: 25%;
+}
+
+.sort {
+    gap: 10px;
+    justify-content: center;
+}
+.done{
+    margin-top: 10px;
+}
 @media (max-width: 425px) {
     .title{
         font-size: 18px;
     }
-}
 
+}
+@media (max-width: 768px){
+    .apiTester {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 20px 0;
+        width: 100%;
+    }
+    .apiTester label {
+        width: 100%;
+    }
+    .button {
+        align-self: flex-start;
+        width: 100%;
+    }
+    .selectedId{
+        width: 100%;
+    }
+    .calendar {
+        width: 100%;
+        gap: 5px;
+    }
+    .calender label{
+        width: 100%;
+    }
+}
 @media (min-width: 425px) and (max-width: 768px) {
     .title{
         font-size: 20px;

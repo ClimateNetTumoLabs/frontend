@@ -17,6 +17,7 @@
 }
 
 .link {
+    cursor: pointer;
     color: #e07789;
     transition: color 0.3s ease-in-out;
 }
@@ -52,6 +53,14 @@
 }
 .table_block td, th {
     border: none;
+}
+
+.rainTable td{
+    width: 50%;
+}
+
+.uvTable td{
+    width: 50%;
 }
 .API_section ul, ol, .examples{
     padding-left: 60px;

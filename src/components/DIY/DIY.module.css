@@ -111,10 +111,11 @@ hr {
 .link {
   color: #e07789;
   text-decoration: none;
+  transition: color 0.3s ease-in-out;
 }
 
 .link:hover{
-  color: #ff99aa;
+  color: #4A8AFA;
   cursor: pointer;
 }
 @media (max-width: 768px) {

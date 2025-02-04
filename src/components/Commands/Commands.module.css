@@ -89,10 +89,11 @@
   text-decoration: none;
   color: #e07789;
   cursor: pointer;
+  transition: color 0.3s ease-in-out;
 }
 
 .link:hover {
-  color: #ff99aa;
+  color: #4A8AFA;;
 }
 
 .network ol{

@@ -87,36 +87,54 @@ const resources = {
                     lux1: "Light intensity, measured in lux, significantly impacts human health and well-being.",
                     lux2: "Low light levels (below 200 lux) can cause eye strain and fatigue, while moderate levels (around 500 lux) improve concentration and productivity.",
                     lux3: "High light levels (above 1,000 lux) can enhance mood and energy levels, but excessively bright light (over 10,000 lux) can cause discomfort and glare.",
-                    api_info: "Welcome, developers! Our Climate Data API provides you with access to climate information based on specific parameters. Follow the instructions below to integrate this API into your application.",
-                    api_info_param: "Parameters:",
-                    api_info_deviceId: " (required): Unique identifier for the device.",
-                    api_info_startTime: " (Not required): Start date and time for the climate data retrieval",
-                    api_info_endTime: " (Not required): End date and time for the climate data retrieval",
-                    api_info_format: "format: ",
-                    api_info_example: "Example Requests:",
-                    api_info_24: "Retrieve Last 24 Hours Data:",
-                    api_info_24_request: "If you use the following link without specifying",
+                },
+                api: {
+                    info: "Welcome, developers! Our Climate Data API provides you with access to climate information based on specific parameters. Follow the instructions below to integrate this API into your application.",
+                    info_param: "Parameters:",
+                    info_deviceId: " (required): Unique identifier for the device.",
+                    info_startTime: " (not required): Start date and time for the climate data retrieval",
+                    info_endTime: " (not required): End date and time for the climate data retrieval",
+                    info_format: "format: ",
+                    info_example: "Example Requests:",
+                    info_24: "Retrieve Last 24 Hours Data:",
+                    info_24_request: "If you select the location without specifying",
                     and: "and",
-                    api_info_24_request2: " you will receive the climate data for the last day.",
-                    api_info_response: "Response:",
-                    api_info_json: "The API returns climate data in JSON format, containing relevant information based on the provided parameters.",
-                    api_info_usage: "Usage:",
-                    api_info_usage2: "Make a GET request to the API endpoint",
-                    api_info_usage3: " with the parameters ",
-                    api_info_usage4: "Parse the JSON response to extract the climate data.",
-                    api_info_usage5: "Utilize the retrieved climate data in your application as needed, such as displaying it to users, performing analysis, or integrating it with other services.",
-                    api_info_note: "Note:",
-                    api_info_note2: "Ensure that you handle any errors gracefully, such as invalid parameters or network issues, to provide a seamless experience for your users.",
-                    api_info_note3: "For further assistance or inquiries, contact our support team at ",
-                    api_info_note4: "Tagging Requirement: When using the Climate Data API, please include the appropriate tag to acknowledge the data source. Example:",
-                    api_info_note5: "Climate Data provided by TUMO Labs",
-                    api_info_done: "Happy coding!"
+                    info_24_request2: " you will receive the climate data for the last 24 hours.",
+                    info_response: "Response:",
+                    info_json: "The API returns climate data in JSON format, containing relevant information based on the provided parameters.",
+                    info_usage: "Usage:",
+                    info_usage2: "Make a GET request to the API endpoint",
+                    info_usage3: " with the parameters ",
+                    info_usage4: "Parse the JSON response to extract the climate data.",
+                    info_usage5: "Utilize the retrieved climate data in your application as needed, such as displaying it to users, performing analysis, or integrating it with other services.",
+                    info_note: "Note:",
+                    info_note2: "Ensure that you handle any errors gracefully, such as invalid parameters or network issues, to provide a seamless experience for your users.",
+                    info_note3: "For further assistance or inquiries, contact our support team at ",
+                    info_note4: "Tagging Requirement: When using the Climate Data API, please include the appropriate tag to acknowledge the data source. Example:",
+                    info_note5: "Climate Data provided by TUMO Labs.",
+                    info_done: "Happy coding!",
+                    device_table: {
+                        devices: "Devices",
+                        name: "Locations",
+                        parent_name: "Region",
+                        issue: "Issue",
+                        select: "Select",
+                    },
+                    execution: {
+                        test: "Test the API",
+                        device_id: "Selected Device ID",
+                        start: "Start Time",
+                        end: "End Time",
+                        execute: "Execute API",
+                        download: "Download Response"
+                    }
+
                 },
                 banner: {
                     title: 'a youth-led IoT observatory',
                     title2: "network for climate action by"
                 },
-                homeScreenTutorial : {
+                homeScreenTutorial: {
                     title: "Add to Home Screen",
                     ios: {
                         title: "iOS Installation Steps:",
@@ -169,9 +187,9 @@ const resources = {
                             templateMessage2: "Regards,",
                             submit: "Send",
                             coordinates: "Coordinates",
-                            successMessage:"exav!!",
-                            errorMessage:"Chexav!!"
-                            
+                            successMessage: "exav!!",
+                            errorMessage: "Chexav!!"
+
                         },
                     options: {
                         data: "Need Data",
@@ -407,7 +425,7 @@ const resources = {
                         airQuality: "Air Pollution",
                         pressure: "Pressure",
                         rainAndWind: "Rain and Wind",
-                        light : "UV and Intensity"
+                        light: "UV and Intensity"
 
                     },
                     temperature: "Temperature",
@@ -416,8 +434,8 @@ const resources = {
                     rain: "Rainfall Quantity",
                     windSpeed: "Wind Speed",
                     windDirection: "Wind Direction",
-                    light_uv : "UV index",
-                    light_intensity : "Light intensity"
+                    light_uv: "UV index",
+                    light_intensity: "Light intensity"
                 },
                 innerPageStaticContent: {
                     issue: "Note: At this moment this device has technical issues."
@@ -546,30 +564,47 @@ const resources = {
                     uvhigh: "Բարձր",
                     uvveryhigh: "Շատ բարձր",
                     uvextreme: "Ծայրահեղ",
-                    api_info: "Բարի գալուստ, ծրագրավորողներ: Կլիմայական տվյալների մեր API-ը ձեզ հնարավորություն է տալիս օգտվել կլիմայի մասին տեղեկատվությունից՝ հիմնված հատուկ պարամետրերի վրա: Հետևեք ստորև նշված հրահանգներին՝ այս API-ը ձեր հավելվածում ինտեգրելու համար:",
-                    api_info_param: "Պարամետրեր:",
-                    api_info_deviceId: " (Պարտադիր է): Սարքի եզակի նույնացուցիչ։",
-                    api_info_startTime: " (Պարտադիր չէ)։ Կլիմայական տվյալների որոնման մեկնարկի ամսաթիվը և ժամը։",
-                    api_info_endTime: " (Պարտադիր չէ)։ Կլիմայական տվյալների որոնման ավարտի ամսաթիվը և ժամը։",
-                    api_info_format: "ֆորմատ։ ",
-                    api_info_example: "Հարցման օրինակ.",
-                    api_info_24: "Առբերել վերջին 24 ժամվա տվյալները.",
-                    api_info_24_request: "Եթե օգտագործում եք հետևյալ հղումը՝ առանց նշելու",
+                },
+                api: {
+                    info: "Բարի գալուստ, ծրագրավորողներ: Կլիմայական տվյալների մեր API-ը ձեզ հնարավորություն է տալիս օգտվել կլիմայի մասին տեղեկատվությունից՝ հիմնված հատուկ պարամետրերի վրա: Հետևեք ստորև նշված հրահանգներին՝ այս API-ը ձեր հավելվածում ինտեգրելու համար:",
+                    info_param: "Պարամետրեր:",
+                    info_deviceId: " (Պարտադիր է): Սարքի եզակի նույնացուցիչ։",
+                    info_startTime: " (Պարտադիր չէ)։ Կլիմայական տվյալների որոնման մեկնարկի ամսաթիվը և ժամը։",
+                    info_endTime: " (Պարտադիր չէ)։ Կլիմայական տվյալների որոնման ավարտի ամսաթիվը և ժամը։",
+                    info_format: "ֆորմատ։ ",
+                    info_example: "Հարցման օրինակ.",
+                    info_24: "Առբերել վերջին 24 ժամվա տվյալները.",
+                    info_24_request: "Եթե ընտրեք տեղանքը առանց նշելու",
                     and: "և",
-                    api_info_24_request2: "Դուք կստանաք վերջին օրվա կլիմայական տվյալները։",
-                    api_info_response: "Պատասխան.",
-                    api_info_json: "API-ն վերադարձնում է կլիմայական տվյալները JSON ձևաչափով, որը պարունակում է համապատասխան տեղեկատվություն՝ հիմնված տրամադրված պարամետրերի վրա:",
-                    api_info_usage: "Օգտագործում:",
-                    api_info_usage2: "GET հարցում կատարեք API-ի վերջնակետին",
-                    api_info_usage3: " պարամետրերով ",
-                    api_info_usage4: "Վերլուծեք JSON պատասխանը՝ կլիմայական տվյալները հանելու համար",
-                    api_info_usage5: "Անհրաժեշտության դեպքում օգտագործեք ձեր հավելվածում առբերված կլիմայական տվյալները, ինչպես օրինակ՝ ցուցադրել դրանք օգտատերերին, կատարել վերլուծություն կամ ինտեգրել դրանք այլ ծառայությունների հետ:",
-                    api_info_note: "Նշում:",
-                    api_info_note2: "Համոզվեք, որ դուք նրբանկատորեն եք վերաբերվում սխալներին, ինչպիսիք են անվավեր պարամետրերը կամ ցանցի խնդիրները, ձեր օգտատերերի համար անթերի փորձ ապահովելու համար:",
-                    api_info_note3: "Հետագա օգնության կամ հարցումների համար դիմեք մեր աջակցման թիմին՝ ",
-                    api_info_note4: "Պիտակավորման պահանջ. Կլիմայական տվյալների API-ն օգտագործելիս խնդրում ենք ներառել համապատասխան պիտակ՝ տվյալների աղբյուրը ճանաչելու համար: Օրինակ՝ ",
-                    api_info_note5: "Կլիմայական տվյալները տրամադրված են ԹՈՒՄՈ Լաբերի կողմից",
-                    api_info_done: "Հաճելի կոդավորում)"
+                    info_24_request2: "Դուք կստանաք վերջին 24 ժամվա կլիմայական տվյալները։",
+                    info_response: "Պատասխան.",
+                    info_json: "API-ը վերադարձնում է կլիմայական տվյալները JSON ձևաչափով, որը պարունակում է համապատասխան տեղեկատվություն՝ հիմնված տրամադրված պարամետրերի վրա:",
+                    info_usage: "Օգտագործում:",
+                    info_usage2: "GET հարցում կատարեք API-ի վերջնակետին",
+                    info_usage3: " պարամետրերով ",
+                    info_usage4: "Վերլուծեք JSON պատասխանը՝ կլիմայական տվյալները հանելու համար",
+                    info_usage5: "Անհրաժեշտության դեպքում օգտագործեք ձեր հավելվածում առբերված կլիմայական տվյալները, ինչպես օրինակ՝ ցուցադրել դրանք օգտատերերին, կատարել վերլուծություն կամ ինտեգրել դրանք այլ ծառայությունների հետ:",
+                    info_note: "Նշում:",
+                    info_note2: "Համոզվեք, որ դուք նրբանկատորեն եք վերաբերվում սխալներին, ինչպիսիք են անվավեր պարամետրերը կամ ցանցի խնդիրները, ձեր օգտատերերի համար անթերի փորձ ապահովելու համար:",
+                    info_note3: "Հետագա օգնության կամ հարցումների համար դիմեք մեր աջակցման թիմին՝ ",
+                    info_note4: "Պիտակավորման պահանջ. Կլիմայական տվյալների API-ն օգտագործելիս խնդրում ենք ներառել համապատասխան պիտակ՝ տվյալների աղբյուրը ճանաչելու համար: Օրինակ՝ ",
+                    info_note5: "Կլիմայական տվյալները տրամադրված են ԹՈՒՄՈ Լաբերի կողմից:",
+                    info_done: "",
+                    device_table: {
+                        devices: "Սարքեր",
+                        name: "Տեղանք",
+                        parent_name: "Մարզ",
+                        issue: "Խնդիր",
+                        select: "Ընտրել",
+                    },
+                    execution: {
+                        test: "Փորձարկել API-ը",
+                        device_id: "Ընտրված սարքի ID",
+                        start: "Մեկնարկ",
+                        end: "Ավարտ",
+                        execute: "Գործարկել API-ը",
+                        download: "Ներբեռնել պատասխանը"
+                    }
                 },
                 banner: {
                     title: 'ուսանողների նախաձեռնած IoT ցանց`',
@@ -858,7 +893,7 @@ const resources = {
                         airQuality: "Օդի աղտոտվածություն",
                         pressure: "Ճնշում",
                         rainAndWind: "Անձրև և քամի",
-                        light : "UV և լույսի ինտենսիվություն"
+                        light: "UV և լույսի ինտենսիվություն"
                     },
                     temperature: "Ջերմաստիճան",
                     humidity: "Խոնավություն",
@@ -866,8 +901,8 @@ const resources = {
                     rain: "Անձրևի քանակ",
                     windSpeed: "Քամու արագություն",
                     windDirection: "Քամու ուղղություն",
-                    light_uv : "UV ինդեքս",
-                    light_intensity : "Լույսի ինտենսիվություն"
+                    light_uv: "UV ինդեքս",
+                    light_intensity: "Լույսի ինտենսիվություն"
                 },
                 innerPageStaticContent: {
                     issue: "Տվյալ պահին այս սարքն ունի տեխնիկական խնդիրներ։"

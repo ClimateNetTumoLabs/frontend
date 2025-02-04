@@ -251,7 +251,7 @@ useEffect(() => {
             </span>
         </div>
         <div  class="mt-5 mb-5">
-            <div class=${styles.table_block}>
+            <div class="${styles.rainTable} ${styles.table_block}">
                 <table>
                     <thead>
                         <tr>
@@ -308,7 +308,7 @@ const combinedUV = `
             </div>
         </div>
         <div class="mt-5 mb-5">
-            <div class=${styles.table_block}>
+            <div class="${styles.table_block} ${styles.uvTable}">
                 <table>
                     <thead>
                         <tr>
