@@ -1,5 +1,4 @@
 .about_us_page {
-    padding: 25px 25px 50px;
     color: #eae6e2;
     display: flex;
     flex-direction: column;
@@ -71,7 +70,7 @@
 }
 
 .highlighted {
-    padding: 5px 0;
+    /*padding: 5px 0;*/
     border-left: solid #e07789;
     background-color: rgba(223, 119, 136, 0.1); 
     transition: all 0.3s ease;

@@ -10,8 +10,8 @@ function InnerPageContent(props) {
             <InnerPageStaticContent
                 loading={loading}
                 setLoading={setLoading}
-                problematicDeviceIds={["Maralik", "Ashotsk", "Gavar", "Yerazgavors", "Artsvaberd", "Chambarak", "Areni", "Amasia", "Panik",
-                "Մարալիկ", "Աշոցք", "Գավառ", "Երազգավորս", "Արծվաբերդ", "Ճամբարակ", "Արենի", "Ամասիա", "Փանիկ"]}
+                problematicDeviceIds={["Ashotsk", "Gavar", "Artsvaberd", "Chambarak", "Areni", "Amasia",
+                    "Աշոցք", "Գավառ", "Արծվաբերդ", "Ճամբարակ", "Արենի", "Ամասիա"]}
                 leftLoad={props.leftLoad}
                 data={props.data}
             />

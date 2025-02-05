@@ -12,8 +12,16 @@ const API = () => {
     const {i18n} = useTranslation();
     // States for testing the API
     const [deviceId, setDeviceId] = useState("");
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
+    const getCurrentDate = () => {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); // Ensure 2-digit format
+        const dd = String(today.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`; // Format required for <input type="date">
+    };
+
+    const [startTime, setStartTime] = useState(getCurrentDate());
+    const [endTime, setEndTime] = useState(getCurrentDate());
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
     const [devices, setDevices] = useState([]);
@@ -126,7 +134,6 @@ const API = () => {
                         <code> end_time</code>, {t('api.info_24_request2')}</p>
                     <h3 class={styles.sub_title_3}>{t('api.info_response')}</h3>
                     <p>{t('api.info_json')}</p>
-
                 </div>
 
                 <div className={styles.tableContainer}>
@@ -137,13 +144,13 @@ const API = () => {
                                 <thead>
                                 <tr>
                                     <th onClick={() => handleSort("generated_id")}>
-                                        ID
+                                        {t("api.device_table.id")}
                                         <FontAwesomeIcon
                                             icon={sortConfig.key === "generated_id" ? (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
                                     </th>
                                     <th onClick={() => handleSort(i18n.language === 'hy' ? 'name_hy' : 'name_en')}>
                                         {t("api.device_table.name")}
-                                        <FontAwesomeIcon className={styles.sort}
+                                        <FontAwesomeIcon
                                             icon={sortConfig.key === (i18n.language === 'hy' ? 'name_hy' : 'name_en') ? (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
                                     </th>
                                     <th onClick={() => handleSort(i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en')}>
@@ -210,6 +217,7 @@ const API = () => {
                             {t("api.execution.start")}
                             <input
                                 type="date"
+                                // placeholder={getCurrentDate()}
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
                             />
@@ -218,8 +226,9 @@ const API = () => {
                             {t("api.execution.end")}
                             <input
                                 type="date"
+                                // placeholder={getCurrentDate()}
                                 value={endTime}
-                                onChange={(e) => setEndTime(e.target.value)}
+                                onChange={(e) => setStartTime(e.target.value)}
                             />
                         </label>
                     </div>
@@ -245,8 +254,8 @@ const API = () => {
                     </a>
                     .
                 </p>
-                <h2 class={styles.measure_title}>{t('api.info_note4')}
-                    <br/><code>&lt;source&gt;{t('api.info_note5')}</code></h2>
+                <h2 class={styles.tag}>{t('api.info_note4')}
+                    <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code></h2>
                 <p class={styles.done}>{t('api.info_done')}</p>
             </div>
         </div>

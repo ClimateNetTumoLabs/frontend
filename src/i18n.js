@@ -115,16 +115,17 @@ const resources = {
                     info_done: "Happy coding!",
                     device_table: {
                         devices: "Devices",
-                        name: "Locations",
-                        parent_name: "Region",
-                        issue: "Issue",
+                        id: "ID ",
+                        name: "Location ",
+                        parent_name: "Region ",
+                        issue: "Issue ",
                         select: "Select",
                     },
                     execution: {
                         test: "Test the API",
                         device_id: "Selected Device ID",
-                        start: "Start Time",
-                        end: "End Time",
+                        start: "Start Date",
+                        end: "End Date",
                         execute: "Execute API",
                         download: "Download Response"
                     }
@@ -568,9 +569,9 @@ const resources = {
                 api: {
                     info: "Բարի գալուստ, ծրագրավորողներ: Կլիմայական տվյալների մեր API-ը ձեզ հնարավորություն է տալիս օգտվել կլիմայի մասին տեղեկատվությունից՝ հիմնված հատուկ պարամետրերի վրա: Հետևեք ստորև նշված հրահանգներին՝ այս API-ը ձեր հավելվածում ինտեգրելու համար:",
                     info_param: "Պարամետրեր:",
-                    info_deviceId: " (Պարտադիր է): Սարքի եզակի նույնացուցիչ։",
-                    info_startTime: " (Պարտադիր չէ)։ Կլիմայական տվյալների որոնման մեկնարկի ամսաթիվը և ժամը։",
-                    info_endTime: " (Պարտադիր չէ)։ Կլիմայական տվյալների որոնման ավարտի ամսաթիվը և ժամը։",
+                    info_deviceId: " (պարտադիր է): Սարքի եզակի նույնացուցիչ։",
+                    info_startTime: " (պարտադիր չէ)։ Կլիմայական տվյալների որոնման մեկնարկի ամսաթիվը և ժամը։",
+                    info_endTime: " (պարտադիր չէ)։ Կլիմայական տվյալների որոնման ավարտի ամսաթիվը և ժամը։",
                     info_format: "ֆորմատ։ ",
                     info_example: "Հարցման օրինակ.",
                     info_24: "Առբերել վերջին 24 ժամվա տվյալները.",
@@ -592,9 +593,10 @@ const resources = {
                     info_done: "",
                     device_table: {
                         devices: "Սարքեր",
-                        name: "Տեղանք",
-                        parent_name: "Մարզ",
-                        issue: "Խնդիր",
+                        id: "ID ",
+                        name: "Տեղանք ",
+                        parent_name: "Մարզ ",
+                        issue: "Խնդիր ",
                         select: "Ընտրել",
                     },
                     execution: {
