@@ -70,6 +70,11 @@ const Footer = () => {
                             {t('footer.projects.pastProjects')}
                         </a>
                     </p>
+                    <p className={styles.company_information}>
+                        <a href="https://tumolabs.am/en/past-projects/">
+                            {t('footer.projects.pastProjects')}
+                        </a>
+                    </p>
                 </div>
             </div>
             <div className="row  mb-0">
