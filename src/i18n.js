@@ -127,7 +127,8 @@ const resources = {
                         start: "Start Date",
                         end: "End Date",
                         execute: "Execute API",
-                        download: "Download Response"
+                        download: "Download Response",
+                        endpoint: "API Endpoint: ",
                     }
 
                 },
@@ -605,7 +606,8 @@ const resources = {
                         start: "Մեկնարկ",
                         end: "Ավարտ",
                         execute: "Գործարկել API-ը",
-                        download: "Ներբեռնել պատասխանը"
+                        download: "Ներբեռնել պատասխանը",
+                        endpoint: "API Endpoint: ",
                     }
                 },
                 banner: {

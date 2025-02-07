@@ -104,30 +104,20 @@
     color: black;
 }
 
-input[type="date"]:not(.has-value):before{
+input[type="date"]:not(.has-value):before {
     color: gray;
     content: attr(placeholder);
 }
-
-input[type="date"]:focus, input[type="date"]:valid {
-    color: #666666;
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
 }
-input[type="date"]:focus::before,
-input[type="date"]:valid::before {
-    content: "" !important;
-}
-
 .calendar{
     display: flex;
     gap: 20px;
 }
-.calendar input{
-    cursor: pointer;
 
-}
 .button {
     align-self: flex-end;
-    min-width: 150px;
     background: #e07789;
     border: 1px solid #e07789;
     border-radius: 5px;
@@ -170,15 +160,20 @@ input[type="date"]:valid::before {
 .apiResponse {
     margin: 20px 0;
     padding: 15px;
-    /* background-color: #e0e0e0; */
     max-height: 40vh;
     height: min-content;
     overflow-y: scroll;
     border-radius: 5px;
     font-size: 14px;
-    color: darkgray;
-    /* border: 1px solid; */
     box-shadow: rgba(183, 183, 194, 0.1) 0 8px 12px, rgba(221, 221, 224, 0.1) 0 12px 30px, rgba(223, 223, 225, 0.1) 0 20px 80px;
+}
+.apiResponse h3{
+    color: darkgray;
+}
+.apiResponse button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
 }
 
 .error {
@@ -245,9 +240,6 @@ input[type="date"]:valid::before {
         width: 100%;
         justify-content: space-between;
     }
-    /*.calender label{*/
-    /*    width: 100%;*/
-    /*}*/
 }
 @media (min-width: 425px) and (max-width: 768px) {
     .title{
