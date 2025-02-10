@@ -156,6 +156,35 @@ const resources = {
                         title: "Scan this QR code or click on it to connect with our Telegram Bot"
                     }
                 },
+                paymentSection: {
+                    title: "Get Your Own Device",
+                    benefits: {
+                        title1: "Unlimited Data Storage",
+                        point1: "Secure and unlimited storage for all your climate data.",
+                        title2: 'Experts Support',
+                        point2: 'Receive full support and guidance from our team of experts.',
+                        title3: "Real-Time Monitoring",
+                        point3: 'Seamlessly monitor data across all your devices in real time.',
+                        title4: 'Educational Materials',
+                        point4: 'Access resources and learn how to build your own ClimateNet device with ease.',
+                        title5: 'Join the Community',
+                        point5: 'Be part of a global community dedicated to monitoring and improving Earth\'s climate.',
+                    },
+                    buttonBuy: "Buy Device",
+                    buttonBack: "Back",
+                    buttonCheckout: "Checkout",
+                },
+                checkoutAndDelivery: {
+                    form: {
+                        name: "Name",
+                        surname: "Surname",
+                        street: "Street / Address",
+                        country: "Country",
+                        city: "City",
+                        postalCode: "Postal Code / ZIP",
+                        email: "Email",
+                    },
+                },
                 description: {
                     sections: [
                         {
@@ -539,7 +568,7 @@ const resources = {
                     titleRain: "Անձրևի քանակ",
                     rain: {
                         rainfall: "Անձրև",
-                        intensity: "Ուժգնություն (մմ/ժ)",
+                        intensity: "Ուժգնություն \n(մմ/ժ)",
                         table: {
                             light: "Թեթև",
                             moderate: "Չափավոր",
@@ -632,6 +661,35 @@ const resources = {
                     },
                     bot: {
                         title: "Սկանավորեք այս QR կոդը կամ սեղմեք վրան՝ մեր Telegram բոտին միանալու համար"
+                    }
+                },
+                paymentSection: {
+                    title: "Ձեռք բերեք ձեր սեփական սարքը",
+                    benefits: {
+                        title1: "Անսահման տվյալների պահեստավորում",
+                        point1: "Անվտանգ և անսահման պահեստավորում ձեր կլիմայական տվյալների համար։",
+                        title2: "Փորձագետների աջակցություն",
+                        point2: "Ստացեք լիարժեք աջակցություն և ուղղորդում մեր փորձագետների կողմից։",
+                        title3: "Իրական ժամանակում դիտարկում",
+                        point3: "Անխափան վերահսկեք տվյալները ձեր բոլոր սարքերում իրական ժամանակում։",
+                        title4: "Ուսումնական նյութեր",
+                        point4: "Մուտք գործեք ռեսուրսներին և սովորեք, թե ինչպես հեշտությամբ կառուցել ձեր ClimateNet սարքը։",
+                        title5: "Միացեք համայնքին",
+                        point5: "Դարձեք գլոբալ համայնքի մաս, որը նվիրված է Երկրի կլիմայի դիտարկմանը և բարելավմանը։",
+                    },
+                    buttonBuy: "Գնել սարքը",
+                    buttonBack: "Ետ",
+                    buttonCheckout: "Վճարում",
+                },
+                checkoutAndDelivery: {
+                    form: {
+                        name: "Անուն",
+                        surname: "Ազգանուն",
+                        street: "Փողոց / Հասցե",
+                        country: "Երկիր",
+                        city: "Քաղաք",
+                        postalCode: "Փոստային ինդեքս / ZIP",
+                        email: "Էլ. հասցե",
                     }
                 },
                 description: {

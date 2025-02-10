@@ -96,6 +96,7 @@
 }
 
 .apiTester input {
+    background-color: #eae6e2;
     padding: 8px;
     margin-top: 5px;
     border: 1px solid #ddd;
@@ -194,9 +195,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 
-.deviceTable td{
-    width: 25%;
-}
+/*.deviceTable td{*/
+/*    width: 25%;*/
+/*}*/
 
 .done{
     margin-top: 10px;
@@ -213,7 +214,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
     .deviceTable th {
         font-size: 12px;
-        width: 30%;
+        /*width: 12%;*/
     }
     .apiTester {
         display: flex;
@@ -239,6 +240,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .calendar {
         width: 100%;
         justify-content: space-between;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        color: #eae6e2;
     }
 }
 @media (min-width: 425px) and (max-width: 768px) {

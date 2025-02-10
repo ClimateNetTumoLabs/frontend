@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PhoneInput from 'react-phone-input-2';
-
+import "../../i18n";
+import {useTranslation} from "react-i18next";
 import 'react-phone-input-2/lib/style.css';
 import styles from './CheckoutAndDelivery.module.css';
 
 const CheckoutAndDelivery = () => {
+    const {t} = useTranslation()
     const [focusedInput, setFocusedInput] = useState(null);
     const [responseStatus, setResponseStatus] = useState(null);
     const [formData, setFormData] = useState({
@@ -96,7 +98,7 @@ const CheckoutAndDelivery = () => {
                                 className={`form-label ${labelClass("name")}`}
                                 htmlFor="name"
                             >
-                                Name
+                                {t("checkoutAndDelivery.form.name")}
                             </label>
                             <input
                                 className={`form-control ${styles.input_block}`}
@@ -115,7 +117,7 @@ const CheckoutAndDelivery = () => {
                                 className={`form-label ${labelClass("surname")}`}
                                 htmlFor="surname"
                             >
-                                Surname
+                                {t("checkoutAndDelivery.form.surname")}
                             </label>
                             <input
                                 className={`form-control ${styles.input_block}`}
@@ -131,25 +133,6 @@ const CheckoutAndDelivery = () => {
                         </div>
                     </div>
                     <div className={`d-flex flex-wrap`}>
-                        <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} `}>
-                            <label
-                                className={`form-label ${labelClass("address")}`}
-                                htmlFor="address"
-                            >
-                                Street / Address
-                            </label>
-                            <input
-                                className={`form-control ${styles.input_block}`}
-                                type="text"
-                                id="address"
-                                name="address"
-                                onChange={handleChange}
-                                onFocus={handleFocus}
-                                onBlur={handleBlur}
-                                required
-                                value={formData.address}
-                            />
-                        </div>
                         <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} ${styles.country_wrapper}`}>
                             <label className={`form-label ${styles.label_for_input}`} htmlFor="country">
                             </label>
@@ -160,7 +143,7 @@ const CheckoutAndDelivery = () => {
                                 onChange={handleCountryChange}
                                 value={formData.country}
                             >
-                                <option value="" disabled>Select Country</option>
+                                <option value="" disabled>{t("checkoutAndDelivery.form.country")}</option>
                                 {countries.map((country) => (
                                     <option key={country.code} value={country.code}>
                                         {country.name}
@@ -168,15 +151,12 @@ const CheckoutAndDelivery = () => {
                                 ))}
                             </select>
                         </div>
-
-                    </div>
-                    <div className={`d-flex flex-wrap`}>
                         <div className={`col-12 mb-3 col-sm-6 ${styles.name_field}`}>
                             <label
                                 className={`form-label ${labelClass("city")}`}
                                 htmlFor="city"
                             >
-                                City
+                                {t("checkoutAndDelivery.form.city")}
                             </label>
                             <input
                                 className={`form-control ${styles.input_block}`}
@@ -190,12 +170,33 @@ const CheckoutAndDelivery = () => {
                                 value={formData.city}
                             />
                         </div>
+                    </div>
+                    <div className={`d-flex flex-wrap`}>
+                        <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} `}>
+                            <label
+                                className={`form-label ${labelClass("address")}`}
+                                htmlFor="address"
+                            >
+                                {t("checkoutAndDelivery.form.street")}
+                            </label>
+                            <input
+                                className={`form-control ${styles.input_block}`}
+                                type="text"
+                                id="address"
+                                name="address"
+                                onChange={handleChange}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
+                                required
+                                value={formData.address}
+                            />
+                        </div>
                         <div className={`col-12 mb-3 col-sm-6 ${styles.name_field} `}>
                             <label
                                 className={`form-label ${labelClass("postalCode")}`}
                                 htmlFor="postalCode"
                             >
-                                Postal Code / ZIP
+                                {t("checkoutAndDelivery.form.postalCode")}
                             </label>
                             <input
                                 className={`form-control ${styles.input_block}`}
@@ -227,7 +228,7 @@ const CheckoutAndDelivery = () => {
                                 className={`form-label ${labelClass("email")}`}
                                 htmlFor="email"
                             >
-                                Email
+                                {t("checkoutAndDelivery.form.email")}
                             </label>
                             <input
                                 className={`form-control ${styles.input_block}`}

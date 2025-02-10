@@ -14,8 +14,13 @@
     display: flex;
     justify-content: space-between;
 }
-.image_section {
-
+.sale_buttons_block button {
+    transition: all 0.3s ease-in-out;
+}
+.sale_buttons_block button:hover {
+    background: #232222;
+    color : #e07789;
+    border: 1px solid #e07789 ;
 }
 
 .image_section img {
@@ -42,11 +47,6 @@
     display: flex;
 }
 
-
-.benefit_card .icon_container {
-
-}
-
 .benefit_card .benefit_title {
     padding-left: 10px;
 }
@@ -55,16 +55,10 @@
     padding-left: 10px;
 }
 
-.paymentSection h2 {
-    font-size: 28px;
-    color: #e07789;
-}
-
 .paymentSection h4 {
     font-size: 18px;
     color: #e07789;
 }
-
 
 .device_sale_section h3{
     font-size: 20px;
@@ -134,12 +128,11 @@
     display: flex;
 }
 
-
-
-
-
 /* Responsive Design */
 @media (max-width: 768px) {
+    .buy_section_title{
+        font-size: 23px;
+    }
     .paymentSection {
         height: auto;
         padding: 0;

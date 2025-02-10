@@ -42,9 +42,6 @@
 }
 
 /* Desktop Styles */
-.desktopTutorials {
-
-}
 
 .tutorialContainer {
     display: flex;
@@ -116,6 +113,9 @@
 
 /* Mobile Breakpoint */
 @media (max-width: 768px) {
+    .home_screen_title {
+        font-size: 21px;
+    }
     .mobilePlatformButtons {
         display: flex;
         gap: 30px;

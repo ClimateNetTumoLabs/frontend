@@ -154,13 +154,13 @@ td {
     border-spacing: 0;
     border-collapse: separate;
     color: #eae6e2;
-    padding: 18.5px 16px;
+    padding: 18.5px 10px;
 }
 
 th {
     background-color: #444746;
     color: #eae6e2;
-    padding: 18.5px 16px;
+    padding: 18.5px 5px 18.5px 10px;
     font-size: .875rem;
     font-weight: 400;
     line-height: 1.25rem;

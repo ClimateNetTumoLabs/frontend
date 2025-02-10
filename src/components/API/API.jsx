@@ -175,22 +175,29 @@ const API = () => {
                             <table className={styles.deviceTable}>
                                 <thead>
                                 <tr>
-                                    <th onClick={() => handleSort("generated_id")}>
+                                    <th class={"col-2"} style={{width: 13 + "%"}}
+                                        onClick={() => handleSort("generated_id")}>
                                         {t("api.device_table.id")}
                                         <FontAwesomeIcon
                                             icon={sortConfig.key === "generated_id" ? (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
                                     </th>
-                                    <th onClick={() => handleSort(i18n.language === 'hy' ? 'name_hy' : 'name_en')}>
+                                    <th class={"col-3"} style={{width: 20 + "%"}}
+                                        onClick={() => handleSort(i18n.language === 'hy' ? 'name_hy' : 'name_en')}>
                                         {t("api.device_table.name")}
                                         <FontAwesomeIcon
-                                            icon={sortConfig.key === (i18n.language === 'hy' ? 'name_hy' : 'name_en') ? (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
+                                            icon={sortConfig.key === (i18n.language === 'hy' ? 'name_hy' : 'name_en') ?
+                                                (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
                                     </th>
-                                    <th onClick={() => handleSort(i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en')}>
+                                    <th class={"col-3"} style={{width: 20 + "%"}}
+                                        onClick={() => handleSort(i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en')}>
                                         {t("api.device_table.parent_name")}
                                         <FontAwesomeIcon
-                                            icon={sortConfig.key === (i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en') ? (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
+                                            icon={sortConfig.key === (i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en') ?
+                                                (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
                                     </th>
-                                    <th>{t("api.device_table.select")}</th>
+                                    <th class={"col-1"}>
+                                        {t("api.device_table.select")}
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>

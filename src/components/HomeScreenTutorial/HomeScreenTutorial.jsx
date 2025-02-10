@@ -163,7 +163,7 @@ const HomeScreenTutorial = () => {
 
   return (
       <div data-aos="fade-up" className={`${styles.homeScreenTools}`}>
-        <div className={'container-md'}>
+        <div className={'container-sm'}>
 
           <h2 className={styles.home_screen_title}>{t("homeScreenTutorial.title")}</h2>
           {isMobile ? (
