@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import {useTranslation} from "react-i18next";
+import { Helmet } from 'react-helmet';
 import styles from "./API.module.css";
 import "../../i18n";
 import axios from "axios";
@@ -148,6 +149,9 @@ const API = () => {
     return (
         <div className={`${styles.api_page} ${styles.darkTheme}`}>
             <div className={'container'}>
+                <Helmet>
+                    <title>ClimateNet | OpenAPI Documentation</title>
+                </Helmet>
                 <h2 className={styles.title}>{t("about.titleWeather")}</h2>
                 <p>{t("api.info")}</p>
                 <h2 class={styles.measure_title}>{t('api.info_param')}</h2>
@@ -195,7 +199,7 @@ const API = () => {
                                             icon={sortConfig.key === (i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en') ?
                                                 (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
                                     </th>
-                                    <th class={"col-1"}>
+                                    <th class={"col-1"} style={{width: 5 + "%"}}>
                                         {t("api.device_table.select")}
                                     </th>
                                 </tr>

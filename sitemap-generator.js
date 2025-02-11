@@ -19,8 +19,10 @@ async function fetchDeviceData() {
 
 async function generateSitemap() {
     const links = [
+        { url: '', changefreq: 'daily', priority: 1.0 },
         { url: '/en/', changefreq: 'daily', priority: 1.0 },
         { url: '/en/about', changefreq: 'monthly', priority: 0.7 },
+        { url: '/en/api', changefreq: 'monthly', priority: 0.7 },
         { url: '/en/diy', changefreq: 'weekly', priority: 0.8 },
     ];
 
