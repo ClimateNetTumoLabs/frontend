@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
+import "../../i18n";
 import styles from "./CookiePreferencesModal.module.css";
 
-const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
+const CookiePreferencesModal = ({isOpen, onClose, onSave, preferences}) => {
+    const {t} = useTranslation()
     const [localPreferences, setLocalPreferences] = useState({
         name: false,
         email: false,
@@ -30,7 +33,7 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
     }, [preferences]);
 
     const handleCheckboxChange = (e) => {
-        const { name, checked } = e.target;
+        const {name, checked} = e.target;
         setLocalPreferences((prev) => ({
             ...prev,
             [name]: checked
@@ -47,12 +50,8 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
-                <h2 className={styles.title}>Data Collection Preferences</h2>
-                <p className={styles.legalInfo}>
-                    Manage your consent for data collection below. You can
-                    select specific options based on your preferences.
-                </p>
-
+                <h2 className={styles.title}>{t("cookiePreferencesModal.title")}</h2>
+                <p className={styles.legalInfo}>{t("cookiePreferencesModal.legalInfo")}</p>
                 <div className={styles.consentOptions}>
                     <label className={styles.checkboxLabel}>
                         <input
@@ -61,7 +60,7 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
                             checked={localPreferences.name}
                             onChange={handleCheckboxChange}
                         />
-                        Collect my Name
+                        {t("cookiePreferencesModal.preferences.name")}
                     </label>
                     <label className={styles.checkboxLabel}>
                         <input
@@ -70,7 +69,7 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
                             checked={localPreferences.email}
                             onChange={handleCheckboxChange}
                         />
-                        Collect my Email
+                        {t("cookiePreferencesModal.preferences.email")}
                     </label>
                     <label className={styles.checkboxLabel}>
                         <input
@@ -79,7 +78,7 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
                             checked={localPreferences.phone}
                             onChange={handleCheckboxChange}
                         />
-                        Collect my Phone Number
+                        {t("cookiePreferencesModal.preferences.phone")}
                     </label>
                     <label className={styles.checkboxLabel}>
                         <input
@@ -88,7 +87,7 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
                             checked={localPreferences.location}
                             onChange={handleCheckboxChange}
                         />
-                        Collect my Location (Latitude/Longitude)
+                        {t("cookiePreferencesModal.preferences.location")}
                     </label>
                     <label className={styles.checkboxLabel}>
                         <input
@@ -97,16 +96,16 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave, preferences }) => {
                             checked={localPreferences.address}
                             onChange={handleCheckboxChange}
                         />
-                        Collect my Address
+                        {t("cookiePreferencesModal.preferences.address")}
                     </label>
                 </div>
 
                 <div className={styles.actions}>
                     <button className={styles.saveButton} onClick={handleSave}>
-                        Save Preferences
+                        {t("cookiePreferencesModal.save")}
                     </button>
                     <button className={styles.cancelButton} onClick={onClose}>
-                        Cancel
+                        {t("cookiePreferencesModal.cancel")}
                     </button>
                 </div>
             </div>

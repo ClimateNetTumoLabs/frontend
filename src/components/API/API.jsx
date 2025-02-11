@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useRef} from "react";
 import {useTranslation} from "react-i18next";
+import "../../i18n";
 import { Helmet } from 'react-helmet';
 import styles from "./API.module.css";
-import "../../i18n";
 import axios from "axios";
 import {saveAs} from "file-saver";  // Import file-saver
 import screenfull from "screenfull";
@@ -246,7 +246,6 @@ const API = () => {
                         <label>
                             {t("api.execution.device_id")}
                             <input
-                                className={styles.starLabel}
                                 type="text"
                                 value={deviceId}
                                 onChange={(e) => setDeviceId(e.target.value)}
@@ -259,6 +258,7 @@ const API = () => {
                         <label>
                             {t("api.execution.start")}
                             <input
+                                style={{ WebkitAppearance: 'none', appearance: 'none' }}
                                 type="date"
                                 max={getCurrentDate()}
                                 value={startTime}
@@ -268,6 +268,7 @@ const API = () => {
                         <label>
                             {t("api.execution.end")}
                             <input
+                                style={{ WebkitAppearance: 'none', appearance: 'none' }}
                                 type="date"
                                 max={getCurrentDate()}
                                 value={endTime}

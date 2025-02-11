@@ -130,7 +130,6 @@ const resources = {
                         download: "Download Response",
                         endpoint: "API Endpoint: ",
                     }
-
                 },
                 banner: {
                     title: 'a youth-led IoT observatory',
@@ -184,6 +183,25 @@ const resources = {
                         postalCode: "Postal Code / ZIP",
                         email: "Email",
                     },
+                },
+                userCookieForm: {
+                    title: "Cookies",
+                    description: "We collect cookies and personal data (name, email, phone location and address) to improve your experience. You can accept all or manage your preferences.",
+                    accept: "Accept",
+                    preferences: "Preferences",
+                },
+                cookiePreferencesModal: {
+                    title: "Data Collection Preferences",
+                    legalInfo: "Manage your consent for data collection below. You can select specific options based on your preferences.",
+                    preferences: {
+                        name: "Collect my Name",
+                        email: "Collect my Email",
+                        phone: "Collect my Phone Number",
+                        location: "Collect my Location (Latitude/Longitude)",
+                        address: "Collect my Address",
+                    },
+                    save: "Save Preferences",
+                    cancel: "Cancel",
                 },
                 description: {
                     sections: [
@@ -691,6 +709,25 @@ const resources = {
                         postalCode: "Փոստային ինդեքս / ZIP",
                         email: "Էլ. հասցե",
                     }
+                },
+                userCookieForm: {
+                    title: "Քուքիներ",
+                    description: "Մենք հավաքում ենք քուքիներ և անձնական տվյալներ (անուն, էլ. փոստ, հեռախոս, գտնվելու վայր և հասցե)՝ Ձեր փորձը բարելավելու համար։ Դուք կարող եք ընդունել բոլորը կամ կառավարել Ձեր նախընտրությունները։",
+                    accept: "Ընդունել",
+                    preferences: "Նախընտրություններ",
+                },
+                cookiePreferencesModal: {
+                    title: "Տվյալների հավաքման նախընտրություններ",
+                    legalInfo: "Կառավարեք ձեր համաձայնությունը տվյալների հավաքագրման համար ներքևում։ Դուք կարող եք ընտրել հատուկ տարբերակներ՝ ելնելով ձեր նախընտրություններից։",
+                    preferences: {
+                        name: "Հավաքել իմ անունը",
+                        email: "Հավաքել իմ էլ. փոստի հասցեն",
+                        phone: "Հավաքել իմ հեռախոսահամարը",
+                        location: "Հավաքել իմ գտնվելու վայրը (լայնություն/երկայնություն)",
+                        address: "Հավաքել իմ հասցեն",
+                    },
+                    save: "Պահպանել նախընտրությունները",
+                    cancel: "Չեղարկել",
                 },
                 description: {
                     sections: [

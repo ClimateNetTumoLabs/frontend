@@ -79,5 +79,14 @@
     .cookies {
         width: calc(99% - 20px);
         left: 10px;
-        right: 10px;    }
+        right: 10px;
+    }
+}
+@media (max-width: 425px) {
+    .preferences {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 0;
+    }
 }
