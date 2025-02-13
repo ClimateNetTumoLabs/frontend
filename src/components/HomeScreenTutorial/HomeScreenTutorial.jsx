@@ -15,7 +15,7 @@ const QRSection = () => {
         <div className={styles.qrContainer}>
           <a href="https://t.me/ClimateNetBot" target="_blank" rel="noreferrer">
             <img
-                src="https://images-in-website.s3.us-east-1.amazonaws.com/Tutorials/botQR.png"
+                src="https://images-in-website.s3.us-east-1.amazonaws.com/Tutorials/botQR.webp"
                 alt="Telegram Bot QR Code"
                 loading="lazy"
             />

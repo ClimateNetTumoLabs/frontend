@@ -40,6 +40,7 @@ function Banner() {
                     rel="preload"
                     href="https://images-in-website.s3.us-east-1.amazonaws.com/Banner/tumo_koghb.webp"
                     as="image"
+                    loading="lazy"
                 />
             </Helmet>
             <Carousel
@@ -52,7 +53,6 @@ function Banner() {
                 {images.map((image, idx) => (
                     <Carousel.Item key={idx} className={styles.carouselItem}>
                         <img
-                            loading="eager"
                             className={styles.carouselImg}
                             src={image}
                             alt={`Slide ${idx + 1}`}
