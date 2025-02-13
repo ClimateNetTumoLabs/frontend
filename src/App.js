@@ -23,7 +23,7 @@ function App() {
 
     return (
         <div className="App">
-            <CookieManager/>
+            {/*<CookieManager/>*/}
             <Header/>
             <ScrollToTop/>
             <Routes>
