@@ -8,12 +8,14 @@ import {saveAs} from "file-saver";  // Import file-saver
 import screenfull from "screenfull";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSortDown, faSortUp, faSort, faExpand, faCompress} from '@fortawesome/free-solid-svg-icons';
+import Loader from "react-js-loader";
 
 const API = () => {
     const {t} = useTranslation();
     const {i18n} = useTranslation();
     const [isFullscreen, setIsFullscreen] = useState(false);
     const ref = useRef(null);
+    const [loading, setLoading] = useState(false);
 
     const toggleFullscreen = () => {
         if (screenfull.isEnabled) {
@@ -69,36 +71,40 @@ const API = () => {
     const handleTestAPI = async () => {
         setError(null);
         setResponse(null);
+        setLoading(true);
 
         // Validation checks
         if ((!startTime && endTime) || (startTime && !endTime)) {
             setError("Choose both start date and end date.");
+            setLoading(false);
             return;
         }
 
         if (startTime && endTime && new Date(startTime) >= new Date(endTime)) {
             setError("Start date must be before end date.");
+            setLoading(false);
             return;
         }
 
-        const endpoint = getEndpoint(); // Use getEndpoint to construct the request URL
+        const constructedEndpoint = getEndpoint(); // Construct the request URL
+        setEndpoint(constructedEndpoint); // Update endpoint state immediately
 
         try {
             // Send GET request
-            const res = await axios.get(endpoint);
+            const res = await axios.get(constructedEndpoint);
             setResponse(res.data);
+            return res.data;
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                console.error("Response Data:", error.response?.data?.error); // Detailed server error message
+                console.error("Response Data:", error.response?.data?.error);
             } else {
                 console.error("Unexpected Error:", error);
             }
             setError(error.response?.data?.error);
+        } finally {
+            setLoading(false);
         }
-
-        setEndpoint(endpoint); // Update the endpoint state to show it when needed
     };
-
 
 
     const handleDownload = () => {
@@ -154,7 +160,7 @@ const API = () => {
                 </Helmet>
                 <h2 className={styles.title}>{t("about.titleWeather")}</h2>
                 <p>{t("api.info")}</p>
-                <h2 class={styles.measure_title}>{t('api.info_param')}</h2>
+                <h2 className={styles.measure_title}>{t('api.info_param')}</h2>
                 <ul>
                     <li><strong>device_id</strong>{t('api.info_deviceId')}</li>
                     <li><strong>start_time</strong>{t('api.info_startTime')} ({t('api.info_format')}
@@ -164,11 +170,11 @@ const API = () => {
                         <code>YYYY-MM-DD</code>).
                     </li>
                 </ul>
-                <h2 class={styles.measure_title}>{t('api.info_example')}</h2>
-                <div class={styles.examples}>
+                <h2 className={styles.measure_title}>{t('api.info_example')}</h2>
+                <div className={styles.examples}>
                     <p>{t('api.info_24_request')} <code>start_time</code> {t('api.and')}
                         <code> end_time</code>, {t('api.info_24_request2')}</p>
-                    <h3 class={styles.sub_title_3}>{t('api.info_response')}</h3>
+                    <h3 className={styles.sub_title_3}>{t('api.info_response')}</h3>
                     <p>{t('api.info_json')}</p>
                 </div>
 
@@ -179,27 +185,27 @@ const API = () => {
                             <table className={styles.deviceTable}>
                                 <thead>
                                 <tr>
-                                    <th class={"col-2"} style={{width: 13 + "%"}}
+                                    <th className={"col-2"} style={{width: 13 + "%"}}
                                         onClick={() => handleSort("generated_id")}>
                                         {t("api.device_table.id")}
                                         <FontAwesomeIcon
                                             icon={sortConfig.key === "generated_id" ? (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
                                     </th>
-                                    <th class={"col-3"} style={{width: 20 + "%"}}
+                                    <th className={"col-3"} style={{width: 20 + "%"}}
                                         onClick={() => handleSort(i18n.language === 'hy' ? 'name_hy' : 'name_en')}>
                                         {t("api.device_table.name")}
                                         <FontAwesomeIcon
                                             icon={sortConfig.key === (i18n.language === 'hy' ? 'name_hy' : 'name_en') ?
                                                 (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
                                     </th>
-                                    <th class={"col-3"} style={{width: 20 + "%"}}
+                                    <th className={"col-3"} style={{width: 20 + "%"}}
                                         onClick={() => handleSort(i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en')}>
                                         {t("api.device_table.parent_name")}
                                         <FontAwesomeIcon
                                             icon={sortConfig.key === (i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en') ?
                                                 (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
                                     </th>
-                                    <th class={"col-1"} style={{width: 5 + "%"}}>
+                                    <th className={"col-1"} style={{width: 5 + "%"}}>
                                         {t("api.device_table.select")}
                                     </th>
                                 </tr>
@@ -276,25 +282,46 @@ const API = () => {
                             />
                         </label>
                     </div>
-                    <button className={styles.button} onClick={handleTestAPI}>{t("api.execution.execute")}</button>
-                    {response && (
+                    <button
+                        className={styles.button}
+                        onClick={async () => {
+                            await handleTestAPI();
+                        }}
+                    >
+                        {t("api.execution.execute")}
+                    </button>
+                    {response && !loading && (
                         <button className={styles.button} onClick={handleDownload}>
                             {t("api.execution.download")}
                         </button>
                     )}
                 </div>
-
-                {response && (
+                {loading &&
+                    <Loader
+                        type="spinner"
+                        bgColor={"#FFFFFF"}
+                        color={"#FFFFFF"}
+                        size={60}
+                    />
+                }
+                {/* Show response details once response is ready and not loading */}
+                {response && !loading &&(
                     <>
                     <div className={styles.endpointDisplay}>
                         <p>
                             {t("api.execution.endpoint")}
-                            <a href={endpoint} target="_blank" rel="noreferrer"
-                            className={styles.link}>{endpoint}</a>
+                            <a
+                                href={endpoint}
+                                target="_blank"
+                                rel="noreferrer"
+                                className={styles.link}
+                            >
+                                {endpoint}
+                            </a>
                         </p>
                     </div>
                     <div className={styles.apiResponse} ref={ref}>
-                        <div class="d-flex justify-content-between text-align-center">
+                        <div className="d-flex justify-content-between text-align-center">
                         <h3>Response:</h3>
                         <button onClick={toggleFullscreen}>
                             <FontAwesomeIcon icon={isFullscreen ? faCompress : faExpand} size="lg" />
@@ -313,9 +340,9 @@ const API = () => {
                     </a>
                     .
                 </p>
-                <h2 class={styles.tag}>{t('api.info_note4')}
+                <h2 className={styles.tag}>{t('api.info_note4')}
                     <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code></h2>
-                <p class={styles.done}>{t('api.info_done')}</p>
+                <p className={styles.done}>{t('api.info_done')}</p>
             </div>
         </div>
     );
