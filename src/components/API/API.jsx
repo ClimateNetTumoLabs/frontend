@@ -307,28 +307,28 @@ const API = () => {
                 {/* Show response details once response is ready and not loading */}
                 {response && !loading &&(
                     <>
-                        <div className={styles.endpointDisplay}>
-                            <p>
-                                {t("api.execution.endpoint")}
-                                <a
-                                    href={endpoint}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className={styles.link}
-                                >
-                                    {endpoint}
-                                </a>
-                            </p>
+                    <div className={styles.endpointDisplay}>
+                        <p>
+                            {t("api.execution.endpoint")}
+                            <a
+                                href={endpoint}
+                                target="_blank"
+                                rel="noreferrer"
+                                className={styles.link}
+                            >
+                                {endpoint}
+                            </a>
+                        </p>
+                    </div>
+                    <div className={styles.apiResponse} ref={ref}>
+                        <div className="d-flex justify-content-between text-align-center">
+                        <h3>Response:</h3>
+                        <button onClick={toggleFullscreen}>
+                            <FontAwesomeIcon icon={isFullscreen ? faCompress : faExpand} size="lg" />
+                        </button>
                         </div>
-                        <div className={styles.apiResponse} ref={ref}>
-                            <div className="d-flex justify-content-between text-align-center">
-                                <h3>Response:</h3>
-                                <button onClick={toggleFullscreen}>
-                                    <FontAwesomeIcon icon={isFullscreen ? faCompress : faExpand} size="lg" />
-                                </button>
-                            </div>
                             <pre>{JSON.stringify(response, null, 2)}</pre>
-                        </div>
+                    </div>
                     </>
                 )}
 
