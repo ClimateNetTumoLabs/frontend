@@ -21,7 +21,7 @@ function Home() {
             </Helmet>
             <Banner />
             <HomeScreenTutorial />
-            {/*<PaymentSection/>*/}
+            <PaymentSection/>
             <Description />
             <MapArmenia />
             <ContactForm name = {t('contact.title1')} subject_state = {true}/>
