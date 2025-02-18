@@ -3,12 +3,12 @@
 }
 
 .InnerPageStaticContent h2 {
-    padding: 15px 0px 0px 15px;
+    padding: 15px 0 0 15px;
     font-weight: 600;
     color: #eae6e2;
 }
 
-.nameAndDevice svg{
+.nameAndDevice svg {
     height: 100px;
 }
 
@@ -19,14 +19,14 @@
 }
 
 .weatherStatusImage {
-    height : 200px;
+    height: 200px;
     width: 200px;
 }
 
 .weatherInformation {
     display: flex;
     flex-direction: column;
-    padding : 0px 30px;
+    padding: 0 30px;
 }
 
 .infoTemperature {
@@ -73,7 +73,7 @@
 
 .feelslike sup {
     font-weight: 600;
-    top : -0.5em
+    top: -0.5em
 }
 
 .feelslike span {
@@ -98,7 +98,7 @@
 .tr, .td {
     padding: 4px;
     text-align: center;
-    border:none;
+    border: none;
     border-top: 1px solid red;
 }
 
@@ -119,11 +119,11 @@
     color: #eae6e2;
 }
 
-.value  {
+.value {
     font-weight: 600;
 }
 
-.value:hover .tooltiptext{
+.value:hover .tooltiptext {
     visibility: visible;
 }
 
@@ -137,8 +137,12 @@
 
 /* Add loading spinner animation */
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .loadingSpinner {
@@ -151,47 +155,14 @@
     margin: auto;
 }
 
-.windWrapper{
+.windWrapper {
     display: flex;
     align-items: center;
 }
 
-@media (max-width: 920px) {
-    .InnerPageStaticContent {
-        width: 100%;
-        align-items: center;
-        
-    }
-    .staticContent {
-        display: flex;
-        flex-direction: column;
-        padding-inline: 15px;
-    }
-    .weatherInfo {
-        display: flex;
-        justify-content: center;
-        padding: 50px;
-    }
-    .otherInformation {
-        padding-inline: 15px;
-    }
-    .windTitle {
-        margin-right: 10px;
-    }
-    .title {
-    font-size: 11px;
-    }
-    .value  {
-    font-size: inherit;
-    }
-    .errorMessage{
-    margin-right: 15px;
-    }
-}
-
-.loaderContent{
+.loaderContent {
     display: flex;
-    height:40vh;
+    height: 40vh;
     align-items: center;
 
 }
@@ -208,29 +179,49 @@
     box-sizing: border-box;
     padding: 5px 5px 5px 5px;
     font-weight: 600;
-    font-size: 15px;
-    color: black;
-    background-color: #c7bc42;
+    font-size: 16px;
+    color: #c7bc42;
     width: fit-content;
     border-radius: 5px;
     margin-left: 15px;
-    border: 1px solid #856405;
 }
 
-@media screen and (min-width: 768px) {
-    /* Desktop version - place under static content */
-    .isProblematic {
-        position: relative;
-        margin-top: 1rem;
-        margin-bottom: 0;
+@media (max-width: 920px) {
+    .InnerPageStaticContent {
+        width: 100%;
+        align-items: center;
     }
-}
 
-@media screen and (max-width: 767px) {
-    /* Mobile version - place before static content */
-    .isProblematic {
-        position: relative;
-        margin-bottom: 1rem;
-        margin-top: 0;
+    .staticContent {
+        display: flex;
+        flex-direction: column;
+        padding-inline: 15px;
+    }
+
+    .weatherInfo {
+        display: flex;
+        justify-content: center;
+        padding: 50px;
+    }
+
+    .otherInformation {
+        padding-inline: 15px;
+    }
+
+    .windTitle {
+        margin-right: 10px;
+    }
+
+    .title {
+        font-size: 11px;
+    }
+
+    .value {
+        font-size: inherit;
+    }
+
+    .errorMessage {
+        margin-right: 15px;
+        font-size: 15px;
     }
 }

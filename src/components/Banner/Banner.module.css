@@ -154,7 +154,6 @@
 }
 @media (max-width: 1440px) {
     .rightCaption {
-        /* max-width: 500px; */
         padding-left: 5%;
         width: 100%;
         padding-top: 8%;
