@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import styles from './InnerPageStaticContent.module.css'
-import { useLocation } from "react-router-dom";
 import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import Loader from "react-js-loader";
+import axios from "axios";
 import { useTranslation } from "react-i18next";
 import  "../../i18n";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,11 +13,11 @@ import { Link } from 'react-router-dom';
 
 const WeatherState = () => {
     return (
-        <img 
+        <img
             loading="eager"
             src={'https://images-in-website.s3.us-east-1.amazonaws.com/Weather/device.svg'}
-            alt="Device" 
-            className={styles.weatherStatusImage} 
+            alt="Device"
+            className={styles.weatherStatusImage}
         />
     )
 }
@@ -118,12 +118,21 @@ const WeatherInformation = (props) => {
 
 function InnerPageStaticContent(props) {
     const { t } = useTranslation();
+    const { i18n } = useTranslation();
     const data = props.data[0]
-    const location = useLocation();
-    const queryString = location.search;
-    const nameOfDevice = decodeURI(queryString.substring(1));
-    const isProblematicDevice = props.problematicDeviceIds.includes(nameOfDevice);
     const [isMobile, setIsMobile] = useState(false);
+    const deviceId = props.device_id;
+    const [device, setDevice] = useState(null);
+
+    useEffect(() => {
+        axios.get(`/device_inner/${deviceId}/`)
+            .then(response => {
+                setDevice(response.data);  // Set state directly without shadowing
+            })
+            .catch(error => {
+                console.error('Error fetching device details:', error);
+            });
+    }, [deviceId]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -155,10 +164,15 @@ function InnerPageStaticContent(props) {
                 ) : (
                     <>
                         <div className={`${styles.nameAndDevice} d-flex`}>
-                            <h2>{nameOfDevice}</h2>
+                            <h2>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</h2>
                         </div>
-                        {isMobile && isProblematicDevice && (
-                            <h3 className={styles.errorMessage}>{t("innerPageStaticContent.issue")}</h3>
+                        {isMobile && device.issues.length > 0 && (
+                            <h3 className={styles.errorMessage}>
+                                {t("innerPageStaticContent.issueMobile")}
+                                {device.issues
+                                    .map(issue => issue[i18n.language === 'hy' ? 'name_hy' : 'name_en'])
+                                    .join(", ")}
+                            </h3>
                         )}
                         <div className={styles.staticContent}>
                             <div className={styles.weatherInfo}>
@@ -179,8 +193,13 @@ function InnerPageStaticContent(props) {
                             </div>
 
                         </div>
-                        {!isMobile && isProblematicDevice && (
-                            <h3 className={styles.errorMessage}>{t("innerPageStaticContent.issue")}</h3>
+                        {!isMobile && device.issues.length > 0  && (
+                            <h3 className={styles.errorMessage}>
+                                {t("innerPageStaticContent.issue")}
+                                {device.issues
+                                    .map(issue => issue[i18n.language === 'hy' ? 'name_hy' : 'name_en'])
+                                    .join(", ")}
+                            </h3>
                         )}
                     </>
                 )

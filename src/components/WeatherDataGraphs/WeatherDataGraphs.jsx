@@ -25,7 +25,6 @@ const formatDate = (date) => {
 };
 
 const WeatherDataGraphs = (props) => {
-    console.log(props)
     const {t} = useTranslation();
     const seriesData = formatData(props.types, props.data);
     const datetimeCategories = props.time.map(time => new Date(time).getTime());
