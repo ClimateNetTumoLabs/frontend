@@ -3,12 +3,12 @@ import styles from './InnerPageContent.module.css'
 import InnerPageDynamicContent from "../InnerPageDynamicContent/InnerPageDynamicContent";
 import InnerPageStaticContent from "../InnerPageStaticContent/InnerPageStaticContent";
 
-function InnerPageContent({ device, ...props }) {
+function InnerPageContent(props) {
+    console.log(props)
     const [loading, setLoading] = useState(false);
     return (
         <div className={`${styles.innerContent}`}>
             <InnerPageStaticContent
-                device={device}
                 loading={loading}
                 setLoading={setLoading}
                 leftLoad={props.leftLoad}
