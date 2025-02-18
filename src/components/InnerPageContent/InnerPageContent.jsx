@@ -4,16 +4,16 @@ import InnerPageDynamicContent from "../InnerPageDynamicContent/InnerPageDynamic
 import InnerPageStaticContent from "../InnerPageStaticContent/InnerPageStaticContent";
 
 function InnerPageContent(props) {
-     const [loading, setLoading] = useState(false);
+    console.log(props)
+    const [loading, setLoading] = useState(false);
     return (
         <div className={`${styles.innerContent}`}>
             <InnerPageStaticContent
                 loading={loading}
                 setLoading={setLoading}
-                problematicDeviceIds={["Ashotsk", "Gavar", "Artsvaberd", "Berd", "Chambarak", "Areni", "Amasia",
-                    "Աշոցք", "Գավառ", "Արծվաբերդ", "Բերդ", "Ճամբարակ", "Արենի", "Ամասիա"]}
                 leftLoad={props.leftLoad}
                 data={props.data}
+                device_id = {props.selected_device_id}
             />
             <InnerPageDynamicContent
                 period={props.content}
