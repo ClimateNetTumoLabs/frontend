@@ -82,7 +82,7 @@ const Header = () => {
     };
 
     const handleDeviceClick = (device_id, name) => {
-        const deviceUrl = `/${i18n.language}/device/${encodeURIComponent(device_id)}/?${encodeURIComponent(name)}`;
+        const deviceUrl = `/${i18n.language}/device/${encodeURIComponent(device_id)}/?${decodeURIComponent(name)}`;
         navigate(deviceUrl);
         handleNavItemClick(); // Close the navbar
     };
