@@ -4,7 +4,6 @@ import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import Loader from "react-js-loader";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 import  "../../i18n";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -116,23 +115,11 @@ const WeatherInformation = (props) => {
     )
 }
 
-function InnerPageStaticContent(props) {
-    const { t } = useTranslation();
-    const { i18n } = useTranslation();
-    const data = props.data[0]
+function InnerPageStaticContent({device, ...props}) {
+    const { t, i18n } = useTranslation();
+    const data = props.data[0];
+    const deviceName=device[i18n.language === 'hy' ? 'name_hy' : 'name_en'];
     const [isMobile, setIsMobile] = useState(false);
-    const deviceId = props.device_id;
-    const [device, setDevice] = useState(null);
-
-    useEffect(() => {
-        axios.get(`/device_inner/${deviceId}/`)
-            .then(response => {
-                setDevice(response.data);  // Set state directly without shadowing
-            })
-            .catch(error => {
-                console.error('Error fetching device details:', error);
-            });
-    }, [deviceId]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -164,7 +151,7 @@ function InnerPageStaticContent(props) {
                 ) : (
                     <>
                         <div className={`${styles.nameAndDevice} d-flex`}>
-                            <h2>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</h2>
+                            <h2>{deviceName}</h2>
                         </div>
                         {isMobile && device.issues.length > 0 && (
                             <h3 className={styles.errorMessage}>
