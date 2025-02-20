@@ -36,11 +36,6 @@ const Team = () => {
             .catch(error => console.error('Error fetching team members:', error));
     }, []);
 
-    // Determine the Open Graph meta information for the first team member
-    const ogImageUrl = teamMembers.length > 0 && teamMembers[0].image ? teamMembers[0].image : 'https://your-default-image-url.com/default-image.jpg';
-    const ogTitle = "Our Team"; // You can also fetch this from your backend if needed
-    const ogDescription = "Meet our talented team members.";
-
     return (
         <div className={styles.team_section}>
             <Carousel
@@ -61,15 +56,7 @@ const Team = () => {
                         <div className={styles.team_member_image_block}>
                             <div className={styles.img_container}>
                                 {member.image && (
-
                                     <>
-                                    <Helmet>
-                                        <meta property="og:title" content={ogTitle} />
-                                        <meta property="og:description" content={ogDescription} />
-                                        <meta property="og:image" content={'htpps://climatenet.am' +  member.image ?? ''} />
-                                        <meta property="og:image:width" content="425" />
-                                        <meta property="og:image:height" content="425" />
-                                    </Helmet>
                                     <img loading="lazy" src={member.image} alt={member.name} />
                                     </>
                                 )}

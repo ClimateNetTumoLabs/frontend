@@ -487,7 +487,8 @@ const resources = {
                     light_intensity: "Light intensity"
                 },
                 innerPageStaticContent: {
-                    issue: "Note: At this moment this device has technical issues."
+                    issue: "⚠️ These measurements currently have technical issues: ",
+                    issueMobile: "⚠️ Issues detected: ",
                 },
                 innerPageFilter: {
                     options: {
@@ -659,7 +660,7 @@ const resources = {
                 },
                 banner: {
                     title: 'ուսանողների նախաձեռնած IoT ցանց`',
-                    title2: " կլիմայական գործողությունների համար"
+                    title2: " կլիմայական հետազոտությունների համար"
                 },
                 homeScreenTutorial: {
                     title: "Ավելացնել գլխավոր էկրանին",
@@ -1004,7 +1005,8 @@ const resources = {
                     light_intensity: "Լույսի ինտենսիվություն"
                 },
                 innerPageStaticContent: {
-                    issue: "Տվյալ պահին այս սարքն ունի տեխնիկական խնդիրներ։"
+                    issue: "⚠️ Տվյալ չափումները այս պահին ունեն տեխնիկական խնդիրներ - ",
+                    issueMobile: "⚠️ Տեխնիկական խնդիրներ՝ "
                 },
                 innerPageFilter: {
                     options: {

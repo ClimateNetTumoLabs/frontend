@@ -27,8 +27,8 @@ function App() {
             <Header/>
             <ScrollToTop/>
             <Routes>
-                <Route path={`/`} element={<Home/>}/>
-                <Route path={`/${i18n.language}/`} element={<Home/>}/>
+                <Route path={`*`} element={<Home/>}/>
+                <Route path={`/${i18n.language}//*`} element={<Home/>}/>
                 <Route path={`/${i18n.language}/diy`} element={<DIY/>}/>
                 <Route path={`/${i18n.language}/api`} element={<API/>}/>
                 <Route path={`/${i18n.language}/about`} element={<About/>}/>
