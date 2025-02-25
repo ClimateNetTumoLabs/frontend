@@ -170,6 +170,7 @@ function InnerPage({deviceId}) {
                     weather_data={weather_data}
                     leftLoad={leftLoad}
                     setLeftLoad={setLeftLoad}
+                    device={device}
                 />
                 <InnerPageContent
                     content={filterState}

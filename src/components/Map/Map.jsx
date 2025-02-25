@@ -1,4 +1,4 @@
-import doku, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, GeoJSON, Popup, useMapEvents, useMap, Marker } from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
@@ -11,7 +11,6 @@ import InnerPage from "../InnerPage/InnerPage";
 import "react-leaflet-fullscreen/styles.css";
 import { FullscreenControl } from "react-leaflet-fullscreen";
 import styles from "./Map.module.css";
-import "./Map.module.css"
 import { PositionContext } from "../../context/PositionContext";
 import clickIcon from "../../assets/Icons/tap.png"
 import { Polygon } from "react-leaflet";
