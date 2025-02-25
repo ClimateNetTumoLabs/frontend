@@ -502,8 +502,8 @@ const resources = {
                 },
                 innerPageNearbyDevices: {
                     titles: {
-                        devicesNearYou: "Devices Near You",
-                        devicesNear: "Devices Near"
+                        devicesNear: "Other devices in",
+                        devicesNearArm: ""
                     },
                 },
                 innerPage: {
@@ -1020,8 +1020,8 @@ const resources = {
                 },
                 innerPageNearbyDevices: {
                     titles: {
-                        devicesNearYou: "Մոտակա սարքեր",
-                        devicesNear: "Մոտակա սարքեր"
+                        devicesNear: "Այլ սարքեր",
+                        devicesNearArm: "-ում",
                     },
                 },
                 innerPage: {

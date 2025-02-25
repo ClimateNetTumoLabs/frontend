@@ -4,7 +4,6 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
-import { Helmet } from "react-helmet"; // Import React Helmet
 
 const responsive = {
     superLargeDesktop: {
