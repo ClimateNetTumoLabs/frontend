@@ -218,6 +218,8 @@ const CheckoutAndDelivery = () => {
                             </label>
                             <PhoneInput
                                 country="us"
+                                name="phone"
+                                id="phone"
                                 value={formData.phoneNumber}
                                 onChange={handlePhoneChange}
                                 inputClass={`${styles.input_block} ${styles.phone_input}`}

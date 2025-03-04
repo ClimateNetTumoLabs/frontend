@@ -1,7 +1,6 @@
 import React from "react";
-import Header from "./components/Header/Header";
 import { Routes, Route } from "react-router-dom";
-import Footer from "./components/Footer/Footer";
+import Layout from "./components/Layout/Layout";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -11,33 +10,35 @@ import InnerPage from "./components/InnerPage/InnerPage";
 import DIY from "./components/DIY/DIY";
 import API from "./components/API/API";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
-import { useLocation } from "react-router-dom";
+import NotFound from "./components/NotFound/NotFound"
 import { useTranslation } from 'react-i18next';
 import PrivacyPolicy from "./components/PrivacyAndpolicy/PrivacyAndPolicy";
-import CookieManager from "./components/CookieManager/CookieManager";
 
 function App() {
     const { i18n } = useTranslation();
-    const location = useLocation();
-    const isInnerPage = location.pathname.startsWith("/device");
+
+    const routes = [
+        { path: "/", component: <Home /> },
+        { path: `/${i18n.language}/`, component: <Home /> },
+        { path: `/${i18n.language}/diy`, component: <DIY /> },
+        { path: `/${i18n.language}/api`, component: <API /> },
+        { path: `/${i18n.language}/about`, component: <About /> },
+        { path: `/${i18n.language}/device/:id`, component: <InnerPage /> },
+        { path: "/privacy-policy", component: <PrivacyPolicy /> }
+    ];
 
     return (
         <div className="App">
-            <CookieManager/>
-            <Header/>
             <ScrollToTop/>
+
+            {/* Use Layout component to wrap all routes that need Header and Footer */}
             <Routes>
-                <Route path={`*`} element={<Home/>}/>
-                <Route path={`/${i18n.language}//*`} element={<Home/>}/>
-                <Route path={`/${i18n.language}/diy`} element={<DIY/>}/>
-                <Route path={`/${i18n.language}/api`} element={<API/>}/>
-                <Route path={`/${i18n.language}/about`} element={<About/>}/>
-                <Route path={`/${i18n.language}/device/:id`} element={<InnerPage/>}/>
-                <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+                {routes.map(route => (
+                    <Route key={route.path} path={route.path} element={<Layout>{route.component}</Layout>} />
+                ))}
+                <Route path="*" element={<NotFound />} />
+                <Route path={`/${i18n.language}//*`} element={<NotFound />} />
             </Routes>
-            <div className={`${isInnerPage ? "footerPadding" : ""}`}>
-                <Footer/>
-            </div>
         </div>
     );
 }

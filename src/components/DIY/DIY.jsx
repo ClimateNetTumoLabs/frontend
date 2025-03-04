@@ -24,9 +24,7 @@ const DIY = () => {
 
   useEffect(() => {
       const storedTab = localStorage.getItem('activeTab');
-      if (storedTab && storedTab !== 'null') {
         setActiveTab(storedTab);
-      }
   }, []);
 
   const handleTabClick = (tab) => {

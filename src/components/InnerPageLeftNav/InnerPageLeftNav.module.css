@@ -3,6 +3,7 @@
     min-width: 320px;
     width : 320px;
     max-height:calc(100vh - 70px);
+    min-height: 78vh;
     overflow-y: auto;
 }
 
