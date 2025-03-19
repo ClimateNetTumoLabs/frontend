@@ -1021,7 +1021,7 @@ const resources = {
                 innerPageNearbyDevices: {
                     titles: {
                         devicesNear: "Այլ սարքեր",
-                        devicesNearArm: "-ում",
+                        devicesNearArm: "ում",
                     },
                 },
                 innerPage: {
