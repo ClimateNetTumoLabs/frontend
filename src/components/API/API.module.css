@@ -197,6 +197,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .done{
     margin-top: 10px;
+    margin-bottom: 0;
+    padding-bottom: 48px;
 }
 @media (max-width: 425px) {
     .title{
