@@ -1,0 +1,35 @@
+.navbar {
+  color: #eae6e2;
+}
+
+.page_logo {
+  width: 200px;
+}
+
+.navigation {
+  padding: 15px 3% !important;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  gap: 1rem;
+}
+
+.to_home_buttton {
+    min-width: 150px;
+    background: #e07789;
+    border: 1px solid #e07789;
+    border-radius: 5px;
+    color : #eae6e2;
+}
+
+.to_home_buttton:hover {
+    background: #232222;
+    color : #e07789;
+    border: 1px solid #e07789 ;
+}

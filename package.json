@@ -1,5 +1,5 @@
 {
-  "name": "untitled",
+  "name": "climatenet",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://127.0.0.1:8000",
@@ -90,7 +90,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "copy-sitemap": "cp build/sitemap.xml ../django-app/climatenet/static/sitemap.xml",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
