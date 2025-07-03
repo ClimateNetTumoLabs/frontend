@@ -1,468 +1,486 @@
-import React, {useEffect, useRef, useState} from "react";
-import ReactApexChart from 'react-apexcharts';
-import styles from './WeatherDataGraphs.module.css';
+import React, { useEffect, useRef, useState } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import styles from "./WeatherDataGraphs.module.css";
 import Loader from "react-js-loader";
 import DatePicker from "react-datepicker";
-import ReactDOM from 'react-dom';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
+import { saveAs } from 'file-saver'; 
 import "../../i18n";
 
-const formatData = (names, dataArray) => {
-    return names.map((name, index) => ({
-        name: name,
-        data: dataArray[index]
-    }));
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+// Utility function to format a single ISO timestamp
+const formatTimestamp = (isoString) => {
+  if (!isoString) return "Invalid Timestamp";
+  const date = new Date(isoString);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  return `${month}-${day} ${hours}:${minutes}`;
 };
 
-const formatDate = (date) => {
-    if (!(date instanceof Date) || isNaN(date)) {
-        return "";
-    }
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${day}-${month}-${year}`;
+// Function to format an array of timestamps
+const formatTimestamps = (timestamps) => {
+  if (!Array.isArray(timestamps)) return [];
+  return timestamps.map((timestamp) => formatTimestamp(timestamp));
 };
+
+// Function to format data for the chart
+const formatData = (types, timestamps, dataArray, colors) => {
+  // Validate inputs
+  if (
+    !Array.isArray(types) ||
+    !Array.isArray(timestamps) ||
+    !Array.isArray(dataArray)
+  ) {
+    console.error(
+      "Invalid input: types, timestamps, and dataArray must be arrays",
+      {
+        types,
+        timestamps,
+        dataArray,
+      }
+    );
+    return {
+      labels: [],
+      datasets: [],
+    };
+  }
+
+  // Default colors if props.colors is not provided or insufficient
+  const defaultColors = [
+    {
+      borderColor: "rgb(255, 206, 86)",
+      backgroundColor: "rgba(255, 206, 86, 0.2)",
+    }, // Yellow
+    {
+      borderColor: "rgb(54, 162, 235)",
+      backgroundColor: "rgba(54, 162, 235, 0.2)",
+    }, // Blue
+    {
+      borderColor: "rgb(255, 99, 132)",
+      backgroundColor: "rgba(255, 99, 132, 0.2)",
+    }, // Red
+    {
+      borderColor: "rgb(75, 192, 192)",
+      backgroundColor: "rgba(75, 192, 192, 0.2)",
+    }, // Cyan
+  ];
+
+  // Create datasets dynamically based on types
+  const datasets = types.map((type, index) => {
+    const color =
+      colors && colors[index]
+        ? {
+            borderColor: colors[index].borderColor || colors[index],
+            backgroundColor:
+              colors[index].backgroundColor || `${colors[index]}`, // Add transparency if not specified
+          }
+        : defaultColors[index % defaultColors.length]; // Fallback to default colors
+
+    return {
+      label: type,
+      data: Array.isArray(dataArray[index]) ? dataArray[index] : [], // Ensure data is an array
+      borderColor: color.borderColor,
+      backgroundColor: color.backgroundColor,
+      fill: false,
+      tension: 0.4, // Smooth lines
+      pointStyle: "circle",
+      pointRadius: 3,
+      pointHoverRadius: 10,
+      pointHoverBackgroundColor: "#FFFFFF",
+      pointHoverBorderColor: "#FFFFFF",
+      pointBackgroundColor: "#FFFFFF",
+      pointBorderColor: "#FFFFFF",
+    };
+  });
+
+  return {
+    labels: formatTimestamps(timestamps),
+    datasets,
+  };
+};
+
+// Plugin to draw a vertical hover line
+const verticalLinePlugin = {
+  id: "verticalLinePlugin",
+  afterDatasetsDraw(chart) {
+    const {
+      ctx,
+      tooltip,
+      chartArea: { left, right, top, bottom },
+      scales: { x },
+    } = chart;
+
+    if (tooltip?._active?.length) {
+      const activePoint = tooltip._active[0];
+      const xCoor = x.getPixelForValue(activePoint.index);
+
+      // Save the current context state
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(xCoor, top);
+      ctx.lineTo(xCoor, bottom);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.5)"; // Customize color and opacity
+      ctx.stroke();
+      ctx.restore();
+    }
+  },
+};
+
+// Register the plugin
+ChartJS.register(verticalLinePlugin);
 
 const WeatherDataGraphs = (props) => {
-    const {t} = useTranslation();
-    const seriesData = formatData(props.types, props.data);
-    const datetimeCategories = props.time.map(time => new Date(time).getTime());
-    const chartRef = useRef(null);
-    const today = new Date();
-    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
-    const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [selectedStartDate, setSelectedStartDate] = useState(props.startDate);
-    const [selectedEndDate, setSelectedEndDate] = useState(props.endDate);
+  const { t } = useTranslation();
+  const chartRef = useRef(null);
+  const today = new Date();
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("Range");
+  const [selectedFilterButton, setSelectedFilterButton] = useState(
+    props.timeline === "Hourly"
+      ? "oneD"
+      : props.timeline === "Daily"
+      ? "oneW"
+      : props.timeline === "Monthly"
+      ? "oneM"
+      : "Range"
+  );
+  const [dataSize, setDataSize] = useState(0);
+  const [selectedStartDate, setSelectedStartDate] = useState(
+    props.startDate || today
+  );
+  const [selectedEndDate, setSelectedEndDate] = useState(
+    props.endDate || today
+  );
 
-    useEffect(() => {
-        setSelectedStartDate(today);
-        setSelectedEndDate(today);
-    }, [props.selected_device_id]);
+  // Effect to notify parent when dates change
+  // useEffect(() => {
+  //   if (props.onDateChange) {
+  //     props.onDateChange({
+  //       startDate: selectedStartDate,
+  //       endDate: selectedEndDate,
+  //       filter: selectedFilter
+  //     });
+  //   }
+  // }, [selectedStartDate, selectedEndDate, selectedFilter]);
 
-    useEffect(() => {
-        if (props.filterPressed) {
-            props.setStartDate(selectedStartDate);
-            props.setEndDate(selectedEndDate);
-            props.filterChange("Range");
-            props.setFilterPressed(false);
+  // Format data for the chart
+  const data = formatData(props.types, props.time, props.data, props.colors);
+
+  const title_map = {
+    Monthly: t("chartTitles.monthly"),
+    Daily: t("chartTitles.daily"),
+    Hourly: t("chartTitles.hourly"),
+    Range: t("chartTitles.range"),
+  };
+
+  // Chart.js options
+  const options = {
+    animation: {
+      onComplete: (e) => {
+        // console.log(e.chart.config._config.data.labels.length);
+        if (e.chart.config._config.data.labels.length != dataSize) {
+          setDataSize(e.chart.config._config.data.labels.length);
+          setLoading(false);
         }
-    }, [props.filterPressed]);
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (
-                showStartDatePicker &&
-                !event.target.closest('.from') &&
-                !event.target.closest('.react-datepicker')
-            ) {
-                setShowStartDatePicker(false);
-            }
-
-            if (
-                showEndDatePicker &&
-                !event.target.closest('.to') &&
-                !event.target.closest('.react-datepicker')
-            ) {
-                setShowEndDatePicker(false);
-            }
-        };
-
-        document.body.addEventListener('click', handleClickOutside);
-
-        return () => {
-            document.body.removeEventListener('click', handleClickOutside);
-        };
-    }, [showStartDatePicker, showEndDatePicker]);
-
-    const [chartState, setChartState] = useState({
-        series: seriesData,
-        options: {
-            chart: {
-                height: 350,
-                type: 'line',
-                dropShadow: {
-                    enabled: true,
-                    color: '#000',
-                    top: 18,
-                    left: 7,
-                    blur: 10,
-                    opacity: 0.2,
-                    horizontalAlign: 'center',
-                },
-                toolbar: {
-                    show: true,
-                    align: 'start',
-                    tools: {
-                        customIcons: [
-                            {
-                                icon: `<div class="custom-icon  filter_button">${t("filterTooltips.filter")}</div>`,
-                                index: -18,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: () => {
-                                    props.setFilterPressed(true);
-                                }
-                            },
-                            {
-                                icon: `<div class="custom-icon to"></div>`,
-                                index: -18,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: () => {
-                                    setShowEndDatePicker((prev) => !prev);
-                                    setShowStartDatePicker(false);
-                                }
-                            },
-                            {
-                                icon: `<div class="custom-icon from"></div>`,
-                                index: -18,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: () => {
-                                    setShowStartDatePicker((prev) => !prev)
-                                    setShowEndDatePicker(false)
-                                }
-                            },
-                            {
-                                icon: `<div class="custom-icon">${t("filterTooltips.oneM")}</div>`,
-                                index: -19,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: () => {
-                                    const currentDate = new Date();
-                                    const end = currentDate;
-                                    const start = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
-                                    setSelectedEndDate(end);
-                                    setSelectedStartDate(start);
-                                    props.filterChange("Monthly");
-                                }                                
-                            },
-                            {
-                                icon: `<div class="custom-icon">${t("filterTooltips.oneW")}</div>`,
-                                index: -19,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: (event) => {
-                                    const currentDate = new Date();
-                                    const end = (currentDate);
-                                    const start = (new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000))
-                                    setSelectedEndDate(end)
-                                    setSelectedStartDate(start)
-                                    props.filterChange("Daily")
-                                }
-                            },
-                            {
-                                icon: `<div class="custom-icon">${t("filterTooltips.oneD")}</div>`,
-                                index: -19,
-                                title: 'Filter',
-                                class: 'custom-icon-button',
-                                click: () => {
-                                    let start, end;
-                                    const currentDate = new Date();
-                                    start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
-                                    end = currentDate;
-                                    setSelectedEndDate(end);
-                                    setSelectedStartDate(start);
-                                    props.filterChange("Hourly");
-                                }
-                            },
-                        ],
-                        download: true,
-                        selection: true,
-                        zoomin: false,
-                        zoomout: false,
-                        zoom: false,
-                        pan: false,
-                    },
-                },
-
-                redrawOnParentResize: true,
-                offsetX: -20,
-                offsetY: 60,
-            },
-            colors: props.colors,
-            dataLabels: {
-                enabled: false,
-            },
-            stroke: {
-                curve: 'smooth'
-            },
-            title: {
-                text: `${t('chartTitles.dataPer')} ${props.timeline}`,
-                align: 'left',
-                fontFamily: 'inherit'
-            },
-            markers: {
-                size: 1
-            },
-            xaxis: {
-                categories: datetimeCategories,
-                type: 'datetime',
-                labels: {
-                    format: 'MM-dd HH',
-                    show: true,
-                    rotate: -50,
-                    rotateAlways: true,
-                    hideOverlappingLabels: true,
-                    trim: false,
-                    minHeight: 190,
-                    formatter: function (value) {
-                        var date = new Date(value);
-                        var formattedDate = ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
-                            ('0' + date.getDate()).slice(-2) + ' ' +
-                            ('0' + date.getHours()).slice(-2) + ':' +
-                            ('0' + date.getMinutes()).slice(-2);
-                        return formattedDate;
-                    }
-                },
-                tickAmount: datetimeCategories.length
-            },
-            yaxis: {
-                formatter: function (value) {
-                    var date = new Date(value);
-                    var formattedDate = ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
-                        ('0' + date.getDate()).slice(-2) + ' ' +
-                        ('0' + date.getHours()).slice(-2) + ':' +
-                        ('0' + date.getMinutes()).slice(-2);
-                    return formattedDate;
-                }
-            },
-            legend: {
-                position: 'top',
-                horizontalAlign: 'center',
-                floating: true,
-                offsetY: -25,
-            },
-            tooltip: {
-                x: {
-                    format: 'yyyy-MM-dd HH:mm',
-                },
-            },
-            responsive: [{
-                breakpoint: 768,
-                options: {
-                    legend: {
-                        position: 'top',
-                        align: 'start',
-                        offsetY: 0,
-                        offsetX: 0,
-                        floating: false,
-                        fontSize: '12px',
-                        itemMargin: {
-                            horizontal: 10,
-                            vertical: 5
-                        }
-                    },
-                    title: {
-                        align: 'center',
-                        offsetY: 5,
-                        style: {
-                            fontSize: '14px',
-                        },
-                    },
-                    tooltip: {
-                        enabled: true,
-                        align: 'center',
-                        x: {
-                            show: false,
-                            format: 'yyyy-MM-dd HH:mm',
-                        }
-                    },
-                }
-            }]
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      mode: "index",
+      intersect: false,
+    },
+    scales: {
+      x: {
+        ticks: {
+          maxTicksLimit: 6,
+          color: "#FFFFFF", // White tick labels for x-axis
         },
-    });
-
-    const title_map = {
-        "Monthly": t('chartTitles.monthly'),
-        "Daily": t('chartTitles.daily'),
-        "Hourly": t('chartTitles.hourly'),
-        "Range": t('chartTitles.range')
-    };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                const datetimeCategories = props.time.map(time => new Date(time).getTime());
-                const numTimestamps = datetimeCategories.length;
-
-                const startDate = datetimeCategories[0];
-                const endDate = datetimeCategories[numTimestamps - 1];
-
-                const interval = (endDate - startDate) / (numTimestamps - 1);
-
-                const evenlySpacedTimestamps = [];
-                for (let i = 0; i < numTimestamps; i++) {
-                    evenlySpacedTimestamps.push(startDate + i * interval);
-                }
-
-                setChartState(prevState => ({
-                    series: formatData(props.types, props.data),
-                    options: {
-                        ...prevState.options,
-                        title: {
-                            text: `${t('chartTitles.dataPer')} ${title_map[props.timeline]}`,
-                            align: 'left',
-                            style: {
-                                fontFamily: 'inherit' // This will be inherited from the parent
-                            }
-                        },
-                        xaxis: {
-                            ...prevState.options.xaxis,
-                            categories: evenlySpacedTimestamps,
-                        },
-                        tickAmount: evenlySpacedTimestamps.length,
-                    },
-                }));
-            } catch (error) {
-                console.error("Error fetching data:", error);
+        grid: {
+          // color: '#FFFFFF', // White grid lines for x-axis
+          // borderColor: '#FFFFFF', // White axis line
+        },
+      },
+      y: {
+        ticks: {
+          color: "#FFFFFF", // White tick labels for y-axis
+        },
+        grid: {
+          color: "#FFFFFF", // White grid lines for y-axis
+          borderColor: "#FFFFFF", // White axis line
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)', // Dark tooltip background
+        titleColor: '#FFFFFF', // White title text
+        bodyColor: '#FFFFFF', // White body text
+        enabled: true, // Ensure tooltips are enabled for the hover effect
+        callbacks: {
+          label: (context) => {
+            const label = context.dataset.label || '';
+            const value = context.parsed.y;
+            const lowerLabel = label.toLowerCase();
+            // Append units based on dataset label
+            if (lowerLabel.includes('humidity')) {
+              return `${label}: ${value}%`;
+            } else if (lowerLabel.includes('temperature')) {
+              return `${label}: ${value}°C`;
+            } else if (
+              lowerLabel.includes('pms') ||
+              lowerLabel.includes('pm')
+            ) {
+              return `${label}: ${value} µg/m³`;
+            } else if (lowerLabel.includes('pressure')) {
+              return `${label}: ${value} hPa`;
+            } else if (lowerLabel.includes('uv')) {
+              return `${label}: ${value}`; // UV index, no unit
+            } else if (lowerLabel.includes('light intensity')) {
+              return `${label}: ${value} lx`;
+            } else if (lowerLabel.includes('rainfall')) {
+              return `${label}: ${value} mm`;
+            } else if (lowerLabel.includes('wind')) {
+              return `${label}: ${value} m/s`;
             }
-        };
-        fetchData();
-    }, [props.data, props.types, props.timeline, props.time]);
+            return `${label}: ${value}`; // Default for other datasets
+          },
+          // Ensure tooltip icon matches line color (borderColor)
+          labelColor: function (context) {
+            return {
+              borderColor: context.dataset.borderColor, // Match line color
+              backgroundColor: context.dataset.borderColor, // Match line color
+            };
+          },
+        },
+      },
+      legend: {
+        position: "top",
+        align: "center",
+        labels: {
+          // Ensure legend labels use dataset's borderColor or a custom color
+          color: '#FFFFFF', // Black for legend text
+          usePointStyle: true, // Use point style for legend
+          // Optional: Customize legend point style
+          generateLabels: (chart) => {
+            const original = ChartJS.defaults.plugins.legend.labels.generateLabels(chart);
+            original.forEach((label, index) => {
+              label.fillStyle = chart.data.datasets[index].borderColor; // Use line color for legend
+              label.strokeStyle = chart.data.datasets[index].borderColor;
+            });
+            return original;
+          },
+          usePointStyle: true,
+          boxWidth: 40,
+          padding: 10,
+        },
+        padding: 20,
+        floating: true,
+        offsetY: -25, // Approximated with padding
+      },
+      title: {
+        display: true,
+        text: `\t${t("chartTitles.dataPer")}${title_map[props.timeline]}`,
+        align: "start",
+        color: "#FFFFFF",
+        font: {
+          family: "Arial, sans-serif", // Explicit font family
+          size: 16, // Increased size for visibility
+        },
+        padding: {
+          top: 20, // Increased margin above title
+          // bottom: 30, // Increased margin below title
+          left: 10, // Positive left margin
+          right: 20, // Margin to the right
+        },
+      },
+    },
+  };
 
-    const handleStartDateSelect = (date) => {
-        setSelectedStartDate(date);
-        setShowStartDatePicker(false);
-    };
+  const filterButtons = [
+    {
+      key: "oneD",
+      label: t("filterTooltips.oneD"),
+      filter: "Hourly",
+      action: () => {
+        if (selectedFilterButton === "oneD") return;
+        setSelectedFilterButton("oneD");
+        const currentDate = new Date();
+        const start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+        const end = currentDate;
+        setSelectedStartDate(start);
+        setSelectedEndDate(end);
+        setSelectedFilter("Hourly");
+        props.filterChange("Hourly");
+        setLoading(true);
+      },
+    },
+    {
+      key: "oneW",
+      label: t("filterTooltips.oneW"),
+      filter: "Daily",
+      action: () => {
+        if (selectedFilterButton === "oneW") return;
+        setSelectedFilterButton("oneW");
+        const currentDate = new Date();
+        const start = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+        const end = currentDate;
+        setSelectedStartDate(start);
+        setSelectedEndDate(end);
+        setSelectedFilter("Daily");
+        props.filterChange("Daily");
+        setLoading(true);
+      },
+    },
+    {
+      key: "oneM",
+      label: t("filterTooltips.oneM"),
+      filter: "Monthly",
+      action: () => {
+        if (selectedFilterButton === "oneM") return;
+        setSelectedFilterButton("oneM");
+        const currentDate = new Date();
+        const start = new Date(
+          currentDate.getTime() - 30 * 24 * 60 * 60 * 1000
+        );
+        const end = currentDate;
+        setSelectedStartDate(start);
+        setSelectedEndDate(end);
+        setSelectedFilter("Monthly");
+        props.filterChange("Monthly");
+        setLoading(true);
+      },
+    },
+  ];
 
-    const handleEndDateSelect = (date) => {
-        setSelectedEndDate(date);
-        setShowEndDatePicker(false);
-    };
+  // useEffect(() => {
+  //   props.filterChange("Hourly");
+  //   console.log(props.data)
+  // }, [selectedFilterButton])
 
-    const handleDatePickerClick = (event) => {
-        event.stopPropagation();
-    };
+  const handleStartDateSelect = (date) => {
+    setSelectedStartDate(date);
+    setShowStartDatePicker(false);
+  };
 
-    useEffect(() => {
-        const chart = chartRef?.current?.chart;
-        let timer;
+  const handleEndDateSelect = (date) => {
+    setSelectedEndDate(date);
+    setShowEndDatePicker(false);
+  };
 
-        const handleChartUpdate = () => {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                setLoading(false);
-            }, 2000);
-        };
-
-        chart?.addEventListener("updated", handleChartUpdate);
-
-        timer = setTimeout(() => {
-            setLoading(false);
-        }, 2200);
-
-        return () => {
-            clearTimeout(timer);
-            chart?.removeEventListener("updated", handleChartUpdate);
-        };
-    }, [props.data]);
-
-    return (
-        <div id="chart" className={styles.chart_section}>
-            <div style={{height: "100%"}}>
-                <div className={styles.toolbarAndFilter}>
-                    <div className={styles.FilterSection}>
-                        {document.querySelector('.from') ? ReactDOM.createPortal(
-                            <div>
-                                <div className={"selected_date"}>{formatDate(selectedStartDate)}</div>
-                                {showStartDatePicker && (
-                                    <div className="pickerDropdown" onClick={handleDatePickerClick}>
-                                        <DatePicker
-                                            selected={selectedStartDate}
-                                            onSelect={handleStartDateSelect}
-                                            onChange={date => setSelectedStartDate(date)}
-                                            popperClassName="propper"
-                                            popperPlacement="bottom"
-                                            popperModifiers={[
-                                                {
-                                                    name: "offset",
-                                                    options: {
-                                                        offset: [0, 0],
-                                                    },
-                                                },
-                                                {
-                                                    name: "preventOverflow",
-                                                    options: {
-                                                        rootBoundary: "viewport",
-                                                        tether: false,
-                                                        altAxis: true,
-                                                    },
-                                                },
-                                            ]}
-                                            maxDate={today}
-                                            open={true}
-                                            inline
-                                        />
-                                    </div>
-                                )}
-                            </div>,
-                            document.querySelector('.from')
-                        ) : null}
-
-                        {document.querySelector('.to') ? ReactDOM.createPortal(
-                            <div>
-                                <div className={"selected_date"}>{formatDate(selectedEndDate)}</div>
-                                {showEndDatePicker && (
-                                    <div className="pickerDropdown" onClick={handleDatePickerClick}>
-                                        <DatePicker
-                                            selected={selectedEndDate}
-                                            onSelect={handleEndDateSelect}
-                                            onChange={date => setSelectedEndDate(date)}
-                                            popperClassName="propper"
-                                            popperPlacement="bottom"
-                                            popperModifiers={[
-                                                {
-                                                    name: "offset",
-                                                    options: {
-                                                        offset: [0, 0],
-                                                    },
-                                                },
-                                                {
-                                                    name: "preventOverflow",
-                                                    options: {
-                                                        rootBoundary: "viewport",
-                                                        tether: false,
-                                                        altAxis: true,
-                                                    },
-                                                },
-                                            ]}
-                                            minDate={new Date(selectedStartDate.getTime() + 24 * 60 * 60 * 1000)}
-                                            maxDate={today}
-                                            open={true}
-                                            inline
-                                        />
-                                    </div>
-                                )}
-                            </div>,
-                            document.querySelector('.to')
-                        ) : null}
-                    </div>
-                    {props.leftLoad ? (
-                        <Loader type="spinner" bgColor={"#FFFFFF"} color={"#FFFFFF"} size={70}/>
-                    ) : (
-                        <>
-                            <div className={`${styles.chartContainer}`}>
-                                {(loading || props.leftLoad) && <div className={styles.loadingOverlay}>{t('chartTitles.update')}</div>}
-                                <div className={`${styles.chartWrapper} ${loading ? styles.blur : ''}`}>
-                                    <ReactApexChart
-                                        ref={chartRef}
-                                        options={chartState.options}
-                                        series={chartState.series}
-                                        type="line"
-                                        height={500}/>
-                                </div>
-                            </div>
-                        </>
-                    )}
-                </div>
+  return (
+    <div id="chart" className={styles.chart_section}>
+      <div style={{ height: "100%" }}>
+        <div className={styles.toolbarAndFilter}>
+          <div className={styles.FilterSection}>
+            <div className={styles.filterButtons}>
+              {filterButtons.map(({ key, label, action }) => (
+                <button
+                  key={key}
+                  className={`${styles.filterButton} ${
+                    selectedFilterButton === key ? styles.activeFilter : ""
+                  }`}
+                  onClick={action}
+                  disabled={selectedFilterButton === key}
+                >
+                  {label}
+                </button>
+              ))}
+              <DatePicker
+                className={`${styles.pickerDropdown}`}
+                value={selectedStartDate}
+                onChange={(date) => setSelectedStartDate(date)}
+                selected={selectedStartDate}
+                onSelect={handleStartDateSelect}
+                maxDate={today}
+                dateFormat="dd/MM/yyyy"
+              />
+              <DatePicker
+                className={`${styles.pickerDropdown}`}
+                value={selectedEndDate}
+                onChange={(date) => setSelectedEndDate(date)}
+                selected={selectedEndDate}
+                onSelect={handleEndDateSelect}
+                minDate={
+                  new Date(selectedStartDate.getTime() + 24 * 60 * 60 * 1000)
+                }
+                maxDate={today}
+                dateFormat="dd/MM/yyyy"
+              />
+              <button
+                className={`${styles.filterButton} ${
+                  selectedFilterButton === "filter" ? styles.activeFilter : ""
+                }`}
+                onClick={() => {
+                  setSelectedFilterButton(null);
+                  props.setFilterPressed(true);
+                }}
+                disabled={selectedFilterButton === "filter"}
+              >
+                {"Filter"}
+              </button>
+              <button
+                className={`${styles.filterButton}`}
+                onClick={() => {
+                  //save to png
+                  const canvasSave = document.getElementById('lineChart');
+                  canvasSave.toBlob(function (blob) {
+                      saveAs(blob, "weather_data.png")
+                  })
+                }}
+              >
+                Download
+              </button>
             </div>
+          </div>
         </div>
-    );
+      </div>
+
+      <div className={`${styles.chartContainer}`}>
+        {(loading || props.leftLoad) && (
+          <div className={styles.loadingOverlay}>{t("chartTitles.update")}</div>
+        )}
+        <div
+          className={`${styles.chartWrapper} ${
+            loading || props.leftLoad ? styles.blur : ""
+          }`}
+        >
+          {(loading || props.leftLoad) && (
+            <div className={styles.loadingOverlay}>
+              {t("chartTitles.update")}
+            </div>
+          )}
+          <div className={`${styles.chart_div}`}>
+            <Line id='lineChart' options={options} data={data} ref={chartRef} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default WeatherDataGraphs;

@@ -12,7 +12,8 @@
 }
 
 .chart_div {
-    height: 400px;
+    height: 500px;
+    width: 100%;
 }
 
 .tabs_section button[aria-selected='true'] {
@@ -194,8 +195,87 @@ span {
     z-index: 5;
     pointer-events: none;
     opacity: 0.7;
+    color: white;
 }
 
 .chartContainer.blur {
     filter: blur(3px);
 }
+
+.filterButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .filterButton {
+    padding: 0.5rem 1rem;
+    background-color: #3a3a3a;
+    color: white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    width: 150px;
+    height: 40px;
+  }
+  
+  .filterButton:hover {
+    background: #232222;
+    color: #e07789;
+    border: 1px solid #e07789;
+  }
+  
+  .activeFilter {
+    background: #232222;
+    color: #e07789;
+    border: 1px solid #e07789;
+  }
+
+  .filterButton:disabled {
+    opacity: 0.75; /* Visual feedback for disabled state */
+    cursor: not-allowed; /* Show "not-allowed" cursor */
+}
+
+  /* .activeFilter {
+    background-color: #232222;
+    color: #e07789;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  } */
+
+  :global(.apexcharts-menu) {
+    right: auto !important;
+    left: 20px !important;
+  }
+
+  /* .pickerDropdown {
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  } */
+
+  .pickerDropdown {
+    /* width: 70%; */
+  padding: 0.5rem 1rem;
+  background-color: #3a3a3a;
+  color: white;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.pickerDropdown:hover {
+    background: #232222;
+    color: #e07789;
+    border: 1px solid #e07789;
+  }
+
+  
