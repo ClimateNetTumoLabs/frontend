@@ -219,7 +219,14 @@ const API = () => {
                                         <td>
                                             <button
                                                 className={styles.selectButton}
-                                                onClick={() => setDeviceId(device.generated_id)}
+                                                onClick={() => {
+                                                    setDeviceId(device.generated_id);
+
+                                                    const element = document.getElementById('execution');
+                                                    if (element) {
+                                                        element.scrollIntoView({ behavior: 'smooth' });
+                                                    }
+                                                }}
                                             >
                                                 {t("api.device_table.select")}
                                             </button>
@@ -247,7 +254,7 @@ const API = () => {
                     )}
                 </div>
 
-                <div className={styles.apiTester}>
+                <div id="execution" className={styles.apiTester}>
                     <div className={styles.selectedId}>
                         <label>
                             {t("api.execution.device_id")}
@@ -286,6 +293,12 @@ const API = () => {
                         className={styles.button}
                         onClick={async () => {
                             await handleTestAPI();
+                            setTimeout(() => {
+                                const element = document.getElementById('response');
+                                if (element) {
+                                    element.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }, 50);
                         }}
                     >
                         {t("api.execution.execute")}
@@ -307,7 +320,7 @@ const API = () => {
                 {/* Show response details once response is ready and not loading */}
                 {response && !loading &&(
                     <>
-                    <div className={styles.endpointDisplay}>
+                    <div id="response" className={styles.endpointDisplay}>
                         <p>
                             {t("api.execution.endpoint")}
                             <a
