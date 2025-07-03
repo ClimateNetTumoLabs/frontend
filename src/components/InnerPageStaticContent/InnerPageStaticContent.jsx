@@ -48,7 +48,12 @@ const DataTable = (props) => {
                             <span className={styles.title}>{t('linerStatusBar.uv_index')}</span>
                             <Link to={`/${i18n.language}/about/#uv`}><FontAwesomeIcon icon={faInfoCircle} className={styles.infoIcon} /></Link>
                         </span>
-                        <span className={styles.value}>{props.data.uv}</span>
+                        <div className={styles.value} data-tooltip-id="uv_api">{props.data.uv}</div>
+                        <ReactTooltip
+                            id="uv_api"
+                            place="right"
+                            content={<span dangerouslySetInnerHTML={{ __html: `UV data by Open-Meteo (CC-BY 4.0)` }} />}
+                        />
                     </td>
                 </tr>
                 <tr className={styles.tr}>
