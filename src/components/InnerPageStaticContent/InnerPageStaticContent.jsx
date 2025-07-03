@@ -50,8 +50,9 @@ const DataTable = (props) => {
                         </span>
                         <div className={styles.value} data-tooltip-id="uv_api">{props.data.uv}</div>
                         <ReactTooltip
+                            opacity="1"
                             id="uv_api"
-                            place="right"
+                            place="bottom"
                             content={<span dangerouslySetInnerHTML={{ __html: `UV data by Open-Meteo (CC-BY 4.0)` }} />}
                         />
                     </td>
