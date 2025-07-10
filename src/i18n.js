@@ -221,6 +221,10 @@ const resources = {
                     mapHeader: "Map",
                     mapDescription: "The highlighted locations indicate the current active climate devices. Click on a location to access the dataset specific to that device.",
                     clickOnMap: "Click anywhere on the map to activate zoom functionality.",
+                    mapHumidity: "Humidity",
+                    mapTemperature: "Temperature",
+                    clickDetails: "Click for Details",
+                    // lastUpdated: "Time: ", // Last updated on:   Timestamp:
                 },
                 contact: {
                     title1: "Contact Us",
@@ -747,7 +751,11 @@ const resources = {
                 map: {
                     mapHeader: "Քարտեզ",
                     mapDescription: "Առանձնացված վայրերը մատնանշում են ներկայիս ակտիվ կլիմայական սարքերը։ Սեղմեք գտնվելու վայրին ՝ այդ սարքին վերաբերող տվյալների հավաքածու մուտք գործելու համար։",
-                    clickOnMap: "Սեղմեք քարտեզի ցանկացած կետի վրա՝ մեծացնելու կամ փոքրացնելու հնարավորությունը ակտիվացնելու համար։",
+                    clickOnMap: "Սեղմեք քարտեզի ցանկացած կետի վրա՝ խոշորացույցն ակտիվացնելու համար։",
+                    mapHumidity: "Խոնավություն",
+                    mapTemperature: "Ջերմաստիճան",
+                    clickDetails: "Ավելին",
+                    // lastUpdated: "Վերջին թարմացումը" //Հավաքված է՝. Գրանցվել է՝
                 },
                 contact: {
                     title1: "Կապ մեզ հետ",
