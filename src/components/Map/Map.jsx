@@ -267,9 +267,10 @@ const MapArmenia = () => {
             time: device.time
         });
         const isLoading = isFetchingLatest[device.generated_id];
-        // Dynamic image source with fallback
-        const imageSrc = `DeviceImages/${device.generated_id}.jpg`;
+        // Fixed image path - using relative path from public folder
+        const imageSrc = `https://images-in-website.s3.us-east-1.amazonaws.com/Map/${device.generated_id}.jpg`;
         const fallbackImageSrc = 'https://images-in-website.s3.us-east-1.amazonaws.com/Weather/device.svg';
+        
         return `
             <div class="${styles.hoverCard}">
                 <div class="${styles.imageZoomContainer}">
@@ -297,6 +298,7 @@ const MapArmenia = () => {
             </div>
         `;
     };
+
 
     const createLocationPopupContent = () => {
         return `
