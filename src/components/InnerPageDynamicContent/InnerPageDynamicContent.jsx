@@ -22,6 +22,7 @@ function InnerPageDynamicContent(props) {
     const [RainCount, setRainCount] = useState([])
     const [WindSpeed, setWindSpeed] = useState([])
     const ChartsRef = useRef(null)
+    const [showWelcomeOverlay, setShowWelcomeOverlay] = useState(true);
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current
 
@@ -114,6 +115,8 @@ function InnerPageDynamicContent(props) {
                                     setFilterPressed={props.setFilterPressed}
                                     filterState={props.filterState}
                                     selected_device_id={props.selected_device_id}
+                                    showWelcomeOverlay={showWelcomeOverlay}
+                                    setShowWelcomeOverlay={setShowWelcomeOverlay}
                                 />
                             }
                         </Tab>
@@ -139,6 +142,8 @@ function InnerPageDynamicContent(props) {
                                     setFilterPressed={props.setFilterPressed}
                                     filterState={props.filterState}
                                     selected_device_id={props.selected_device_id}
+                                    showWelcomeOverlay={showWelcomeOverlay}
+                                    setShowWelcomeOverlay={setShowWelcomeOverlay}
                                 />
                             }
                         </Tab>
@@ -164,6 +169,8 @@ function InnerPageDynamicContent(props) {
                                     setFilterPressed={props.setFilterPressed}
                                     filterState={props.filterState}
                                     selected_device_id={props.selected_device_id}
+                                    showWelcomeOverlay={showWelcomeOverlay}
+                                    setShowWelcomeOverlay={setShowWelcomeOverlay}
                                 />
                             }
                         </Tab>
@@ -189,6 +196,8 @@ function InnerPageDynamicContent(props) {
                                     setFilterPressed={props.setFilterPressed}
                                     filterState={props.filterState}
                                     selected_device_id={props.selected_device_id}
+                                    showWelcomeOverlay={showWelcomeOverlay}
+                                    setShowWelcomeOverlay={setShowWelcomeOverlay}
                                 />
                             }
                         </Tab>
@@ -214,6 +223,8 @@ function InnerPageDynamicContent(props) {
                                     setFilterPressed={props.setFilterPressed}
                                     filterState={props.filterState}
                                     selected_device_id={props.selected_device_id}
+                                    showWelcomeOverlay={showWelcomeOverlay}
+                                    setShowWelcomeOverlay={setShowWelcomeOverlay}
                                 />
                             }
                         </Tab>
