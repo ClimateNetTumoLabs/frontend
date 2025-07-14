@@ -533,6 +533,11 @@ const resources = {
                 pageText: "Page Not Found!",
                 buttonText: "Go To home",
             },
+
+            privacyPolicy: {
+                title: "Privacy Policy",
+
+            }
         },
     },
 
@@ -1056,9 +1061,10 @@ const resources = {
                 pageText: "Էջը չի գտնվել",
                 buttonText: "Դեպի գլխավոր",
             },
+            privacyPolicy: {
+                title: "Գաղտնիության քաղաքականություն",
+            }
         },
-
-
     },
 }
     ;
