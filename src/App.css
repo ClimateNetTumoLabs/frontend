@@ -42,6 +42,7 @@ footer {
     position: relative;
     width: 100vw;
     height: auto;
+    z-index: 997;
 }
 
 #root {
@@ -374,14 +375,14 @@ th {
 .react-datepicker {
     font-family: inherit !important;
     background-color: #232222 !important;
-    border: 1px solid #e07789 !important;
+    border: 1px solid #232222 !important;
     color: #eae6e2 !important;
     opacity: 1 !important;
   }
   
   .react-datepicker__header {
     background-color: #3a3a3a !important;
-    border-bottom: 1px solid #e07789 !important;
+    border-bottom: 1px solid #3a3a3a !important;
   }
   
   .react-datepicker__current-month,
@@ -429,7 +430,7 @@ th {
     box-sizing: border-box !important;
     /* width: 120px !important; */
     text-align: center !important;
-    width: 150px !important;
+    width: 120px !important;
     height: 40px !important;
   }
   
@@ -457,3 +458,8 @@ th {
   color: #eae6e2;
 }
 
+/* Datepicker blue outline */
+.react-datepicker__input-container input:focus {
+    outline: none;
+    box-shadow: none;
+}

@@ -11,11 +11,11 @@ import {
   Legend,
 } from "chart.js";
 import styles from "./WeatherDataGraphs.module.css";
-import Loader from "react-js-loader";
 import DatePicker from "react-datepicker";
 import { useTranslation } from "react-i18next";
-import { saveAs } from 'file-saver'; 
+import { saveAs } from "file-saver";
 import "../../i18n";
+import zoomPlugin from "chartjs-plugin-zoom";
 
 ChartJS.register(
   CategoryScale,
@@ -24,7 +24,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  zoomPlugin
 );
 
 // Utility function to format a single ISO timestamp
@@ -35,13 +36,37 @@ const formatTimestamp = (isoString) => {
   const day = String(date.getDate()).padStart(2, "0");
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
-  return `${month}-${day} ${hours}:${minutes}`;
+  return `${day}-${month} ${hours}:${minutes}`;
 };
 
 // Function to format an array of timestamps
 const formatTimestamps = (timestamps) => {
   if (!Array.isArray(timestamps)) return [];
   return timestamps.map((timestamp) => formatTimestamp(timestamp));
+};
+
+// Function to convert chart data to CSV
+const convertToCSV = (labels, datasets) => {
+  // Create header row with timestamp and dataset labels
+  const headers = ["Timestamp", ...datasets.map((dataset) => dataset.label)];
+  const rows = labels.map((label, index) => {
+    const rowData = datasets.map((dataset) => dataset.data[index] || "");
+    return [label, ...rowData];
+  });
+
+  // Combine headers and rows
+  const csvContent = [headers, ...rows]
+    .map((row) => row.map((cell) => `"${cell}"`).join(","))
+    .join("\n");
+
+  return csvContent;
+};
+
+// Function to download data as CSV
+const downloadCSV = (labels, datasets, filename) => {
+  const csv = convertToCSV(labels, datasets);
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  saveAs(blob, filename);
 };
 
 // Function to format data for the chart
@@ -66,7 +91,6 @@ const formatData = (types, timestamps, dataArray, colors) => {
     };
   }
 
-  // Default colors if props.colors is not provided or insufficient
   const defaultColors = [
     {
       borderColor: "rgb(255, 206, 86)",
@@ -86,27 +110,26 @@ const formatData = (types, timestamps, dataArray, colors) => {
     }, // Cyan
   ];
 
-  // Create datasets dynamically based on types
   const datasets = types.map((type, index) => {
     const color =
       colors && colors[index]
         ? {
             borderColor: colors[index].borderColor || colors[index],
             backgroundColor:
-              colors[index].backgroundColor || `${colors[index]}`, // Add transparency if not specified
+              colors[index].backgroundColor || `${colors[index]}`,
           }
-        : defaultColors[index % defaultColors.length]; // Fallback to default colors
+        : defaultColors[index % defaultColors.length];
 
     return {
       label: type,
-      data: Array.isArray(dataArray[index]) ? dataArray[index] : [], // Ensure data is an array
+      data: Array.isArray(dataArray[index]) ? dataArray[index] : [],
       borderColor: color.borderColor,
       backgroundColor: color.backgroundColor,
       fill: false,
-      tension: 0.4, // Smooth lines
+      tension: 0.4,
       pointStyle: "circle",
-      pointRadius: 3,
-      pointHoverRadius: 10,
+      pointRadius: 2,
+      pointHoverRadius: 7,
       pointHoverBackgroundColor: "#FFFFFF",
       pointHoverBorderColor: "#FFFFFF",
       pointBackgroundColor: "#FFFFFF",
@@ -120,7 +143,6 @@ const formatData = (types, timestamps, dataArray, colors) => {
   };
 };
 
-// Plugin to draw a vertical hover line
 const verticalLinePlugin = {
   id: "verticalLinePlugin",
   afterDatasetsDraw(chart) {
@@ -135,30 +157,147 @@ const verticalLinePlugin = {
       const activePoint = tooltip._active[0];
       const xCoor = x.getPixelForValue(activePoint.index);
 
-      // Save the current context state
       ctx.save();
       ctx.beginPath();
       ctx.moveTo(xCoor, top);
       ctx.lineTo(xCoor, bottom);
       ctx.lineWidth = 2;
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.5)"; // Customize color and opacity
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
       ctx.stroke();
       ctx.restore();
     }
   },
 };
 
-// Register the plugin
-ChartJS.register(verticalLinePlugin);
+const noDataPlugin = (noDataText) => ({
+  id: "noDataPlugin",
+  afterDraw(chart) {
+    const totalDatasets = chart.data.datasets.length;
+    const hiddenDatasets = chart.data.datasets.reduce((count, _, index) => {
+      return count + (chart.getDatasetMeta(index).hidden ? 1 : 0);
+    }, 0);
+    if (totalDatasets > 0 && hiddenDatasets === totalDatasets) {
+      const { ctx, width, height } = chart;
+      ctx.save();
+
+      const text = noDataText;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = "20px 'Ping', sans-serif";
+      ctx.fillStyle = "#ffffff";
+
+      const textMetrics = ctx.measureText(text);
+      const textWidth = textMetrics.width;
+      const textHeight = 24;
+      const paddingX = 20;
+      const paddingY = 10;
+      const boxWidth = textWidth + 2 * paddingX;
+      const boxHeight = textHeight + 2 * paddingY;
+      const borderRadius = 5;
+
+      const x = width / 2 - boxWidth / 2;
+      const y = height / 2 - boxHeight / 2;
+
+      ctx.globalAlpha = 0.7;
+      ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+      ctx.beginPath();
+      ctx.moveTo(x + borderRadius, y);
+      ctx.lineTo(x + boxWidth - borderRadius, y);
+      ctx.quadraticCurveTo(x + boxWidth, y, x + boxWidth, y + borderRadius);
+      ctx.lineTo(x + boxWidth, y + boxHeight - borderRadius);
+      ctx.quadraticCurveTo(
+        x + boxWidth,
+        y + boxHeight,
+        x + boxWidth - borderRadius,
+        y + boxHeight
+      );
+      ctx.lineTo(x + borderRadius, y + boxHeight);
+      ctx.quadraticCurveTo(x, y + boxHeight, x, y + boxHeight - borderRadius);
+      ctx.lineTo(x, y + borderRadius);
+      ctx.quadraticCurveTo(x, y, x + borderRadius, y);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.globalAlpha = 1.0;
+      ctx.fillText(text, width / 2, height / 2);
+      ctx.restore();
+    }
+  },
+});
+
+const downloadButtonPlugin = (isMobile, toggleDropdown) => ({
+  id: "downloadButtonPlugin",
+  afterDraw(chart) {
+    if (!isMobile) return;
+
+    const { ctx, width } = chart;
+    const buttonWidth = 30;
+    const buttonHeight = 30;
+    const buttonX = width - buttonWidth - 15;
+    const buttonY = 10;
+
+    // Draw button background
+    ctx.save();
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+    ctx.strokeStyle = "#000000";
+    ctx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight);
+
+    // Draw download icon (downward arrow with base)
+    ctx.beginPath();
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 2;
+
+    // Arrow shaft (vertical line)
+    ctx.moveTo(buttonX + 15, buttonY + 8);
+    ctx.lineTo(buttonX + 15, buttonY + 18);
+
+    // Arrowhead (chevron)
+    ctx.moveTo(buttonX + 11, buttonY + 14);
+    ctx.lineTo(buttonX + 15, buttonY + 18);
+    ctx.lineTo(buttonX + 19, buttonY + 14);
+
+    // Horizontal base line (tray)
+    ctx.moveTo(buttonX + 10, buttonY + 22);
+    ctx.lineTo(buttonX + 20, buttonY + 22);
+
+    ctx.stroke();
+    ctx.restore();
+
+    chart.downloadButton = {
+      x: buttonX,
+      y: buttonY,
+      width: buttonWidth,
+      height: buttonHeight,
+    };
+  },
+  afterEvent(chart, args) {
+    if (!isMobile) return;
+
+    const { event } = args;
+    if (event.type === "click" && chart.downloadButton) {
+      const { x, y, width, height } = chart.downloadButton;
+      if (
+        event.x >= x &&
+        event.x <= x + width &&
+        event.y >= y &&
+        event.y <= y + height
+      ) {
+        toggleDropdown();
+      }
+    }
+  },
+});
+
+ChartJS.register(verticalLinePlugin, noDataPlugin, downloadButtonPlugin);
 
 const WeatherDataGraphs = (props) => {
   const { t } = useTranslation();
   const chartRef = useRef(null);
   const today = new Date();
-  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
-  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("Range");
+  const dropdownRef = useRef(null);
   const [selectedFilterButton, setSelectedFilterButton] = useState(
     props.timeline === "Hourly"
       ? "oneD"
@@ -168,27 +307,176 @@ const WeatherDataGraphs = (props) => {
       ? "oneM"
       : "Range"
   );
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dataSize, setDataSize] = useState(0);
+  const [prevData, setPrevData] = useState([]);
   const [selectedStartDate, setSelectedStartDate] = useState(
     props.startDate || today
   );
   const [selectedEndDate, setSelectedEndDate] = useState(
     props.endDate || today
   );
-
-  // Effect to notify parent when dates change
-  // useEffect(() => {
-  //   if (props.onDateChange) {
-  //     props.onDateChange({
-  //       startDate: selectedStartDate,
-  //       endDate: selectedEndDate,
-  //       filter: selectedFilter
-  //     });
-  //   }
-  // }, [selectedStartDate, selectedEndDate, selectedFilter]);
+  const [dateChanged, setDateChanged] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia("(max-width: 767px)").matches
+  );
+  const [isFilterClickable, setIsFilterClickable] = useState(true);
 
   // Format data for the chart
   const data = formatData(props.types, props.time, props.data, props.colors);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleMediaQueryChange = (event) => {
+      setIsMobile(event.matches);
+    };
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
+    };
+  }, []);
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+  // Handle clicks to dismiss welcome overlay
+  const handleOverlayClick = () => {
+    props.setShowWelcomeOverlay(false);
+  };
+
+  // Handle clicks outside the dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !event.target.closest(`.${styles.downloadIconButton}`) // Add this line
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleDownloadOption = (format) => {
+    if (format === "PNG") {
+      const canvasSave = document.getElementById("lineChart");
+      canvasSave.toBlob(function (blob) {
+        saveAs(blob, "climate_data.png");
+      });
+    } else if (format === "CSV") {
+      downloadCSV(data.labels, data.datasets, "climate_data.csv");
+    }
+    setIsDropdownOpen(false);
+  };
+
+  // Reset zoom when filter or dates change
+  useEffect(() => {
+    if (chartRef.current) {
+      chartRef.current.resetZoom();
+    }
+  }, [selectedFilter, selectedStartDate, selectedEndDate]);
+
+  useEffect(() => {
+    const canvas = chartRef.current?.canvas;
+    if (!canvas) return;
+
+    const handleWheel = (event) => {
+      if (event.metaKey) {
+        event.preventDefault(); // Prevent default browser scrolling
+
+        // Define the order of time ranges
+        const timeRanges = [
+          { key: "oneD", filter: "Hourly", label: t("filterTooltips.oneD") },
+          { key: "oneW", filter: "Daily", label: t("filterTooltips.oneW") },
+          { key: "oneM", filter: "Monthly", label: t("filterTooltips.oneM") },
+        ];
+
+        // Find the current index of the selected filter
+        const currentIndex = timeRanges.findIndex(
+          (range) => range.key === selectedFilterButton
+        );
+
+        // Determine the next range based on scroll direction
+        let nextIndex;
+        if (event.deltaY < 0) {
+          // Scroll up: move to a shorter time range (e.g., Monthly -> Daily -> Hourly)
+          nextIndex =
+            currentIndex > 0 ? currentIndex - 1 : timeRanges.length - 1;
+        } else {
+          // Scroll down: move to a longer time range (e.g., Hourly -> Daily -> Monthly)
+          nextIndex =
+            currentIndex < timeRanges.length - 1 ? currentIndex + 1 : 0;
+        }
+
+        const nextRange = timeRanges[nextIndex];
+
+        // Update states
+        setSelectedFilterButton(nextRange.key);
+        setSelectedFilter(nextRange.filter);
+
+        // Update date range based on the selected filter
+        const currentDate = new Date();
+        let start;
+        if (nextRange.filter === "Hourly") {
+          start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000); // 1 day
+        } else if (nextRange.filter === "Daily") {
+          start = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days
+        } else if (nextRange.filter === "Monthly") {
+          start = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000); // 30 days
+        }
+
+        setSelectedStartDate(start);
+        setSelectedEndDate(currentDate);
+        setDateChanged(false);
+        setLoading(true);
+        props.setShowWelcomeOverlay(false);
+        props.filterChange(nextRange.filter);
+      }
+    };
+
+    // Add wheel event listener to the canvas
+    canvas.addEventListener("wheel", handleWheel);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      canvas.removeEventListener("wheel", handleWheel);
+    };
+  }, [chartRef, selectedFilterButton, props, t]);
+
+  // Prevent page scrolling during Option/Alt + scroll
+  useEffect(() => {
+    const canvas = chartRef.current?.canvas;
+    if (!canvas) return;
+
+    const handleWheel = (event) => {
+      if (event.altKey) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+
+    canvas.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      canvas.removeEventListener("wheel", handleWheel);
+    };
+  }, [chartRef]);
+
+  useEffect(() => {
+    ChartJS.register(
+      noDataPlugin(`${t("chartTitles.noSelectedData")}`),
+      downloadButtonPlugin(isMobile, () => setIsDropdownOpen(!isDropdownOpen))
+    );
+    return () => {
+      ChartJS.unregister(
+        noDataPlugin(`${t("chartTitles.noSelectedData")}`),
+        downloadButtonPlugin(isMobile, () => setIsDropdownOpen(!isDropdownOpen))
+      );
+    };
+  }, [isMobile]);
 
   const title_map = {
     Monthly: t("chartTitles.monthly"),
@@ -197,13 +485,48 @@ const WeatherDataGraphs = (props) => {
     Range: t("chartTitles.range"),
   };
 
+  // Calculate zoom limits based on data range
+  const timestamps = props.time || [];
+  const minTimestamp = timestamps.length
+    ? Math.min(...timestamps.map((t) => new Date(t).getTime()))
+    : today.getTime();
+  const maxTimestamp = timestamps.length
+    ? Math.max(...timestamps.map((t) => new Date(t).getTime()))
+    : today.getTime();
+  const oneDay = 24 * 60 * 60 * 1000;
+  const oneWeek = 7 * oneDay;
+  const oneMonth = 30 * oneDay;
+
+  const compareTimestampArrays = (arr1, arr2) => {
+    return arr1.every((item, index) => item === arr2[index]);
+  };
+
+  useEffect(() => {
+    if (isMobile){
+      setLoading(true);
+    }
+  }, [props.filterState]);
+
+  const legendMargin = {
+    id: 'legendMargin',
+    afterInit(chart, args, plugins) {
+      const originalFit = chart.legend.fit;
+      const margin = plugins.margin || 0;
+      chart.legend.fit = function fit () {
+        if (originalFit) {
+          originalFit.call(this)
+        }
+        return this.height += margin
+      }
+    }
+  }
+
   // Chart.js options
   const options = {
     animation: {
       onComplete: (e) => {
-        // console.log(e.chart.config._config.data.labels.length);
-        if (e.chart.config._config.data.labels.length != dataSize) {
-          setDataSize(e.chart.config._config.data.labels.length);
+        if (!compareTimestampArrays(e.chart.config._config.data.labels, prevData)) {
+          setPrevData(e.chart.config._config.data.labels);
           setLoading(false);
         }
       },
@@ -217,108 +540,322 @@ const WeatherDataGraphs = (props) => {
     scales: {
       x: {
         ticks: {
-          maxTicksLimit: 6,
-          color: "#FFFFFF", // White tick labels for x-axis
+          maxTicksLimit: 7,
+          color: "#FFFFFF",
+          maxRotation: isMobile ? 75 : 0,
+          minRotation: isMobile ? 75 : 0,
         },
         grid: {
-          // color: '#FFFFFF', // White grid lines for x-axis
-          // borderColor: '#FFFFFF', // White axis line
+          color: 'transparent',
+          borderColor: 'transparent',
+          // color: '#FFFFFF',
+          // borderColor: '#FFFFFF',
         },
       },
       y: {
         ticks: {
-          color: "#FFFFFF", // White tick labels for y-axis
+          color: "#FFFFFF",
         },
         grid: {
-          color: "#FFFFFF", // White grid lines for y-axis
-          borderColor: "#FFFFFF", // White axis line
+          color: "#FFFFFF",
+          borderColor: "#FFFFFF",
+        },
+        border: {
+          display: false, // Removes the y-axis border line
         },
       },
     },
     plugins: {
+      legendMargin: {
+        margin: 20,
+      },
+      downloadButtonPlugin: {
+        enabled: isMobile,
+      },
+      zoom: {
+        zoom: {
+          wheel: {
+            enabled: true,
+            modifierKey: "alt",
+            speed: 0.05,
+          },
+          pinch: {
+            enabled: false,
+          },
+          mode: "x",
+        },
+        limits: {
+          x: {
+            min: 0,
+            max: data.labels.length - 1,
+            minRange: Math.max(
+              1,
+              Math.floor(
+                data.labels.length * (oneDay / (maxTimestamp - minTimestamp))
+              )
+            ),
+            maxRange: Math.min(
+              data.labels.length - 1,
+              Math.floor(
+                data.labels.length * (oneMonth / (maxTimestamp - minTimestamp))
+              )
+            ),
+          },
+        },
+      },
       tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)', // Dark tooltip background
-        titleColor: '#FFFFFF', // White title text
-        bodyColor: '#FFFFFF', // White body text
-        enabled: true, // Ensure tooltips are enabled for the hover effect
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        titleColor: "#FFFFFF",
+        bodyColor: "#FFFFFF",
+        enabled: true,
         callbacks: {
           label: (context) => {
-            const label = context.dataset.label || '';
+            const label = context.dataset.label || "";
             const value = context.parsed.y;
             const lowerLabel = label.toLowerCase();
-            // Append units based on dataset label
-            if (lowerLabel.includes('humidity')) {
+            if (
+              lowerLabel.includes(
+                `${t("innerPageDynamicContent.humidity")}`.toLocaleLowerCase()
+              )
+            ) {
               return `${label}: ${value}%`;
-            } else if (lowerLabel.includes('temperature')) {
+            } else if (
+              lowerLabel.includes(
+                `${t(
+                  "innerPageDynamicContent.temperature"
+                )}`.toLocaleLowerCase()
+              )
+            ) {
               return `${label}: ${value}°C`;
             } else if (
-              lowerLabel.includes('pms') ||
-              lowerLabel.includes('pm')
+              lowerLabel.includes("pms") ||
+              lowerLabel.includes("pm")
             ) {
-              return `${label}: ${value} µg/m³`;
-            } else if (lowerLabel.includes('pressure')) {
-              return `${label}: ${value} hPa`;
-            } else if (lowerLabel.includes('uv')) {
-              return `${label}: ${value}`; // UV index, no unit
-            } else if (lowerLabel.includes('light intensity')) {
-              return `${label}: ${value} lx`;
-            } else if (lowerLabel.includes('rainfall')) {
-              return `${label}: ${value} mm`;
-            } else if (lowerLabel.includes('wind')) {
-              return `${label}: ${value} m/s`;
+              return `${label}: ${value} ${t("about.pmMu")}`;
+            } else if (
+              lowerLabel.includes(
+                `${t("innerPageDynamicContent.pressure")}`.toLocaleLowerCase()
+              )
+            ) {
+              return `${label}: ${value} ${t("linerStatusBar.hPa")}`;
+            } else if (lowerLabel.includes("uv")) {
+              return `${label}: ${value}`;
+            } else if (
+              lowerLabel.includes(
+                `${t(
+                  "innerPageDynamicContent.light_intensity"
+                )}`.toLocaleLowerCase()
+              )
+            ) {
+              return `${label}: ${value} ${t("linerStatusBar.lux")}`;
+            } else if (
+              lowerLabel.includes(
+                `${t("innerPageDynamicContent.rain")}`.toLocaleLowerCase()
+              )
+            ) {
+              return `${label}: ${value} ${t("linerStatusBar.mm")}`;
+            } else if (
+              lowerLabel.includes(
+                `${t("innerPageDynamicContent.windSpeed")}`.toLocaleLowerCase()
+              )
+            ) {
+              return `${label}: ${value} ${t("linerStatusBar.kmhour")}`;
             }
-            return `${label}: ${value}`; // Default for other datasets
+            return `${label}: ${value}`;
           },
-          // Ensure tooltip icon matches line color (borderColor)
           labelColor: function (context) {
             return {
-              borderColor: context.dataset.borderColor, // Match line color
-              backgroundColor: context.dataset.borderColor, // Match line color
+              borderColor: context.dataset.borderColor,
+              backgroundColor: context.dataset.borderColor,
             };
           },
         },
       },
       legend: {
-        position: "top",
+        position: "top", // Bottom might be better
         align: "center",
         labels: {
-          // Ensure legend labels use dataset's borderColor or a custom color
-          color: '#FFFFFF', // Black for legend text
-          usePointStyle: true, // Use point style for legend
-          // Optional: Customize legend point style
+          color: "#FFFFFF",
+          usePointStyle: true,
           generateLabels: (chart) => {
             const original = ChartJS.defaults.plugins.legend.labels.generateLabels(chart);
             original.forEach((label, index) => {
-              label.fillStyle = chart.data.datasets[index].borderColor; // Use line color for legend
-              label.strokeStyle = chart.data.datasets[index].borderColor;
+              // Use original borderColor to ensure legend points are unaffected by hover transparency
+              label.fillStyle = chart.data.datasets[index].originalBorderColor || chart.data.datasets[index].borderColor;
+              label.strokeStyle = chart.data.datasets[index].originalBorderColor || chart.data.datasets[index].borderColor;
+              label.boxWidth = 20; // Legend box width
+              label.boxHeight = 20; // Legend box height
+              label.padding = 10;
             });
             return original;
           },
-          usePointStyle: true,
           boxWidth: 40,
           padding: 10,
         },
         padding: 20,
         floating: true,
-        offsetY: -25, // Approximated with padding
+        offsetY: -25,
+        // Handle hover to make non-hovered datasets and points transparent, keep hovered dataset and points unchanged, hide tooltip, vertical line, and unhighlight points
+        onHover: (event, legendItem, legend) => {
+          const chart = legend.chart;
+          const index = legendItem.datasetIndex;
+          const meta = chart.getDatasetMeta(index);
+
+          // Only trigger hover behavior if the dataset is not hidden
+          if (!meta.hidden) {
+            chart.data.datasets.forEach((dataset, i) => {
+              // Store original colors if not already stored
+              if (!dataset.originalBorderColor) {
+                dataset.originalBorderColor = dataset.borderColor;
+                dataset.originalBackgroundColor = dataset.backgroundColor;
+                dataset.originalPointBackgroundColor = dataset.pointBackgroundColor;
+                dataset.originalPointBorderColor = dataset.pointBorderColor;
+              }
+
+              if (i === index) {
+                // Restore original colors for the hovered dataset and its points
+                dataset.borderColor = dataset.originalBorderColor;
+                dataset.backgroundColor = dataset.originalBackgroundColor;
+                dataset.pointBackgroundColor = dataset.originalPointBackgroundColor;
+                dataset.pointBorderColor = dataset.originalPointBorderColor;
+              } else {
+                // Make non-hovered datasets and points nearly transparent
+
+                function hexToRGBA(hex, alpha = 0.5) {
+                  // Remove '#' if present
+                  hex = hex.replace('#', '');
+                  // Handle 3-digit or 6-digit hex
+                  if (hex.length === 3) {
+                    hex = hex
+                      .split('')
+                      .map(char => char + char)
+                      .join('');
+                  }
+                  const r = parseInt(hex.slice(0, 2), 16);
+                  const g = parseInt(hex.slice(2, 4), 16);
+                  const b = parseInt(hex.slice(4, 6), 16);
+                  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                }
+                
+                dataset.borderColor = hexToRGBA(dataset.originalBorderColor, 0.2);
+                dataset.backgroundColor = hexToRGBA(dataset.originalBackgroundColor, 0.2);
+                dataset.pointBackgroundColor = hexToRGBA(dataset.originalPointBackgroundColor, 0.2);
+                dataset.pointBorderColor = hexToRGBA(dataset.originalPointBorderColor, 0.2);
+              }
+              // Ensure dataset is not hidden
+              // chart.getDatasetMeta(i).hidden = false;
+            });
+
+            // Hide the tooltip and vertical line
+            chart.tooltip.setActiveElements([], { x: 0, y: 0 });
+
+            // Clear active elements to unhighlight points
+            chart.setActiveElements([]);
+            chart.update();
+          }
+        },
+        // Restore dataset visibility and colors for lines and points, ensure tooltip, vertical line, and points remain unhighlighted
+        onLeave: (event, legendItem, legend) => {
+          const chart = legend.chart;
+          chart.data.datasets.forEach((dataset, index) => {
+            // Restore original colors for lines and points
+            dataset.borderColor = dataset.originalBorderColor || dataset.borderColor;
+            dataset.backgroundColor = dataset.originalBackgroundColor || dataset.backgroundColor;
+            dataset.pointBackgroundColor = dataset.originalPointBackgroundColor || dataset.pointBackgroundColor;
+            dataset.pointBorderColor = dataset.originalPointBorderColor || dataset.pointBorderColor;
+            // Ensure dataset visibility respects toggled state
+            const meta = chart.getDatasetMeta(index);
+            meta.hidden = dataset.hidden || null;
+          });
+
+          // Hide the tooltip and vertical line
+          chart.tooltip.setActiveElements([], { x: 0, y: 0 });
+
+          // Clear active elements to ensure no points remain highlighted
+          chart.setActiveElements([]);
+          chart.update();
+        },
+        // Handle click to toggle dataset visibility
+        onClick: (event, legendItem, legend) => {
+          const chart = legend.chart;
+          const index = legendItem.datasetIndex;
+          const meta = chart.getDatasetMeta(index);
+          // Toggle the hidden state of the clicked dataset
+          meta.hidden = !meta.hidden;
+          // Persist the toggled state in the dataset
+          chart.data.datasets[index].hidden = meta.hidden;
+          chart.data.datasets.forEach((dataset, index) => {
+            const meta = chart.getDatasetMeta(index);
+            // Restore visibility based on the dataset's toggled state
+            meta.hidden = dataset.hidden || null;
+            // Restore original colors for visible datasets
+            if (!meta.hidden) {
+              dataset.borderColor = dataset.originalBorderColor || dataset.borderColor;
+              dataset.backgroundColor = dataset.originalBackgroundColor || dataset.backgroundColor;
+              dataset.pointBackgroundColor = dataset.originalPointBackgroundColor || dataset.pointBackgroundColor;
+              dataset.pointBorderColor = dataset.originalPointBorderColor || dataset.pointBorderColor;
+            }
+          });
+          props.setShowWelcomeOverlay(false);
+          chart.update();
+        },
       },
       title: {
         display: true,
-        text: `\t${t("chartTitles.dataPer")}${title_map[props.timeline]}`,
-        align: "start",
+        text: `${t("chartTitles.dataPer")}${title_map[props.timeline]}`,
+        align: isMobile ? "center" : "start",
         color: "#FFFFFF",
         font: {
-          family: "Arial, sans-serif", // Explicit font family
-          size: 16, // Increased size for visibility
+          family: "Arial, sans-serif",
+          size: 16,
         },
         padding: {
-          top: 20, // Increased margin above title
-          // bottom: 30, // Increased margin below title
-          left: 10, // Positive left margin
-          right: 20, // Margin to the right
+          // top: 20,
+          // bottom: 30,
+          left: 20,
+          right: 20,
         },
       },
     },
+  };
+
+  const getDropdownPosition = () => {
+    if (chartRef.current && chartRef.current.downloadButton) {
+      const canvas = chartRef.current.canvas;
+      const rect = canvas.getBoundingClientRect();
+      const { x, width } = chartRef.current.downloadButton;
+      return {
+        top: `${40}px`,
+        left: `${x - 40}px`,
+      };
+    }
+  };
+
+  const scrollToChart = () => {
+    setTimeout(() => {
+      const chartElement = document.getElementById("chart");
+      if (chartElement) {
+        chartElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+      }
+    }, 100);
+  };
+
+  const resetDatasetVisibility = () => {
+    const chart = chartRef.current;
+    if (chart) {
+      const allHidden = chart.data.datasets.every(
+        (_, index) => chart.getDatasetMeta(index).hidden
+      );
+      if (allHidden) {
+        chart.data.datasets.forEach((dataset, index) => {
+          const meta = chart.getDatasetMeta(index);
+          meta.hidden = false;
+          dataset.hidden = false;
+        });
+        chart.update();
+      }
+    }
   };
 
   const filterButtons = [
@@ -336,7 +873,11 @@ const WeatherDataGraphs = (props) => {
         setSelectedEndDate(end);
         setSelectedFilter("Hourly");
         props.filterChange("Hourly");
+        props.setShowWelcomeOverlay(false);
+        setDateChanged(false);
         setLoading(true);
+        scrollToChart();
+        resetDatasetVisibility();
       },
     },
     {
@@ -353,7 +894,11 @@ const WeatherDataGraphs = (props) => {
         setSelectedEndDate(end);
         setSelectedFilter("Daily");
         props.filterChange("Daily");
+        props.setShowWelcomeOverlay(false);
+        setDateChanged(false);
         setLoading(true);
+        scrollToChart();
+        resetDatasetVisibility();
       },
     },
     {
@@ -372,32 +917,38 @@ const WeatherDataGraphs = (props) => {
         setSelectedEndDate(end);
         setSelectedFilter("Monthly");
         props.filterChange("Monthly");
+        props.setShowWelcomeOverlay(false);
+        setDateChanged(false);
         setLoading(true);
+        scrollToChart();
+        resetDatasetVisibility();
       },
     },
   ];
 
-  // useEffect(() => {
-  //   props.filterChange("Hourly");
-  //   console.log(props.data)
-  // }, [selectedFilterButton])
-
   const handleStartDateSelect = (date) => {
+    props.setShowWelcomeOverlay(false);
     setSelectedStartDate(date);
-    setShowStartDatePicker(false);
   };
 
   const handleEndDateSelect = (date) => {
+    props.setShowWelcomeOverlay(false);
     setSelectedEndDate(date);
-    setShowEndDatePicker(false);
   };
 
   return (
-    <div id="chart" className={styles.chart_section}>
+    <div id="chart" className={styles.chart_section} onClick={handleOverlayClick}>
       <div style={{ height: "100%" }}>
         <div className={styles.toolbarAndFilter}>
           <div className={styles.FilterSection}>
-            <div className={styles.filterButtons}>
+            <div
+              className={`${styles.filterButtons} ${
+                !isMobile &&
+                (loading || props.leftLoad || props.showWelcomeOverlay)
+                  ? styles.blur
+                  : ""
+              }`}
+            >
               {filterButtons.map(({ key, label, action }) => (
                 <button
                   key={key}
@@ -413,7 +964,18 @@ const WeatherDataGraphs = (props) => {
               <DatePicker
                 className={`${styles.pickerDropdown}`}
                 value={selectedStartDate}
-                onChange={(date) => setSelectedStartDate(date)}
+                onChange={(date) => {
+                  if (selectedStartDate.getTime() == date.getTime()) {
+                    setIsFilterClickable(false);
+                    return;
+                  }
+                  setIsFilterClickable(true);
+                  setSelectedStartDate(date);
+                  setDateChanged(true);
+                  if (date.getTime() > selectedEndDate.getTime()){
+                    setSelectedEndDate(date);
+                  }
+                }}
                 selected={selectedStartDate}
                 onSelect={handleStartDateSelect}
                 maxDate={today}
@@ -422,12 +984,16 @@ const WeatherDataGraphs = (props) => {
               <DatePicker
                 className={`${styles.pickerDropdown}`}
                 value={selectedEndDate}
-                onChange={(date) => setSelectedEndDate(date)}
+                onChange={(date) => {
+                  if (selectedEndDate == date) {
+                    return;
+                  }
+                  setSelectedEndDate(date);
+                  setDateChanged(true);
+                }}
                 selected={selectedEndDate}
                 onSelect={handleEndDateSelect}
-                minDate={
-                  new Date(selectedStartDate.getTime() + 24 * 60 * 60 * 1000)
-                }
+                minDate={new Date(selectedStartDate.getTime())}
                 maxDate={today}
                 dateFormat="dd/MM/yyyy"
               />
@@ -436,25 +1002,74 @@ const WeatherDataGraphs = (props) => {
                   selectedFilterButton === "filter" ? styles.activeFilter : ""
                 }`}
                 onClick={() => {
-                  setSelectedFilterButton(null);
-                  props.setFilterPressed(true);
+                  if (isFilterClickable == false) {
+                    return;
+                  }
+                  setIsFilterClickable(false)
+                  if (
+                    props.startDate === selectedStartDate &&
+                    props.endDate === selectedEndDate
+                  ) {
+                    return;
+                  }
+                  if (!dateChanged) {
+                    return;
+                  }
+                  setSelectedFilterButton("Range");
+                  props.setStartDate(selectedStartDate);
+                  props.setEndDate(selectedEndDate);
+
+                  setSelectedFilter("Range");
+                  props.filterChange("Range");
+                  props.setShowWelcomeOverlay(false);
+                  setLoading(true);
+                  scrollToChart();
+                  resetDatasetVisibility();
                 }}
                 disabled={selectedFilterButton === "filter"}
               >
-                {"Filter"}
+                {`${t("filterTooltips.filter")}`}
               </button>
-              <button
-                className={`${styles.filterButton}`}
-                onClick={() => {
-                  //save to png
-                  const canvasSave = document.getElementById('lineChart');
-                  canvasSave.toBlob(function (blob) {
-                      saveAs(blob, "weather_data.png")
-                  })
-                }}
-              >
-                Download
-              </button>
+
+              <div ref={dropdownRef} className={styles.dropdownContainer}>
+                <button
+                  className={styles.downloadIconButton}
+                  onClick={toggleDropdown}
+                  title="Download as..."
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                </button>
+                {isDropdownOpen && (
+                  <ul className={styles.dropdownMenu}>
+                    <li
+                      className={styles.dropdownItem}
+                      onClick={() => handleDownloadOption("PNG")}
+                    >
+                      PNG
+                    </li>
+                    <li
+                      className={styles.dropdownItem}
+                      onClick={() => handleDownloadOption("CSV")}
+                    >
+                      CSV
+                    </li>
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -464,9 +1079,24 @@ const WeatherDataGraphs = (props) => {
         {(loading || props.leftLoad) && (
           <div className={styles.loadingOverlay}>{t("chartTitles.update")}</div>
         )}
+        {props.showWelcomeOverlay && !loading && !props.leftLoad && (
+          <div className={styles.fullScreenPopup}>
+            <div className={styles.popupContent}>
+              <span>
+            {t("chartTitles.zoomMessage.1")}
+            <br></br>
+            {t("chartTitles.zoomMessage.2")}
+            <br></br>
+            {t("chartTitles.zoomMessage.3")}
+            </span>
+            </div>
+          </div>
+        )}
         <div
           className={`${styles.chartWrapper} ${
-            loading || props.leftLoad ? styles.blur : ""
+            loading || props.leftLoad || (!isMobile && props.showWelcomeOverlay)
+              ? styles.blur
+              : ""
           }`}
         >
           {(loading || props.leftLoad) && (
@@ -475,7 +1105,33 @@ const WeatherDataGraphs = (props) => {
             </div>
           )}
           <div className={`${styles.chart_div}`}>
-            <Line id='lineChart' options={options} data={data} ref={chartRef} />
+            <Line id="lineChart" options={options} data={data} plugins={[legendMargin]} ref={chartRef} />
+            {isMobile && isDropdownOpen && (
+              <div
+                ref={dropdownRef}
+                className={styles.dropdownMenu}
+                style={{
+                  position: "absolute",
+                  zIndex: 1000,
+                  ...getDropdownPosition(),
+                }}
+              >
+                <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+                  <li
+                    className={styles.dropdownItem}
+                    onClick={() => handleDownloadOption("PNG")}
+                  >
+                    PNG
+                  </li>
+                  <li
+                    className={styles.dropdownItem}
+                    onClick={() => handleDownloadOption("CSV")}
+                  >
+                    CSV
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>

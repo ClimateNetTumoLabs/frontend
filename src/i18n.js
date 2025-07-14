@@ -522,7 +522,13 @@ const resources = {
                     daily: "last week",
                     hourly: "day",
                     range: "selected dates",
-                    update: "Updating..."
+                    update: "Updating...",
+                    noSelectedData: "No measurment is selected",
+                    zoomMessage: {
+                        "1": "Cmd + Scroll wheel to change the date range.",
+                        "2": "Opt/Alt + Scroll wheel to Zoom in.",
+                        "3": "Click to dismiss!",
+                    }
                 },
                 filterTooltips: {
                     filter: "Filter",
@@ -1044,7 +1050,13 @@ const resources = {
                     daily: "Վերջին շաբաթվա տվյալներ",
                     hourly: "Վերջին 24 ժամվա տվյալներ",
                     range: "Նշված միջակայքի տվյալներ",
-                    update: "Թարմացում..."
+                    update: "Թարմացում...",
+                    noSelectedData: "Ընտրված չափումներ չկան",
+                    zoomMessage: {
+                        "1": "Cmd + մկնիկ ժամանակահատվածը փոխելու համար:",
+                        "2": "Opt/Alt + մկնիկ խոշորացույցն ակտիվացնելու համար:",
+                        "3": "Սեղմեք՝ մերժելու համար:"
+                    }
                 },
                 filterTooltips: {
                     filter: "ֆիլտր",
