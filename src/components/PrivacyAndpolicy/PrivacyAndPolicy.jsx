@@ -11,7 +11,6 @@ const PrivacyPolicy = () => {
         fetch('/privacy/')
             .then(response => response.json())
             .then(data => {
-                console.log('Privacy API Response:', data); // Debug log
                 setPrivacyPolicies(data);
             })
             .catch(error => console.error('Error fetching privacy policies:', error));

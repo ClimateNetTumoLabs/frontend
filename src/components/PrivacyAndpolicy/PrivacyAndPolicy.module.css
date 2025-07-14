@@ -10,7 +10,9 @@
     font-size : 16px;
 }
 
-
+.policy_item {
+    padding: 15px;
+}
 .link {
     cursor: pointer;
     color: #e07789;

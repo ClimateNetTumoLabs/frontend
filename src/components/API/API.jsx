@@ -353,9 +353,24 @@ const API = () => {
                     </a>
                     .
                 </p>
-                <h2 className={styles.tag}>{t('api.info_note4')}
-                    <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code></h2>
-                <p className={styles.done}>{t('api.info_done')}</p>
+                <div className={styles.tag}>{t('api.info_note4')}
+                    <p>{t('api.license')}</p>
+                    <li>
+                        {t('api.license2')}
+                    </li>
+                    <li>
+                        {t('api.license3')}
+                    </li>
+
+                    <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code>
+                    <p className={styles.done}>
+                        {t('api.license4')}
+                        <br/>
+                        {t('api.license5')}
+                        {t('api.info_done')} <a className={styles.link} href="https://creativecommons.org/licenses/by/4.0/">Creative Commons</a>.
+
+                    </p>
+                    </div>
             </div>
         </div>
     );
