@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
     const [privacyPolicy, setPrivacyPolicy] = useState(null);
 
     useEffect(() => {
-        fetch('/privacy-policy/')
+        fetch('/privacy/')
             .then(response => response.json())
             .then(data => setPrivacyPolicy(data))
             .catch(error => console.error('Error fetching privacy policy:', error));

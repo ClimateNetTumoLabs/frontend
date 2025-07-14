@@ -31,7 +31,8 @@ function App() {
           `/${i18n.language}`,
           `/${i18n.language}/diy`,
           `/${i18n.language}/api`,
-          `/${i18n.language}/about`
+          `/${i18n.language}/about`,
+          `/${i18n.language}/privacy-policy`
         ];
       
         const isDeviceRoute = new RegExp(`^/${i18n.language}/device/[^/]+/?$`).test(pathname);
@@ -54,7 +55,7 @@ function App() {
                 <Route path={`/${i18n.language}/about`} element={<About/>}/>
                 <Route path={`/${i18n.language}/device/`} element={<NotFound/>}/>
                 <Route path={`/${i18n.language}/device/:id`} element={<InnerPage/>}/>
-                {/* <Route path="/privacy-policy" element={<PrivacyPolicy/>}/> */}
+                <Route path={`/${i18n.language}/privacy-policy`} element={<PrivacyPolicy/>}/>
             </Routes>
             {isKnownRoute && (<div className={`${isInnerPage ? "footerPadding" : ""}`}>
                 <Footer/>
