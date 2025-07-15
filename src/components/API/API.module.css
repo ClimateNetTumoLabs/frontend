@@ -190,11 +190,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-weight: bold;
     cursor: pointer;
 }
-
-/*.deviceTable td{*/
-/*    width: 25%;*/
-/*}*/
-
 .done{
     margin-top: 10px;
 }

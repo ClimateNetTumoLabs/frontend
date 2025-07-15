@@ -353,7 +353,8 @@ const API = () => {
                     </a>
                     .
                 </p>
-                <div className={styles.tag}>{t('api.info_note4')}
+                <div className={styles.tag}>
+                    <p className={styles.title}>{t('api.info_note4')}</p>
                     <p>{t('api.license')}</p>
                     <li>
                         {t('api.license2')}
@@ -363,10 +364,11 @@ const API = () => {
                     </li>
 
                     <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code>
-                    <p className={styles.done}>
+                    <p className="mb-5 mt-2">
                         {t('api.license4')}
                         <br/>
                         {t('api.license5')}
+                        <br/>
                         {t('api.info_done')} <a className={styles.link} href="https://creativecommons.org/licenses/by/4.0/">Creative Commons</a>.
 
                     </p>
