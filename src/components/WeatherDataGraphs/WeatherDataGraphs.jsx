@@ -582,7 +582,7 @@ const WeatherDataGraphs = (props) => {
   const handleDownloadOption = (format) => {
     if (format === "Current Measurments") {
       const data = formatData(isMobile, props.types, props.time, props.data, props.colors);
-      downloadCSV(t, data.labels, data.datasets, "climate_data.csv");
+      downloadCSV(t, data.labels, data.datasets, `Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(appliedEndDate)}.csv`);
     } else if (format === "All Measurments") {
       const timestamps = props.weather_data.map((entry) => entry.time_interval);
       
@@ -611,7 +611,7 @@ const WeatherDataGraphs = (props) => {
         props.colors
       );
   
-      downloadCSV(t, allData.labels, allData.datasets, "all_climate_data.csv");
+      downloadCSV(t, allData.labels, allData.datasets, `All Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(appliedEndDate)}.csv`);
     }
   
     setIsDropdownOpen(false);
@@ -1119,7 +1119,7 @@ const WeatherDataGraphs = (props) => {
                 className={`${styles.pickerDropdown}`}
                 value={selectedStartDate}
                 onChange={(date) => {
-                  if (getDateOnly(appliedStartDate) == getDateOnly(date) || getDateOnly(appliedEndDate) != getDateOnly(selectedEndDate)) {
+                  if (getDateOnly(appliedStartDate) == getDateOnly(date) && getDateOnly(appliedEndDate) == getDateOnly(selectedEndDate)) {
                     setIsFilterClickable(false);
                     return;
                   }
@@ -1139,7 +1139,7 @@ const WeatherDataGraphs = (props) => {
                 className={`${styles.pickerDropdown}`}
                 value={selectedEndDate}
                 onChange={(date) => {
-                  if (getDateOnly(appliedEndDate) == getDateOnly(date) || getDateOnly(appliedStartDate) != getDateOnly(selectedStartDate)) {
+                  if (getDateOnly(appliedEndDate) == getDateOnly(date) && getDateOnly(appliedStartDate) == getDateOnly(selectedStartDate)) {
                     setIsFilterClickable(false);
                     return;
                   }
