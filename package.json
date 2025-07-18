@@ -2,7 +2,7 @@
   "name": "untitled",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:3000",
+  "proxy": "http://127.0.0.1:8000",
   "dependencies": {
     "@20tab/react-leaflet-resetview": "^1.1.0",
     "@emotion/react": "^11.11.3",
@@ -93,7 +93,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "PORT=8000 react-scripts start",
+    "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "copy-sitemap": "cp build/sitemap.xml ../django-app/climatenet/static/sitemap.xml",
     "test": "react-scripts test",
