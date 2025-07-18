@@ -1,9 +1,12 @@
 .InnerPageDynamicContent {
+  height: 100%;
+  /* display: flex; */
+  flex-direction: column;
 }
 
 .FullScreenButtonSection {
     width: 20px;
-    height: 100%;
+    height: 20px; /*100%;*/
     float: right;
     position: relative;
     right : 20px;
@@ -16,6 +19,20 @@
     width: 20px;
     float: right;
     cursor:pointer
+}
+
+.chart {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tabContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .chart button.active{
@@ -65,3 +82,16 @@
         height: auto;
     } 
 }
+
+/* Add this to InnerPageDynamicContent.module.css */
+:fullscreen .InnerPageDynamicContent {
+    overflow: auto !important;
+  }
+  
+  :fullscreen .chart {
+    overflow: visible !important;
+  }
+  
+  :fullscreen .tabContainer {
+    overflow: visible !important;
+  }

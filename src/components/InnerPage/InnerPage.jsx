@@ -16,7 +16,8 @@ function InnerPage({deviceId}) {
     const [weather_data, change_weather_data] = useState([]);
     const [filterState, filterStateChange] = useState('Hourly');
     const {permissionGranted, setPosition, setPermissionGranted} = useContext(PositionContext);
-    const [startDateState, setStartDate] = useState(new Date());
+    const today = new Date();
+    const [startDateState, setStartDate] = useState(new Date(today.getTime() - 24 * 60 * 60 * 1000));
     const [endDateState, setEndDate] = useState(new Date());
     const [error, setError] = useState(null);
     const [leftLoad, setLeftLoad] = useState(true);
@@ -96,7 +97,7 @@ function InnerPage({deviceId}) {
                     start = formatDate(new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000));
                     break;
                 case 'Hourly':
-                    return `/device_inner/${params.id}/24hours/`;
+                    return `/device_inner/graph/${params.id}/24hours/`;
                 case 'Range':
                     start = formatDate(startDateState);
                     end = formatDate(endDateState);
@@ -106,7 +107,7 @@ function InnerPage({deviceId}) {
                     break;
             }
 
-            return `/device_inner/${params.id}/period/?start_time_str=${start}&end_time_str=${end}`;
+            return `/device_inner/graph/${params.id}/period/?start_time_str=${start}&end_time_str=${end}`;
         };
         const url = getDataUrl(filterState);
 
