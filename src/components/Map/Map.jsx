@@ -1,25 +1,25 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, GeoJSON, Popup, useMapEvents, useMap, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON, useMapEvents, useMap, Marker } from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import iconUrl from "../../assets/Icons/map-marker.svg";
-import location from "../../assets/Icons/circle.jpeg"
+import location from "../../assets/Icons/circle.jpeg";
 import armeniaGeoJSON from "../../armenia.json";
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import InnerPage from "../InnerPage/InnerPage";
 import "react-leaflet-fullscreen/styles.css";
 import { FullscreenControl } from "react-leaflet-fullscreen";
 import styles from "./Map.module.css";
 import { PositionContext } from "../../context/PositionContext";
-import clickIcon from "../../assets/Icons/tap.png"
+import clickIcon from "../../assets/Icons/clickonIcon.png";
 import { Polygon } from "react-leaflet";
 import { useTranslation } from "react-i18next";
 import ResetViewControl from '@20tab/react-leaflet-resetview';
 import "leaflet.locatecontrol";
 import 'leaflet-easybutton';
 import 'leaflet-easybutton/src/easy-button.css';
-import "leaflet-easybutton/src/easy-button.js";
+import 'leaflet-easybutton/src/easy-button.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function circleWithText2(latLng, txt, radius, borderWidth) {
@@ -34,15 +34,21 @@ function circleWithText2(latLng, txt, radius, borderWidth) {
     var marker = L.marker(latLng, {
         icon: icon
     });
+    marker.bindPopup = () => marker;
+    marker.on('popupopen', () => false);
+    marker.unbindPopup();
     return marker;
 }
 
 const PolygonWithText = ({ coords, text, region }) => {
     const map = useMap();
-    const center = L.latLng(coords[0], coords[1]);
+    const markerRef = useRef(null);
+    const center = coords && !isNaN(coords[0]) && !isNaN(coords[1]) ? L.latLng(coords[0], coords[1]) : null;
 
     useEffect(() => {
+        if (!center) return;
         const marker = circleWithText2(center, text, 20, 1);
+        markerRef.current = marker;
 
         marker.on('click', () => {
             map.setView(center, 10);
@@ -50,33 +56,146 @@ const PolygonWithText = ({ coords, text, region }) => {
 
         marker.addTo(map);
         return () => {
-            map.removeLayer(marker);
+            if (markerRef.current) {
+                map.removeLayer(markerRef.current);
+                markerRef.current = null;
+            }
         };
-    }, [center, text, map]);
+    }, [center, text, map, region, coords]);
 
-    return (
+    const polygonCoords = center ? [
+        [center.lat + 0.001, center.lng - 0.001],
+        [center.lat + 0.001, center.lng + 0.001],
+        [center.lat - 0.001, center.lng + 0.001],
+        [center.lat - 0.001, center.lng - 0.001]
+    ] : [];
+
+    return center && polygonCoords.length ? (
         <Polygon
             color="blue"
-            positions={[center]}
+            positions={polygonCoords}
             eventHandlers={{
                 click: () => {
                     map.setView(center, 10);
                 }
             }}
         />
-    );
+    ) : null;
 }
+
+const usePopupManager = () => {
+    const activePopupsRef = useRef(new Map());
+    const timeoutsRef = useRef(new Map());
+
+    const createPopup = (marker, content, options = {}) => {
+        const markerId = marker._leaflet_id;
+        clearPopup(markerId);
+
+        const popup = L.popup({
+            className: options.customClassName || styles.customPopup,
+            closeButton: options.closeButton || false,
+            autoClose: false,
+            closeOnClick: false,
+            interactive: true,
+            ...options
+        })
+            .setLatLng(marker.getLatLng())
+            .setContent(content)
+            .openOn(marker._map);
+
+        activePopupsRef.current.set(markerId, popup);
+        return popup;
+    };
+
+    const clearPopup = (markerId) => {
+        if (timeoutsRef.current.has(markerId)) {
+            clearTimeout(timeoutsRef.current.get(markerId));
+            timeoutsRef.current.delete(markerId);
+        }
+
+        if (activePopupsRef.current.has(markerId)) {
+            const popup = activePopupsRef.current.get(markerId);
+            if (popup._map) {
+                popup._map.closePopup(popup);
+            }
+            activePopupsRef.current.delete(markerId);
+        }
+    };
+
+    const schedulePopupClose = (markerId, delay = 200) => {
+        if (timeoutsRef.current.has(markerId)) {
+            clearTimeout(timeoutsRef.current.get(markerId));
+        }
+
+        const timeoutId = setTimeout(() => {
+            clearPopup(markerId);
+        }, delay);
+
+        timeoutsRef.current.set(markerId, timeoutId);
+    };
+
+    const cancelPopupClose = (markerId) => {
+        if (timeoutsRef.current.has(markerId)) {
+            clearTimeout(timeoutsRef.current.get(markerId));
+            timeoutsRef.current.delete(markerId);
+        }
+    };
+
+    const cleanup = () => {
+        timeoutsRef.current.forEach(timeoutId => clearTimeout(timeoutId));
+        timeoutsRef.current.clear();
+        activePopupsRef.current.forEach(popup => {
+            if (popup._map) {
+                popup._map.closePopup(popup);
+            }
+        });
+        activePopupsRef.current.clear();
+    };
+
+    return {
+        createPopup,
+        clearPopup,
+        schedulePopupClose,
+        cancelPopupClose,
+        cleanup
+    };
+};
+
+const isDataOutdated = (deviceTime) => {
+    if (!deviceTime || deviceTime === 'N/A') return false;
+
+    try {
+        const deviceDate = new Date(deviceTime);
+        if (isNaN(deviceDate.getTime())) return false;
+
+        const now = new Date();
+        const minutes = now.getMinutes();
+        const minutesToLastInterval = minutes % 15;
+        const lastIntervalTime = new Date(now);
+        lastIntervalTime.setMinutes(minutes - minutesToLastInterval);
+        lastIntervalTime.setSeconds(0);
+        lastIntervalTime.setMilliseconds(0);
+        return deviceDate < lastIntervalTime;
+    } catch (error) {
+        return false;
+    }
+};
 
 const MapArmenia = () => {
     const { t, i18n } = useTranslation();
     const [devices, setDevices] = useState([]);
-    const [scrollEnabled, setScrollEnabled] = useState(false);
-    const { position } = useContext(PositionContext);
+    const [scrollEnabled, setScrollEnabled] = useState(true);
     const [showMessage, setShowMessage] = useState(true);
+    const { position } = useContext(PositionContext);
     const markerRef = useRef(null);
     const [regionDevices, setRegionDevices] = useState({});
     const [zoomLevel, setZoomLevel] = useState(8);
     const mapRef = useRef(null);
+    const popupManager = usePopupManager();
+    const [isFetchingLatest, setIsFetchingLatest] = useState({});
+    const intervalRef = useRef(null);
+    const [selectedDevices, setSelectedDevices] = useState([]);
+    const [isMapVisible, setIsMapVisible] = useState(true);
 
     const regionCoordinatesMap = {
         "Aragatsotn": [40.5233, 44.4784],
@@ -93,40 +212,386 @@ const MapArmenia = () => {
         "USA": [40.74203956277504, -74.00782899150899]
     };
 
+    const armeniaCenter = [40.15912, 45.002717];
+
     useEffect(() => {
         calculateRegionDevices(devices);
     }, [devices, zoomLevel]);
 
     useEffect(() => {
-        setShowMessage(false);
+        return () => {
+            popupManager.cleanup();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const handleMessage = () => {
-        setShowMessage(scrollEnabled);
-    };
 
     const handleZoom = (map) => {
         setZoomLevel(map.getZoom());
+        popupManager.cleanup();
     };
 
     const ToggleScroll = () => {
         const map = useMapEvents({
-            click: () => {
-                setScrollEnabled((prev) => !prev);
-                handleMessage();
+            click: (e) => {
+                popupManager.cleanup();
+                setShowMessage(true);
             },
             zoom: () => {
-                if (!scrollEnabled) {
-                    map.setZoom(map.getZoom());
-                }
+                handleZoom(map);
             },
+            dblclick: (e) => {
+                setScrollEnabled((prev) => !prev);
+                e.originalEvent.preventDefault();
+            }
         });
 
-        map.scrollWheelZoom.disable();
-        map.scrollWheelZoom[scrollEnabled ? "enable" : "disable"]();
-        map.on('zoom', () => handleZoom(map));
+        if (showMessage) {
+            map.scrollWheelZoom.disable();
+            map.touchZoom.disable();
+            map.doubleClickZoom.disable();
+            map.boxZoom.disable();
+            map.keyboard.disable();
+        } else {
+            map.scrollWheelZoom[scrollEnabled ? "enable" : "disable"]();
+            map.touchZoom.enable();
+            map.doubleClickZoom.enable();
+            map.boxZoom.enable();
+            map.keyboard.enable();
+        }
+
         return null;
     };
+
+    const calculateRegionDevices = (devices) => {
+        const regions = {};
+        for (const device of devices) {
+            const regionName = device.parent_name;
+            if (regionName !== "Unknown") {
+                regions[regionName] = regions[regionName] ? regions[regionName] + 1 : 1;
+            }
+        }
+        setRegionDevices(regions);
+    };
+
+    const createDevicePopupContent = (device, isClick = false) => {
+        const isLoading = isFetchingLatest[device.generated_id];
+        const imageSrc = `https://images-in-website.s3.us-east-1.amazonaws.com/Map/${device.generated_id}.webp`;
+        const fallbackImageSrc = 'https://images-in-website.s3.us-east-1.amazonaws.com/Weather/device.svg';
+        const isOutdated = isDataOutdated(device.time);
+        return `
+        <div class="${styles.hoverCard}">
+            <div class="${styles.imageZoomContainer}">
+                <img 
+                    src="${imageSrc}" 
+                    alt="${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}" 
+                    class="${styles.deviceImage}"
+                    onerror="this.src='${fallbackImageSrc}'"
+                />
+                <div class="${styles.zoomLens}"></div>
+                <div class="${styles.zoomResult}"></div>
+            </div>
+            <h3> ${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']} </h3>
+            ${isLoading ? `
+                <p>Loading...</p>
+            ` : `
+                <div class="${styles.cardContent}">
+                    <p>${t('map.mapHumidity')}: <span class="${styles.cardData}">${device.humidity != null ? device.humidity : 'N/A'}%</span></p>
+                    <p>${t('map.mapTemperature')}: <span class="${styles.cardData}">${device.temperature != null ? device.temperature : 'N/A'}°C</span></p>
+                    <p class="${styles.cardTime}">${isOutdated ? "⛔ " : ""}<i>${device.time != null ? device.time : 'N/A'}</i></p>
+                </div>
+            `}
+            <a href="/${i18n.language}/device/${device.generated_id}/?${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}">${t('map.clickDetails')}</a>
+        </div>
+    `;
+    };
+
+    const setupPopupEvents = (popup, markerId) => {
+        const popupElement = popup.getElement();
+        if (!popupElement) return;
+
+        popupElement.addEventListener('mouseenter', () => {
+            popupManager.cancelPopupClose(markerId);
+        });
+        popupElement.addEventListener('mouseleave', () => {
+            popupManager.schedulePopupClose(markerId, 200);
+        });
+
+        const image = popupElement.querySelector(`.${styles.deviceImage}`);
+        const lens = popupElement.querySelector(`.${styles.zoomLens}`);
+        const result = popupElement.querySelector(`.${styles.zoomResult}`);
+
+        if (image && lens && result) {
+            const initializeZoom = () => {
+                const imgRect = image.getBoundingClientRect();
+                const lensSize = 60;
+                const zoomFactor = 3;
+                const resultSize = 200;
+
+                result.style.backgroundImage = `url(${image.src})`;
+                result.style.backgroundSize = `${imgRect.width * zoomFactor}px ${imgRect.height * zoomFactor}px`;
+
+                const moveLens = (e) => {
+                    e.preventDefault();
+                    const pos = getCursorPos(e, image);
+                    let x = pos.x - lensSize / 2;
+                    let y = pos.y - lensSize / 2;
+
+                    x = Math.max(0, Math.min(x, imgRect.width - lensSize));
+                    y = Math.max(0, Math.min(y, imgRect.height - lensSize));
+                    lens.style.left = `${x}px`;
+                    lens.style.top = `${y}px`;
+
+                    const bgX = Math.min(x * zoomFactor, (imgRect.width * zoomFactor) - resultSize);
+                    const bgY = Math.min(y * zoomFactor, (imgRect.height * zoomFactor) - resultSize);
+                    result.style.backgroundPosition = `-${bgX}px -${bgY}px`;
+                };
+
+                const getCursorPos = (e, img) => {
+                    const rect = img.getBoundingClientRect();
+                    let clientX, clientY;
+                    if (e.type.startsWith('touch')) {
+                        const touch = e.touches[0] || e.changedTouches[0];
+                        clientX = touch.clientX;
+                        clientY = touch.clientY;
+                    } else {
+                        clientX = e.clientX;
+                        clientY = e.clientY;
+                    }
+                    return {
+                        x: clientX - rect.left,
+                        y: clientY - rect.top
+                    };
+                };
+
+                image.addEventListener('mousemove', moveLens);
+                image.addEventListener('mouseenter', () => {
+                    lens.style.display = 'block';
+                    result.style.display = 'block';
+                });
+                image.addEventListener('mouseleave', () => {
+                    lens.style.display = 'none';
+                    result.style.display = 'none';
+                });
+                image.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    lens.style.display = 'block';
+                    result.style.display = 'block';
+                    moveLens(e);
+                });
+                image.addEventListener('touchmove', moveLens);
+                image.addEventListener('touchend', () => {
+                    lens.style.display = 'none';
+                    result.style.display = 'none';
+                });
+
+                popup.on('remove', () => {
+                    image.removeEventListener('mousemove', moveLens);
+                    image.removeEventListener('mouseenter', () => { });
+                    image.removeEventListener('mouseleave', () => { });
+                    image.removeEventListener('touchstart', () => { });
+                    image.removeEventListener('touchmove', moveLens);
+                    image.removeEventListener('touchend', () => { });
+                });
+            };
+
+            if (image.complete) {
+                initializeZoom();
+            } else {
+                image.addEventListener('load', initializeZoom);
+            }
+        }
+    };
+
+    useEffect(() => {
+        const fetchDeviceList = async () => {
+            try {
+                const deviceListResponse = await axios.get(`/device_inner/list/`);
+                const deviceList = deviceListResponse.data.map(device => ({
+                    ...device,
+                    temperature: null,
+                    humidity: null
+                }));
+                setDevices(deviceList);
+                setIsFetchingLatest(deviceList.reduce((acc, device) => ({
+                    ...acc,
+                    [device.generated_id]: false
+                }), {}));
+                await fetchLatestData(deviceList);
+            } catch (error) {
+                setDevices([]);
+                setIsFetchingLatest({});
+            }
+        };
+
+        const fetchLatestData = async (deviceList) => {
+            try {
+                setIsFetchingLatest(prev => ({
+                    ...prev,
+                    ...deviceList.reduce((acc, device) => ({
+                        ...acc,
+                        [device.generated_id]: true
+                    }), {})
+                }));
+
+                const devicePromises = deviceList.map(async (device) => {
+                    try {
+                        const latestResponse = await axios.get(`/device_inner/${device.generated_id}/latest/`);
+                        if (latestResponse.data.length > 0) {
+                            const apiTime = latestResponse.data[0].time;
+                            const date = new Date(apiTime);
+                            const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                            return {
+                                ...device,
+                                temperature: latestResponse.data[0].temperature,
+                                humidity: latestResponse.data[0].humidity,
+                                time: formattedDate,
+                            };
+                        } else {
+                            return device;
+                        }
+                    } catch (error) {
+                        return device;
+                    }
+                });
+
+                const devicesWithLatest = await Promise.all(devicePromises);
+                setDevices(devicesWithLatest);
+                setIsFetchingLatest(prev => ({
+                    ...prev,
+                    ...deviceList.reduce((acc, device) => ({
+                        ...acc,
+                        [device.generated_id]: false
+                    }), {})
+                }));
+            } catch (error) {
+                setIsFetchingLatest(prev => ({
+                    ...prev,
+                    ...deviceList.reduce((acc, device) => ({
+                        ...acc,
+                        [device.generated_id]: false
+                    }), {})
+                }));
+            }
+        };
+
+        const scheduleNextFetch = () => {
+            const now = new Date();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const milliseconds = now.getMilliseconds();
+
+            const minutesPastQuarter = minutes % 15;
+            const minutesToNextQuarter = minutesPastQuarter === 0 ? 0 : 15 - minutesPastQuarter;
+            const delayMilliseconds = (minutesToNextQuarter * 60 * 1000) - (seconds * 1000) - milliseconds;
+
+            const timeoutId = setTimeout(() => {
+                if (devices.length > 0) {
+                    fetchLatestData(devices);
+                }
+                const intervalId = setInterval(() => {
+                    if (devices.length > 0) {
+                        fetchLatestData(devices);
+                    }
+                }, 15 * 60 * 1000);
+                intervalRef.current = intervalId;
+            }, delayMilliseconds > 0 ? delayMilliseconds : 0);
+
+            return timeoutId;
+        };
+
+        fetchDeviceList();
+        const timeoutId = scheduleNextFetch();
+
+        return () => {
+            clearTimeout(timeoutId);
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        const preventBrowserZoom = (e) => {
+            if (showMessage && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+            }
+        };
+
+        window.addEventListener('wheel', preventBrowserZoom, { passive: false });
+
+        return () => {
+            window.removeEventListener('wheel', preventBrowserZoom);
+        };
+    }, [showMessage]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const mapElement = document.getElementById('Map');
+            if (mapElement) {
+                const rect = mapElement.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
+                const mapVisibleRatio = visibleHeight / viewportHeight;
+                setIsMapVisible(mapVisibleRatio > 0.5);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const handleCompareDevice = (event) => {
+            const { id } = event.detail;
+            const device = devices.find(d => d.generated_id === id);
+            if (device && !selectedDevices.find(d => d.generated_id === id)) {
+                setSelectedDevices(prev => [...prev, device]);
+                popupManager.cleanup();
+            }
+        };
+
+        window.addEventListener('compareDevice', handleCompareDevice);
+        return () => window.removeEventListener('compareDevice', handleCompareDevice);
+    }, [devices, selectedDevices, popupManager]);
+
+    const handleRemoveDevice = (deviceId) => {
+        setSelectedDevices(prev => prev.filter(device => device.generated_id !== deviceId));
+    };
+
+
+    useEffect(() => {
+        const compareBar = document.querySelector(`.${styles.compareBar}`);
+        const deviceList = document.querySelector(`.${styles.deviceList}`);
+        let hideTimeout = null;
+
+        if (!compareBar || !deviceList) return;
+
+        const showList = () => {
+            clearTimeout(hideTimeout);
+            deviceList.style.display = 'block';
+        };
+
+        const hideListWithDelay = () => {
+            hideTimeout = setTimeout(() => {
+                deviceList.style.display = 'none';
+            }, 300);
+        };
+
+        compareBar.addEventListener('mouseenter', showList);
+        compareBar.addEventListener('mouseleave', hideListWithDelay);
+        deviceList.addEventListener('mouseenter', showList);
+        deviceList.addEventListener('mouseleave', hideListWithDelay);
+
+        return () => {
+            compareBar.removeEventListener('mouseenter', showList);
+            compareBar.removeEventListener('mouseleave', hideListWithDelay);
+            deviceList.removeEventListener('mouseenter', showList);
+            deviceList.removeEventListener('mouseleave', hideListWithDelay);
+            clearTimeout(hideTimeout);
+        };
+    }, [selectedDevices]);
+
 
     const geoJSONStyle = {
         fillColor: "green",
@@ -139,7 +604,7 @@ const MapArmenia = () => {
         iconUrl,
         iconSize: [25, 25],
         iconAnchor: [15, 15],
-        popupAnchor: [0, -15],
+        popupAnchor: [0, -15]
     });
 
     const blinkIcon = new L.Icon({
@@ -147,30 +612,17 @@ const MapArmenia = () => {
         iconSize: [10, 10],
         iconAnchor: [5, 5],
         popupAnchor: [0, -15],
-        className: `${styles.blinking}`
+        className: styles.blinking
     });
 
-    const calculateRegionDevices = async (devices) => {
-        const regions = {};
-        for (const device of devices) {
-            const regionName = device.parent_name;
-            if (regionName !== "Unknown") {
-                regions[regionName] = regions[regionName] ? regions[regionName] + 1 : 1;
-            }
-        }
-        setRegionDevices(regions);
-    };
+    const totalDevices = Object.values(regionDevices).reduce((sum, count) => sum + count, 0);
 
-    useEffect(() => {
-        axios.get(`/device_inner/list/`)
-            .then(response => {
-                setDevices(response.data);
-                calculateRegionDevices(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, []);
+    const handleCompare = () => {
+        if (selectedDevices.length >= 2) {
+            const ids = selectedDevices.map(d => d.generated_id).join(',');
+            window.location.href = `/compare?ids=${ids}`;
+        }
+    };
 
     return (
         <div className={styles.map_wrapper} id="Map" style={{ cursor: 'pointer' }}>
@@ -180,7 +632,7 @@ const MapArmenia = () => {
                     <p>{t('map.mapDescription')}</p>
                 </div>
             </div>
-            <div className={`${styles.mapContainer} container-md`} >
+            <div className={`${styles.mapContainer} container-md`}>
                 <MapContainer
                     ref={mapRef}
                     center={[40.15912, 45.002717]}
@@ -192,25 +644,37 @@ const MapArmenia = () => {
                         borderRadius: "20px",
                         boxShadow: "rgb(183 183 194 / 10%) 0px 8px 24px, rgb(221 221 224 / 10%) 0px 16px 56px, rgb(223 223 225 / 10%) 0px 24px 80px"
                     }}
-                    onMouseWheel={handleMessage}
-                    scrollWheelZoom={showMessage ? "enabled" : "disabled"}
+                    scrollWheelZoom={scrollEnabled}
+                    zoomAnimation={true}
+                    fadeAnimation={true}
+                    markerZoomAnimation={true}
+                    zoomAnimationThreshold={4}
                 >
                     <ToggleScroll />
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     />
-                    {zoomLevel < 9 ? (
+                    {zoomLevel < 7 ? (
+                        <PolygonWithText
+                            coords={armeniaCenter}
+                            text={totalDevices}
+                            region="Armenia"
+                        />
+                    ) : zoomLevel < 9 ? (
                         <>
                             {Object.entries(regionDevices).map(([region, count]) => {
                                 const regionCoordinates = regionCoordinatesMap[region];
-                                if (!regionCoordinates) return null;
+                                if (!regionCoordinates || isNaN(regionCoordinates[0]) || isNaN(regionCoordinates[1])) {
+                                    return null;
+                                }
                                 return (
                                     <PolygonWithText
                                         key={region}
                                         coords={regionCoordinates}
                                         text={count}
-                                        region={region} />
+                                        region={region}
+                                    />
                                 );
                             })}
                         </>
@@ -221,11 +685,29 @@ const MapArmenia = () => {
                                     key={device.id}
                                     position={[parseFloat(device.latitude), parseFloat(device.longitude)]}
                                     icon={customIcon}
-                                >
-                                    <Popup>
-                                        <Link to={`/${i18n.language}/device/${device.generated_id}/?${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}`}>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</Link>
-                                    </Popup>
-                                </Marker>
+                                    eventHandlers={{
+                                        mouseover: (e) => {
+                                            const markerId = e.target._leaflet_id;
+                                            const popup = popupManager.createPopup(
+                                                e.target,
+                                                createDevicePopupContent(device, false)
+                                            );
+                                            setupPopupEvents(popup, markerId);
+                                        },
+                                        mouseout: (e) => {
+                                            const markerId = e.target._leaflet_id;
+                                            popupManager.schedulePopupClose(markerId, 200);
+                                        },
+                                        click: (e) => {
+                                            const markerId = e.target._leaflet_id;
+                                            const popup = popupManager.createPopup(
+                                                e.target,
+                                                createDevicePopupContent(device, false),
+                                            );
+                                            setupPopupEvents(popup, markerId);
+                                        },
+                                    }}
+                                />
                             ))}
                             {
                                 position && position.latitude !== null && position.longitude !== null && (
@@ -251,30 +733,74 @@ const MapArmenia = () => {
                     </Routes>
                     {showMessage && (
                         <div
-                            className={styles.messageBox}
-                            style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: '100%',
-                                height: '100%',
-                                backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                zIndex: 1000,
-                            }}
+                            className={styles.fullScreenPopup}
+                            onWheel={(e) => e.preventDefault()}
+                            onClick={() => setShowMessage(false)}
                         >
-                        <span >
-                            {t('map.clickOnMap')}
-                            <img className={`${styles.click_icon}`}
-                                 src={clickIcon} alt="Click icon"
-                            />
-                        </span>
+                            <div className={styles.popupContent}>
+                                <span>
+                                    {t('map.clickOnMap')}
+                                    <img className={styles.clickIcon} src={clickIcon} alt="Click icon" />
+                                </span>
+                            </div>
                         </div>
                     )}
                 </MapContainer>
             </div>
+            {selectedDevices.length > 0 && (
+                <div className={`${styles.compareBar} ${isMapVisible ? '' : styles.collapsed}`}>
+                    {isMapVisible ? (
+                        <>
+                            <div
+                                className={`${styles.deviceCountBadge} ${selectedDevices.length < 2 ? styles.disabled : ''}`}
+                            >
+                                {selectedDevices.length}
+                            </div>
+
+                            <button
+                                className={styles.compareButton}
+                                onClick={handleCompare}
+                                disabled={selectedDevices.length < 2}
+                            >
+                                {t('map.compareButton')}
+                            </button>
+
+                            <div className={styles.deviceList}>
+                                {selectedDevices.map(device => (
+                                    <div key={device.generated_id} className={styles.deviceListItem}>
+                                        <span>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</span>
+                                        <button
+                                            className={styles.removeDeviceButton}
+                                            onClick={() => handleRemoveDevice(device.generated_id)}
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className={styles.deviceCountBadge}>
+                                {selectedDevices.length}
+                            </div>
+                            <span className={styles.versues}>VS</span>
+                            <div className={styles.deviceList}>
+                                {selectedDevices.map(device => (
+                                    <div key={device.generated_id} className={styles.deviceListItem}>
+                                        <span>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</span>
+                                        <button
+                                            className={styles.removeDeviceButton}
+                                            onClick={() => handleRemoveDevice(device.generated_id)}>
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

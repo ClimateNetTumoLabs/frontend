@@ -15,13 +15,30 @@ function InnerPageFilter(props) {
   const [startDate, endDate] = dateRange;
   const [isRangeActive, setIsRangeActive] = useState(false);
 
+  const scrollToChart = () => {
+    setTimeout(() => {
+      const chartElement = document.getElementById("chart");
+      if (chartElement) {
+        chartElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+      }
+    }, 100);
+  };
+
   const handleApply = () => {
+    if (props.startDate.getTime() == startDate.getTime() && props.endDate.getTime() == endDate.getTime()) {
+      scrollToChart();
+      props.setShowDatePicker(false);
+      setIsRangeActive(false);
+      return;
+    }
     props.setLeftLoad(true);
     props.filterChange("Range");
     props.setStartDate(startDate);
     props.setEndDate(endDate);
     props.setShowDatePicker(false);
     setIsRangeActive(false);
+    scrollToChart();
   };
 
   const handleRangeClick = () => {
@@ -40,7 +57,7 @@ function InnerPageFilter(props) {
         className={`option ${styles.filterItemBlock} ${
           props.filterState === "Hourly" && !isRangeActive ? styles.active : ""
         }`}
-        onClick={() => !isRangeActive && props.filterChange("Hourly")}
+        onClick={() => {!isRangeActive && props.filterChange("Hourly"); scrollToChart()}}
       >
         <Clock/>
         <span>{t("innerPageFilter.options.hourly")}</span>
@@ -49,7 +66,7 @@ function InnerPageFilter(props) {
         className={`option ${styles.filterItemBlock} ${
           props.filterState === "Daily" && !isRangeActive ? styles.active : ""
         }`}
-        onClick={() => !isRangeActive && props.filterChange("Daily")}
+        onClick={() => {!isRangeActive && props.filterChange("Daily"); scrollToChart()}}
       >
         <Calendar/>
         <span>{t("innerPageFilter.options.daily")}</span>
@@ -58,7 +75,7 @@ function InnerPageFilter(props) {
         className={`option ${styles.filterItemBlock} ${
           props.filterState === "Monthly" && !isRangeActive ? styles.active : ""
         }`}
-        onClick={() => !isRangeActive && props.filterChange("Monthly")}
+        onClick={() => {!isRangeActive && props.filterChange("Monthly"); scrollToChart()}}
       >
         <Calendar/>
         <span>{t("innerPageFilter.options.monthly")}</span>
@@ -84,7 +101,7 @@ function InnerPageFilter(props) {
             </p>
             <DatePicker
               selected={startDate}
-              onChange={(update) => setDateRange(update)}
+              onChange={(date) => setDateRange(date)}
               startDate={startDate}
               endDate={endDate}
               selectsRange

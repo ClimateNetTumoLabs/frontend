@@ -42,6 +42,7 @@ footer {
     position: relative;
     width: 100vw;
     height: auto;
+    z-index: 997;
 }
 
 #root {
@@ -368,4 +369,97 @@ th {
     }
 
 
+}
+
+/* Override react-datepicker styles globally */
+.react-datepicker {
+    font-family: inherit !important;
+    background-color: #232222 !important;
+    border: 1px solid #232222 !important;
+    color: #eae6e2 !important;
+    opacity: 1 !important;
+  }
+  
+  .react-datepicker__header {
+    background-color: #3a3a3a !important;
+    border-bottom: 1px solid #3a3a3a !important;
+  }
+  
+  .react-datepicker__current-month,
+  .react-datepicker__day-name,
+  .react-datepicker__day {
+    color: #eae6e2 !important;
+  }
+  
+  .react-datepicker__day:hover {
+    background-color: #e07789 !important;
+    color: #232222 !important;
+  }
+  
+  .react-datepicker__day--selected,
+  .react-datepicker__day--keyboard-selected {
+    background-color: #e07789 !important;
+    color: #232222 !important;
+  }
+  
+  .react-datepicker__day--today {
+    font-weight: bold !important;
+  }
+  
+  .react-datepicker__navigation-icon::before {
+    border-color: #eae6e2 !important;
+  }
+  
+  .react-datepicker__navigation:hover *::before {
+    border-color: #e07789 !important;
+  }
+  
+  .react-datepicker__triangle {
+    display: none !important;
+  }
+  
+  /* Input field styling */
+  .react-datepicker-wrapper input {
+    padding: 0.5rem 1rem !important;
+    background-color: #3a3a3a !important;
+    color: white !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+    box-sizing: border-box !important;
+    /* width: 120px !important; */
+    text-align: center !important;
+    width: 120px !important;
+    height: 40px !important;
+  }
+  
+  .react-datepicker-wrapper input:hover {
+    background: #232222 !important;
+    color: #e07789 !important;
+    border: 1px solid #e07789 !important;
+  }
+
+  /* Style for disabled dates (before minDate/after maxDate) */
+.react-datepicker__day--disabled {
+  color: #666 !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Remove hover effects on disabled dates */
+.react-datepicker__day--disabled:hover {
+  background-color: transparent !important;
+  color: #666 !important;
+}
+
+/* Make sure current month dates are visible */
+.react-datepicker__day {
+  color: #eae6e2;
+}
+
+/* Datepicker blue outline */
+.react-datepicker__input-container input:focus {
+    outline: none;
+    box-shadow: none;
 }

@@ -51,8 +51,21 @@ const DataTable = (props) => {
                         <div className={styles.value} data-tooltip-id="uv_api">{props.data.uv}</div>
                         <ReactTooltip
                             id="uv_api"
-                            place="right"
-                            content={<span dangerouslySetInnerHTML={{ __html: `UV data by Open-Meteo (CC-BY 4.0)` }} />}
+                            place="bottom"
+                            clickable={true}
+                            opacity="1"
+                            content={
+                                <span>
+                                <a
+                                  href="https://open-meteo.com/"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  style={{ color: '#fff', textDecoration: 'underline'}}
+                                >
+                                Weather data by Open-Meteo.com
+                              </a>
+                            </span>
+                        }
                         />
                     </td>
                 </tr>
