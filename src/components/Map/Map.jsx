@@ -414,7 +414,6 @@ const MapArmenia = () => {
     useEffect(() => {
         const fetchDeviceList = async () => {
             try {
-                console.log('Fetching device list from /device_inner/list/');
                 const deviceListResponse = await axios.get(`/device_inner/list/`);
                 const deviceList = deviceListResponse.data.map(device => ({
                     ...device,
@@ -445,7 +444,6 @@ const MapArmenia = () => {
 
                 const devicePromises = deviceList.map(async (device) => {
                     try {
-                        console.log(`Fetching latest data for device ${device.generated_id}`);
                         const latestResponse = await axios.get(`/device_inner/${device.generated_id}/latest/`);
                         if (latestResponse.data.length > 0) {
                             const apiTime = latestResponse.data[0].time;
