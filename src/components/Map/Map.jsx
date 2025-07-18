@@ -412,112 +412,116 @@ const MapArmenia = () => {
     };
 
     useEffect(() => {
-        const fetchDeviceList = async () => {
-            try {
-                const deviceListResponse = await axios.get(`/device_inner/list/`);
-                const deviceList = deviceListResponse.data.map(device => ({
-                    ...device,
-                    temperature: null,
-                    humidity: null
-                }));
-                setDevices(deviceList);
-                setIsFetchingLatest(deviceList.reduce((acc, device) => ({
+    const fetchDeviceList = async () => {
+        try {
+            const deviceListResponse = await axios.get(`/device_inner/list/`);
+            const deviceList = deviceListResponse.data.map(device => ({
+                ...device,
+                temperature: null,
+                humidity: null
+            }));
+            setDevices(deviceList);
+            setIsFetchingLatest(deviceList.reduce((acc, device) => ({
+                ...acc,
+                [device.generated_id]: false
+            }), {}));
+            await fetchLatestData(deviceList);
+        } catch (error) {
+            setDevices([]);
+            setIsFetchingLatest({});
+        }
+    };
+
+    const fetchLatestData = async (deviceList) => {
+        try {
+            setIsFetchingLatest(prev => ({
+                ...prev,
+                ...deviceList.reduce((acc, device) => ({
                     ...acc,
-                    [device.generated_id]: false
-                }), {}));
-                await fetchLatestData(deviceList);
-            } catch (error) {
-                setDevices([]);
-                setIsFetchingLatest({});
-            }
-        };
+                    [device.generated_id]: true
+                }), {})
+            }));
 
-        const fetchLatestData = async (deviceList) => {
-            try {
-                setIsFetchingLatest(prev => ({
-                    ...prev,
-                    ...deviceList.reduce((acc, device) => ({
-                        ...acc,
-                        [device.generated_id]: true
-                    }), {})
-                }));
-
-                const devicePromises = deviceList.map(async (device) => {
-                    try {
-                        const latestResponse = await axios.get(`/device_inner/${device.generated_id}/latest/`);
-                        if (latestResponse.data.length > 0) {
-                            const apiTime = latestResponse.data[0].time;
-                            const date = new Date(apiTime);
-                            const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-                            return {
-                                ...device,
-                                temperature: latestResponse.data[0].temperature,
-                                humidity: latestResponse.data[0].humidity,
-                                time: formattedDate,
-                            };
-                        } else {
-                            return device;
-                        }
-                    } catch (error) {
+            const devicePromises = deviceList.map(async (device) => {
+                try {
+                    const latestResponse = await axios.get(`/device_inner/${device.generated_id}/latest/`);
+                    if (latestResponse.data.length > 0) {
+                        const apiTime = latestResponse.data[0].time;
+                        const date = new Date(apiTime);
+                        const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                        return {
+                            ...device,
+                            temperature: latestResponse.data[0].temperature,
+                            humidity: latestResponse.data[0].humidity,
+                            time: formattedDate,
+                        };
+                    } else {
                         return device;
                     }
-                });
+                } catch (error) {
+                    return device;
+                }
+            });
 
-                const devicesWithLatest = await Promise.all(devicePromises);
-                setDevices(devicesWithLatest);
-                setIsFetchingLatest(prev => ({
-                    ...prev,
-                    ...deviceList.reduce((acc, device) => ({
-                        ...acc,
-                        [device.generated_id]: false
-                    }), {})
-                }));
-            } catch (error) {
-                setIsFetchingLatest(prev => ({
-                    ...prev,
-                    ...deviceList.reduce((acc, device) => ({
-                        ...acc,
-                        [device.generated_id]: false
-                    }), {})
-                }));
+            const devicesWithLatest = await Promise.all(devicePromises);
+            setDevices(devicesWithLatest);
+            setIsFetchingLatest(prev => ({
+                ...prev,
+                ...deviceList.reduce((acc, device) => ({
+                    ...acc,
+                    [device.generated_id]: false
+                }), {})
+            }));
+        } catch (error) {
+            setIsFetchingLatest(prev => ({
+                ...prev,
+                ...deviceList.reduce((acc, device) => ({
+                    ...acc,
+                    [device.generated_id]: false
+                }), {})
+            }));
+        }
+    };
+
+    const scheduleNextFetch = () => {
+        const now = new Date();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+        const milliseconds = now.getMilliseconds();
+
+        const minutesPastQuarter = minutes % 15;
+        const minutesToNextQuarter = minutesPastQuarter === 0 ? 0 : 15 - minutesPastQuarter;
+        const delayMilliseconds = (minutesToNextQuarter * 60 * 1000) - (seconds * 1000) - milliseconds;
+
+        const timeoutId = setTimeout(() => {
+            if (devices.length > 0) {
+                fetchLatestData(devices);
+            } else {
+                fetchDeviceList();
             }
-        };
-
-        const scheduleNextFetch = () => {
-            const now = new Date();
-            const minutes = now.getMinutes();
-            const seconds = now.getSeconds();
-            const milliseconds = now.getMilliseconds();
-
-            const minutesPastQuarter = minutes % 15;
-            const minutesToNextQuarter = minutesPastQuarter === 0 ? 0 : 15 - minutesPastQuarter;
-            const delayMilliseconds = (minutesToNextQuarter * 60 * 1000) - (seconds * 1000) - milliseconds;
-
-            const timeoutId = setTimeout(() => {
+            const intervalId = setInterval(() => {
                 if (devices.length > 0) {
                     fetchLatestData(devices);
+                } else {
+                    fetchDeviceList();
                 }
-                const intervalId = setInterval(() => {
-                    if (devices.length > 0) {
-                        fetchLatestData(devices);
-                    }
-                }, 15 * 60 * 1000);
-                intervalRef.current = intervalId;
-            }, delayMilliseconds > 0 ? delayMilliseconds : 0);
+            }, 15 * 60 * 1000);
+            intervalRef.current = intervalId;
+        }, delayMilliseconds > 0 ? delayMilliseconds : 0);
 
-            return timeoutId;
-        };
+        return timeoutId;
+    };
 
-        fetchDeviceList();
-        const timeoutId = scheduleNextFetch();
+    fetchDeviceList();
+    const timeoutId = scheduleNextFetch();
 
-        return () => {
-            clearTimeout(timeoutId);
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-            }
-        };
-    }, []);
+    return () => {
+        clearTimeout(timeoutId);
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+    };
+}, []);
 
     useEffect(() => {
         const preventBrowserZoom = (e) => {
@@ -793,7 +797,7 @@ const MapArmenia = () => {
                             <div className={styles.deviceCountBadge}>
                                 {selectedDevices.length}
                             </div>
-                            <span className={styles.versues}>VS</span>
+                            <button className={styles.versues} onClick={handleCompare} disabled={selectedDevices.length < 2}>VS</button>
                             <div className={styles.deviceList}>
                                 {selectedDevices.map(device => (
                                     <div key={device.generated_id} className={styles.deviceListItem}>
