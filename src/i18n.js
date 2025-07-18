@@ -277,7 +277,8 @@ const resources = {
                     mapHumidity: "Humidity",
                     mapTemperature: "Temperature",
                     clickDetails: "Click for Details",
-                    // lastUpdated: "Time: ", // Last updated on:   Timestamp:
+                    compareButton: "Start Comparing",
+                    compareTooltip: "Click to add this device to the comparison list.",
                 },
                 contact: {
                     title1: "Contact Us",
@@ -818,7 +819,8 @@ const resources = {
                     mapHumidity: "Խոնավություն",
                     mapTemperature: "Ջերմաստիճան",
                     clickDetails: "Ավելին",
-                    // lastUpdated: "Վերջին թարմացումը" //Հավաքված է՝. Գրանցվել է՝
+                    compareButton: "Համեմատել",
+                    compareTooltip: "Սեղմեք՝ այս սարքը համեմատության ցանկին ավելացնելու համար:",
                 },
                 contact: {
                     title1: "Կապ մեզ հետ",

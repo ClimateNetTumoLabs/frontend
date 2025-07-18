@@ -6,7 +6,7 @@ import "leaflet/dist/leaflet.css";
 import iconUrl from "../../assets/Icons/map-marker.svg";
 import location from "../../assets/Icons/circle.jpeg";
 import armeniaGeoJSON from "../../armenia.json";
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import InnerPage from "../InnerPage/InnerPage";
 import "react-leaflet-fullscreen/styles.css";
 import { FullscreenControl } from "react-leaflet-fullscreen";
@@ -46,28 +46,22 @@ const PolygonWithText = ({ coords, text, region }) => {
     const center = coords && !isNaN(coords[0]) && !isNaN(coords[1]) ? L.latLng(coords[0], coords[1]) : null;
 
     useEffect(() => {
-        if (!center) {
-            console.warn(`Invalid coordinates for region ${region}:`, coords);
-            return;
-        }
-
+        if (!center) return;
         const marker = circleWithText2(center, text, 20, 1);
         markerRef.current = marker;
 
         marker.on('click', () => {
-            console.log('Polygon marker clicked:', region, center);
             map.setView(center, 10);
         });
 
         marker.addTo(map);
         return () => {
-            console.log('Removing polygon marker:', region);
             if (markerRef.current) {
                 map.removeLayer(markerRef.current);
                 markerRef.current = null;
             }
         };
-    }, [center, text, map, region]);
+    }, [center, text, map, region, coords]);
 
     const polygonCoords = center ? [
         [center.lat + 0.001, center.lng - 0.001],
@@ -82,7 +76,6 @@ const PolygonWithText = ({ coords, text, region }) => {
             positions={polygonCoords}
             eventHandlers={{
                 click: () => {
-                    console.log('Polygon clicked:', region, center);
                     map.setView(center, 10);
                 }
             }}
@@ -97,7 +90,7 @@ const usePopupManager = () => {
     const createPopup = (marker, content, options = {}) => {
         const markerId = marker._leaflet_id;
         clearPopup(markerId);
-        
+
         const popup = L.popup({
             className: options.customClassName || styles.customPopup,
             closeButton: options.closeButton || false,
@@ -106,9 +99,9 @@ const usePopupManager = () => {
             interactive: true,
             ...options
         })
-        .setLatLng(marker.getLatLng())
-        .setContent(content)
-        .openOn(marker._map);
+            .setLatLng(marker.getLatLng())
+            .setContent(content)
+            .openOn(marker._map);
 
         activePopupsRef.current.set(markerId, popup);
         return popup;
@@ -168,6 +161,27 @@ const usePopupManager = () => {
     };
 };
 
+const isDataOutdated = (deviceTime) => {
+    if (!deviceTime || deviceTime === 'N/A') return false;
+
+    try {
+        const deviceDate = new Date(deviceTime);
+        if (isNaN(deviceDate.getTime())) return false;
+
+        const now = new Date();
+        const minutes = now.getMinutes();
+        const minutesToLastInterval = minutes % 15;
+        const lastIntervalTime = new Date(now);
+        lastIntervalTime.setMinutes(minutes - minutesToLastInterval);
+        lastIntervalTime.setSeconds(0);
+        lastIntervalTime.setMilliseconds(0);
+        return deviceDate < lastIntervalTime;
+    } catch (error) {
+        console.error('Error parsing device time:', error);
+        return false;
+    }
+};
+
 const MapArmenia = () => {
     const { t, i18n } = useTranslation();
     const [devices, setDevices] = useState([]);
@@ -181,6 +195,8 @@ const MapArmenia = () => {
     const popupManager = usePopupManager();
     const [isFetchingLatest, setIsFetchingLatest] = useState({});
     const intervalRef = useRef(null);
+    const [selectedDevices, setSelectedDevices] = useState([]);
+    const [isMapVisible, setIsMapVisible] = useState(true);
 
     const regionCoordinatesMap = {
         "Aragatsotn": [40.5233, 44.4784],
@@ -210,7 +226,6 @@ const MapArmenia = () => {
     }, []);
 
     const handleZoom = (map) => {
-        console.log('Zoom changed:', map.getZoom());
         setZoomLevel(map.getZoom());
         popupManager.cleanup();
     };
@@ -218,15 +233,13 @@ const MapArmenia = () => {
     const ToggleScroll = () => {
         const map = useMapEvents({
             click: (e) => {
-                console.log('Map clicked:', e.latlng);
                 popupManager.cleanup();
-                setShowMessage(true);
+                setShowMessage(false);
             },
             zoom: () => {
                 handleZoom(map);
             },
             dblclick: (e) => {
-                console.log('Map double-clicked, toggling scroll');
                 setScrollEnabled((prev) => !prev);
                 e.originalEvent.preventDefault();
             }
@@ -261,137 +274,149 @@ const MapArmenia = () => {
     };
 
     const createDevicePopupContent = (device, isClick = false) => {
-        console.log('Creating popup for device:', device.id, {
-            temperature: device.temperature,
-            humidity: device.humidity,
-            time: device.time
-        });
         const isLoading = isFetchingLatest[device.generated_id];
-        // Fixed image path - using relative path from public folder
-        const imageSrc = `https://images-in-website.s3.us-east-1.amazonaws.com/Map/${device.generated_id}.jpg`;
+        const imageSrc = `https://images-in-website.s3.us-east-1.amazonaws.com/Map/${device.generated_id}.webp`;
         const fallbackImageSrc = 'https://images-in-website.s3.us-east-1.amazonaws.com/Weather/device.svg';
-        
+        const isOutdated = isDataOutdated(device.time);
         return `
-            <div class="${styles.hoverCard}">
-                <div class="${styles.imageZoomContainer}">
-                    <img 
-                        src="${imageSrc}" 
-                        alt="${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}" 
-                        class="${styles.deviceImage}"
-                        onerror="this.src='${fallbackImageSrc}'; console.warn('Image not found: ${imageSrc}, using fallback: ${fallbackImageSrc}')"
-                    />
-                    <div class="${styles.zoomLens}"></div>
-                    <div class="${styles.zoomResult}"></div>
+        <div class="${styles.hoverCard}">
+            <div class="${styles.imageZoomContainer}">
+                <img 
+                    src="${imageSrc}" 
+                    alt="${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}" 
+                    class="${styles.deviceImage}"
+                    onerror="this.src='${fallbackImageSrc}'; console.warn('Image not found: ${imageSrc}, using fallback: ${fallbackImageSrc}')"
+                />
+                <div class="${styles.zoomLens}"></div>
+                <div class="${styles.zoomResult}"></div>
+            </div>
+            <h3> ${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']} </h3>
+                <div class="${styles.compareIconContainer}">
+                    <div 
+                        class="${styles.compareIconVS}" 
+                        onclick="window.dispatchEvent(new CustomEvent('compareDevice', { detail: { id: '${device.generated_id}' } }))"
+                    >
+                        VS
+                    </div>
+                    <span class="${styles.compareTooltip}">${t('map.compareTooltip')}</span>
                 </div>
-                <h3>${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</h3>
-                ${isLoading ? `
-                    <p>Loading...</p>
-                ` : `
-                    <p>${t('map.mapHumidity')}: ${device.humidity != null ? device.humidity : 'N/A'}%</p>
-                    <p>${t('map.mapTemperature')}: ${device.temperature != null ? device.temperature : 'N/A'}°C</p>
-                    <br/>
-                    <p>${device.time != null ? device.time : 'N/A'}</p>
-                `}
-                <a href="/${i18n.language}/device/${device.generated_id}/?${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}">
-                    ${isClick ? 'View Details' : 'Click for Details'}
-                </a>
-            </div>
-        `;
-    };
-
-
-    const createLocationPopupContent = () => {
-        return `
-            <div class="${styles.locationHoverCard}">
-                <img src="https://images-in-website.s3.us-east-1.amazonaws.com/Weather/location.svg" 
-                     alt="${t('map.currentLocation')}" 
-                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;" />
-                <h3>${t('map.currentLocation')}</h3>
-                <p>${t('map.latitude')}: ${position.latitude || 'N/A'}</p>
-                <p>${t('map.longitude')}: ${position.longitude || 'N/A'}</p>
-                <a href="#">${t('map.viewDetails')}</a>
-            </div>
-        `;
+            ${isLoading ? `
+                <p>Loading...</p>
+            ` : `
+                <div class="${styles.cardContent}">
+                    <p>${t('map.mapHumidity')}: <span class="${styles.cardData}">${device.humidity != null ? device.humidity : 'N/A'}%</span></p>
+                    <p>${t('map.mapTemperature')}: <span class="${styles.cardData}">${device.temperature != null ? device.temperature : 'N/A'}°C</span></p>
+                    <p class="${styles.cardTime}">${isOutdated ? "⛔ " : ""}<i>${device.time != null ? device.time : 'N/A'}</i></p>
+                </div>
+            `}
+            <a href="/${i18n.language}/device/${device.generated_id}/?${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}">${t('map.clickDetails')}</a>
+        </div>
+    `;
     };
 
     const setupPopupEvents = (popup, markerId) => {
         const popupElement = popup.getElement();
-        if (popupElement) {
-            popupElement.addEventListener('mouseenter', () => {
-                console.log('Popup mouseenter:', markerId);
-                popupManager.cancelPopupClose(markerId);
-            });
-            
-            popupElement.addEventListener('mouseleave', () => {
-                console.log('Popup mouseleave:', markerId);
-                popupManager.schedulePopupClose(markerId, 200);
-            });
+        if (!popupElement) return;
 
-            // Initialize zoom effect for images
-            const image = popupElement.querySelector(`.${styles.deviceImage}`);
-            const lens = popupElement.querySelector(`.${styles.zoomLens}`);
-            const result = popupElement.querySelector(`.${styles.zoomResult}`);
-            if (image && lens && result) {
-                const initializeZoom = () => {
-                    const imgRect = image.getBoundingClientRect();
-                    const lensRect = lens.getBoundingClientRect();
-                    const resultRect = result.getBoundingClientRect();
+        popupElement.addEventListener('mouseenter', () => {
+            popupManager.cancelPopupClose(markerId);
+        });
+        popupElement.addEventListener('mouseleave', () => {
+            popupManager.schedulePopupClose(markerId, 200);
+        });
 
-                    const cx = resultRect.width / lensRect.width;
-                    const cy = resultRect.height / lensRect.height;
+        const image = popupElement.querySelector(`.${styles.deviceImage}`);
+        const lens = popupElement.querySelector(`.${styles.zoomLens}`);
+        const result = popupElement.querySelector(`.${styles.zoomResult}`);
 
-                    result.style.backgroundImage = `url(${image.src})`;
-                    result.style.backgroundSize = `${imgRect.width * cx}px ${imgRect.height * cy}px`;
+        if (image && lens && result) {
+            const initializeZoom = () => {
+                const imgRect = image.getBoundingClientRect();
+                const lensSize = 60;
+                const zoomFactor = 3;
+                const resultSize = 200;
 
-                    const moveLens = (e) => {
-                        e.preventDefault();
-                        const pos = getCursorPos(e, image);
-                        let x = pos.x - lensRect.width / 2;
-                        let y = pos.y - lensRect.height / 2;
+                result.style.backgroundImage = `url(${image.src})`;
+                result.style.backgroundSize = `${imgRect.width * zoomFactor}px ${imgRect.height * zoomFactor}px`;
 
-                        // Prevent lens from moving outside image
-                        if (x < 0) x = 0;
-                        if (y < 0) y = 0;
-                        if (x > imgRect.width - lensRect.width) x = imgRect.width - lensRect.width;
-                        if (y > imgRect.height - lensRect.height) y = imgRect.height - lensRect.height;
+                const moveLens = (e) => {
+                    e.preventDefault();
+                    const pos = getCursorPos(e, image);
+                    let x = pos.x - lensSize / 2;
+                    let y = pos.y - lensSize / 2;
 
-                        lens.style.left = `${x}px`;
-                        lens.style.top = `${y}px`;
-                        result.style.backgroundPosition = `-${x * cx}px -${y * cy}px`;
-                    };
+                    x = Math.max(0, Math.min(x, imgRect.width - lensSize));
+                    y = Math.max(0, Math.min(y, imgRect.height - lensSize));
+                    lens.style.left = `${x}px`;
+                    lens.style.top = `${y}px`;
 
-                    const getCursorPos = (e, img) => {
-                        const rect = img.getBoundingClientRect();
-                        return {
-                            x: e.clientX - rect.left,
-                            y: e.clientY - rect.top
-                        };
-                    };
-
-                    image.addEventListener('mousemove', moveLens);
-                    lens.addEventListener('mousemove', moveLens);
-                    image.addEventListener('mouseenter', () => {
-                        lens.style.display = 'block';
-                        result.style.display = 'block';
-                    });
-                    image.addEventListener('mouseleave', () => {
-                        lens.style.display = 'none';
-                        result.style.display = 'none';
-                    });
+                    const bgX = Math.min(x * zoomFactor, (imgRect.width * zoomFactor) - resultSize);
+                    const bgY = Math.min(y * zoomFactor, (imgRect.height * zoomFactor) - resultSize);
+                    result.style.backgroundPosition = `-${bgX}px -${bgY}px`;
                 };
 
-                // Wait for image to load to get correct dimensions
-                if (image.complete) {
-                    initializeZoom();
-                } else {
-                    image.addEventListener('load', initializeZoom);
-                }
+                const getCursorPos = (e, img) => {
+                    const rect = img.getBoundingClientRect();
+                    let clientX, clientY;
+                    if (e.type.startsWith('touch')) {
+                        const touch = e.touches[0] || e.changedTouches[0];
+                        clientX = touch.clientX;
+                        clientY = touch.clientY;
+                    } else {
+                        clientX = e.clientX;
+                        clientY = e.clientY;
+                    }
+                    return {
+                        x: clientX - rect.left,
+                        y: clientY - rect.top
+                    };
+                };
+
+                image.addEventListener('mousemove', moveLens);
+                image.addEventListener('mouseenter', () => {
+                    lens.style.display = 'block';
+                    result.style.display = 'block';
+                });
+                image.addEventListener('mouseleave', () => {
+                    lens.style.display = 'none';
+                    result.style.display = 'none';
+                });
+                image.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    lens.style.display = 'block';
+                    result.style.display = 'block';
+                    moveLens(e);
+                });
+                image.addEventListener('touchmove', moveLens);
+                image.addEventListener('touchend', () => {
+                    lens.style.display = 'none';
+                    result.style.display = 'none';
+                });
+
+                popup.on('remove', () => {
+                    image.removeEventListener('mousemove', moveLens);
+                    image.removeEventListener('mouseenter', () => { });
+                    image.removeEventListener('mouseleave', () => { });
+                    image.removeEventListener('touchstart', () => { });
+                    image.removeEventListener('touchmove', moveLens);
+                    image.removeEventListener('touchend', () => { });
+                });
+            };
+
+            if (image.complete) {
+                initializeZoom();
+            } else {
+                image.addEventListener('load', initializeZoom);
+                image.addEventListener('error', () => {
+                    console.warn('Image failed to load:', image.src);
+                });
             }
+        } else {
+            console.warn('Zoom elements not found:', { image, lens, result });
         }
     };
 
     useEffect(() => {
-        // Fetch the device list only once on mount
         const fetchDeviceList = async () => {
             try {
                 console.log('Fetching device list from /device_inner/list/');
@@ -512,22 +537,6 @@ const MapArmenia = () => {
     }, []);
 
     useEffect(() => {
-        if (markerRef.current && position && position.latitude !== null && position.longitude !== null) {
-            const latLng = [parseFloat(position.latitude), parseFloat(position.longitude)];
-            if (!isNaN(latLng[0]) && !isNaN(latLng[1])) {
-                console.log('Updating blinkIcon marker position:', latLng);
-                markerRef.current.setLatLng(latLng);
-                markerRef.current.bindPopup(createLocationPopupContent(), {
-                    className: styles.locationPopup,
-                    closeButton: true
-                });
-            } else {
-                console.warn('Invalid position coordinates:', latLng);
-            }
-        }
-    }, [position]);
-
-    useEffect(() => {
         const preventBrowserZoom = (e) => {
             if (showMessage && (e.ctrlKey || e.metaKey)) {
                 e.preventDefault();
@@ -540,6 +549,75 @@ const MapArmenia = () => {
             window.removeEventListener('wheel', preventBrowserZoom);
         };
     }, [showMessage]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const mapElement = document.getElementById('Map');
+            if (mapElement) {
+                const rect = mapElement.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
+                const mapVisibleRatio = visibleHeight / viewportHeight;
+                setIsMapVisible(mapVisibleRatio > 0.5);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const handleCompareDevice = (event) => {
+            const { id } = event.detail;
+            const device = devices.find(d => d.generated_id === id);
+            if (device && !selectedDevices.find(d => d.generated_id === id)) {
+                setSelectedDevices(prev => [...prev, device]);
+                popupManager.cleanup();
+            }
+        };
+
+        window.addEventListener('compareDevice', handleCompareDevice);
+        return () => window.removeEventListener('compareDevice', handleCompareDevice);
+    }, [devices, selectedDevices, popupManager]);
+
+    const handleRemoveDevice = (deviceId) => {
+        setSelectedDevices(prev => prev.filter(device => device.generated_id !== deviceId));
+    };
+
+
+    useEffect(() => {
+        const compareBar = document.querySelector(`.${styles.compareBar}`);
+        const deviceList = document.querySelector(`.${styles.deviceList}`);
+        let hideTimeout = null;
+
+        if (!compareBar || !deviceList) return;
+
+        const showList = () => {
+            clearTimeout(hideTimeout);
+            deviceList.style.display = 'block';
+        };
+
+        const hideListWithDelay = () => {
+            hideTimeout = setTimeout(() => {
+                deviceList.style.display = 'none';
+            }, 300);
+        };
+
+        compareBar.addEventListener('mouseenter', showList);
+        compareBar.addEventListener('mouseleave', hideListWithDelay);
+        deviceList.addEventListener('mouseenter', showList);
+        deviceList.addEventListener('mouseleave', hideListWithDelay);
+
+        return () => {
+            compareBar.removeEventListener('mouseenter', showList);
+            compareBar.removeEventListener('mouseleave', hideListWithDelay);
+            deviceList.removeEventListener('mouseenter', showList);
+            deviceList.removeEventListener('mouseleave', hideListWithDelay);
+            clearTimeout(hideTimeout);
+        };
+    }, [selectedDevices]);
+
 
     const geoJSONStyle = {
         fillColor: "green",
@@ -564,6 +642,13 @@ const MapArmenia = () => {
     });
 
     const totalDevices = Object.values(regionDevices).reduce((sum, count) => sum + count, 0);
+
+    const handleCompare = () => {
+        if (selectedDevices.length >= 2) {
+            const ids = selectedDevices.map(d => d.generated_id).join(',');
+            window.location.href = `/compare?ids=${ids}`;
+        }
+    };
 
     return (
         <div className={styles.map_wrapper} id="Map" style={{ cursor: 'pointer' }}>
@@ -629,64 +714,38 @@ const MapArmenia = () => {
                                     icon={customIcon}
                                     eventHandlers={{
                                         mouseover: (e) => {
-                                            console.log('Device marker mouseover:', device.id);
                                             const markerId = e.target._leaflet_id;
                                             const popup = popupManager.createPopup(
-                                                e.target, 
+                                                e.target,
                                                 createDevicePopupContent(device, false)
                                             );
                                             setupPopupEvents(popup, markerId);
                                         },
                                         mouseout: (e) => {
-                                            console.log('Device marker mouseout:', device.id);
                                             const markerId = e.target._leaflet_id;
                                             popupManager.schedulePopupClose(markerId, 200);
                                         },
                                         click: (e) => {
-                                            console.log('Device marker clicked:', device.id);
                                             const markerId = e.target._leaflet_id;
                                             const popup = popupManager.createPopup(
-                                                e.target, 
-                                                createDevicePopupContent(device, true),
-                                                { closeButton: true }
+                                                e.target,
+                                                createDevicePopupContent(device, false),
                                             );
                                             setupPopupEvents(popup, markerId);
                                         },
                                     }}
                                 />
                             ))}
-                            {position && position.latitude !== null && position.longitude !== null && (
-                                <Marker
-                                    ref={markerRef}
-                                    position={[parseFloat(position.latitude), parseFloat(position.longitude)]}
-                                    icon={blinkIcon}
-                                    eventHandlers={{
-                                        click: (e) => {
-                                            console.log('blinkIcon marker clicked:', e.latlng);
-                                            const markerId = e.target._leaflet_id;
-                                            const popup = popupManager.createPopup(
-                                                e.target,
-                                                createLocationPopupContent(),
-                                                { className: styles.locationPopup, closeButton: true }
-                                            );
-                                            setupPopupEvents(popup, markerId);
-                                            e.target._map.panTo(e.latlng);
-                                        },
-                                        add: () => {
-                                            console.log('blinkIcon marker added to map');
-                                            if (markerRef.current) {
-                                                markerRef.current.bindPopup(createLocationPopupContent(), {
-                                                    className: styles.locationPopup,
-                                                    closeButton: true
-                                                });
-                                            }
-                                        },
-                                        remove: () => {
-                                            console.log('blinkIcon marker removed from map');
-                                        },
-                                    }}
-                                />
-                            )}
+                            {
+                                position && position.latitude !== null && position.longitude !== null && (
+                                    <Marker
+                                        ref={markerRef}
+                                        position={position && position.latitude !== null && position.longitude !== null ? [parseFloat(position.latitude), parseFloat(position.longitude)] : [0, 0]}
+                                        icon={blinkIcon}
+                                    >
+                                    </Marker>
+                                )
+                            }
                         </>
                     )}
                     <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle} />
@@ -702,20 +761,6 @@ const MapArmenia = () => {
                     {showMessage && (
                         <div
                             className={styles.fullScreenPopup}
-                            style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: '100%',
-                                height: '100%',
-                                backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                                backdropFilter: 'blur(5px)',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                zIndex: 1000,
-                                pointerEvents: 'all'
-                            }}
                             onWheel={(e) => e.preventDefault()}
                             onClick={() => setShowMessage(false)}
                         >
@@ -729,6 +774,60 @@ const MapArmenia = () => {
                     )}
                 </MapContainer>
             </div>
+            {selectedDevices.length > 0 && (
+                <div className={`${styles.compareBar} ${isMapVisible ? '' : styles.collapsed}`}>
+                    {isMapVisible ? (
+                        <>
+                            <div
+                                className={`${styles.deviceCountBadge} ${selectedDevices.length < 2 ? styles.disabled : ''}`}
+                            >
+                                {selectedDevices.length}
+                            </div>
+
+                            <button
+                                className={styles.compareButton}
+                                onClick={handleCompare}
+                                disabled={selectedDevices.length < 2}
+                            >
+                                {t('map.compareButton')}
+                            </button>
+
+                            <div className={styles.deviceList}>
+                                {selectedDevices.map(device => (
+                                    <div key={device.generated_id} className={styles.deviceListItem}>
+                                        <span>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</span>
+                                        <button
+                                            className={styles.removeDeviceButton}
+                                            onClick={() => handleRemoveDevice(device.generated_id)}
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className={styles.deviceCountBadge}>
+                                {selectedDevices.length}
+                            </div>
+                            <span className={styles.versues}>VS</span>
+                            <div className={styles.deviceList}>
+                                {selectedDevices.map(device => (
+                                    <div key={device.generated_id} className={styles.deviceListItem}>
+                                        <span>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</span>
+                                        <button
+                                            className={styles.removeDeviceButton}
+                                            onClick={() => handleRemoveDevice(device.generated_id)}>
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
