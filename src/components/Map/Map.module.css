@@ -2,6 +2,7 @@
     padding: 25px 25px;
 }
 
+
 .map_header {
     font-size: 28px;
     color: #e07789;
@@ -45,6 +46,7 @@
     border: 5px solid white;
 }
 
+
 .blur {
     -webkit-filter: blur(5px);
     -moz-filter: blur(5px);
@@ -84,16 +86,9 @@ a > span {
     color: black !important;
 }
 
-.messageBox > span {
-    fill: black;
-    color: black !important;
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.mapContainer {
+/* .mapContainer {
     position: relative;
-}
+} */
 
 @media (max-width: 768px) {
     .map_wrapper {
@@ -104,6 +99,7 @@ a > span {
         padding: 0;
     }
 }
+
 
 :global(.leaflet-popup-content-wrapper) {
     background: #fff !important;
@@ -117,6 +113,7 @@ a > span {
         0 0 10px rgba(255, 255, 255, 0.5) !important;
     padding: 0;
     max-width: fit-content;
+    font-family: 'Ping', sans-serif;
 }
 
 :global(.leaflet-popup-tip) {
@@ -133,7 +130,7 @@ a > span {
     padding: 20px;
     text-align: center;
     border-radius: 18px;
-    max-width: 250px;
+    max-width: 300px;
     position: relative;
 }
 
@@ -142,7 +139,7 @@ a > span {
     width: 120px;
     height: 120px;
     margin: 0 auto 12px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .deviceImage {
@@ -162,25 +159,116 @@ a > span {
     display: none;
     pointer-events: none;
     cursor: zoom-in;
+    z-index: 1002;
+    border-radius: 50%;
 }
 
 .zoomResult {
     position: absolute;
     top: 0;
-    left: 130px;
+    left: calc(120px + 10px);
     width: 200px;
     height: 200px;
     border: 1px solid #ccc;
-    background-color: white;
+    background-color: #fff;
     display: none;
     z-index: 1001;
-    background-repeat: no-repeat;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
+.compareIconContainer {
+    position: absolute;
+    top: 7%;
+    right: 12%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    
+}
+
+.compareIconVS {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;
+}
+
+.compareIconVS:hover {
+    background-color: #e07789;
+}
+
+.compareTooltip {
+    visibility: hidden;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1003;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.compareTooltip::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-right-color: #333;
+}
+
+.compareIconContainer:hover .compareTooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.cardDataRow {
+    margin: 8px 0;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.cardData {
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #e07789 !important;
+}
+
+.cardTime i{
+    text-align: center !important;
+    font-size: 13px !important;
+    color: #555;
+    margin: 8px 0;
+    line-height: 1.4;
+}
+
+
 .hoverCard img {
-    width: 120px;
+    width: 125px;
     height: 120px;
     object-fit: cover;
     border-radius: 12px;
@@ -190,21 +278,25 @@ a > span {
 .hoverCard h3 {
     margin: 12px 0;
     font-size: 18px;
+    font-weight: bold;
     color: #333;
     text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.9);
+    position: relative;
+    text-align: center;
 }
 
 .hoverCard p {
-    margin: 5px 0;
+    margin: 8px 0;
     font-size: 15px;
     color: #555;
     line-height: 1.4;
+    text-align: center;
 }
 
 .hoverCard a {
     display: inline-block;
     padding: 10px 20px;
-    margin-top: 15px;
+    margin-top: 10px;
     color: #e07789;
     background-color: transparent;
     border: 2px solid #e07789;
@@ -213,6 +305,7 @@ a > span {
     border-radius: 8px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .hoverCard a:hover {
@@ -305,4 +398,168 @@ a > span {
         0 10px 12px rgba(0, 0, 0, 0.5),
         inset 0 -5px 7px rgba(0, 0, 0, 0.3),
         inset 0 5px 7px rgba(255, 255, 255, 0.2);
+}
+
+.compareBar {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    z-index: 1000;
+    transition: width 0.3s ease, transform 0.3s ease;
+    max-height: 50px;
+}
+
+.compareBar.collapsed {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.compareBar.collapsed:hover .deviceCountBadge {
+    display: none;
+}
+
+.compareButton {
+    color: #e07789;
+    background-color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    min-width: 175px;
+    border: 2px solid #e07789;
+    box-sizing: border-box; 
+}
+
+.compareButton:disabled {
+    background-color: #555353;
+    color: #fff;
+    border: 2px solid #555353; 
+    cursor: not-allowed;
+}
+
+.compareButton:hover:not(:disabled) {
+    background-color: #e07789;
+    color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.deviceCountBadge {
+    background-color: #e07789;
+    color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.deviceCountBadge.disabled {
+    background-color: #555353;
+    color: #fff;
+}
+
+.compareBar.collapsed .deviceCountBadge {
+    position: absolute;
+    top: -10px;
+    right: -20px;
+}
+
+.versues {
+    color: #e07789 !important;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.deviceList {
+    position: absolute;
+    bottom: 70px;
+    left: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    display: none;
+    min-width: 180px;
+    z-index: 10001;
+    display: none;
+}
+
+.compareBar:hover .deviceList,
+.deviceCountBadge:hover + .deviceList,
+.deviceCountBadge:hover ~ .deviceList {
+    display: block;
+}
+
+.compareBar:hover .deviceList {
+    display: block;
+}
+
+.deviceListItem {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    transition: background-color 0.2s ease;
+}
+
+.deviceListItem span {
+    flex-grow: 1;
+    color: #333232 !important;
+    margin-right: 8px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.removeDeviceButton {
+    background: none;
+    border: none;
+    color: #333232;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    margin-left: 8px;
+}
+
+.removeDeviceButton:hover {
+    color: #c95f73;
+}
+
+.compareMessage {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    font-size: 14px;
+    max-width: 300px;
 }

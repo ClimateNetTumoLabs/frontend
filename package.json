@@ -93,7 +93,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=8000 react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "copy-sitemap": "cp build/sitemap.xml ../django-app/climatenet/static/sitemap.xml",
     "test": "react-scripts test",
