@@ -24,18 +24,52 @@ function InnerPageDynamicContent(props) {
     const ChartsRef = useRef(null)
     const [showWelcomeOverlay, setShowWelcomeOverlay] = useState(true);
     const toggleFullScreen = () => {
-        const chartElement = ChartsRef.current
-
+        const chartElement = ChartsRef.current;
+      
         if (chartElement) {
-            if (!document.fullscreenElement) {
-                chartElement.requestFullscreen().catch(err => {
-                    console.error('Failed to enter fullscreen mode:', err);
-                });
-            } else {
-                document.exitFullscreen();
-            }
+          if (!document.fullscreenElement) {
+            // Ensure the element takes full space before entering fullscreen
+            chartElement.style.width = '100vw';
+            chartElement.style.height = '100vh';
+            chartElement.style.overflow = 'auto';
+            
+            chartElement.requestFullscreen().catch(err => {
+              console.error('Failed to enter fullscreen mode:', err);
+            });
+          } else {
+            document.exitFullscreen();
+          }
         }
-    };
+      };
+
+      useEffect(() => {
+        const handleFullscreenChange = () => {
+          if (document.fullscreenElement) {
+            // In fullscreen mode
+            document.body.style.overflow = 'auto';
+          } else {
+            // Exited fullscreen mode
+            document.body.style.overflow = '';
+          }
+        };
+      
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => {
+          document.removeEventListener('fullscreenchange', handleFullscreenChange);
+        };
+      }, []);
+
+      useEffect(() => {
+        const handleFullscreenChange = () => {
+          const chartElement = ChartsRef.current;
+          if (document.fullscreenElement) {
+            chartElement.style.touchAction = 'pan-x pan-y';
+          }
+        };
+      
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      }, []);
 
     useEffect(() => {
         let temperatureArray = [];
@@ -57,7 +91,7 @@ function InnerPageDynamicContent(props) {
             pm1Array.push(element['pm1'] || 0)
             pm2_5Array.push(element['pm2_5'] || 0)
             pm10Array.push(element['pm10'] || 0)
-            timeArray.push(element["hour"] || element["date"] || 0);
+            timeArray.push(element["hour"] || element["date"] || element["time_interval"] || 0);
             UVIndexArray.push(element["uv"] || 0)
             VisibleLightArray.push(element["lux"] || 0)
             RainCountArray.push(element["rain"] || 0)
@@ -96,6 +130,7 @@ function InnerPageDynamicContent(props) {
                              title={t('innerPageDynamicContent.tabTitles.temperatureAndHumidity')}>
                             {selectedTab === "tem_and_hum" &&
                                 <WeatherDataGraphs
+                                    weather_data={props.weather_data}
                                     startDate={props.startDate}
                                     endDate={props.endDate}
                                     setStartDate={props.setStartDate}
@@ -123,6 +158,7 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="pm" title={t('innerPageDynamicContent.tabTitles.airQuality')}>
                             {selectedTab === "pm" &&
                                 <WeatherDataGraphs
+                                    weather_data={props.weather_data}
                                     startDate={props.startDate}
                                     endDate={props.endDate}
                                     setStartDate={props.setStartDate}
@@ -150,6 +186,7 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="pressure" title={t('innerPageDynamicContent.tabTitles.pressure')}>
                             {selectedTab === "pressure" &&
                                 <WeatherDataGraphs
+                                    weather_data={props.weather_data}
                                     startDate={props.startDate}
                                     endDate={props.endDate}
                                     setStartDate={props.setStartDate}
@@ -177,6 +214,7 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="light" title={t('innerPageDynamicContent.tabTitles.light')}>
                             {selectedTab === "light" &&
                                 <WeatherDataGraphs
+                                    weather_data={props.weather_data}
                                     startDate={props.startDate}
                                     endDate={props.endDate}
                                     setStartDate={props.setStartDate}
@@ -204,6 +242,7 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="rain_wind" title={t('innerPageDynamicContent.tabTitles.rainAndWind')}>
                             {selectedTab === "rain_wind" &&
                                 <WeatherDataGraphs
+                                    weather_data={props.weather_data}
                                     className={styles.graph}
                                     leftLoad={props.leftLoad}
                                     setLeftLoad={props.setLeftLoad}

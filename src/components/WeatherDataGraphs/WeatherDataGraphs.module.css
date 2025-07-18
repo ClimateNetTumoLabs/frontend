@@ -171,6 +171,10 @@ span {
     .popupContent {
         display: none;
     }
+
+    :fullscreen .filterButtons {
+        display: none;
+    }
 }
 
 .pickerContainer {
@@ -308,7 +312,7 @@ span {
     margin: 5px 0 0 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 10;
-    width: 70px;
+    /* width: 70px; */
 }
 
 .dropdownItem {
@@ -316,6 +320,7 @@ span {
     color: white;
     cursor: pointer;
     transition: all 0.2s;
+    width: 135px;
 }
 
 .dropdownItem:hover {
@@ -339,14 +344,18 @@ span {
     background: #232222;
     color: #e07789;
     border: 1px solid #e07789;
-}
-
-.downloadIconButton svg {
+  }
+  
+  .downloadIconButton svg {
     cursor: pointer;
     stroke: #ffffff; /* White icon to match theme */
   }
+  
+  .downloadIconButton:hover svg {
+    stroke: #e07789; /* Pink stroke when button is hovered */
+  }
 
-  .welcomeOverlay {
+.welcomeOverlay {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -387,9 +396,40 @@ span {
     font-size: 18px;
     line-height: 1.8;
     font-weight: 500;
-    max-width: 400px;
+    max-width: 600px;
 }
 
 .popupContent span {
     color: #fff !important;
 }
+
+.zoomLimitPopup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: #FFFFFF;
+    z-index: 1000;
+    font-size: 14px;
+    text-align: center;
+
+    background-color: #3a3a3a;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+/* Add this to WeatherDataGraphs.module.css */
+:fullscreen .chartContainer {
+    overflow: auto !important;
+    height: 100% !important;
+  }
+  
+  :fullscreen .chartWrapper {
+    min-height: 100% !important;
+  }
+  
+  :fullscreen .chart_div {
+    height: auto !important;
+    min-height: 100% !important;
+  }
