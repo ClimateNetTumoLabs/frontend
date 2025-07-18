@@ -177,7 +177,6 @@ const isDataOutdated = (deviceTime) => {
         lastIntervalTime.setMilliseconds(0);
         return deviceDate < lastIntervalTime;
     } catch (error) {
-        console.error('Error parsing device time:', error);
         return false;
     }
 };
@@ -223,6 +222,7 @@ const MapArmenia = () => {
         return () => {
             popupManager.cleanup();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleZoom = (map) => {
@@ -234,7 +234,7 @@ const MapArmenia = () => {
         const map = useMapEvents({
             click: (e) => {
                 popupManager.cleanup();
-                setShowMessage(false);
+                setShowMessage(true);
             },
             zoom: () => {
                 handleZoom(map);
@@ -285,7 +285,7 @@ const MapArmenia = () => {
                     src="${imageSrc}" 
                     alt="${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}" 
                     class="${styles.deviceImage}"
-                    onerror="this.src='${fallbackImageSrc}'; console.warn('Image not found: ${imageSrc}, using fallback: ${fallbackImageSrc}')"
+                    onerror="this.src='${fallbackImageSrc}'"
                 />
                 <div class="${styles.zoomLens}"></div>
                 <div class="${styles.zoomResult}"></div>
@@ -407,12 +407,7 @@ const MapArmenia = () => {
                 initializeZoom();
             } else {
                 image.addEventListener('load', initializeZoom);
-                image.addEventListener('error', () => {
-                    console.warn('Image failed to load:', image.src);
-                });
             }
-        } else {
-            console.warn('Zoom elements not found:', { image, lens, result });
         }
     };
 
@@ -426,7 +421,6 @@ const MapArmenia = () => {
                     temperature: null,
                     humidity: null
                 }));
-                console.log('Device list fetched:', deviceList);
                 setDevices(deviceList);
                 setIsFetchingLatest(deviceList.reduce((acc, device) => ({
                     ...acc,
@@ -434,7 +428,6 @@ const MapArmenia = () => {
                 }), {}));
                 await fetchLatestData(deviceList);
             } catch (error) {
-                console.error('Error fetching device list:', error.response || error);
                 setDevices([]);
                 setIsFetchingLatest({});
             }
@@ -454,7 +447,6 @@ const MapArmenia = () => {
                     try {
                         console.log(`Fetching latest data for device ${device.generated_id}`);
                         const latestResponse = await axios.get(`/device_inner/${device.generated_id}/latest/`);
-                        console.log(`Latest data for device ${device.generated_id}:`, latestResponse.data);
                         if (latestResponse.data.length > 0) {
                             const apiTime = latestResponse.data[0].time;
                             const date = new Date(apiTime);
@@ -466,17 +458,14 @@ const MapArmenia = () => {
                                 time: formattedDate,
                             };
                         } else {
-                            console.warn(`Empty response array for device ${device.generated_id}`);
                             return device;
                         }
                     } catch (error) {
-                        console.error(`Error fetching latest data for device ${device.generated_id}:`, error.response || error);
                         return device;
                     }
                 });
 
                 const devicesWithLatest = await Promise.all(devicePromises);
-                console.log('Devices with latest data:', devicesWithLatest);
                 setDevices(devicesWithLatest);
                 setIsFetchingLatest(prev => ({
                     ...prev,
@@ -486,7 +475,6 @@ const MapArmenia = () => {
                     }), {})
                 }));
             } catch (error) {
-                console.error('Error fetching latest data:', error.response || error);
                 setIsFetchingLatest(prev => ({
                     ...prev,
                     ...deviceList.reduce((acc, device) => ({
@@ -507,8 +495,6 @@ const MapArmenia = () => {
             const minutesToNextQuarter = minutesPastQuarter === 0 ? 0 : 15 - minutesPastQuarter;
             const delayMilliseconds = (minutesToNextQuarter * 60 * 1000) - (seconds * 1000) - milliseconds;
 
-            console.log(`Scheduling fetch in ${delayMilliseconds / 1000} seconds at ${new Date(now.getTime() + delayMilliseconds).toLocaleTimeString()}`);
-
             const timeoutId = setTimeout(() => {
                 if (devices.length > 0) {
                     fetchLatestData(devices);
@@ -528,7 +514,6 @@ const MapArmenia = () => {
         const timeoutId = scheduleNextFetch();
 
         return () => {
-            console.log('MapArmenia unmounting');
             clearTimeout(timeoutId);
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
@@ -692,7 +677,6 @@ const MapArmenia = () => {
                             {Object.entries(regionDevices).map(([region, count]) => {
                                 const regionCoordinates = regionCoordinatesMap[region];
                                 if (!regionCoordinates || isNaN(regionCoordinates[0]) || isNaN(regionCoordinates[1])) {
-                                    console.warn(`Invalid coordinates for region ${region}:`, regionCoordinates);
                                     return null;
                                 }
                                 return (
