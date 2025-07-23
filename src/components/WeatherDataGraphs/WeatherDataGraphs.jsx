@@ -281,7 +281,7 @@ const downloadButtonPlugin = (isMobile, toggleDropdown) => ({
   },
 });
 
-ChartJS.register(verticalLinePlugin, noDataPlugin);
+ChartJS.register(verticalLinePlugin);
 
 const WeatherDataGraphs = (props) => {
   const { t } = useTranslation();

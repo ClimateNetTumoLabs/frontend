@@ -82,7 +82,6 @@ function InnerPage({deviceId}) {
     }, [permissionGranted, setPosition, setPermissionGranted]);
 
     useEffect(() => {
-        // window.scrollTo(0, 0);
         const getDataUrl = (filterState) => {
             const currentDate = new Date();
             let start, end;

@@ -294,11 +294,11 @@ const API = () => {
                         onClick={async () => {
                             await handleTestAPI();
                             setTimeout(() => {
-                                const element = document.getElementById('response');
+                                const element = document.getElementById('execution');
                                 if (element) {
                                     element.scrollIntoView({ behavior: 'smooth' });
                                 }
-                            }, 50);
+                            }, 100);
                         }}
                     >
                         {t("api.execution.execute")}
@@ -320,7 +320,7 @@ const API = () => {
                 {/* Show response details once response is ready and not loading */}
                 {response && !loading &&(
                     <>
-                    <div id="response" className={styles.endpointDisplay}>
+                    <div className={styles.endpointDisplay}>
                         <p>
                             {t("api.execution.endpoint")}
                             <a
@@ -333,7 +333,7 @@ const API = () => {
                             </a>
                         </p>
                     </div>
-                    <div className={styles.apiResponse} ref={ref}>
+                    <div id="response" className={styles.apiResponse} ref={ref}>
                         <div className="d-flex justify-content-between text-align-center">
                         <h3>Response:</h3>
                         <button onClick={toggleFullscreen}>
@@ -353,9 +353,26 @@ const API = () => {
                     </a>
                     .
                 </p>
-                <h2 className={styles.tag}>{t('api.info_note4')}
-                    <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code></h2>
-                <p className={styles.done}>{t('api.info_done')}</p>
+                <div className={styles.tag}>
+                    <p className={styles.title}>{t('api.info_note4')}</p>
+                    <p>{t('api.license')}</p>
+                    <li>
+                        {t('api.license2')}
+                    </li>
+                    <li>
+                        {t('api.license3')}
+                    </li>
+
+                    <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code>
+                    <p className="mb-5 mt-2">
+                        {t('api.license4')}
+                        <br/>
+                        {t('api.license5')}
+                        <br/>
+                        {t('api.info_done')} <a className={styles.link} href="https://creativecommons.org/licenses/by/4.0/">Creative Commons</a>.
+
+                    </p>
+                    </div>
             </div>
         </div>
     );

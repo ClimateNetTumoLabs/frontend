@@ -93,6 +93,12 @@
     margin-right: 20px;
 }
 
+privacy p {
+    color: #eae6e2;
+    text-decoration: none;
+    transition: color 0.4s;
+    cursor: pointer;
+}
 
 .map_section {
     height: 100%;
