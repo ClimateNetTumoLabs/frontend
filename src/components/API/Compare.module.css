@@ -90,6 +90,7 @@
   
   .dataKeys {
     margin-top: 10px; /* Space above data keys */
+    border-bottom: 1px solid #eae6e2;
   }
   
   .apiTester label,
@@ -208,13 +209,47 @@
     min-height: 500px;
   }
   
+  /* Updated Metrics Buttons - Tab Style */
   .metricButtons {
     display: flex;
-    gap: 10px;
-    margin: 10px 0;
+    gap: 0;
+    margin: 10px 0 0 0;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-items: stretch;
+    padding-bottom: 0;
+    position: relative;
+  }
+  
+  .metricButtons .button {
+    padding: 12px 20px;
+    background: transparent;
+    color: #9a9a9a;
+    border: none !important;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    min-width: auto;
+    height: auto;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
     align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .metricButtons .button:hover {
+    background: transparent;
+    color: #eae6e2;
+  }
+  
+  .metricButtons .button.activeButton {
+    background: transparent !important;
+    color: #e07789 !important;
+    font-weight: 600;
   }
   
   .selectedId {
@@ -251,6 +286,10 @@
     .metricButtons {
       flex-wrap: wrap;
     }
+    .metricButtons .button {
+      font-size: 14px;
+      padding: 10px 16px;
+    }
   }
   
   @media (max-width: 768px) {
@@ -277,6 +316,10 @@
     .metricButtons {
       flex-wrap: wrap;
     }
+    .metricButtons .button {
+      font-size: 14px;
+      padding: 10px 16px;
+    }
   }
   
   @media (min-width: 425px) and (max-width: 768px) {
@@ -285,67 +328,6 @@
     }
   }
   
-  .metricButtons {
-    display: flex;
-    gap: 10px;
-    margin: 10px 0;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  
-  .button {
-    background: #e07789;
-    border: 1px solid #e07789;
-    border-radius: 5px;
-    color: #eae6e2;
-    padding: 6.5px 15px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    min-width: 80px;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .button:hover {
-    background: #232222;
-    color: #e07789;
-    border: 1px solid #e07789;
-  }
-  
-  .button.activeButton {
-    background: #232222 !important;
-    color: #e07789 !important;
-    border: 1px solid #e07789 !important;
-    font-weight: bold;
-  }
-  
-  .button:hover:not(.activeButton) {
-    background: #232222;
-    color: #e07789;
-    border: 1px solid #e07789;
-  }
-  
-  .metricButtons .button {
-    padding: 0.5rem 1rem;
-    background-color: #3a3a3a;
-    color: white;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-sizing: border-box;
-    width: auto;
-    min-width: 80px;
-    height: 40px;
-    margin: 0;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 .deviceSelectorModal {
   position: fixed;
   top: 0;

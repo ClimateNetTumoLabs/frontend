@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import "../../i18n";
 import { Helmet } from "react-helmet";
 import styles from "./Compare.module.css";
-import CustomWeatherChart from "./CustomWeatherChart";
 import WeatherDataGraphs from "./WeatherDataGraphs/WeatherDataGraphs";
 import InnerPageFilter from "../InnerPageFilter/InnerPageFilter";
 import axios from "axios";
@@ -24,7 +23,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
-const Compare = () => {
+const Compare = ({ initialDeviceIds = [] }) => {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -84,6 +83,22 @@ const Compare = () => {
       setLoading(false);
     }
   }, [selectedDevices]);
+
+  useEffect(() => {
+    if (initialDeviceIds.length > 0 && devices.length > 0) {
+        const initialSelectedDevices = devices
+            .filter(device => initialDeviceIds.includes(device.generated_id.toString()))
+            .map(device => ({
+                value: device.generated_id,
+                label: device[i18n.language === "hy" ? "name_hy" : "name_en"] || device.generated_id
+            }));
+        
+        setSelectedDevices(initialSelectedDevices);
+        
+        // Also set them in temp selection in case modal is opened
+        setTempSelectedDevices(initialSelectedDevices);
+    }
+}, [initialDeviceIds, devices, i18n.language]);
 
   const handleTimeSeries = async () => {
     setError(null);
@@ -305,6 +320,28 @@ const Compare = () => {
     label: device[i18n.language === "hy" ? "name_hy" : "name_en"] || device.generated_id,
   }));
 
+  useEffect(() => {
+    if (selectedDevices.length > 0) {
+      setLoading(true);
+    }
+  }, [selectedMetric]);
+
+  const scrollToChart = () => {
+    setTimeout(() => {
+      const chartElement = document.getElementById("chart");
+      if (chartElement) {
+        chartElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+      }
+    }, 100);
+  };
+
+  useEffect(() => {
+    if (!loading) {
+      scrollToChart();
+    }
+  }, [loading]);
+
   return (
     <div className={`${styles.api_page} ${styles.darkTheme}`}>
       <div className={"container"}>
@@ -329,11 +366,11 @@ const Compare = () => {
             <div className={styles.deviceSelectorContent}>
               <h3 className={styles.modalTitle}>Select Devices to Compare</h3>
               <div className={styles.deviceListContainer}>
-                {devices.map(device => {
+              {devices.map(device => {
                   const deviceOption = {
-                    value: device.generated_id,
-                    label: device[i18n.language === "hy" ? "name_hy" : "name_en"] || device.generated_id,
-                    parent: device[i18n.language === "hy" ? "parent_name_hy" : "parent_name_en"]
+                      value: device.generated_id,
+                      label: device[i18n.language === "hy" ? "name_hy" : "name_en"] || device.generated_id,
+                      parent: device[i18n.language === "hy" ? "parent_name_hy" : "parent_name_en"]
                   };
                   const isChecked = tempSelectedDevices.some(d => d.value === deviceOption.value);
                   const hasIssues = device.issues && device.issues.length > 0;
@@ -462,16 +499,6 @@ const Compare = () => {
             />
           </div>
         )}
-
-        {/* {chartData && !loading && selectedDevices.length > 0 && (
-          <div className={styles.chartContainer}>
-            <Line
-              data={chartData}
-              options={options} 
-              style={{minHeight: 500}}
-            />
-          </div>
-        )} */}
 
         {loading && (
           <Loader

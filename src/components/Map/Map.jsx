@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, GeoJSON, useMapEvents, useMap, Marker } from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
@@ -667,10 +668,12 @@ const MapArmenia = () => {
 
     const totalDevices = Object.values(regionDevices).reduce((sum, count) => sum + count, 0);
 
+    const navigate = useNavigate();
+
     const handleCompare = () => {
         if (selectedDevices.length >= 2) {
             const ids = selectedDevices.map(d => d.generated_id).join(',');
-            window.location.href = `/compare?ids=${ids}`;
+            navigate(`/${i18n.language}/api?tab=compare&devices=${ids}`);
         }
     };
 
