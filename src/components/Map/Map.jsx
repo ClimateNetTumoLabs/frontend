@@ -305,15 +305,6 @@ const MapArmenia = () => {
                 <div class="${styles.zoomResult}"></div>
             </div>
             <h3> ${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']} </h3>
-                <div class="${styles.compareIconContainer}">
-                    <div 
-                        class="${styles.compareIconVS}" 
-                        onclick="window.dispatchEvent(new CustomEvent('compareDevice', { detail: { id: '${device.generated_id}' } }))"
-                    >
-                        VS
-                    </div>
-                    <span class="${styles.compareTooltip}">${t('map.compareTooltip')}</span>
-                </div>
             ${isLoading ? `
                 <p>Loading...</p>
             ` : `

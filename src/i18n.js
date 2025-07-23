@@ -1,7 +1,7 @@
 // i18n.js
 
 import i18n from 'i18next';
-import {initReactI18next} from 'react-i18next';
+import { initReactI18next } from 'react-i18next';
 
 const resources = {
         en: {
@@ -110,9 +110,14 @@ const resources = {
                     info_note: "Note:",
                     info_note2: "Ensure that you handle any errors gracefully, such as invalid parameters or network issues, to provide a seamless experience for your users.",
                     info_note3: "For further assistance or inquiries, contact our support team at ",
-                    info_note4: "Tagging Requirement: When using the Climate Data API, please include the appropriate tag to acknowledge the data source. Example:",
-                    info_note5: "Climate Data provided by TUMO Labs.",
-                    info_done: "Happy coding!",
+                    info_note4: "API Usage and Attribution (CC BY 4.0 License)",
+                    license: "When using the Climate Data API, you must provide appropriate attribution in compliance with the Creative Commons Attribution 4.0 International License. This includes:",
+                    license2: "Clearly acknowledging the data source.",
+                    license3: "Including the following attribution tag in any application, website, publication, or interface where the data is displayed:",
+                    license4: "License Summary: ",
+                    license5: "You are free to use, share, and adapt the data for any purpose, including commercial use, provided that appropriate credit is given, a link to the license is included, and any changes are indicated.",
+                    info_note5: "Climate Data provided by TUMO Labs. Licensed under CC BY 4.0.",
+                    info_done: "For full license details, see ",
                     device_table: {
                         devices: "Devices",
                         id: "ID ",
@@ -148,6 +153,7 @@ const resources = {
                         parent_name: "Region",
                         select: "Select"
                     },
+                    deviceIssues: "Device Issues",
                     chart: {
                         title: "Climate Data Comparison",
                         device1: "Device 1",
@@ -170,7 +176,7 @@ const resources = {
                         pm1: "PM1",
                         pm2_5: "PM2.5",
                         pm10: "PM10",
-                        wind_speed: "Wind Speed",
+                        speed: "Wind Speed",
                         rain: "Rain"
                     },
                     select_devices: "Select Devices for Comparison",
@@ -571,6 +577,7 @@ const resources = {
                     download: "Download Full Data"
                 },
                 chartTitles: {
+                    exportChart: "Export Chart Data",
                     dataPer: "Data per ",
                     monthly: "last month",
                     daily: "last week",
@@ -578,6 +585,7 @@ const resources = {
                     range: "selected dates",
                     update: "Updating...",
                     noSelectedData: "No measurment is selected",
+                    noData: "No data available for selected devices",
                     zoomMessage: {
                         "1": "Cmd + Scroll to change the date range.",
                         "2": "Opt/Alt + Scroll to Zoom in.",
@@ -586,7 +594,13 @@ const resources = {
                     currentMeasur: "Current Data",
                     allMeasur: "All Data",
                     timestamp: "Timestamp",
-                    zoomLimit: "You've reached the limit, try zooming in the other direction"
+                    zoomLimit: "You've reached the limit, try zooming in the other direction",
+                    zoomLimit: "You've reached the maximum/minimum zoom level",
+                    zoomMessage: {
+                        "1": "Hold Alt/Option and scroll to zoom",
+                        "2": "Click to zoom to area",
+                        "3": "Double-click to reset zoom"
+                    },
                 },
                 filterTooltips: {
                     filter: "Filter",
@@ -596,6 +610,16 @@ const resources = {
                     oneW: "1 Week",
                     oneD: "1 Day"
                 },
+
+                notfound: {
+                    pageText: "Page Not Found!",
+                    buttonText: "Go To home",
+                },
+
+                privacyPolicy: {
+                    title: "Privacy Policy",
+
+                }
             },
         },
 
@@ -705,9 +729,14 @@ const resources = {
                     info_note: "Նշում:",
                     info_note2: "Համոզվեք, որ դուք նրբանկատորեն եք վերաբերվում սխալներին, ինչպիսիք են անվավեր պարամետրերը կամ ցանցի խնդիրները, ձեր օգտատերերի համար անթերի փորձ ապահովելու համար:",
                     info_note3: "Հետագա օգնության կամ հարցումների համար դիմեք մեր աջակցման թիմին՝ ",
-                    info_note4: "Պիտակավորման պահանջ. Կլիմայական տվյալների API-ն օգտագործելիս խնդրում ենք ներառել համապատասխան պիտակ՝ տվյալների աղբյուրը ճանաչելու համար: Օրինակ՝ ",
-                    info_note5: "Կլիմայական տվյալները տրամադրված են ԹՈՒՄՈ Լաբերի կողմից:",
-                    info_done: "",
+                    info_note4: "API-ի օգտագործման և մեջբերման կանոններ (CC BY 4.0 արտոնագիր)",
+                    license: "Օգտագործելով Climate Data API-ն՝ դուք պարտավոր եք համապատասխան կերպով նշել տվյալների աղբյուրը՝ համաձայն Creative Commons Attribution 4.0 International արտոնագրի: Սա ներառում է՝",
+                    license2: "Տվյալների աղբյուրի հստակ նշում,",
+                    license3: "Հետևյալ մեջբերման պիտակի տեղադրում այն հավելվածում, կայքում, հրապարակման մեջ կամ ինտերֆեյսում, որտեղ ցուցադրվում են տվյալները.",
+                    license4: "Արտոնագրի ամփոփագիր՝ ",
+                    license5: "Դուք ազատ եք օգտագործել, տարածել և փոփոխել տվյալները ցանկացած նպատակով, ներառյալ՝ կոմերցիոն օգտագործումը, այն պայմանով, որ նշում եք հեղինակի անունը, ավելացնում եք արտոնագրի հղումը և նշում եք կատարված փոփոխությունները։",
+                    info_note5: "Կլիմայական տվյալները տրամադրված են ԹՈՒՄՈ Լաբերի կողմից: Արտոնագրված է CC BY 4.0 արտոնագրով։",
+                    info_done: "Ամբողջական արտոնագիրը՝ ",
                     device_table: {
                         devices: "Սարքեր",
                         id: "ID ",
@@ -1094,7 +1123,7 @@ const resources = {
                 innerPageNearbyDevices: {
                     titles: {
                         devicesNear: "Այլ սարքեր",
-                        devicesNearArm: "ում",
+                        devicesNearArm: "-ում",
                     },
                 },
                 innerPage: {
@@ -1129,6 +1158,14 @@ const resources = {
                     oneW: "1 շաբաթ",
                     oneD: "1 օր"
                 },
+                notfound:
+                    {
+                        pageText: "Էջը չի գտնվել",
+                        buttonText: "Դեպի գլխավոր",
+                    },
+                privacyPolicy: {
+                    title: "Գաղտնիության քաղաքականություն",
+                }
             },
         },
     }

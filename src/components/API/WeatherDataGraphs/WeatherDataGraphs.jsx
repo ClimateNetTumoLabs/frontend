@@ -14,7 +14,7 @@ import styles from "./WeatherDataGraphs.module.css";
 import DatePicker from "react-datepicker";
 import { useTranslation } from "react-i18next";
 import { saveAs } from "file-saver";
-import "../../i18n";
+import "../../../i18n";
 import zoomPlugin from "chartjs-plugin-zoom";
 
 ChartJS.register(
@@ -47,7 +47,10 @@ const formatTimestamps = (timestamps) => {
 
 // Function to convert chart data to CSV
 const convertToCSV = (t, labels, datasets) => {
-  const headers = [`${t("chartTitles.timestamp")}`, ...datasets.map((dataset) => dataset.label)];
+  const headers = [
+    `${t("chartTitles.timestamp")}`,
+    ...datasets.map((dataset) => dataset.label),
+  ];
   const rows = labels.map((label, index) => {
     const rowData = datasets.map((dataset) => dataset.data[index] || "0");
     return [label, ...rowData];
@@ -68,69 +71,52 @@ const downloadCSV = (t, labels, datasets, filename) => {
 };
 
 // Function to format data for the chart
-const formatData = (isMobile, types, timestamps, dataArray, colors) => {
+const formatData = (
+  isMobile,
+  metricType,
+  deviceIds,
+  deviceLabel,
+  timestamps,
+  dataArrays,
+  colors
+) => {
   if (
-    !Array.isArray(types) ||
+    !Array.isArray(deviceIds) ||
     !Array.isArray(timestamps) ||
-    !Array.isArray(dataArray)
+    !Array.isArray(dataArrays)
   ) {
-    console.error(
-      "Invalid input: types, timestamps, and dataArray must be arrays",
-      {
-        types,
-        timestamps,
-        dataArray,
-      }
-    );
-    return {
-      labels: [],
-      datasets: [],
-    };
+    console.error("Invalid input data", { deviceIds, timestamps, dataArrays });
+    return { labels: [], datasets: [] };
   }
 
   const defaultColors = [
-    {
-      borderColor: "rgb(255, 206, 86)",
-      backgroundColor: "rgba(255, 206, 86, 0.2)",
-    }, // Yellow
-    {
-      borderColor: "rgb(54, 162, 235)",
-      backgroundColor: "rgba(54, 162, 235, 0.2)",
-    }, // Blue
-    {
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.2)",
-    }, // Red
-    {
-      borderColor: "rgb(75, 192, 192)",
-      backgroundColor: "rgba(75, 192, 192, 0.2)",
-    }, // Cyan
+    "#FFFA75", // Yellowish
+    "#77B6EA", // Cyanish
+    "#FF6384", // Red
+    "#36A2EB", // Blue
+    "#FFCE56", // Yellow
+    "#4BC0C0", // Teal
+    "#9966FF", // Purple
+    "#FF9F40", // Orange
   ];
 
-  const datasets = types.map((type, index) => {
+  const datasets = deviceIds.map((deviceId, index) => {
     const color =
-      colors && colors[index]
-        ? {
-            borderColor: colors[index].borderColor || colors[index],
-            backgroundColor:
-              colors[index].backgroundColor || `${colors[index]}`,
-          }
-        : defaultColors[index % defaultColors.length];
+      colors?.[index] || defaultColors[index % defaultColors.length];
 
     return {
-      label: type,
-      data: Array.isArray(dataArray[index]) ? dataArray[index] : [],
-      borderColor: color.borderColor,
-      backgroundColor: color.backgroundColor,
+      label: `${deviceLabel[index]}`,
+      data: dataArrays[index] || [],
+      borderColor: color,
+      backgroundColor: `${color}40`, // Slightly transparent
+      borderWidth: 2,
       fill: false,
-      tension: 0.4,
-      pointStyle: "circle",
-      pointRadius: !isMobile ? 2 : 1,
-      pointHoverRadius: !isMobile ? 7 : 3,
-      pointHoverBackgroundColor: "#FFFFFF",
-      pointHoverBorderColor: "#FFFFFF",
-      pointBackgroundColor: "#FFFFFF",
-      pointBorderColor: "#FFFFFF",
+      tension: 0.1,
+      pointRadius: isMobile ? 2 : 3,
+      pointHoverRadius: 5,
+      pointBackgroundColor: color,
+      pointBorderColor: "#fff",
+      pointBorderWidth: 1,
     };
   });
 
@@ -318,7 +304,16 @@ const WeatherDataGraphs = (props) => {
   const [isFilterClickable, setIsFilterClickable] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
 
-  const data = formatData(isMobile, props.types, props.time, props.data, props.colors);
+  // console.log(props);
+  const data = formatData(
+    isMobile,
+    props.types, // Single metric type (e.g., "temperature")
+    props.selected_device_id, // Array of device IDs
+    props.deviceLabel,
+    props.time, // Timestamps array
+    props.data, // Array of data arrays (one per device)
+    props.colors // Colors for each device
+  );
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -351,16 +346,16 @@ const WeatherDataGraphs = (props) => {
   useEffect(() => {
     const canvas = chartRef.current?.canvas;
     if (!canvas) return;
-  
+
     let clickTimeout = null;
-  
+
     const handleClick = (event) => {
       if (isMobile && chartRef.current?.downloadButton) {
         const { x, y, width, height } = chartRef.current.downloadButton;
         const rect = canvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
-        
+
         if (
           clickX >= x &&
           clickX <= x + width &&
@@ -375,63 +370,58 @@ const WeatherDataGraphs = (props) => {
           return;
         }
       }
-      
-      if (chartRef.current) {
-          const rect = canvas.getBoundingClientRect();
-          const clickX = event.clientX - rect.left;
-          const clickY = event.clientY - rect.top;
 
-          if (
-            clickX >= 0 &&
-            clickX <= 1500 &&
-            clickY >= 0 &&
-            clickY <= 70
-          ) {
-            if (clickTimeout) {
-              clearTimeout(clickTimeout);
-              clickTimeout = null;
-            }
-            return;
+      if (chartRef.current) {
+        const rect = canvas.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const clickY = event.clientY - rect.top;
+
+        if (clickX >= 0 && clickX <= 1500 && clickY >= 0 && clickY <= 70) {
+          if (clickTimeout) {
+            clearTimeout(clickTimeout);
+            clickTimeout = null;
           }
+          return;
         }
+      }
 
       if (clickTimeout) {
         clearTimeout(clickTimeout);
         clickTimeout = null;
       }
-  
+
       clickTimeout = setTimeout(() => {
         const chart = chartRef.current;
         if (!chart) return;
-  
+
         // Get mouse position relative to canvas
         const rect = canvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
-        
+
         // Get the value at the clicked position
         const xAxis = chart.scales.x;
         const value = xAxis.getValueForPixel(x);
-        
+
         // Calculate zoom window
         const totalPoints = chart.data.labels.length;
         const zoomWindow = Math.max(1, Math.floor(totalPoints * 0.1));
         const min = Math.max(0, value - zoomWindow / 2);
         const max = Math.min(totalPoints - 1, value + zoomWindow / 2);
-        
+
         // Apply zoom
-        chart.zoomScale('x', { min, max }, 'default');
+        chart.zoomScale("x", { min, max }, "default");
         chart.tooltip.setActiveElements([], { x: 0, y: 0 });
         chart.setActiveElements([]);
         chart.update();
       }, 200);
     };
-  
+
     const handleDoubleClick = () => {
       if (clickTimeout) {
         clearTimeout(clickTimeout);
         clickTimeout = null;
       }
-  
+
       const chart = chartRef.current;
       if (chart) {
         chart.resetZoom();
@@ -440,10 +430,10 @@ const WeatherDataGraphs = (props) => {
         chart.update();
       }
     };
-  
+
     canvas.addEventListener("click", handleClick);
     canvas.addEventListener("dblclick", handleDoubleClick);
-    
+
     return () => {
       if (clickTimeout) clearTimeout(clickTimeout);
       canvas.removeEventListener("click", handleClick);
@@ -464,7 +454,7 @@ const WeatherDataGraphs = (props) => {
     const handleWheel = (event) => {
       // Detect if the user is on macOS
       const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
-      
+
       // Check for the appropriate modifier key based on platform
       const modifierPressed = isMac ? event.metaKey : event.ctrlKey;
       if (modifierPressed) {
@@ -566,7 +556,7 @@ const WeatherDataGraphs = (props) => {
   }, [isMobile]);
 
   useEffect(() => {
-    if (isMobile){
+    if (isMobile) {
       setLoading(true);
     }
   }, [props.filterState]);
@@ -581,39 +571,89 @@ const WeatherDataGraphs = (props) => {
 
   const handleDownloadOption = (format) => {
     if (format === "Current Measurments") {
-      const data = formatData(isMobile, props.types, props.time, props.data, props.colors);
-      downloadCSV(t, data.labels, data.datasets, `Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(appliedEndDate)}.csv`);
+      const data = formatData(
+        isMobile,
+        props.types, // Single metric type (e.g., "temperature")
+        props.selected_device_id, // Array of device IDs
+        props.deviceLabel,
+        props.time, // Timestamps array
+        props.data, // Array of data arrays (one per device)
+        props.colors // Colors for each device
+      );
+      downloadCSV(
+        t,
+        data.labels,
+        data.datasets,
+        `Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(
+          appliedEndDate
+        )}.csv`
+      );
     } else if (format === "All Measurments") {
       const timestamps = props.weather_data.map((entry) => entry.time_interval);
-      
+
       const allMetrics = [
-        { key: "temperature", label: `${t("innerPageDynamicContent.temperature")} (°C)` },
-        { key: "humidity", label: `${t("innerPageDynamicContent.humidity")} (%)` },
-        { key: "pressure", label: `${t("innerPageDynamicContent.pressure")} (${t("linerStatusBar.hPa")})` },
+        {
+          key: "temperature",
+          label: `${t("innerPageDynamicContent.temperature")} (°C)`,
+        },
+        {
+          key: "humidity",
+          label: `${t("innerPageDynamicContent.humidity")} (%)`,
+        },
+        {
+          key: "pressure",
+          label: `${t("innerPageDynamicContent.pressure")} (${t(
+            "linerStatusBar.hPa"
+          )})`,
+        },
         { key: "uv", label: "UV" },
-        { key: "lux", label: `${t("innerPageDynamicContent.light_intensity")} (${t("linerStatusBar.lux")})` },
+        {
+          key: "lux",
+          label: `${t("innerPageDynamicContent.light_intensity")} (${t(
+            "linerStatusBar.lux"
+          )})`,
+        },
         { key: "pm1", label: `PM1 ${t("about.pmMu")}` },
         { key: "pm2_5", label: `PM2.5 ${t("about.pmMu")}` },
         { key: "pm10", label: `PM10 ${t("about.pmMu")}` },
-        { key: "speed", label: `${t("innerPageDynamicContent.windSpeed")} (${t("linerStatusBar.kmhour")})` },
-        { key: "rain", label: `${t("innerPageDynamicContent.rain")} (${t("linerStatusBar.mm")})` },
+        {
+          key: "speed",
+          label: `${t("innerPageDynamicContent.windSpeed")} (${t(
+            "linerStatusBar.kmhour"
+          )})`,
+        },
+        {
+          key: "rain",
+          label: `${t("innerPageDynamicContent.rain")} (${t(
+            "linerStatusBar.mm"
+          )})`,
+        },
       ];
-  
+
       const dataArrays = allMetrics.map((metric) =>
         props.weather_data.map((entry) => entry[metric.key] || "0")
       );
 
       const allData = formatData(
         isMobile,
-        allMetrics.map((metric) => metric.label),
-        timestamps,
-        dataArrays,
-        props.colors
+        props.types, // Single metric type (e.g., "temperature")
+        props.selected_device_id, // Array of device IDs
+        props.deviceLabel,
+        props.time, // Timestamps array
+        props.data, // Array of data arrays (one per device)
+        props.colors // Colors for each device
       );
-  
-      downloadCSV(t, allData.labels, allData.datasets, `All Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(appliedEndDate)}.csv`);
+
+      downloadCSV(
+        t,
+        allData.labels,
+        allData.datasets,
+        `All Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(
+          appliedEndDate
+        )}.csv`
+      );
     }
-  
+
     setIsDropdownOpen(false);
   };
 
@@ -624,9 +664,9 @@ const WeatherDataGraphs = (props) => {
         e.stopPropagation();
       }
     };
-  
-    document.addEventListener('touchmove', preventZoom, { passive: false });
-    return () => document.removeEventListener('touchmove', preventZoom);
+
+    document.addEventListener("touchmove", preventZoom, { passive: false });
+    return () => document.removeEventListener("touchmove", preventZoom);
   }, []);
 
   const title_map = {
@@ -653,30 +693,34 @@ const WeatherDataGraphs = (props) => {
   };
 
   const legendMargin = {
-    id: 'legendMargin',
+    id: "legendMargin",
     afterInit(chart, args, plugins) {
       const originalFit = chart.legend.fit;
       const margin = plugins.margin || 0;
-      chart.legend.fit = function fit () {
+      chart.legend.fit = function fit() {
         if (originalFit) {
-          originalFit.call(this)
+          originalFit.call(this);
         }
-        return this.height += margin
-      }
-    }
-  }
+        return (this.height += margin);
+      };
+    },
+  };
 
   // Chart.js options
   const options = {
     animation: {
       onComplete: (e) => {
-        if (!compareTimestampArrays(e.chart.config._config.data.labels, prevData)) {
+        if (
+          !compareTimestampArrays(e.chart.config._config.data.labels, prevData)
+        ) {
           setPrevData(e.chart.config._config.data.labels);
           setLoading(false);
         }
         if (e.chart.config._config.data.labels.length != dataSize) {
-          setDataSize(e.chart.config._config.data.labels.length);
-          setLoading(false);
+          if (e.chart.config._config.data.labels[0]) {
+            setDataSize(e.chart.config._config.data.labels.length);
+            setLoading(false);
+          }
         }
       },
     },
@@ -686,7 +730,7 @@ const WeatherDataGraphs = (props) => {
       mode: "index",
       intersect: false,
     },
-    
+
     scales: {
       x: {
         ticks: {
@@ -696,8 +740,8 @@ const WeatherDataGraphs = (props) => {
           minRotation: isMobile ? 75 : 0,
         },
         grid: {
-          color: 'transparent',
-          borderColor: 'transparent',
+          color: "#999",
+          borderColor: "transparent",
         },
       },
       y: {
@@ -705,7 +749,7 @@ const WeatherDataGraphs = (props) => {
           color: "#FFFFFF",
         },
         grid: {
-          color: "#FFFFFF",
+          color: "#999",
           borderColor: "#FFFFFF",
         },
         border: {
@@ -765,52 +809,26 @@ const WeatherDataGraphs = (props) => {
             const label = context.dataset.label || "";
             const value = context.parsed.y;
             const lowerLabel = label.toLowerCase();
-            if (
-              lowerLabel.includes(
-                `${t("innerPageDynamicContent.humidity")}`.toLocaleLowerCase()
-              )
-            ) {
+            if (props.types.includes("humidity".toLocaleLowerCase())) {
               return ` ${label}: ${value}%`;
             } else if (
-              lowerLabel.includes(
-                `${t(
-                  "innerPageDynamicContent.temperature"
-                )}`.toLocaleLowerCase()
-              )
+              props.types.includes("temperature".toLocaleLowerCase())
             ) {
               return ` ${label}: ${value}°C`;
             } else if (
-              lowerLabel.includes("pms") ||
-              lowerLabel.includes("pm")
+              props.types.includes("pms") ||
+              props.types.includes("pm")
             ) {
               return ` ${label}: ${value} ${t("about.pmMu")}`;
-            } else if (
-              lowerLabel.includes(
-                `${t("innerPageDynamicContent.pressure")}`.toLocaleLowerCase()
-              )
-            ) {
+            } else if (props.types.includes("pressure")) {
               return ` ${label}: ${value} ${t("linerStatusBar.hPa")}`;
-            } else if (lowerLabel.includes("uv")) {
+            } else if (props.types.includes("uv")) {
               return ` ${label}: ${value}`;
-            } else if (
-              lowerLabel.includes(
-                `${t(
-                  "innerPageDynamicContent.light_intensity"
-                )}`.toLocaleLowerCase()
-              )
-            ) {
+            } else if (props.types.includes("lux")) {
               return ` ${label}: ${value} ${t("linerStatusBar.lux")}`;
-            } else if (
-              lowerLabel.includes(
-                `${t("innerPageDynamicContent.rain")}`.toLocaleLowerCase()
-              )
-            ) {
+            } else if (props.types.includes("rain")) {
               return ` ${label}: ${value} ${t("linerStatusBar.mm")}`;
-            } else if (
-              lowerLabel.includes(
-                `${t("innerPageDynamicContent.windSpeed")}`.toLocaleLowerCase()
-              )
-            ) {
+            } else if (props.types.includes("speed")) {
               return ` ${label}: ${value} ${t("linerStatusBar.kmhour")}`;
             }
             return ` ${label}: ${value}`;
@@ -830,11 +848,16 @@ const WeatherDataGraphs = (props) => {
           color: "#FFFFFF",
           usePointStyle: true,
           generateLabels: (chart) => {
-            const original = ChartJS.defaults.plugins.legend.labels.generateLabels(chart);
+            const original =
+              ChartJS.defaults.plugins.legend.labels.generateLabels(chart);
             original.forEach((label, index) => {
               // Use original borderColor to ensure legend points are unaffected by hover transparency
-              label.fillStyle = chart.data.datasets[index].originalBorderColor || chart.data.datasets[index].borderColor;
-              label.strokeStyle = chart.data.datasets[index].originalBorderColor || chart.data.datasets[index].borderColor;
+              label.fillStyle =
+                chart.data.datasets[index].originalBorderColor ||
+                chart.data.datasets[index].borderColor;
+              label.strokeStyle =
+                chart.data.datasets[index].originalBorderColor ||
+                chart.data.datasets[index].borderColor;
               label.boxWidth = 20; // Legend box width
               label.boxHeight = 20; // Legend box height
               label.padding = 10;
@@ -860,7 +883,8 @@ const WeatherDataGraphs = (props) => {
               if (!dataset.originalBorderColor) {
                 dataset.originalBorderColor = dataset.borderColor;
                 dataset.originalBackgroundColor = dataset.backgroundColor;
-                dataset.originalPointBackgroundColor = dataset.pointBackgroundColor;
+                dataset.originalPointBackgroundColor =
+                  dataset.pointBackgroundColor;
                 dataset.originalPointBorderColor = dataset.pointBorderColor;
               }
 
@@ -868,29 +892,42 @@ const WeatherDataGraphs = (props) => {
                 // Restore original colors for the hovered dataset and its points
                 dataset.borderColor = dataset.originalBorderColor;
                 dataset.backgroundColor = dataset.originalBackgroundColor;
-                dataset.pointBackgroundColor = dataset.originalPointBackgroundColor;
+                dataset.pointBackgroundColor =
+                  dataset.originalPointBackgroundColor;
                 dataset.pointBorderColor = dataset.originalPointBorderColor;
               } else {
                 // Make non-hovered datasets and points nearly transparent
 
                 function hexToRGBA(hex, alpha = 0.5) {
-                  hex = hex.replace('#', '');
+                  hex = hex.replace("#", "");
                   if (hex.length === 3) {
                     hex = hex
-                      .split('')
-                      .map(char => char + char)
-                      .join('');
+                      .split("")
+                      .map((char) => char + char)
+                      .join("");
                   }
                   const r = parseInt(hex.slice(0, 2), 16);
                   const g = parseInt(hex.slice(2, 4), 16);
                   const b = parseInt(hex.slice(4, 6), 16);
                   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
                 }
-                
-                dataset.borderColor = hexToRGBA(dataset.originalBorderColor, 0.2);
-                dataset.backgroundColor = hexToRGBA(dataset.originalBackgroundColor, 0.2);
-                dataset.pointBackgroundColor = hexToRGBA(dataset.originalPointBackgroundColor, 0.2);
-                dataset.pointBorderColor = hexToRGBA(dataset.originalPointBorderColor, 0.2);
+
+                dataset.borderColor = hexToRGBA(
+                  dataset.originalBorderColor,
+                  0.2
+                );
+                dataset.backgroundColor = hexToRGBA(
+                  dataset.originalBackgroundColor,
+                  0.2
+                );
+                dataset.pointBackgroundColor = hexToRGBA(
+                  dataset.originalPointBackgroundColor,
+                  0.2
+                );
+                dataset.pointBorderColor = hexToRGBA(
+                  dataset.originalPointBorderColor,
+                  0.2
+                );
               }
               // Ensure dataset is not hidden
               // chart.getDatasetMeta(i).hidden = false;
@@ -906,10 +943,15 @@ const WeatherDataGraphs = (props) => {
           const chart = legend.chart;
           chart.data.datasets.forEach((dataset, index) => {
             // Restore original colors for lines and points
-            dataset.borderColor = dataset.originalBorderColor || dataset.borderColor;
-            dataset.backgroundColor = dataset.originalBackgroundColor || dataset.backgroundColor;
-            dataset.pointBackgroundColor = dataset.originalPointBackgroundColor || dataset.pointBackgroundColor;
-            dataset.pointBorderColor = dataset.originalPointBorderColor || dataset.pointBorderColor;
+            dataset.borderColor =
+              dataset.originalBorderColor || dataset.borderColor;
+            dataset.backgroundColor =
+              dataset.originalBackgroundColor || dataset.backgroundColor;
+            dataset.pointBackgroundColor =
+              dataset.originalPointBackgroundColor ||
+              dataset.pointBackgroundColor;
+            dataset.pointBorderColor =
+              dataset.originalPointBorderColor || dataset.pointBorderColor;
             // Ensure dataset visibility respects toggled state
             const meta = chart.getDatasetMeta(index);
             meta.hidden = dataset.hidden || null;
@@ -934,10 +976,15 @@ const WeatherDataGraphs = (props) => {
             meta.hidden = dataset.hidden || null;
             // Restore original colors for visible datasets
             if (!meta.hidden) {
-              dataset.borderColor = dataset.originalBorderColor || dataset.borderColor;
-              dataset.backgroundColor = dataset.originalBackgroundColor || dataset.backgroundColor;
-              dataset.pointBackgroundColor = dataset.originalPointBackgroundColor || dataset.pointBackgroundColor;
-              dataset.pointBorderColor = dataset.originalPointBorderColor || dataset.pointBorderColor;
+              dataset.borderColor =
+                dataset.originalBorderColor || dataset.borderColor;
+              dataset.backgroundColor =
+                dataset.originalBackgroundColor || dataset.backgroundColor;
+              dataset.pointBackgroundColor =
+                dataset.originalPointBackgroundColor ||
+                dataset.pointBackgroundColor;
+              dataset.pointBorderColor =
+                dataset.originalPointBorderColor || dataset.pointBorderColor;
             }
           });
           props.setShowWelcomeOverlay(false);
@@ -1013,9 +1060,13 @@ const WeatherDataGraphs = (props) => {
         const currentDate = new Date();
         const start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
         const end = currentDate;
+        setSelectedFilter("Hourly");
         setSelectedStartDate(start);
         setSelectedEndDate(end);
-        setSelectedFilter("Hourly");
+        setAppliedStartDate(start);
+        setAppliedEndDate(end);
+        props.setStartDate(start);
+        props.setEndDate(end);
         props.filterChange("Hourly");
         props.setShowWelcomeOverlay(false);
         setDateChanged(false);
@@ -1034,9 +1085,13 @@ const WeatherDataGraphs = (props) => {
         const currentDate = new Date();
         const start = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
         const end = currentDate;
+        setSelectedFilter("Daily");
         setSelectedStartDate(start);
         setSelectedEndDate(end);
-        setSelectedFilter("Daily");
+        setAppliedStartDate(start);
+        setAppliedEndDate(end);
+        props.setStartDate(start);
+        props.setEndDate(end);
         props.filterChange("Daily");
         props.setShowWelcomeOverlay(false);
         setDateChanged(false);
@@ -1052,6 +1107,7 @@ const WeatherDataGraphs = (props) => {
       action: () => {
         if (selectedFilterButton === "oneM") return;
         setSelectedFilterButton("oneM");
+        setSelectedFilter("Monthly");
         const currentDate = new Date();
         const start = new Date(
           currentDate.getTime() - 30 * 24 * 60 * 60 * 1000
@@ -1059,7 +1115,10 @@ const WeatherDataGraphs = (props) => {
         const end = currentDate;
         setSelectedStartDate(start);
         setSelectedEndDate(end);
-        setSelectedFilter("Monthly");
+        setAppliedStartDate(start);
+        setAppliedEndDate(end);
+        props.setStartDate(start);
+        props.setEndDate(end);
         props.filterChange("Monthly");
         props.setShowWelcomeOverlay(false);
         setDateChanged(false);
@@ -1090,7 +1149,11 @@ const WeatherDataGraphs = (props) => {
   };
 
   return (
-    <div id="chart" className={styles.chart_section} onClick={handleOverlayClick}>
+    <div
+      id="chart"
+      className={styles.chart_section}
+      onClick={handleOverlayClick}
+    >
       <div style={{ height: "100%" }}>
         <div className={styles.toolbarAndFilter}>
           <div className={styles.FilterSection}>
@@ -1119,14 +1182,17 @@ const WeatherDataGraphs = (props) => {
                 className={`${styles.pickerDropdown}`}
                 value={selectedStartDate}
                 onChange={(date) => {
-                  if (getDateOnly(appliedStartDate) == getDateOnly(date) && getDateOnly(appliedEndDate) == getDateOnly(selectedEndDate)) {
+                  if (
+                    getDateOnly(appliedStartDate) == getDateOnly(date) &&
+                    getDateOnly(appliedEndDate) == getDateOnly(selectedEndDate)
+                  ) {
                     setIsFilterClickable(false);
                     return;
                   }
                   setIsFilterClickable(true);
                   setSelectedStartDate(date);
                   setDateChanged(true);
-                  if (date > selectedEndDate.getTime()){
+                  if (date > selectedEndDate.getTime()) {
                     setSelectedEndDate(date);
                   }
                 }}
@@ -1139,7 +1205,11 @@ const WeatherDataGraphs = (props) => {
                 className={`${styles.pickerDropdown}`}
                 value={selectedEndDate}
                 onChange={(date) => {
-                  if (getDateOnly(appliedEndDate) == getDateOnly(date) && getDateOnly(appliedStartDate) == getDateOnly(selectedStartDate)) {
+                  if (
+                    getDateOnly(appliedEndDate) == getDateOnly(date) &&
+                    getDateOnly(appliedStartDate) ==
+                      getDateOnly(selectedStartDate)
+                  ) {
                     setIsFilterClickable(false);
                     return;
                   }
@@ -1161,7 +1231,7 @@ const WeatherDataGraphs = (props) => {
                   if (isFilterClickable == false) {
                     return;
                   }
-                  setIsFilterClickable(false)
+                  setIsFilterClickable(false);
                   if (
                     props.startDate === selectedStartDate &&
                     props.endDate === selectedEndDate
@@ -1211,12 +1281,12 @@ const WeatherDataGraphs = (props) => {
                   </svg>
                 </button>
                 {isDropdownOpen && (
-                  <ul className={styles.dropdownMenu}
-                    style={{fontSize: 14}}
-                  >
+                  <ul className={styles.dropdownMenu} style={{ fontSize: 14 }}>
                     <li
                       className={styles.dropdownItem}
-                      onClick={() => handleDownloadOption("Current Measurments")}
+                      onClick={() =>
+                        handleDownloadOption("Current Measurments")
+                      }
                     >
                       {t("chartTitles.currentMeasur")}
                     </li>
@@ -1238,23 +1308,24 @@ const WeatherDataGraphs = (props) => {
         {(loading || props.leftLoad) && (
           <div className={styles.loadingOverlay}>{t("chartTitles.update")}</div>
         )}
-        {!isMobile && props.showWelcomeOverlay && !loading && !props.leftLoad && (
-          <div className={styles.fullScreenPopup}>
-            <div className={styles.popupContent}>
-              <span>
-            {t("chartTitles.zoomMessage.1")}
-            <br></br>
-            {t("chartTitles.zoomMessage.2")}
-            <br></br>
-            {t("chartTitles.zoomMessage.3")}
-            </span>
+        {!isMobile &&
+          props.showWelcomeOverlay &&
+          !loading &&
+          !props.leftLoad && (
+            <div className={styles.fullScreenPopup}>
+              <div className={styles.popupContent}>
+                <span>
+                  {t("chartTitles.zoomMessage.1")}
+                  <br></br>
+                  {t("chartTitles.zoomMessage.2")}
+                  <br></br>
+                  {t("chartTitles.zoomMessage.3")}
+                </span>
+              </div>
             </div>
-          </div>
-        )}
+          )}
         {showPopup && (
-          <div
-            className={styles.zoomLimitPopup}
-          >
+          <div className={styles.zoomLimitPopup}>
             {t("chartTitles.zoomLimit")}
           </div>
         )}
@@ -1271,7 +1342,13 @@ const WeatherDataGraphs = (props) => {
             </div>
           )}
           <div className={`${styles.chart_div}`}>
-            <Line id="lineChart" options={options} data={data} plugins={[legendMargin]} ref={chartRef} />
+            <Line
+              id="lineChart"
+              options={options}
+              data={data}
+              plugins={[legendMargin]}
+              ref={chartRef}
+            />
             {isMobile && isDropdownOpen && (
               <div
                 ref={dropdownRef}
@@ -1282,7 +1359,14 @@ const WeatherDataGraphs = (props) => {
                   ...getDropdownPosition(),
                 }}
               >
-                <ul style={{ margin: 0, padding: 0, listStyle: "none", fontSize: 14}}>
+                <ul
+                  style={{
+                    margin: 0,
+                    padding: 0,
+                    listStyle: "none",
+                    fontSize: 14,
+                  }}
+                >
                   <li
                     className={styles.dropdownItem}
                     onClick={() => handleDownloadOption("Current Measurments")}

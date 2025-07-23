@@ -25,20 +25,20 @@ const CheckoutAndDelivery = () => {
     const [regions, setRegions] = useState([]);
     const [isFlipped, setIsFlipped] = useState(false);
 
-
-    useEffect(() => {
-        fetch('https://restcountries.com/v3.1/all')
-            .then((response) => response.json())
-            .then((data) => {
-                setCountries(
-                    data.map((country) => ({
-                        name: country.name.common,
-                        code: country.cca2,
-                        regions: country.subdivisions || [], // Modify this if subdivisions aren't available
-                    }))
-                );
-            });
-    }, []);
+    //
+    // useEffect(() => {
+    //     fetch('https://restcountries.com/v3.1/all')
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             setCountries(
+    //                 data.map((country) => ({
+    //                     name: country.name.common,
+    //                     code: country.cca2,
+    //                     regions: country.subdivisions || [], // Modify this if subdivisions aren't available
+    //                 }))
+    //             );
+    //         });
+    // }, []);
 
     const handleCountryChange = (e) => {
         const selectedCountryCode = e.target.value;

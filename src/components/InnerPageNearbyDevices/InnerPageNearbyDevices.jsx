@@ -46,9 +46,10 @@ function InnerPageNearbyDevices({ device, ...props }) {
                 const allDevices = devicesResponse.data;
 
                 // Apply both filters at once
-                const filteredDevices = allDevices
+                let filteredDevices = allDevices
                     .filter(d => d.parent_name === parent_name)
-                    .filter(d => d.generated_id !== props.selected_device_id);
+                    .filter(d => d.generated_id != props.selected_device_id)
+
 
                 if (filteredDevices.length === 0) {
                     setDevicesWithData([]);

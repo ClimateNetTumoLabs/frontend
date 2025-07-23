@@ -5,11 +5,12 @@ import phone from '../../assets/Icons/phone.svg'
 import styles from './Footer.module.css'
 import './Simple.css'
 import { useTranslation } from "react-i18next";
+import {Link} from "react-router-dom";
 import  "../../i18n";
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     return (
         <footer className={`text-light ${styles.footer}`}>
@@ -69,6 +70,11 @@ const Footer = () => {
                         <a href="https://tumolabs.am/en/past-projects/">
                             {t('footer.projects.pastProjects')}
                         </a>
+                    </p>
+                    <p className={styles.company_information}>
+                        <Link to={`/${i18n.language}/privacy-policy`} className={styles.company_information}>
+                            {t('privacyPolicy.title')}
+                        </Link>
                     </p>
                 </div>
             </div>

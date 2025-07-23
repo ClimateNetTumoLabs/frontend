@@ -190,11 +190,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-weight: bold;
     cursor: pointer;
 }
-
-/*.deviceTable td{*/
-/*    width: 25%;*/
-/*}*/
-
 .done{
     margin-top: 10px;
     margin-bottom: 0;
@@ -247,4 +242,36 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .title{
         font-size: 20px;
     }
+}
+
+/* Add these styles to API.module.css */
+.tabContainer {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #444;
+}
+
+.tabButton {
+    background: transparent;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 5px;
+    cursor: pointer;
+    color: #eae6e2;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+    transition: all 0.3s ease;
+}
+
+.tabButton:hover {
+    background: #333;
+}
+
+.activeTab {
+    background: #e07789;
+    color: #fff;
+}
+
+.activeTab:hover {
+    background: #e07789;
 }
