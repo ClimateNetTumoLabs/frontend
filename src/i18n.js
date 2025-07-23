@@ -134,7 +134,61 @@ const resources = {
                         execute: "Execute API",
                         download: "Download Response",
                         endpoint: "API Endpoint: ",
-                    }
+                    },
+                    tab: {
+                        api: "API",
+                        compare: "Compare"
+                    },
+                },
+                compare: {
+                    title: "Compare Locations",
+                    info: "Compare climate data from different locations using our Climate Data API.",
+                    info_param: "Parameters:",
+                    info_device1Id: " - ID of the first device to compare",
+                    info_device2Id: " - ID of the second device to compare and so on...",
+                    device_table: {
+                        devices: "Available Devices",
+                        id: "ID",
+                        name: "Location",
+                        parent_name: "Region",
+                        select: "Select"
+                    },
+                    deviceIssues: "Device Issues",
+                    chart: {
+                        title: "Climate Data Comparison",
+                        device1: "Device 1",
+                        device2: "Device 2",
+                        device3: "Device 3",
+                        device4: "Device 4",
+                        device5: "Device 5",
+                        selectDevice: "Select a device...",
+                        interval: "Time Interval",
+                        days: "Last 24 Hours",
+                        weeks: "Last 7 Days",
+                        months: "Last 30 Days",
+                        dataKeys: "Metrics",
+                        xAxis: "Time",
+                        temperature: "Temperature",
+                        uv: "UV Index",
+                        lux: "Light Intensity",
+                        pressure: "Pressure",
+                        humidity: "Humidity",
+                        pm1: "PM1",
+                        pm2_5: "PM2.5",
+                        pm10: "PM10",
+                        speed: "Wind Speed",
+                        rain: "Rain"
+                    },
+                    select_devices: "Select Devices for Comparison",
+                    loading_devices: "Loading devices...",
+                    device_id1: "First Device ID",
+                    device_id2: "Second Device ID",
+                    select_first: "Select First",
+                    select_second: "Select Second",
+                    compare: "Compare Data",
+                    data_for: "Data for",
+                    contact_note: "For further assistance or inquiries, contact our support team at",
+                    
                 },
                 banner: {
                     title: 'a youth-led IoT observatory',
@@ -523,6 +577,7 @@ const resources = {
                     download: "Download Full Data"
                 },
                 chartTitles: {
+                    exportChart: "Export Chart Data",
                     dataPer: "Data per ",
                     monthly: "last month",
                     daily: "last week",
@@ -530,6 +585,7 @@ const resources = {
                     range: "selected dates",
                     update: "Updating...",
                     noSelectedData: "No measurment is selected",
+                    noData: "No data available for selected devices",
                     zoomMessage: {
                         "1": "Cmd + Scroll to change the date range.",
                         "2": "Opt/Alt + Scroll to Zoom in.",
@@ -538,7 +594,13 @@ const resources = {
                     currentMeasur: "Current Data",
                     allMeasur: "All Data",
                     timestamp: "Timestamp",
-                    zoomLimit: "You've reached the limit, try zooming in the other direction"
+                    zoomLimit: "You've reached the limit, try zooming in the other direction",
+                    zoomLimit: "You've reached the maximum/minimum zoom level",
+                    zoomMessage: {
+                        "1": "Hold Alt/Option and scroll to zoom",
+                        "2": "Click to zoom to area",
+                        "3": "Double-click to reset zoom"
+                    },
                 },
                 filterTooltips: {
                     filter: "Filter",

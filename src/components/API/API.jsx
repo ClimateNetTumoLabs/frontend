@@ -4,11 +4,12 @@ import "../../i18n";
 import { Helmet } from 'react-helmet';
 import styles from "./API.module.css";
 import axios from "axios";
-import {saveAs} from "file-saver";  // Import file-saver
+import {saveAs} from "file-saver";
 import screenfull from "screenfull";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSortDown, faSortUp, faSort, faExpand, faCompress} from '@fortawesome/free-solid-svg-icons';
 import Loader from "react-js-loader";
+import Compare from "./Compare";
 
 const API = () => {
     const {t} = useTranslation();
@@ -16,6 +17,14 @@ const API = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const ref = useRef(null);
     const [loading, setLoading] = useState(false);
+    const [activeTab, setActiveTab] = useState(() => {
+        return sessionStorage.getItem('activeTab') || 'api';
+    });
+
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+        sessionStorage.setItem('activeTab', tab);
+    };
 
     const toggleFullscreen = () => {
         if (screenfull.isEnabled) {
@@ -56,8 +65,6 @@ const API = () => {
 
     const getEndpoint = () => {
         const baseUrl = "https://emvnh9buoh.execute-api.us-east-1.amazonaws.com/getData";
-
-        // Prepare parameters
         const params = new URLSearchParams({ device_id: deviceId });
 
         if (startTime && endTime) {
@@ -73,14 +80,13 @@ const API = () => {
         setResponse(null);
         setLoading(true);
 
-        // Validation checks
         if ((!startTime && endTime) || (startTime && !endTime)) {
             setError("Choose both start date and end date.");
             setLoading(false);
             return;
         }
 
-        if (startTime && endTime && new Date(startTime) >= new Date(endTime)) {
+        if (startTime && endTime && new Date(startTime) > new Date(endTime)) {
             setError("Start date must be before end date.");
             setLoading(false);
             return;
@@ -158,192 +164,209 @@ const API = () => {
                 <Helmet>
                     <title>ClimateNet | OpenAPI Documentation</title>
                 </Helmet>
-                <h2 className={styles.title}>{t("about.titleWeather")}</h2>
-                <p>{t("api.info")}</p>
-                <h2 className={styles.measure_title}>{t('api.info_param')}</h2>
-                <ul>
-                    <li><strong>device_id</strong>{t('api.info_deviceId')}</li>
-                    <li><strong>start_time</strong>{t('api.info_startTime')} ({t('api.info_format')}
-                        <code>YYYY-MM-DD</code>).
-                    </li>
-                    <li><strong>end_time</strong>{t('api.info_endTime')} ({t('api.info_format')}
-                        <code>YYYY-MM-DD</code>).
-                    </li>
-                </ul>
-                <h2 className={styles.measure_title}>{t('api.info_example')}</h2>
-                <div className={styles.examples}>
-                    <p>{t('api.info_24_request')} <code>start_time</code> {t('api.and')}
-                        <code> end_time</code>, {t('api.info_24_request2')}</p>
-                    <h3 className={styles.sub_title_3}>{t('api.info_response')}</h3>
-                    <p>{t('api.info_json')}</p>
+                
+                {/* Tab Navigation */}
+                <div className={styles.tabContainer}>
+                <button 
+                    className={`${styles.tabButton} ${activeTab === 'api' ? styles.activeTab : ''}`}
+                    onClick={() => handleTabChange('api')}
+                >
+                    {t("api.tab.api")}
+                </button>
+                <button 
+                    className={`${styles.tabButton} ${activeTab === 'compare' ? styles.activeTab : ''}`}
+                    onClick={() => handleTabChange('compare')}
+                >
+                    {t("api.tab.compare")}
+                </button>
                 </div>
 
-                <div className={styles.tableContainer}>
-                    <h2 className={styles.measure_title}>{t("api.device_table.devices")}</h2>
-                    {devices.length > 0 ? (
-                        <>
-                            <table className={styles.deviceTable}>
-                                <thead>
-                                <tr>
-                                    <th className={"col-2"} style={{width: 13 + "%"}}
-                                        onClick={() => handleSort("generated_id")}>
-                                        {t("api.device_table.id")}
-                                        <FontAwesomeIcon
-                                            icon={sortConfig.key === "generated_id" ? (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
-                                    </th>
-                                    <th className={"col-3"} style={{width: 20 + "%"}}
-                                        onClick={() => handleSort(i18n.language === 'hy' ? 'name_hy' : 'name_en')}>
-                                        {t("api.device_table.name")}
-                                        <FontAwesomeIcon
-                                            icon={sortConfig.key === (i18n.language === 'hy' ? 'name_hy' : 'name_en') ?
-                                                (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
-                                    </th>
-                                    <th className={"col-3"} style={{width: 20 + "%"}}
-                                        onClick={() => handleSort(i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en')}>
-                                        {t("api.device_table.parent_name")}
-                                        <FontAwesomeIcon
-                                            icon={sortConfig.key === (i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en') ?
-                                                (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
-                                    </th>
-                                    <th className={"col-1"} style={{width: 5 + "%"}}>
-                                        {t("api.device_table.select")}
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {currentDevices.map((device) => (
-                                    <tr key={device.generated_id}>
-                                        <td>{device.generated_id}</td>
-                                        <td>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</td>
-                                        <td>{device[i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en']}</td>
-                                        <td>
-                                            <button
-                                                className={styles.selectButton}
-                                                onClick={() => {
-                                                    setDeviceId(device.generated_id);
-
-                                                    const element = document.getElementById('execution');
-                                                    if (element) {
-                                                        element.scrollIntoView({ behavior: 'smooth' });
-                                                    }
-                                                }}
-                                            >
-                                                {t("api.device_table.select")}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                            <div>
-                                {[...Array(totalPages)].map((_, index) => (
-                                    <button
-                                        key={index}
-                                        className={`${styles.pageButton} ${
-                                            currentPage === index + 1 ? styles.activePage : ""
-                                        }`}
-                                        onClick={() => handlePageChange(index + 1)}
-                                    >
-                                        {index + 1}
-                                    </button>
-                                ))}
-                            </div>
-                        </>
-                    ) : (
-                        <p>Loading devices...</p>
-                    )}
-                </div>
-
-                <div id="execution" className={styles.apiTester}>
-                    <div className={styles.selectedId}>
-                        <label>
-                            {t("api.execution.device_id")}
-                            <input
-                                type="text"
-                                value={deviceId}
-                                onChange={(e) => setDeviceId(e.target.value)}
-                                placeholder="e.g., 8"
-                                required
-                            />
-                        </label>
-                    </div>
-                    <div className={styles.calendar}>
-                        <label>
-                            {t("api.execution.start")}
-                            <input
-                                style={{ WebkitAppearance: 'none', appearance: 'none' }}
-                                type="date"
-                                max={getCurrentDate()}
-                                value={startTime}
-                                onChange={(e) => setStartTime(e.target.value)}
-                            />
-                        </label>
-                        <label>
-                            {t("api.execution.end")}
-                            <input
-                                style={{ WebkitAppearance: 'none', appearance: 'none' }}
-                                type="date"
-                                max={getCurrentDate()}
-                                value={endTime}
-                                onChange={(e) => setEndTime(e.target.value)}
-                            />
-                        </label>
-                    </div>
-                    <button
-                        className={styles.button}
-                        onClick={async () => {
-                            await handleTestAPI();
-                            setTimeout(() => {
-                                const element = document.getElementById('execution');
-                                if (element) {
-                                    element.scrollIntoView({ behavior: 'smooth' });
-                                }
-                            }, 100);
-                        }}
-                    >
-                        {t("api.execution.execute")}
-                    </button>
-                    {response && !loading && (
-                        <button className={styles.button} onClick={handleDownload}>
-                            {t("api.execution.download")}
-                        </button>
-                    )}
-                </div>
-                {loading &&
-                    <Loader
-                        type="spinner"
-                        bgColor={"#FFFFFF"}
-                        color={"#FFFFFF"}
-                        size={60}
-                    />
-                }
-                {/* Show response details once response is ready and not loading */}
-                {response && !loading &&(
+                {activeTab === 'api' ? (
                     <>
-                    <div className={styles.endpointDisplay}>
-                        <p>
-                            {t("api.execution.endpoint")}
-                            <a
-                                href={endpoint}
-                                target="_blank"
-                                rel="noreferrer"
-                                className={styles.link}
-                            >
-                                {endpoint}
-                            </a>
-                        </p>
-                    </div>
-                    <div id="response" className={styles.apiResponse} ref={ref}>
-                        <div className="d-flex justify-content-between text-align-center">
-                        <h3>Response:</h3>
-                        <button onClick={toggleFullscreen}>
-                            <FontAwesomeIcon icon={isFullscreen ? faCompress : faExpand} size="lg" />
-                        </button>
+                        <h2 className={styles.title}>{t("about.titleWeather")}</h2>
+                        <p>{t("api.info")}</p>
+                        <h2 className={styles.measure_title}>{t('api.info_param')}</h2>
+                        <ul>
+                            <li><strong>device_id</strong>{t('api.info_deviceId')}</li>
+                            <li><strong>start_time</strong>{t('api.info_startTime')} ({t('api.info_format')}
+                                <code>YYYY-MM-DD</code>).
+                            </li>
+                            <li><strong>end_time</strong>{t('api.info_endTime')} ({t('api.info_format')}
+                                <code>YYYY-MM-DD</code>).
+                            </li>
+                        </ul>
+                        <h2 className={styles.measure_title}>{t('api.info_example')}</h2>
+                        <div className={styles.examples}>
+                            <p>{t('api.info_24_request')} <code>start_time</code> {t('api.and')}
+                            <code> end_time</code>, {t('api.info_24_request2')}</p>
+                            <h3 className={styles.sub_title_3}>{t('api.info_response')}</h3>
+                            <p>{t('api.info_json')}</p>
                         </div>
-                            <pre>{JSON.stringify(response, null, 2)}</pre>
-                    </div>
-                    </>
-                )}
+
+                        <div className={styles.tableContainer}>
+                            <h2 className={styles.measure_title}>{t("api.device_table.devices")}</h2>
+                            {devices.length > 0 ? (
+                                <>
+                                    <table className={styles.deviceTable}>
+                                        <thead>
+                                        <tr>
+                                            <th className={"col-2"} style={{width: 13 + "%"}}
+                                                onClick={() => handleSort("generated_id")}>
+                                                {t("api.device_table.id")}
+                                                <FontAwesomeIcon
+                                                    icon={sortConfig.key === "generated_id" ? (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
+                                            </th>
+                                            <th className={"col-3"} style={{width: 20 + "%"}}
+                                                onClick={() => handleSort(i18n.language === 'hy' ? 'name_hy' : 'name_en')}>
+                                                {t("api.device_table.name")}
+                                                <FontAwesomeIcon
+                                                    icon={sortConfig.key === (i18n.language === 'hy' ? 'name_hy' : 'name_en') ?
+                                                        (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
+                                            </th>
+                                            <th className={"col-3"} style={{width: 20 + "%"}}
+                                                onClick={() => handleSort(i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en')}>
+                                                {t("api.device_table.parent_name")}
+                                                <FontAwesomeIcon
+                                                    icon={sortConfig.key === (i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en') ?
+                                                        (sortConfig.direction === "asc" ? faSortDown : faSortUp) : faSort}/>
+                                            </th>
+                                            <th className={"col-1"} style={{width: 5 + "%"}}>
+                                                {t("api.device_table.select")}
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {currentDevices.map((device) => (
+                                            <tr key={device.generated_id}>
+                                                <td>{device.generated_id}</td>
+                                                <td>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</td>
+                                                <td>{device[i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en']}</td>
+                                                <td>
+                                                    <button
+                                                        className={styles.selectButton}
+                                                        onClick={() => {
+                                                            setDeviceId(device.generated_id);
+                                                            const element = document.getElementById('execution');
+                                                            if (element) {
+                                                                element.scrollIntoView({ behavior: 'smooth' });
+                                                            }
+                                                        }}
+                                                    >
+                                                        {t("api.device_table.select")}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                    <div>
+                                        {[...Array(totalPages)].map((_, index) => (
+                                            <button
+                                                key={index}
+                                                className={`${styles.pageButton} ${
+                                                    currentPage === index + 1 ? styles.activePage : ""
+                                                }`}
+                                                onClick={() => handlePageChange(index + 1)}
+                                            >
+                                                {index + 1}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </>
+                            ) : (
+                                <p>Loading devices...</p>
+                            )}
+                        </div>
+
+                        <div id="execution" className={styles.apiTester}>
+                            <div className={styles.selectedId}>
+                                <label>
+                                    {t("api.execution.device_id")}
+                                    <input
+                                        type="text"
+                                        value={deviceId}
+                                        onChange={(e) => setDeviceId(e.target.value)}
+                                        placeholder="e.g., 8"
+                                        required
+                                    />
+                                </label>
+                            </div>
+                            <div className={styles.calendar}>
+                                <label>
+                                    {t("api.execution.start")}
+                                    <input
+                                        style={{ WebkitAppearance: 'none', appearance: 'none' }}
+                                        type="date"
+                                        max={getCurrentDate()}
+                                        value={startTime}
+                                        onChange={(e) => setStartTime(e.target.value)}
+                                    />
+                                </label>
+                                <label>
+                                    {t("api.execution.end")}
+                                    <input
+                                        style={{ WebkitAppearance: 'none', appearance: 'none' }}
+                                        type="date"
+                                        max={getCurrentDate()}
+                                        value={endTime}
+                                        onChange={(e) => setEndTime(e.target.value)}
+                                    />
+                                </label>
+                            </div>
+                            <button
+                                className={styles.button}
+                                onClick={async () => {
+                                    await handleTestAPI();
+                                    setTimeout(() => {
+                                        const element = document.getElementById('execution');
+                                        if (element) {
+                                            element.scrollIntoView({ behavior: 'smooth' });
+                                        }
+                                    }, 100);
+                                }}
+                            >
+                                {t("api.execution.execute")}
+                            </button>
+                            {response && !loading && (
+                                <button className={styles.button} onClick={handleDownload}>
+                                    {t("api.execution.download")}
+                                </button>
+                            )}
+                        </div>
+                        {loading &&
+                            <Loader
+                                type="spinner"
+                                bgColor={"#FFFFFF"}
+                                color={"#FFFFFF"}
+                                size={60}
+                            />
+                        }
+                        {response && !loading &&(
+                            <>
+                            <div className={styles.endpointDisplay}>
+                                <p>
+                                    {t("api.execution.endpoint")}
+                                    <a
+                                        href={endpoint}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className={styles.link}
+                                    >
+                                        {endpoint}
+                                    </a>
+                                </p>
+                            </div>
+                            <div id="response" className={styles.apiResponse} ref={ref}>
+                                <div className="d-flex justify-content-between text-align-center">
+                                <h3>Response:</h3>
+                                <button onClick={toggleFullscreen}>
+                                    <FontAwesomeIcon icon={isFullscreen ? faCompress : faExpand} size="lg" />
+                                </button>
+                                </div>
+                                    <pre>{JSON.stringify(response, null, 2)}</pre>
+                            </div>
+                            </>
+                        )}
 
                 {error && <p className={styles.error}>Error: {error}</p>}
                 <p>
@@ -373,6 +396,21 @@ const API = () => {
 
                     </p>
                     </div>
+                        {error && <p className={styles.error}>Error: {error}</p>}
+                        <p>
+                            {t("api.info_note3")}{" "}
+                            <a className={styles.link} href="mailto:labs@tumo.org">
+                                labs@tumo.org
+                            </a>
+                            .
+                        </p>
+                        <h2 className={styles.tag}>{t('api.info_note4')}
+                            <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code></h2>
+                        <p className={styles.done}>{t('api.info_done')}</p>
+                    </>
+                ) : (
+                    <Compare />
+                )}
             </div>
         </div>
     );
