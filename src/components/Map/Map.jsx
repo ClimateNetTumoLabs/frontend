@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, GeoJSON, useMapEvents, useMap, Marker } from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
+import { createControlComponent } from '@react-leaflet/core';
 import "leaflet/dist/leaflet.css";
 import iconUrl from "../../assets/Icons/map-marker.svg";
 import location from "../../assets/Icons/circle.jpeg";
@@ -40,7 +41,7 @@ function circleWithText2(latLng, txt, radius, borderWidth) {
     return marker;
 }
 
-const PolygonWithText = ({ coords, text, region }) => {
+const PolygonWithText = ({ coords, text, region, zoomLevel }) => {
     const map = useMap();
     const markerRef = useRef(null);
     const center = coords && !isNaN(coords[0]) && !isNaN(coords[1]) ? L.latLng(coords[0], coords[1]) : null;
@@ -51,7 +52,8 @@ const PolygonWithText = ({ coords, text, region }) => {
         markerRef.current = marker;
 
         marker.on('click', () => {
-            map.setView(center, 10);
+            const targetZoom = zoomLevel < 7 ? 8 : 10;
+            map.setView(center, targetZoom);
         });
 
         marker.addTo(map);
@@ -61,7 +63,7 @@ const PolygonWithText = ({ coords, text, region }) => {
                 markerRef.current = null;
             }
         };
-    }, [center, text, map, region, coords]);
+    }, [center, text, map, region, coords, zoomLevel]);
 
     const polygonCoords = center ? [
         [center.lat + 0.001, center.lng - 0.001],
@@ -76,7 +78,8 @@ const PolygonWithText = ({ coords, text, region }) => {
             positions={polygonCoords}
             eventHandlers={{
                 click: () => {
-                    map.setView(center, 10);
+                    const targetZoom = zoomLevel < 7 ? 8 : 10;
+                    map.setView(center, targetZoom);
                 }
             }}
         />
@@ -196,7 +199,7 @@ const MapArmenia = () => {
     const intervalRef = useRef(null);
     const [selectedDevices, setSelectedDevices] = useState([]);
     const [isMapVisible, setIsMapVisible] = useState(true);
-
+ 
     const regionCoordinatesMap = {
         "Aragatsotn": [40.5233, 44.4784],
         "Ararat": [39.8303, 44.7023],
@@ -222,7 +225,7 @@ const MapArmenia = () => {
         return () => {
             popupManager.cleanup();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
     }, []);
 
     const handleZoom = (map) => {
@@ -232,10 +235,6 @@ const MapArmenia = () => {
 
     const ToggleScroll = () => {
         const map = useMapEvents({
-            click: (e) => {
-                popupManager.cleanup();
-                setShowMessage(true);
-            },
             zoom: () => {
                 handleZoom(map);
             },
@@ -251,15 +250,30 @@ const MapArmenia = () => {
             map.doubleClickZoom.disable();
             map.boxZoom.disable();
             map.keyboard.disable();
+            map.dragging.disable();
         } else {
             map.scrollWheelZoom[scrollEnabled ? "enable" : "disable"]();
             map.touchZoom.enable();
             map.doubleClickZoom.enable();
             map.boxZoom.enable();
             map.keyboard.enable();
+            map.dragging.enable();
         }
 
         return null;
+    };
+
+    const InfoButton = ({ onClick, hidden }) => {
+        return (
+            <div className={`${styles.infoButtonContainer} ${hidden ? styles.hidden : ''}`}>
+                <button
+                    className={styles.infoButton}
+                    onClick={onClick}
+                >
+                    <i>i</i>
+                </button>
+            </div>
+        );
     };
 
     const calculateRegionDevices = (devices) => {
@@ -306,7 +320,7 @@ const MapArmenia = () => {
                 <div class="${styles.cardContent}">
                     <p>${t('map.mapHumidity')}: <span class="${styles.cardData}">${device.humidity != null ? device.humidity : 'N/A'}%</span></p>
                     <p>${t('map.mapTemperature')}: <span class="${styles.cardData}">${device.temperature != null ? device.temperature : 'N/A'}°C</span></p>
-                    <p class="${styles.cardTime}">${isOutdated ? "⛔ " : ""}<i>${device.time != null ? device.time : 'N/A'}</i></p>
+                    <p class="${styles.cardTime}">${isOutdated ? "⛔ " : "✅ "}<i>${device.time != null ? device.time : 'N/A'}</i></p>
                 </div>
             `}
             <a href="/${i18n.language}/device/${device.generated_id}/?${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}">${t('map.clickDetails')}</a>
@@ -412,116 +426,116 @@ const MapArmenia = () => {
     };
 
     useEffect(() => {
-    const fetchDeviceList = async () => {
-        try {
-            const deviceListResponse = await axios.get(`/device_inner/list/`);
-            const deviceList = deviceListResponse.data.map(device => ({
-                ...device,
-                temperature: null,
-                humidity: null
-            }));
-            setDevices(deviceList);
-            setIsFetchingLatest(deviceList.reduce((acc, device) => ({
-                ...acc,
-                [device.generated_id]: false
-            }), {}));
-            await fetchLatestData(deviceList);
-        } catch (error) {
-            setDevices([]);
-            setIsFetchingLatest({});
-        }
-    };
-
-    const fetchLatestData = async (deviceList) => {
-        try {
-            setIsFetchingLatest(prev => ({
-                ...prev,
-                ...deviceList.reduce((acc, device) => ({
+        const fetchDeviceList = async () => {
+            try {
+                const deviceListResponse = await axios.get(`/device_inner/list/`);
+                const deviceList = deviceListResponse.data.map(device => ({
+                    ...device,
+                    temperature: null,
+                    humidity: null
+                }));
+                setDevices(deviceList);
+                setIsFetchingLatest(deviceList.reduce((acc, device) => ({
                     ...acc,
-                    [device.generated_id]: true
-                }), {})
-            }));
+                    [device.generated_id]: false
+                }), {}));
+                await fetchLatestData(deviceList);
+            } catch (error) {
+                setDevices([]);
+                setIsFetchingLatest({});
+            }
+        };
 
-            const devicePromises = deviceList.map(async (device) => {
-                try {
-                    const latestResponse = await axios.get(`/device_inner/${device.generated_id}/latest/`);
-                    if (latestResponse.data.length > 0) {
-                        const apiTime = latestResponse.data[0].time;
-                        const date = new Date(apiTime);
-                        const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-                        return {
-                            ...device,
-                            temperature: latestResponse.data[0].temperature,
-                            humidity: latestResponse.data[0].humidity,
-                            time: formattedDate,
-                        };
-                    } else {
+        const fetchLatestData = async (deviceList) => {
+            try {
+                setIsFetchingLatest(prev => ({
+                    ...prev,
+                    ...deviceList.reduce((acc, device) => ({
+                        ...acc,
+                        [device.generated_id]: true
+                    }), {})
+                }));
+
+                const devicePromises = deviceList.map(async (device) => {
+                    try {
+                        const latestResponse = await axios.get(`/device_inner/${device.generated_id}/latest/`);
+                        if (latestResponse.data.length > 0) {
+                            const apiTime = latestResponse.data[0].time;
+                            const date = new Date(apiTime);
+                            const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                            return {
+                                ...device,
+                                temperature: latestResponse.data[0].temperature,
+                                humidity: latestResponse.data[0].humidity,
+                                time: formattedDate,
+                            };
+                        } else {
+                            return device;
+                        }
+                    } catch (error) {
                         return device;
                     }
-                } catch (error) {
-                    return device;
-                }
-            });
+                });
 
-            const devicesWithLatest = await Promise.all(devicePromises);
-            setDevices(devicesWithLatest);
-            setIsFetchingLatest(prev => ({
-                ...prev,
-                ...deviceList.reduce((acc, device) => ({
-                    ...acc,
-                    [device.generated_id]: false
-                }), {})
-            }));
-        } catch (error) {
-            setIsFetchingLatest(prev => ({
-                ...prev,
-                ...deviceList.reduce((acc, device) => ({
-                    ...acc,
-                    [device.generated_id]: false
-                }), {})
-            }));
-        }
-    };
-
-    const scheduleNextFetch = () => {
-        const now = new Date();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
-        const milliseconds = now.getMilliseconds();
-
-        const minutesPastQuarter = minutes % 15;
-        const minutesToNextQuarter = minutesPastQuarter === 0 ? 0 : 15 - minutesPastQuarter;
-        const delayMilliseconds = (minutesToNextQuarter * 60 * 1000) - (seconds * 1000) - milliseconds;
-
-        const timeoutId = setTimeout(() => {
-            if (devices.length > 0) {
-                fetchLatestData(devices);
-            } else {
-                fetchDeviceList();
+                const devicesWithLatest = await Promise.all(devicePromises);
+                setDevices(devicesWithLatest);
+                setIsFetchingLatest(prev => ({
+                    ...prev,
+                    ...deviceList.reduce((acc, device) => ({
+                        ...acc,
+                        [device.generated_id]: false
+                    }), {})
+                }));
+            } catch (error) {
+                setIsFetchingLatest(prev => ({
+                    ...prev,
+                    ...deviceList.reduce((acc, device) => ({
+                        ...acc,
+                        [device.generated_id]: false
+                    }), {})
+                }));
             }
-            const intervalId = setInterval(() => {
+        };
+
+        const scheduleNextFetch = () => {
+            const now = new Date();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const milliseconds = now.getMilliseconds();
+
+            const minutesPastQuarter = minutes % 15;
+            const minutesToNextQuarter = minutesPastQuarter === 0 ? 0 : 15 - minutesPastQuarter;
+            const delayMilliseconds = (minutesToNextQuarter * 60 * 1000) - (seconds * 1000) - milliseconds;
+
+            const timeoutId = setTimeout(() => {
                 if (devices.length > 0) {
                     fetchLatestData(devices);
                 } else {
                     fetchDeviceList();
                 }
-            }, 15 * 60 * 1000);
-            intervalRef.current = intervalId;
-        }, delayMilliseconds > 0 ? delayMilliseconds : 0);
+                const intervalId = setInterval(() => {
+                    if (devices.length > 0) {
+                        fetchLatestData(devices);
+                    } else {
+                        fetchDeviceList();
+                    }
+                }, 15 * 60 * 1000);
+                intervalRef.current = intervalId;
+            }, delayMilliseconds > 0 ? delayMilliseconds : 0);
 
-        return timeoutId;
-    };
+            return timeoutId;
+        };
 
-    fetchDeviceList();
-    const timeoutId = scheduleNextFetch();
+        fetchDeviceList();
+        const timeoutId = scheduleNextFetch();
 
-    return () => {
-        clearTimeout(timeoutId);
-        if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-        }
-    };
-}, []);
+        return () => {
+            clearTimeout(timeoutId);
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
+    }, []);
 
     useEffect(() => {
         const preventBrowserZoom = (e) => {
@@ -572,39 +586,56 @@ const MapArmenia = () => {
         setSelectedDevices(prev => prev.filter(device => device.generated_id !== deviceId));
     };
 
-
     useEffect(() => {
         const compareBar = document.querySelector(`.${styles.compareBar}`);
         const deviceList = document.querySelector(`.${styles.deviceList}`);
         let hideTimeout = null;
+        let isListVisible = false;
 
         if (!compareBar || !deviceList) return;
 
         const showList = () => {
             clearTimeout(hideTimeout);
             deviceList.style.display = 'block';
+            isListVisible = true;
+        };
+
+        const hideList = () => {
+            clearTimeout(hideTimeout);
+            deviceList.style.display = 'none';
+            isListVisible = false;
         };
 
         const hideListWithDelay = () => {
             hideTimeout = setTimeout(() => {
                 deviceList.style.display = 'none';
+                isListVisible = false;
             }, 300);
+        };
+
+        const handleClick = () => {
+            if (isListVisible) {
+                hideList();
+            } else {
+                showList();
+            }
         };
 
         compareBar.addEventListener('mouseenter', showList);
         compareBar.addEventListener('mouseleave', hideListWithDelay);
         deviceList.addEventListener('mouseenter', showList);
         deviceList.addEventListener('mouseleave', hideListWithDelay);
+        compareBar.addEventListener('click', handleClick);
 
         return () => {
             compareBar.removeEventListener('mouseenter', showList);
             compareBar.removeEventListener('mouseleave', hideListWithDelay);
             deviceList.removeEventListener('mouseenter', showList);
             deviceList.removeEventListener('mouseleave', hideListWithDelay);
+            compareBar.removeEventListener('click', handleClick);
             clearTimeout(hideTimeout);
         };
     }, [selectedDevices]);
-
 
     const geoJSONStyle = {
         fillColor: "green",
@@ -617,7 +648,10 @@ const MapArmenia = () => {
         iconUrl,
         iconSize: [25, 25],
         iconAnchor: [15, 15],
-        popupAnchor: [0, -15]
+        popupAnchor: [0, -15],
+        shadowUrl: null,
+        shadowSize: [60, 60],
+        shadowAnchor: [30, 30]
     });
 
     const blinkIcon = new L.Icon({
@@ -625,7 +659,10 @@ const MapArmenia = () => {
         iconSize: [10, 10],
         iconAnchor: [5, 5],
         popupAnchor: [0, -15],
-        className: styles.blinking
+        className: styles.blinking,
+        shadowUrl: null,
+        shadowSize: [60, 60],
+        shadowAnchor: [30, 30]
     });
 
     const totalDevices = Object.values(regionDevices).reduce((sum, count) => sum + count, 0);
@@ -673,6 +710,7 @@ const MapArmenia = () => {
                             coords={armeniaCenter}
                             text={totalDevices}
                             region="Armenia"
+                            zoomLevel={zoomLevel}
                         />
                     ) : zoomLevel < 9 ? (
                         <>
@@ -687,6 +725,7 @@ const MapArmenia = () => {
                                         coords={regionCoordinates}
                                         text={count}
                                         region={region}
+                                        zoomLevel={zoomLevel}
                                     />
                                 );
                             })}
@@ -735,11 +774,16 @@ const MapArmenia = () => {
                         </>
                     )}
                     <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle} />
-                    <FullscreenControl forceSeparateButton={true} position={"topright"} />
+                    <FullscreenControl forceSeparateButton={true} position={"topright"} className="custom-fullscreen-control" />
                     <ResetViewControl
+                        className = {styles.my_resetView}
                         title="Reset view"
                         position={"topright"}
                         icon="url(https://images-in-website.s3.us-east-1.amazonaws.com/Icons/synchronize.png)"
+                    />
+                    <InfoButton
+                        onClick={() => setShowMessage(true)}
+                        hidden={showMessage}
                     />
                     <Routes>
                         <Route path="/device/:id" element={<InnerPage />} />
@@ -769,7 +813,6 @@ const MapArmenia = () => {
                             >
                                 {selectedDevices.length}
                             </div>
-
                             <button
                                 className={styles.compareButton}
                                 onClick={handleCompare}
@@ -777,7 +820,6 @@ const MapArmenia = () => {
                             >
                                 {t('map.compareButton')}
                             </button>
-
                             <div className={styles.deviceList}>
                                 {selectedDevices.map(device => (
                                     <div key={device.generated_id} className={styles.deviceListItem}>

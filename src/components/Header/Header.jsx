@@ -56,17 +56,78 @@ const Header = () => {
         </li>
     );
 
-    const GoToSection = () => {
-        setTimeout(() => {
+    // scroll function with intersection observer fallback
+    const scrollToMapElement = () => {
+        console.log("Scrolling to Map");
+        const performScroll = () => {
             const targetElement = document.getElementById("Map");
             if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop,
-                    behavior: "smooth",
-                });
+                void targetElement.offsetHeight;
+                
+                const rect = targetElement.getBoundingClientRect();
+                const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+                
+                if (!isVisible) {
+                    targetElement.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
+                return true;
             }
-            handleNavItemClick(); // Close the navbar
+            return false;
+        };
+
+        //immediate scroll
+        if (performScroll()) {
+            return;
+        }
+
+        //element not found  MutationObserver -> to wait for DOM changes
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList' || mutation.type === 'attributes') {
+                    if (performScroll()) {
+                        observer.disconnect();
+                    }
+                }
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['style', 'class']
+        });
+
+        //intervals as fallback
+        let attempts = 0;
+        const interval = setInterval(() => {
+            attempts++;
+            if (performScroll() || attempts > 30) {
+                clearInterval(interval);
+                observer.disconnect();
+            }
         }, 100);
+
+        //clean up 
+        setTimeout(() => {
+            observer.disconnect();
+            clearInterval(interval);
+        }, 5000);
+    };
+
+    //location changes to handle hash scrolling
+    useEffect(() => {
+        if (location.hash === '#Map') {
+            setTimeout(scrollToMapElement, 500);
+        }
+    }, [location.pathname, location.hash]);
+
+    const GoToSection = () => {
+        handleNavItemClick();
+        setTimeout(scrollToMapElement, 50);
     };
 
     const [languageButtonText, setLanguageButtonText] = useState(i18n.language === 'en' ? 'Հայ' : 'Eng');
@@ -77,7 +138,7 @@ const Header = () => {
         i18n.changeLanguage(lng).then(() => {
             navigate(newPathname);
             setLanguageButtonText(lng === 'en' ? 'Հայ' : 'Eng');
-            handleNavItemClick(); // Close the navbar
+            handleNavItemClick(); 
         });
     };
 
