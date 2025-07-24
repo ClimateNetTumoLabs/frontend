@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
+import { useSearchParams } from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 import "../../i18n";
 import { Helmet } from 'react-helmet';
@@ -17,8 +18,9 @@ const API = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const ref = useRef(null);
     const [loading, setLoading] = useState(false);
+    const [searchParams] = useSearchParams();
     const [activeTab, setActiveTab] = useState(() => {
-        return sessionStorage.getItem('activeTab') || 'api';
+        return searchParams.get('tab') || sessionStorage.getItem('activeTab') || 'api';
     });
 
     const handleTabChange = (tab) => {
@@ -61,6 +63,17 @@ const API = () => {
             .catch((error) => {
                 console.error("Error fetching data:", error);
             });
+    }, []);
+
+    useEffect(() => {
+        // Check URL for tab parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+        
+        if (tabParam === 'compare') {
+            setActiveTab('compare');
+            sessionStorage.setItem('activeTab', 'compare');
+        }
     }, []);
 
     const getEndpoint = () => {
@@ -409,7 +422,7 @@ const API = () => {
                         <p className={styles.done}>{t('api.info_done')}</p>
                     </>
                 ) : (
-                    <Compare />
+                    <Compare initialDeviceIds={new URLSearchParams(window.location.search).get('devices')?.split(',') || []} />
                 )}
             </div>
         </div>

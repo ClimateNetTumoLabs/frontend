@@ -696,7 +696,7 @@ const WeatherDataGraphs = (props) => {
           minRotation: isMobile ? 75 : 0,
         },
         grid: {
-          color: 'transparent',
+          color: '#999',
           borderColor: 'transparent',
         },
       },
@@ -705,7 +705,7 @@ const WeatherDataGraphs = (props) => {
           color: "#FFFFFF",
         },
         grid: {
-          color: "#FFFFFF",
+          color: "#999",
           borderColor: "#FFFFFF",
         },
         border: {
