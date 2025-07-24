@@ -1,8 +1,8 @@
 import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, GeoJSON, useMapEvents, useMap, Marker } from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
-import { createControlComponent } from '@react-leaflet/core';
 import "leaflet/dist/leaflet.css";
 import iconUrl from "../../assets/Icons/map-marker.svg";
 import location from "../../assets/Icons/circle.jpeg";
@@ -199,10 +199,10 @@ const MapArmenia = () => {
     const intervalRef = useRef(null);
     const [selectedDevices, setSelectedDevices] = useState([]);
     const [isMapVisible, setIsMapVisible] = useState(true);
- 
+
     const regionCoordinatesMap = {
         "Aragatsotn": [40.5233, 44.4784],
-        "Ararat": [39.8303, 44.7023],
+        "Ararat": [39.97532, 44.75555],
         "Armavir": [40.1526, 44.0345],
         "Gegharkunik": [40.3961, 45.2881],
         "Kotayk": [40.3289, 44.6089],
@@ -225,7 +225,7 @@ const MapArmenia = () => {
         return () => {
             popupManager.cleanup();
         };
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
 
     const handleZoom = (map) => {
@@ -263,17 +263,53 @@ const MapArmenia = () => {
         return null;
     };
 
+    const InfoControl = L.Control.extend({
+        onAdd: function (map) {
+            const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+
+            container.style.backgroundColor = 'white';
+            container.style.backgroundSize = '30px 30px';
+            container.style.width = '34px';
+            container.style.height = '34px';
+            container.style.cursor = 'pointer';
+            container.style.display = 'flex';
+            container.style.alignItems = 'center';
+            container.style.justifyContent = 'center';
+
+            const icon = L.DomUtil.create('i', 'fa fa-info', container);
+            icon.style.fontSize = '14px';
+            icon.style.color = 'black';
+            icon.style.fontWeight = 'bold';
+
+            container.onclick = this.options.onClick;
+
+            L.DomEvent.disableClickPropagation(container);
+
+            return container;
+        },
+
+
+    });
+
     const InfoButton = ({ onClick, hidden }) => {
-        return (
-            <div className={`${styles.infoButtonContainer} ${hidden ? styles.hidden : ''}`}>
-                <button
-                    className={styles.infoButton}
-                    onClick={onClick}
-                >
-                    <i>i</i>
-                </button>
-            </div>
-        );
+        const map = useMap();
+
+        useEffect(() => {
+            if (hidden) return;
+
+            const infoControl = new InfoControl({
+                position: 'topright',
+                onClick: onClick
+            });
+
+            map.addControl(infoControl);
+
+            return () => {
+                map.removeControl(infoControl);
+            };
+        }, [map, onClick, hidden]);
+
+        return null;
     };
 
     const calculateRegionDevices = (devices) => {
@@ -667,10 +703,12 @@ const MapArmenia = () => {
 
     const totalDevices = Object.values(regionDevices).reduce((sum, count) => sum + count, 0);
 
+    const navigate = useNavigate();
+
     const handleCompare = () => {
         if (selectedDevices.length >= 2) {
             const ids = selectedDevices.map(d => d.generated_id).join(',');
-            window.location.href = `/compare?ids=${ids}`;
+            navigate(`/${i18n.language}/api?tab=compare&devices=${ids}`);
         }
     };
 
@@ -776,10 +814,10 @@ const MapArmenia = () => {
                     <GeoJSON data={armeniaGeoJSON} style={geoJSONStyle} />
                     <FullscreenControl forceSeparateButton={true} position={"topright"} className="custom-fullscreen-control" />
                     <ResetViewControl
-                        className = {styles.my_resetView}
+                        className={styles.my_resetView}
                         title="Reset view"
                         position={"topright"}
-                        icon="url(https://images-in-website.s3.us-east-1.amazonaws.com/Icons/synchronize.png)"
+                        icon="url(https://images-in-website.s3.us-east-1.amazonaws.com/Icons/reset.png)"
                     />
                     <InfoButton
                         onClick={() => setShowMessage(true)}

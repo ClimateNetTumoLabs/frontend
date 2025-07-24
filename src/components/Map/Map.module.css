@@ -571,54 +571,21 @@ a>span {
 }
 
 
-/* new styles */
-.mobileInfoButtonContainer {
-    position: absolute;
-    top: 80px;
-    right: 10px;
-    z-index: 1000;
+.leaflet-control-custom {
+    border: 2px solid rgba(0,0,0,0.2) !important;
+    border-radius: 2px !important;
+    box-shadow: none !important;
 }
 
-.infoButton {
-    width: 33px;
-    height: 33px;
-    background-color: #e07789;
-    border: 2px solid #e07789;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-    margin-left: 5px;
-    margin-top: 20%;
+.leaflet-control-custom:hover {
+    background-color: #f4f4f4 !important;
 }
 
-.infoButton i {
-    font-size: 16px;
-    color: #fff;
-    font-weight: bold;
-    font-style: normal;
-}
-
+.infoButton,
 .infoButtonContainer {
-    position: absolute;
-    top: 15%;
-    right: 10px;
-    z-index: 1000;
-    display: flex;
-    opacity: 1;
-    transition: opacity 0.3s ease;
+    display: none !important;
 }
 
-.infoButtonContainer.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-
-:global(.custom-fullscreen-control) {
-  background-color: #007bff !important;
-  padding: 5px;
-  border-radius: 5px;
+.leaflet-control-custom.hidden {
+    display: none !important;
 }
