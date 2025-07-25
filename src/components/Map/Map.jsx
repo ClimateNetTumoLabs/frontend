@@ -275,25 +275,35 @@ const MapArmenia = () => {
             container.style.display = 'flex';
             container.style.alignItems = 'center';
             container.style.justifyContent = 'center';
+            container.style.border = '2px solid rgba(0,0,0,0.2)';
+            container.style.borderRadius = '2px';
 
             const icon = L.DomUtil.create('i', 'fa fa-info', container);
             icon.style.fontSize = '14px';
             icon.style.color = 'black';
             icon.style.fontWeight = 'bold';
+            icon.style.pointerEvents = 'none'; 
+
+            container.onmouseenter = function () {
+                this.style.backgroundColor = '#f4f4f4';
+            };
+
+            container.onmouseleave = function () {
+                this.style.backgroundColor = 'white';
+            };
 
             container.onclick = this.options.onClick;
 
             L.DomEvent.disableClickPropagation(container);
+            L.DomEvent.disableScrollPropagation(container);
 
             return container;
         },
-
 
     });
 
     const InfoButton = ({ onClick, hidden }) => {
         const map = useMap();
-
         useEffect(() => {
             if (hidden) return;
 
