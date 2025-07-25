@@ -42,7 +42,7 @@ function App() {
 
     return (
         <div className="App" style={{minHeight: '100vh'}}>
-            <CookieManager/>
+            {/*<CookieManager/>*/}
             {isKnownRoute && <Header/>}
             <ScrollToTop/>
             <Routes>
