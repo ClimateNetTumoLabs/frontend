@@ -313,9 +313,11 @@ const MapArmenia = () => {
             });
 
             map.addControl(infoControl);
+            map.invalidateSize();
 
             return () => {
                 map.removeControl(infoControl);
+                map.invalidateSize();
             };
         }, [map, onClick, hidden]);
 
@@ -584,18 +586,23 @@ const MapArmenia = () => {
     }, []);
 
     useEffect(() => {
-        const preventBrowserZoom = (e) => {
-            if (showMessage && (e.ctrlKey || e.metaKey)) {
+        const handleWheel = (e) => {
+            if (showMessage) {
                 e.preventDefault();
             }
         };
 
-        window.addEventListener('wheel', preventBrowserZoom, { passive: false });
+        const popup = document.querySelector(`.${styles.fullScreenPopup}`);
+        if (popup) {
+            popup.addEventListener('wheel', handleWheel, { passive: false });
+        }
 
         return () => {
-            window.removeEventListener('wheel', preventBrowserZoom);
+            if (popup) {
+                popup.removeEventListener('wheel', handleWheel, { passive: false });
+            }
         };
-    }, [showMessage]);
+    }, [showMessage, styles.fullScreenPopup]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -839,7 +846,6 @@ const MapArmenia = () => {
                     {showMessage && (
                         <div
                             className={styles.fullScreenPopup}
-                            onWheel={(e) => e.preventDefault()}
                             onClick={() => setShowMessage(false)}
                         >
                             <div className={styles.popupContent}>
@@ -909,3 +915,4 @@ const MapArmenia = () => {
 };
 
 export default MapArmenia;
+
