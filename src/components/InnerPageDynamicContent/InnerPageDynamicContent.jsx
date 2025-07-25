@@ -120,7 +120,6 @@ function InnerPageDynamicContent(props) {
 
     }, [props.weather_data]);
 
-
     return (
         <div ref={ChartsRef} className={`${styles.InnerPageDynamicContent}`}>
             <div onClick={toggleFullScreen} className={styles.FullScreenButtonSection}>
@@ -159,6 +158,8 @@ function InnerPageDynamicContent(props) {
                                     selected_device_id={props.selected_device_id}
                                     showWelcomeOverlay={showWelcomeOverlay}
                                     setShowWelcomeOverlay={setShowWelcomeOverlay}
+                                    selectedTab={selectedTab}
+                                    stats={props.stats}
                                 />
                             }
                         </Tab>
@@ -187,6 +188,8 @@ function InnerPageDynamicContent(props) {
                                     selected_device_id={props.selected_device_id}
                                     showWelcomeOverlay={showWelcomeOverlay}
                                     setShowWelcomeOverlay={setShowWelcomeOverlay}
+                                    selectedTab={selectedTab}
+                                    stats={props.stats}
                                 />
                             }
                         </Tab>
@@ -215,6 +218,8 @@ function InnerPageDynamicContent(props) {
                                     selected_device_id={props.selected_device_id}
                                     showWelcomeOverlay={showWelcomeOverlay}
                                     setShowWelcomeOverlay={setShowWelcomeOverlay}
+                                    selectedTab={selectedTab}
+                                    stats={props.stats}
                                 />
                             }
                         </Tab>
@@ -243,6 +248,8 @@ function InnerPageDynamicContent(props) {
                                     selected_device_id={props.selected_device_id}
                                     showWelcomeOverlay={showWelcomeOverlay}
                                     setShowWelcomeOverlay={setShowWelcomeOverlay}
+                                    selectedTab={selectedTab}
+                                    stats={props.stats}
                                 />
                             }
                         </Tab>
@@ -271,6 +278,8 @@ function InnerPageDynamicContent(props) {
                                     selected_device_id={props.selected_device_id}
                                     showWelcomeOverlay={showWelcomeOverlay}
                                     setShowWelcomeOverlay={setShowWelcomeOverlay}
+                                    selectedTab={selectedTab}
+                                    stats={props.stats}
                                 />
                             }
                         </Tab>

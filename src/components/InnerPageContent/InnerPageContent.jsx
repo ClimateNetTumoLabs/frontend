@@ -30,6 +30,7 @@ function InnerPageContent(props) {
 				setFilterPressed={props.setFilterPressed}
                 filterState={props.filterState}
                 selected_device_id={props.selected_device_id}
+                stats={props.stats}
             />
         </div>
     )

@@ -149,7 +149,7 @@ span {
 .fullscreen_button {
     height: 15px;
     width: 15px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 @media (max-width: 767px) {
@@ -160,6 +160,7 @@ span {
     .FilterSection {
         display: none;
     }
+
     .welcomeOverlay {
         display: none;
     }
@@ -220,9 +221,9 @@ span {
     flex-wrap: wrap;
     /* gap: 0.5rem; */
     margin-bottom: 1rem;
-  }
-  
-  .filterButton {
+}
+
+.filterButton {
     padding: 0.5rem 1rem;
     background-color: #3a3a3a;
     color: white;
@@ -235,38 +236,40 @@ span {
     height: 40px;
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;
-  }
-  
-  .filterButton:hover {
-    background: #232222;
-    color: #e07789;
-    border: 1px solid #e07789;
-  }
-  
-  .activeFilter {
-    background: #232222;
-    color: #e07789;
-    border: 1px solid #e07789;
-  }
-
-  .filterButton:disabled {
-    opacity: 0.75; /* Visual feedback for disabled state */
-    cursor: not-allowed; /* Show "not-allowed" cursor */
 }
 
-  /* .activeFilter {
+.filterButton:hover {
+    background: #232222;
+    color: #e07789;
+    border: 1px solid #e07789;
+}
+
+.activeFilter {
+    background: #232222;
+    color: #e07789;
+    border: 1px solid #e07789;
+}
+
+.filterButton:disabled {
+    opacity: 0.75;
+    /* Visual feedback for disabled state */
+    cursor: not-allowed;
+    /* Show "not-allowed" cursor */
+}
+
+/* .activeFilter {
     background-color: #232222;
     color: #e07789;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   } */
 
-  :global(.apexcharts-menu) {
+:global(.apexcharts-menu) {
     right: auto !important;
     left: 20px !important;
-  }
+}
 
-  /* .pickerDropdown {
+/* .pickerDropdown {
     position: absolute;
     z-index: 1000;
     background: white;
@@ -275,27 +278,27 @@ span {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   } */
 
-  .pickerDropdown {
+.pickerDropdown {
     /* width: 70%; */
-  padding: 0.5rem 1rem;
-  background-color: #3a3a3a;
-  color: white;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-sizing: border-box;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #3a3a3a;
+    color: white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .pickerDropdown:hover {
     background: #232222;
     color: #e07789;
     border: 1px solid #e07789;
-  }
-  
-  .dropdownContainer {
+}
+
+.dropdownContainer {
     position: relative;
     display: inline-block;
 }
@@ -344,16 +347,18 @@ span {
     background: #232222;
     color: #e07789;
     border: 1px solid #e07789;
-  }
-  
-  .downloadIconButton svg {
+}
+
+.downloadIconButton svg {
     cursor: pointer;
     stroke: #ffffff;
-  }
-  
-  .downloadIconButton:hover svg {
+   
+}
+
+.downloadIconButton:hover svg {
     stroke: #e07789;
-  }
+   
+}
 
 .welcomeOverlay {
     position: absolute;
@@ -422,16 +427,30 @@ span {
 :fullscreen .chartContainer {
     overflow: auto !important;
     height: 100% !important;
-  }
-  
-  :fullscreen .chartWrapper {
+}
+
+:fullscreen .chartWrapper {
     min-height: 100% !important;
   }
   
   :fullscreen .chart_div {
     height: 500px !important;
     min-height: 100% !important;
-  }
+}
+
+.downicon {
+    transition: transform 0.3s ease;
+}
+
+.open {
+    transform: rotate(180deg);
+}
+
+.extremBtn {
+    background-color: #232222;
+    border: none;
+    border-bottom: 1px solid white;
+}
 
   :fullscreen .chart_section {
     overflow: auto !important;

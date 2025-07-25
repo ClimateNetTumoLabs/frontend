@@ -613,6 +613,17 @@ const resources = {
                 privacyPolicy: {
                     title: "Privacy Policy",
 
+                },
+                min_max:
+                {
+                    min: "Min.",
+                    max: "Max."
+                },
+                extrems:
+                {
+                    show: "Show",
+                    hide: "Hide",
+                    extrems: "extrems"
                 }
             },
         },
@@ -1212,6 +1223,17 @@ const resources = {
                     },
                 privacyPolicy: {
                     title: "Գաղտնիության քաղաքականություն",
+                },
+                min_max:
+                {
+                    min: "Մին.",
+                    max: "Մաքս."
+                },
+                extrems:
+                {
+                    show: "Ցուցադրել",
+                    hide: "Թաքցնել",
+                    extrems: "ծայրահեղությունները"
                 }
             },
         },
