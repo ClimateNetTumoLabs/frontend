@@ -56,9 +56,7 @@ const Header = () => {
         </li>
     );
 
-    // scroll function with intersection observer fallback
     const scrollToMapElement = () => {
-        console.log("Scrolling to Map");
         const performScroll = () => {
             const targetElement = document.getElementById("Map");
             if (targetElement) {
@@ -78,12 +76,10 @@ const Header = () => {
             return false;
         };
 
-        //immediate scroll
         if (performScroll()) {
             return;
         }
 
-        //element not found  MutationObserver -> to wait for DOM changes
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'childList' || mutation.type === 'attributes') {
@@ -101,7 +97,6 @@ const Header = () => {
             attributeFilter: ['style', 'class']
         });
 
-        //intervals as fallback
         let attempts = 0;
         const interval = setInterval(() => {
             attempts++;
@@ -111,14 +106,12 @@ const Header = () => {
             }
         }, 100);
 
-        //clean up 
         setTimeout(() => {
             observer.disconnect();
             clearInterval(interval);
         }, 5000);
     };
 
-    //location changes to handle hash scrolling
     useEffect(() => {
         if (location.hash === '#Map') {
             setTimeout(scrollToMapElement, 500);

@@ -68,6 +68,16 @@ function InnerPageDynamicContent(props) {
         return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
       }, []);
 
+      const scrollToChart = () => {
+        setTimeout(() => {
+          const chartElement = document.getElementById("chart");
+          if (chartElement) {
+            chartElement.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+          }
+        }, 100);
+      };
+
     useEffect(() => {
         let temperatureArray = [];
         let humidityArray = [];
@@ -121,7 +131,7 @@ function InnerPageDynamicContent(props) {
                     <Tabs
                         defaultActiveKey={selectedTab}
                         className={styles.tabs_section}
-                        onSelect={(tab) => setSelectedTab(tab)}
+                        onSelect={(tab) => {setSelectedTab(tab); scrollToChart()}}
                     >
                         <Tab eventKey="tem_and_hum"
                              title={t('innerPageDynamicContent.tabTitles.temperatureAndHumidity')}>
