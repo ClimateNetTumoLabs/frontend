@@ -123,6 +123,16 @@ function InnerPageNearbyDevices({ device, ...props }) {
         );
     }
 
+    const scrollToTop = () => {
+        setTimeout(() => {
+          const chartElement = document.getElementById("innerPageStaticContent");
+          if (chartElement) {
+            chartElement.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+          }
+        }, 100);
+      };    
+
     const currentRegionName = device[i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name'];
 
     return (
@@ -140,6 +150,7 @@ function InnerPageNearbyDevices({ device, ...props }) {
                     onClick={() => {
                         props.setLeftLoad(true);
                         props.filterChange("Hourly");
+                        scrollToTop();
                     }}
                 >
                     <NearbyDevicesItem

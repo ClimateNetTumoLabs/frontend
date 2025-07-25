@@ -168,7 +168,7 @@ function InnerPageStaticContent(props) {
     }, []);
 
     return (
-        <div className={`${styles.InnerPageStaticContent}`}>
+        <div className={`${styles.InnerPageStaticContent}`} id="innerPageStaticContent">
             {
                 props.leftLoad ? (
                     <div className={styles.loader}>
