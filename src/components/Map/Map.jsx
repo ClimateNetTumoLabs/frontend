@@ -275,25 +275,35 @@ const MapArmenia = () => {
             container.style.display = 'flex';
             container.style.alignItems = 'center';
             container.style.justifyContent = 'center';
+            container.style.border = '2px solid rgba(0,0,0,0.2)';
+            container.style.borderRadius = '2px';
 
             const icon = L.DomUtil.create('i', 'fa fa-info', container);
             icon.style.fontSize = '14px';
             icon.style.color = 'black';
             icon.style.fontWeight = 'bold';
+            icon.style.pointerEvents = 'none'; 
+
+            container.onmouseenter = function () {
+                this.style.backgroundColor = '#f4f4f4';
+            };
+
+            container.onmouseleave = function () {
+                this.style.backgroundColor = 'white';
+            };
 
             container.onclick = this.options.onClick;
 
             L.DomEvent.disableClickPropagation(container);
+            L.DomEvent.disableScrollPropagation(container);
 
             return container;
         },
-
 
     });
 
     const InfoButton = ({ onClick, hidden }) => {
         const map = useMap();
-
         useEffect(() => {
             if (hidden) return;
 
@@ -303,9 +313,11 @@ const MapArmenia = () => {
             });
 
             map.addControl(infoControl);
+            map.invalidateSize();
 
             return () => {
                 map.removeControl(infoControl);
+                map.invalidateSize();
             };
         }, [map, onClick, hidden]);
 
@@ -574,18 +586,23 @@ const MapArmenia = () => {
     }, []);
 
     useEffect(() => {
-        const preventBrowserZoom = (e) => {
-            if (showMessage && (e.ctrlKey || e.metaKey)) {
+        const handleWheel = (e) => {
+            if (showMessage) {
                 e.preventDefault();
             }
         };
 
-        window.addEventListener('wheel', preventBrowserZoom, { passive: false });
+        const popup = document.querySelector(`.${styles.fullScreenPopup}`);
+        if (popup) {
+            popup.addEventListener('wheel', handleWheel, { passive: false });
+        }
 
         return () => {
-            window.removeEventListener('wheel', preventBrowserZoom);
+            if (popup) {
+                popup.removeEventListener('wheel', handleWheel, { passive: false });
+            }
         };
-    }, [showMessage]);
+    }, [showMessage, styles.fullScreenPopup]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -829,7 +846,6 @@ const MapArmenia = () => {
                     {showMessage && (
                         <div
                             className={styles.fullScreenPopup}
-                            onWheel={(e) => e.preventDefault()}
                             onClick={() => setShowMessage(false)}
                         >
                             <div className={styles.popupContent}>
@@ -899,3 +915,4 @@ const MapArmenia = () => {
 };
 
 export default MapArmenia;
+

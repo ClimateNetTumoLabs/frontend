@@ -148,6 +148,7 @@ a>span {
     object-fit: cover;
     border-radius: 12px;
     cursor: zoom-in;
+    background-color: #fff;
 }
 
 .zoomLens {
@@ -161,6 +162,7 @@ a>span {
     cursor: zoom-in;
     z-index: 1002;
     border-radius: 50%;
+    box-sizing: border-box;
 }
 
 .zoomResult {
@@ -170,14 +172,14 @@ a>span {
     width: 200px;
     height: 200px;
     border: 1px solid #ccc;
-    background-color: #fff;
     display: none;
     z-index: 1001;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
+    box-sizing: border-box;
 }
 
 .compareIconContainer {
@@ -581,7 +583,7 @@ a>span {
     background-color: #f4f4f4 !important;
 }
 
-.infoButton,
+
 .infoButtonContainer {
     display: none !important;
 }
