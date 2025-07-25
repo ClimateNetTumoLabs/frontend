@@ -28,9 +28,6 @@ function InnerPageDynamicContent(props) {
       
         if (chartElement) {
           if (!document.fullscreenElement) {
-            // Ensure the element takes full space before entering fullscreen
-            chartElement.style.width = '100vw';
-            chartElement.style.height = '100vh';
             chartElement.style.overflow = 'auto';
             
             chartElement.requestFullscreen().catch(err => {

@@ -7,7 +7,11 @@ import WeatherDataGraphs from "./WeatherDataGraphs/WeatherDataGraphs";
 import InnerPageFilter from "../InnerPageFilter/InnerPageFilter";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSortDown, faSortUp, faSort } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSortDown,
+  faSortUp,
+  faSort,
+} from "@fortawesome/free-solid-svg-icons";
 import Loader from "react-js-loader";
 import { Line } from "react-chartjs-2";
 import {
@@ -21,7 +25,15 @@ import {
   PointElement,
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Compare = ({ initialDeviceIds = [] }) => {
   const { t } = useTranslation();
@@ -37,18 +49,19 @@ const Compare = ({ initialDeviceIds = [] }) => {
   const [selectedMetric, setSelectedMetric] = useState("temperature");
   const [showDeviceSelector, setShowDeviceSelector] = useState(false);
   const [tempSelectedDevices, setTempSelectedDevices] = useState([]);
-    
+
   const today = new Date();
-  const [startDate, setStartDate] = useState(new Date(today.getTime() - 24 * 60 * 60 * 1000));
+  const [startDate, setStartDate] = useState(
+    new Date(today.getTime() - 24 * 60 * 60 * 1000)
+  );
   const [endDate, setEndDate] = useState(today);
   const [problemDevices, setProblemDevices] = useState([]);
   const [showNotification, setShowNotification] = useState(false);
-  const [filterState, filterStateChange] = useState('Hourly');
+  const [filterState, filterStateChange] = useState("Hourly");
   const [showWelcomeOverlay, setShowWelcomeOverlay] = useState(true);
   const [filterPressed, setFilterPressed] = useState(false);
   const [selected_device_id, setSelected_device_id] = useState([]);
   const [weatherDataByDevice, setWeatherDataByDevice] = useState({});
-
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -70,7 +83,7 @@ const Compare = ({ initialDeviceIds = [] }) => {
       });
   }, [i18n.language]);
 
-  const getTimeSeriesEndpoint = (devId) => {    
+  const getTimeSeriesEndpoint = (devId) => {
     const start = startDate.toISOString().split("T")[0];
     const end = endDate.toISOString().split("T")[0];
     return `/device_inner/graph/${devId}/period/?start_time_str=${start}&end_time_str=${end}`;
@@ -78,27 +91,30 @@ const Compare = ({ initialDeviceIds = [] }) => {
 
   useEffect(() => {
     setLoading(true);
-    if (selectedDevices.length === 0)
-    {
+    if (selectedDevices.length === 0) {
       setLoading(false);
     }
   }, [selectedDevices]);
 
   useEffect(() => {
     if (initialDeviceIds.length > 0 && devices.length > 0) {
-        const initialSelectedDevices = devices
-            .filter(device => initialDeviceIds.includes(device.generated_id.toString()))
-            .map(device => ({
-                value: device.generated_id,
-                label: device[i18n.language === "hy" ? "name_hy" : "name_en"] || device.generated_id
-            }));
-        
-        setSelectedDevices(initialSelectedDevices);
-        
-        // Also set them in temp selection in case modal is opened
-        setTempSelectedDevices(initialSelectedDevices);
+      const initialSelectedDevices = devices
+        .filter((device) =>
+          initialDeviceIds.includes(device.generated_id.toString())
+        )
+        .map((device) => ({
+          value: device.generated_id,
+          label:
+            device[i18n.language === "hy" ? "name_hy" : "name_en"] ||
+            device.generated_id,
+        }));
+
+      setSelectedDevices(initialSelectedDevices);
+
+      // Also set them in temp selection in case modal is opened
+      setTempSelectedDevices(initialSelectedDevices);
     }
-}, [initialDeviceIds, devices, i18n.language]);
+  }, [initialDeviceIds, devices, i18n.language]);
 
   const handleTimeSeries = async () => {
     setError(null);
@@ -109,10 +125,10 @@ const Compare = ({ initialDeviceIds = [] }) => {
       return;
     }
     // setLoading(true);
-  
+
     try {
       const datasets = [];
-      
+
       // Map metric to issue IDs
       const metricToIssueMap = {
         temperature: [1], // Temperature, Humidity, Pressure
@@ -134,7 +150,9 @@ const Compare = ({ initialDeviceIds = [] }) => {
         if (!deviceData) return false;
 
         // Check for power/internet issues (always skip if present)
-        const hasPowerIssue = deviceData.issues?.some((issue) => issue.id === 6);
+        const hasPowerIssue = deviceData.issues?.some(
+          (issue) => issue.id === 6
+        );
         if (hasPowerIssue) {
           return false;
         }
@@ -148,20 +166,26 @@ const Compare = ({ initialDeviceIds = [] }) => {
       });
 
       // Track problematic devices
-      const problematicDevices = selectedDevices.filter((device) => {
-        const deviceData = devices.find((d) => d.generated_id === device.value);
-        if (!deviceData) return false;
+      const problematicDevices = selectedDevices
+        .filter((device) => {
+          const deviceData = devices.find(
+            (d) => d.generated_id === device.value
+          );
+          if (!deviceData) return false;
 
-        // Check for power/internet issues
-        const hasPowerIssue = deviceData.issues?.some((issue) => issue.id === 6);
-        if (hasPowerIssue) return true;
+          // Check for power/internet issues
+          const hasPowerIssue = deviceData.issues?.some(
+            (issue) => issue.id === 6
+          );
+          if (hasPowerIssue) return true;
 
-        // Check if device has issues for the selected metric
-        const relevantIssueIds = metricToIssueMap[selectedMetric] || [];
-        return deviceData.issues?.some((issue) =>
-          relevantIssueIds.includes(issue.id)
-        );
-      }).map((d) => d.label);
+          // Check if device has issues for the selected metric
+          const relevantIssueIds = metricToIssueMap[selectedMetric] || [];
+          return deviceData.issues?.some((issue) =>
+            relevantIssueIds.includes(issue.id)
+          );
+        })
+        .map((d) => d.label);
 
       // Show notification if there are problematic devices
       if (problematicDevices.length > 0) {
@@ -221,7 +245,6 @@ const Compare = ({ initialDeviceIds = [] }) => {
     }
   };
 
-
   useEffect(() => {
     if (selectedDevices.length > 0) {
       handleTimeSeries();
@@ -250,10 +273,10 @@ const Compare = ({ initialDeviceIds = [] }) => {
   };
 
   const toggleDeviceSelection = (device) => {
-    setTempSelectedDevices(prev => {
-      const isSelected = prev.some(d => d.value === device.value);
+    setTempSelectedDevices((prev) => {
+      const isSelected = prev.some((d) => d.value === device.value);
       if (isSelected) {
-        return prev.filter(d => d.value !== device.value);
+        return prev.filter((d) => d.value !== device.value);
       } else {
         return [...prev, device];
       }
@@ -296,7 +319,19 @@ const Compare = ({ initialDeviceIds = [] }) => {
       y: {
         title: {
           display: true,
-          text: `${t(`compare.chart.${selectedMetric}`)} (${selectedMetric === "temperature" ? "°C" : selectedMetric === "pressure" ? "hPa" : selectedMetric === "humidity" ? "%" : selectedMetric === "uv" ? "index" : selectedMetric === "lux" ? "lux" : ""})`,
+          text: `${t(`compare.chart.${selectedMetric}`)} (${
+            selectedMetric === "temperature"
+              ? "°C"
+              : selectedMetric === "pressure"
+              ? "hPa"
+              : selectedMetric === "humidity"
+              ? "%"
+              : selectedMetric === "uv"
+              ? "index"
+              : selectedMetric === "lux"
+              ? "lux"
+              : ""
+          })`,
         },
       },
     },
@@ -304,20 +339,22 @@ const Compare = ({ initialDeviceIds = [] }) => {
 
   const metricButtons = [
     "temperature",
-    "uv",
-    "lux",
-    "pressure",
     "humidity",
+    "pressure",
     "pm1",
     "pm2_5",
     "pm10",
-    "speed",
+    "uv",
+    "lux",
     "rain",
+    "speed",
   ];
 
   const deviceOptions = devices.map((device) => ({
     value: device.generated_id,
-    label: device[i18n.language === "hy" ? "name_hy" : "name_en"] || device.generated_id,
+    label:
+      device[i18n.language === "hy" ? "name_hy" : "name_en"] ||
+      device.generated_id,
   }));
 
   useEffect(() => {
@@ -344,7 +381,7 @@ const Compare = ({ initialDeviceIds = [] }) => {
 
   return (
     <div className={`${styles.api_page} ${styles.darkTheme}`}>
-      <div className={"container"}>
+      <div className={`${styles.container}`}>
         <Helmet>
           <title>ClimateNet | {t("compare.title")}</title>
         </Helmet>
@@ -352,153 +389,177 @@ const Compare = ({ initialDeviceIds = [] }) => {
         <p>{t("compare.info")}</p>
 
         <div className={styles.apiTester}>
-          <button 
-            className={styles.button}
-            onClick={openDeviceSelector}
-          >
-            {selectedDevices.length > 0 
-              ? `Viewing ${selectedDevices.length} device(s) (Click to change)`
-              : "Select Devices to Compare"}
+          <button className={styles.button} onClick={openDeviceSelector}>
+            {selectedDevices.length > 0
+              ? `${t("compare.conditionalCheckboxButton1")} ${
+                  selectedDevices.length
+                } ${t("compare.conditionalCheckboxButton2")}`
+              : t("compare.checkboxButton")}
           </button>
 
           {showDeviceSelector && (
-          <div className={styles.deviceSelectorModal}>
-            <div className={styles.deviceSelectorContent}>
-              <h3 className={styles.modalTitle}>Select Devices to Compare</h3>
-              <div className={styles.deviceListContainer}>
-              {devices.map(device => {
-                  const deviceOption = {
+            <div className={styles.deviceSelectorModal}>
+              <div className={styles.deviceSelectorContent}>
+                <h3 className={styles.modalTitle}>Select Devices to Compare</h3>
+                <div className={styles.deviceListContainer}>
+                  {devices.map((device) => {
+                    const deviceOption = {
                       value: device.generated_id,
-                      label: device[i18n.language === "hy" ? "name_hy" : "name_en"] || device.generated_id,
-                      parent: device[i18n.language === "hy" ? "parent_name_hy" : "parent_name_en"]
-                  };
-                  const isChecked = tempSelectedDevices.some(d => d.value === deviceOption.value);
-                  const hasIssues = device.issues && device.issues.length > 0;
-                  
-                  return (
-                    <div 
-                      key={device.generated_id} 
-                      className={styles.deviceListItem}
-                      onClick={() => toggleDeviceSelection(deviceOption)}
-                    >
-                      <input
-                        type="checkbox"
-                        className={styles.deviceCheckbox}
-                        checked={isChecked}
-                        onChange={() => {}}
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                      <div className={styles.deviceLabel}>
-                        {deviceOption.label}
-                        <div className={styles.parentLocation}>{deviceOption.parent}</div>
-                      </div>
-                      
-                      {hasIssues && (
-                        <div className={styles.warningIcon}>
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M12 2L2 19h20L12 2z"/>
-                            <circle cx="12" cy="16" r="1"/>
-                            <path d="M12 8v4"/>
-                          </svg>
-                          
-                          <div className={styles.tooltip}>
-                            <div className={styles.tooltipTitle}>
-                              {t("compare.deviceIssues")}
-                            </div>
-                            {device.issues.map((issue, idx) => (
-                              <div key={idx} className={styles.tooltipIssue}>
-                                {issue[i18n.language === "hy" ? "name_hy" : "name_en"]}
-                              </div>
-                            ))}
+                      label:
+                        device[
+                          i18n.language === "hy" ? "name_hy" : "name_en"
+                        ] || device.generated_id,
+                      parent:
+                        device[
+                          i18n.language === "hy"
+                            ? "parent_name_hy"
+                            : "parent_name_en"
+                        ],
+                    };
+                    const isChecked = tempSelectedDevices.some(
+                      (d) => d.value === deviceOption.value
+                    );
+                    const hasIssues = device.issues && device.issues.length > 0;
+
+                    return (
+                      <div
+                        key={device.generated_id}
+                        className={styles.deviceListItem}
+                        onClick={() => toggleDeviceSelection(deviceOption)}
+                      >
+                        <input
+                          type="checkbox"
+                          className={styles.deviceCheckbox}
+                          checked={isChecked}
+                          onChange={() => {}}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <div className={styles.deviceLabel}>
+                          {deviceOption.label}
+                          <div className={styles.parentLocation}>
+                            {deviceOption.parent}
                           </div>
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-              <div className={styles.deviceSelectorButtons}>
-                <button 
-                  className={`${styles.modalButton} ${styles.removeAllButton}`}
-                  onClick={() => setTempSelectedDevices([])}
-                  disabled={tempSelectedDevices.length === 0}
-                >
-                  Remove All
-                </button>
-                <div className={styles.rightButtons}>
-                  <button 
-                    className={`${styles.modalButton} ${styles.cancelButton}`}
-                    onClick={handleCancelSelection}
+
+                        {hasIssues && (
+                          <div className={styles.warningIcon}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#ffcc00"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M12 2L2 19h20L12 2z" />
+                              <circle cx="12" cy="16" r="1" />
+                              <path d="M12 8v4" />
+                            </svg>
+
+                            <div className={styles.tooltip}>
+                              <div className={styles.tooltipTitle}>
+                                {t("compare.deviceIssues")}
+                              </div>
+                              {device.issues.map((issue, idx) => (
+                                <div key={idx} className={styles.tooltipIssue}>
+                                  {
+                                    issue[
+                                      i18n.language === "hy"
+                                        ? "name_hy"
+                                        : "name_en"
+                                    ]
+                                  }
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className={styles.deviceSelectorButtons}>
+                  <button
+                    className={`${styles.modalButton} ${styles.removeAllButton}`}
+                    onClick={() => setTempSelectedDevices([])}
+                    disabled={tempSelectedDevices.length === 0}
                   >
-                    Cancel
+                    {t("compare.removeAll")}
                   </button>
-                  <button 
-                    className={`${styles.modalButton} ${styles.applyButton}`}
-                    onClick={handleApplySelection}
-                  >
-                    Apply
-                  </button>
+                  <div className={styles.rightButtons}>
+                    <button
+                      className={`${styles.modalButton} ${styles.cancelButton}`}
+                      onClick={handleCancelSelection}
+                    >
+                      {t("compare.cancel")}
+                    </button>
+                    <button
+                      className={`${styles.modalButton} ${styles.applyButton}`}
+                      onClick={handleApplySelection}
+                    >
+                      {t("compare.apply")}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-          
-          <div>
-          <div className={styles.dataKeys}>
-            <label>
-              {t("compare.chart.dataKeys")}
-            </label>
-            <div className={styles.metricButtons}>
-              {metricButtons.map((metric) => (
-                <button
-                  key={metric}
-                  className={`${styles.button} ${selectedMetric === metric ? styles.activeButton : ""}`}
-                  onClick={() => setSelectedMetric(metric)}
-                >
-                  {t(`compare.chart.${metric}`)}
-                </button>
-              ))}
+          )}
+
+          <div className={styles.chartSection}>
+            <div className={styles.dataKeys}>
+              <label>{t("compare.chart.dataKeys")}</label>
+              <div className={styles.metricButtons}>
+                {metricButtons.map((metric) => (
+                  <button
+                    key={metric}
+                    className={`${styles.button} ${
+                      selectedMetric === metric ? styles.activeButton : ""
+                    }`}
+                    onClick={() => setSelectedMetric(metric)}
+                  >
+                    {t(`compare.chart.${metric}`)}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-          </div>
+
+          {selectedDevices.length === 0 && !loading && (
+            <div className={styles.noDevicesMessage}>
+              {t("compare.noDevicesMessage")}
+            </div>
+          )}
+
+          {weatherDataByDevice && !loading && selectedDevices.length > 0 && (
+            <div className={styles.chartContainer}>
+              <WeatherDataGraphs
+                types={selectedMetric}
+                time={
+                  Object.values(weatherDataByDevice)[0]?.map(
+                    (d) => d.time_interval
+                  ) || []
+                }
+                data={Object.values(weatherDataByDevice).map(
+                  (deviceData) => deviceData?.map((d) => d.value) || []
+                )}
+                timeline={filterState}
+                startDate={startDate}
+                endDate={endDate}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+                filterChange={filterStateChange}
+                filterPressed={filterPressed}
+                setFilterPressed={setFilterPressed}
+                selected_device_id={selectedDevices.map((d) => d.value)}
+                showWelcomeOverlay={showWelcomeOverlay}
+                setShowWelcomeOverlay={setShowWelcomeOverlay}
+                filterState={filterState}
+                deviceLabel={selectedDevices.map((d) => d.label)}
+              />
+            </div>
+          )}
         </div>
-
-        {selectedDevices.length === 0 && !loading && (
-          <div className={styles.noDevicesMessage}>
-            Please select at least one device to display the chart.
-          </div>
-        )}
-
-        {weatherDataByDevice && !loading && selectedDevices.length > 0 && (
-          <div className={styles.chartContainer}>
-            <WeatherDataGraphs
-              types={selectedMetric}
-              time={Object.values(weatherDataByDevice)[0]?.map(
-                (d) => d.time_interval
-              )}
-              data={
-                Object.values(weatherDataByDevice).map(deviceData => 
-                  deviceData?.map(d => d.value) || []
-                )
-              }
-              // colors={["#FFFA75", "#77B6EA"]} // Example colors
-              timeline={filterState}
-              startDate={startDate}
-              endDate={endDate}
-              setStartDate={setStartDate}
-              setEndDate={setEndDate}
-              filterChange={filterStateChange}
-              filterPressed={filterPressed}
-              setFilterPressed={setFilterPressed}
-              selected_device_id={selectedDevices.map((d) => d.value)}
-              showWelcomeOverlay={showWelcomeOverlay}
-              setShowWelcomeOverlay={setShowWelcomeOverlay}
-              filterState={filterState}
-              deviceLabel={selectedDevices.map((d) => d.label)}
-            />
-          </div>
-        )}
 
         {loading && (
           <Loader
@@ -513,8 +574,10 @@ const Compare = ({ initialDeviceIds = [] }) => {
         {showNotification && (
           <div className={styles.notification}>
             <div className={styles.notificationContent}>
-              <span>These devices have issues: {problemDevices.join(", ")}</span>
-              <button 
+              <span>
+                {t("compare.devicesWithIssues")} {problemDevices.join(", ")}
+              </span>
+              <button
                 className={styles.notificationClose}
                 onClick={() => setShowNotification(false)}
               >
@@ -524,7 +587,7 @@ const Compare = ({ initialDeviceIds = [] }) => {
           </div>
         )}
       </div>
-          <InnerPageFilter />
+      <InnerPageFilter />
     </div>
   );
 };

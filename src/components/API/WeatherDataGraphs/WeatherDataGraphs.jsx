@@ -12,6 +12,7 @@ import {
 } from "chart.js";
 import styles from "./WeatherDataGraphs.module.css";
 import DatePicker from "react-datepicker";
+import { weatherChartColors } from '../colors';
 import { useTranslation } from "react-i18next";
 import { saveAs } from "file-saver";
 import "../../../i18n";
@@ -101,6 +102,9 @@ const formatData = (
   ];
 
   const datasets = deviceIds.map((deviceId, index) => {
+    // if (deviceId == props.deviceIssues.id) {
+    //   return;
+    // }
     const color =
       colors?.[index] || defaultColors[index % defaultColors.length];
 
@@ -312,7 +316,7 @@ const WeatherDataGraphs = (props) => {
     props.deviceLabel,
     props.time, // Timestamps array
     props.data, // Array of data arrays (one per device)
-    props.colors // Colors for each device
+    weatherChartColors.colors,
   );
 
   useEffect(() => {
@@ -544,12 +548,12 @@ const WeatherDataGraphs = (props) => {
 
   useEffect(() => {
     ChartJS.register(
-      noDataPlugin(`${t("chartTitles.noSelectedData")}`),
+      noDataPlugin(`${t("chartTitles.noSelectedCity")}`),
       downloadButtonPlugin(isMobile, () => setIsDropdownOpen(!isDropdownOpen))
     );
     return () => {
       ChartJS.unregister(
-        noDataPlugin(`${t("chartTitles.noSelectedData")}`),
+        noDataPlugin(`${t("chartTitles.noSelectedCity")}`),
         downloadButtonPlugin(isMobile, () => setIsDropdownOpen(!isDropdownOpen))
       );
     };
@@ -578,7 +582,7 @@ const WeatherDataGraphs = (props) => {
         props.deviceLabel,
         props.time, // Timestamps array
         props.data, // Array of data arrays (one per device)
-        props.colors // Colors for each device
+        weatherChartColors.colors,
       );
       downloadCSV(
         t,
@@ -641,7 +645,7 @@ const WeatherDataGraphs = (props) => {
         props.deviceLabel,
         props.time, // Timestamps array
         props.data, // Array of data arrays (one per device)
-        props.colors // Colors for each device
+        weatherChartColors.colors,
       );
 
       downloadCSV(

@@ -348,11 +348,11 @@ span {
   
   .downloadIconButton svg {
     cursor: pointer;
-    stroke: #ffffff; /* White icon to match theme */
+    stroke: #ffffff;
   }
   
   .downloadIconButton:hover svg {
-    stroke: #e07789; /* Pink stroke when button is hovered */
+    stroke: #e07789;
   }
 
 .welcomeOverlay {
@@ -436,5 +436,4 @@ span {
   :fullscreen .chart_section {
     overflow: auto !important;
     height: 100% !important;
-    width: fit-content;
   }

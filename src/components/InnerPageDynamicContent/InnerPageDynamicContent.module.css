@@ -83,7 +83,6 @@
     } 
 }
 
-/* Add this to InnerPageDynamicContent.module.css */
 :fullscreen .InnerPageDynamicContent {
     overflow: auto !important;
   }

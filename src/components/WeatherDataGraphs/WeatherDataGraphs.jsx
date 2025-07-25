@@ -63,7 +63,8 @@ const convertToCSV = (t, labels, datasets) => {
 // Function to download data as CSV
 const downloadCSV = (t, labels, datasets, filename) => {
   const csv = convertToCSV(t, labels, datasets);
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const csvWithBOM = '\uFEFF' + csv;
+  const blob = new Blob([csvWithBOM], { type: "text/csv;charset=utf-8;" });
   saveAs(blob, filename);
 };
 
@@ -316,9 +317,16 @@ const WeatherDataGraphs = (props) => {
     window.matchMedia("(max-width: 767px)").matches
   );
   const [isFilterClickable, setIsFilterClickable] = useState(true);
-  const [showPopup, setShowPopup] = useState(false);
 
   const data = formatData(isMobile, props.types, props.time, props.data, props.colors);
+
+  useEffect(() => {
+    setSelectedFilterButton("oneD");
+  }, [props.selected_device_id]);  
+
+  useEffect(() => {
+    scrollToChart();
+  }, [props.types]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -457,84 +465,6 @@ const WeatherDataGraphs = (props) => {
     }
   }, [selectedFilter, selectedStartDate, selectedEndDate]);
 
-  useEffect(() => {
-    const canvas = chartRef.current?.canvas;
-    if (!canvas) return;
-
-    const handleWheel = (event) => {
-      // Detect if the user is on macOS
-      const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
-      
-      // Check for the appropriate modifier key based on platform
-      const modifierPressed = isMac ? event.metaKey : event.ctrlKey;
-      if (modifierPressed) {
-        event.preventDefault();
-
-        const timeRanges = [
-          { key: "oneD", filter: "Hourly", label: t("filterTooltips.oneD") },
-          { key: "oneW", filter: "Daily", label: t("filterTooltips.oneW") },
-          { key: "oneM", filter: "Monthly", label: t("filterTooltips.oneM") },
-        ];
-
-        const currentIndex = timeRanges.findIndex(
-          (range) => range.key === selectedFilterButton
-        );
-
-        let nextIndex;
-        if (event.deltaY < 0) {
-          if (currentIndex <= 0) {
-            setShowPopup(true);
-            setTimeout(() => {
-              setShowPopup(false);
-            }, 2000);
-            return;
-          }
-          nextIndex = currentIndex - 1;
-          setShowPopup(false);
-        } else {
-          if (currentIndex >= timeRanges.length - 1) {
-            setShowPopup(true);
-            setTimeout(() => {
-              setShowPopup(false);
-            }, 2000);
-            return;
-          }
-          nextIndex = currentIndex + 1;
-          setShowPopup(false);
-        }
-
-        const nextRange = timeRanges[nextIndex];
-
-        setSelectedFilterButton(nextRange.key);
-        setSelectedFilter(nextRange.filter);
-
-        const currentDate = new Date();
-        let start;
-        if (nextRange.filter === "Hourly") {
-          start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000); // 1 day
-        } else if (nextRange.filter === "Daily") {
-          start = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days
-        } else if (nextRange.filter === "Monthly") {
-          start = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000); // 30 days
-        }
-
-        setSelectedStartDate(start);
-        setSelectedEndDate(currentDate);
-        setDateChanged(false);
-        setLoading(true);
-        props.setShowWelcomeOverlay(false);
-        props.filterChange(nextRange.filter);
-      }
-    };
-
-    canvas.addEventListener("wheel", handleWheel);
-
-    return () => {
-      canvas.removeEventListener("wheel", handleWheel);
-    };
-  }, [chartRef, selectedFilterButton, props, t]);
-
-  // Prevent page scrolling during Option/Alt + scroll
   useEffect(() => {
     const canvas = chartRef.current?.canvas;
     if (!canvas) return;
@@ -1249,13 +1179,6 @@ const WeatherDataGraphs = (props) => {
             {t("chartTitles.zoomMessage.3")}
             </span>
             </div>
-          </div>
-        )}
-        {showPopup && (
-          <div
-            className={styles.zoomLimitPopup}
-          >
-            {t("chartTitles.zoomLimit")}
           </div>
         )}
         <div

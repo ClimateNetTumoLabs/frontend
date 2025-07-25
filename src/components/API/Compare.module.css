@@ -615,3 +615,31 @@
     opacity: 1;
   }
 }
+
+.chartSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dataKeys {
+  /* margin-top: 10px; */
+  border-bottom: 1px solid #eae6e2;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.chartContainer {
+  width: 100%;
+  margin: 20px 0;
+  max-width: 100%;
+  overflow-x: auto;
+  min-height: 500px;
+}
+
+.noDevicesMessage {
+  width: 100%;
+  margin: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
