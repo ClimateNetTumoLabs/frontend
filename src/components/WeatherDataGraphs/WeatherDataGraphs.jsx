@@ -322,11 +322,7 @@ const WeatherDataGraphs = (props) => {
 
   useEffect(() => {
     setSelectedFilterButton("oneD");
-  }, [props.selected_device_id]);  
-
-  useEffect(() => {
-    scrollToChart();
-  }, [props.types]);
+  }, [props.selected_device_id]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
