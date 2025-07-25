@@ -179,22 +179,22 @@ const API = () => {
                 </Helmet>
                 
                 {/* Tab Navigation */}
-                <div className={styles.tabContainer}>
-                <button 
-                    className={`${styles.tabButton} ${activeTab === 'api' ? styles.activeTab : ''}`}
-                    onClick={() => handleTabChange('api')}
-                >
-                    {t("api.tab.api")}
-                </button>
-                <button 
-                    className={`${styles.tabButton} ${activeTab === 'compare' ? styles.activeTab : ''}`}
-                    onClick={() => handleTabChange('compare')}
-                >
-                    {t("api.tab.compare")}
-                </button>
-                </div>
+                {/*<div className={styles.tabContainer}>*/}
+                {/*<button */}
+                {/*    className={`${styles.tabButton} ${activeTab === 'api' ? styles.activeTab : ''}`}*/}
+                {/*    onClick={() => handleTabChange('api')}*/}
+                {/*>*/}
+                {/*    {t("api.tab.api")}*/}
+                {/*</button>*/}
+                {/*<button */}
+                {/*    className={`${styles.tabButton} ${activeTab === 'compare' ? styles.activeTab : ''}`}*/}
+                {/*    onClick={() => handleTabChange('compare')}*/}
+                {/*>*/}
+                {/*    {t("api.tab.compare")}*/}
+                {/*</button>*/}
+                {/*</div>*/}
 
-                {activeTab === 'api' ? (
+                {/*{activeTab === 'api' ? (*/}
                     <>
                         <h2 className={styles.title}>{t("about.titleWeather")}</h2>
                         <p>{t("api.info")}</p>
@@ -409,21 +409,10 @@ const API = () => {
 
                     </p>
                     </div>
-                        {error && <p className={styles.error}>Error: {error}</p>}
-                        <p>
-                            {t("api.info_note3")}{" "}
-                            <a className={styles.link} href="mailto:labs@tumo.org">
-                                labs@tumo.org
-                            </a>
-                            .
-                        </p>
-                        <h2 className={styles.tag}>{t('api.info_note4')}
-                            <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code></h2>
-                        <p className={styles.done}>{t('api.info_done')}</p>
                     </>
-                ) : (
-                    <Compare initialDeviceIds={new URLSearchParams(window.location.search).get('devices')?.split(',') || []} />
-                )}
+                {/*) : (*/}
+                {/*    <Compare initialDeviceIds={new URLSearchParams(window.location.search).get('devices')?.split(',') || []} />*/}
+                {/*)}*/}
             </div>
         </div>
     );

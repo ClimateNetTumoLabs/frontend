@@ -75,7 +75,6 @@ const Team = () => {
                         </div>
                         <div className={styles.info}>
                             <h3>{member[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</h3>
-                            <p>{member[i18n.language === 'hy' ? 'position_hy' : 'position_en']}</p>
                         </div>
                     </div>
                 ))}
