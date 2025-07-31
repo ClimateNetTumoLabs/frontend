@@ -179,20 +179,20 @@ const API = () => {
                 </Helmet>
                 
                 {/* Tab Navigation */}
-                {/*<div className={styles.tabContainer}>*/}
-                {/*<button */}
-                {/*    className={`${styles.tabButton} ${activeTab === 'api' ? styles.activeTab : ''}`}*/}
-                {/*    onClick={() => handleTabChange('api')}*/}
-                {/*>*/}
-                {/*    {t("api.tab.api")}*/}
-                {/*</button>*/}
-                {/*<button */}
-                {/*    className={`${styles.tabButton} ${activeTab === 'compare' ? styles.activeTab : ''}`}*/}
-                {/*    onClick={() => handleTabChange('compare')}*/}
-                {/*>*/}
-                {/*    {t("api.tab.compare")}*/}
-                {/*</button>*/}
-                {/*</div>*/}
+                <div className={styles.tabContainer}>
+                <button
+                    className={`${styles.tabButton} ${activeTab === 'api' ? styles.activeTab : ''}`}
+                    onClick={() => handleTabChange('api')}
+                >
+                    {t("api.tab.api")}
+                </button>
+                <button 
+                    className={`${styles.tabButton} ${activeTab === 'compare' ? styles.activeTab : ''}`}
+                    onClick={() => handleTabChange('compare')}
+                >
+                    {t("api.tab.compare")}
+                </button>
+                </div>
 
                 <div className={`${styles.tabContent} ${activeTab === 'api' ? styles.active : styles.hidden}`}>
                     <>

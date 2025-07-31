@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState, useMemo } from "react";
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, GeoJSON, useMapEvents, useMap, Marker } from "react-leaflet";
 import axios from "axios";
@@ -199,6 +199,13 @@ const MapArmenia = () => {
     const [selectedDevices, setSelectedDevices] = useState([]);
     const [isMapVisible, setIsMapVisible] = useState(true);
     const lastFetchTime = useRef(null);
+    const deviceMap = useMemo(() => 
+        devices.reduce((acc, d) => ({ ...acc, [d.generated_id]: d }), {}),
+    [devices]);
+
+    const selectedIds = useMemo(() => 
+        new Set(selectedDevices.map(d => d.generated_id)),
+    [selectedDevices]);
 
     const regionCoordinatesMap = {
         "Aragatsotn": [40.5233, 44.4784],
@@ -304,20 +311,34 @@ const MapArmenia = () => {
 
     const InfoButton = ({ onClick, hidden }) => {
         const map = useMap();
+        const controlRef = useRef(null);
+
         useEffect(() => {
-            if (hidden) return;
+            if (hidden || !map) return;
 
-            const infoControl = new InfoControl({
-                position: 'topright',
-                onClick: onClick
-            });
+            // Wait for map to be fully ready
+            const timeout = setTimeout(() => {
+                if (!map || controlRef.current) return;
 
-            map.addControl(infoControl);
-            map.invalidateSize();
+                const infoControl = new InfoControl({
+                    position: 'topright',
+                    onClick: onClick
+                });
+
+                controlRef.current = infoControl;
+                map.addControl(infoControl);
+                
+                // Add safety check before invalidating size
+                if (map._size && map._panes) {
+                    map.invalidateSize();
+                }
+            }, 100);
 
             return () => {
-                map.removeControl(infoControl);
-                map.invalidateSize();
+                clearTimeout(timeout);
+                if (controlRef.current && map) {
+                    map.removeControl(controlRef.current);
+                }
             };
         }, [map, onClick, hidden]);
 
@@ -647,12 +668,11 @@ const MapArmenia = () => {
 
     useEffect(() => {
         const handleCompareDevice = (event) => {
-            const { id } = event.detail;
-            const device = devices.find(d => d.generated_id === id);
-            if (device && !selectedDevices.find(d => d.generated_id === id)) {
-                setSelectedDevices(prev => [...prev, device]);
-                popupManager.cleanup();
-            }
+            const id = Number(event?.detail?.id);
+            if (!id || !deviceMap[id] || selectedIds.has(id)) return;
+            
+            setSelectedDevices(prev => [...prev, deviceMap[id]]);
+            popupManager.cleanup();
         };
 
         window.addEventListener('compareDevice', handleCompareDevice);
