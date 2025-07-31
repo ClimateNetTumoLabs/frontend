@@ -205,7 +205,7 @@ function InnerPageStaticContent(props) {
                             </div>
                             <div>
                                 <div className={styles.otherInformation}>
-                                    <LinerStatusBar air_quality={data.pm2_5} datetime={data} />
+                                    <LinerStatusBar air_quality={data.pm2_5} datetime={data} device_id={props.device_id}/>
                                     <DataTable data={data} />
                                 </div>
                             </div>

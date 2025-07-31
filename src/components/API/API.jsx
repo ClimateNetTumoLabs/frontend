@@ -10,7 +10,7 @@ import screenfull from "screenfull";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSortDown, faSortUp, faSort, faExpand, faCompress} from '@fortawesome/free-solid-svg-icons';
 import Loader from "react-js-loader";
-import Compare from "./Compare";
+import Compare from "../Compare/Compare";
 
 const API = () => {
     const {t} = useTranslation();
@@ -194,7 +194,7 @@ const API = () => {
                 {/*</button>*/}
                 {/*</div>*/}
 
-                {/*{activeTab === 'api' ? (*/}
+                <div className={`${styles.tabContent} ${activeTab === 'api' ? styles.active : styles.hidden}`}>
                     <>
                         <h2 className={styles.title}>{t("about.titleWeather")}</h2>
                         <p>{t("api.info")}</p>
@@ -409,10 +409,22 @@ const API = () => {
 
                     </p>
                     </div>
+                        {error && <p className={styles.error}>Error: {error}</p>}
+                        <p>
+                            {t("api.info_note3")}{" "}
+                            <a className={styles.link} href="mailto:labs@tumo.org">
+                                labs@tumo.org
+                            </a>
+                            .
+                        </p>
+                        <h2 className={styles.tag}>{t('api.info_note4')}
+                            <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code></h2>
+                        <p className={styles.done}>{t('api.info_done')}</p>
                     </>
-                {/*) : (*/}
-                {/*    <Compare initialDeviceIds={new URLSearchParams(window.location.search).get('devices')?.split(',') || []} />*/}
-                {/*)}*/}
+                    </div>
+                    <div className={`${styles.tabContent} ${activeTab === 'compare' ? styles.active : styles.hidden}`}>
+                        <Compare initialDeviceIds={new URLSearchParams(window.location.search).get('devices')?.split(',') || []} />
+                    </div>
             </div>
         </div>
     );

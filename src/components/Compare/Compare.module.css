@@ -208,17 +208,23 @@
     /* TODO: Fix 500px, it was blank for some unknown reason */
     min-height: 500px;
   }
-  
-  /* Updated Metrics Buttons - Tab Style */
+
   .metricButtons {
-    display: flex;
-    gap: 0;
+    display: grid;
+    gap: 8px;
     margin: 10px 0 0 0;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     justify-content: flex-start;
     align-items: stretch;
     padding-bottom: 0;
     position: relative;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr); /* Always 3 columns */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0 0 0;
+    width: 100%;
   }
   
   .metricButtons .button {
@@ -239,6 +245,9 @@
     align-items: center;
     justify-content: center;
     position: relative;
+
+    flex: 0 1 auto; /* Natural width based on content */
+  min-width: 0; 
   }
   
   .metricButtons .button:hover {
@@ -284,11 +293,12 @@
       max-width: 100%;
     }
     .metricButtons {
+      gap: 4px;
       flex-wrap: wrap;
     }
     .metricButtons .button {
-      font-size: 14px;
-      padding: 10px 16px;
+      padding: 6px 10px;
+      font-size: 12px;
     }
   }
   
@@ -314,17 +324,44 @@
       width: 100%;
     }
     .metricButtons {
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
     }
+    
     .metricButtons .button {
-      font-size: 14px;
-      padding: 10px 16px;
+      width: 100%; /* Fill grid cells */
+      padding: 8px 4px; /* Adjust padding for mobile */
+      font-size: 13px; /* Optional: smaller text on mobile */
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   
   @media (min-width: 425px) and (max-width: 768px) {
     .title {
       font-size: 20px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .metricButtons {
+      gap: 4px;
+    }
+    
+    .metricButtons .button {
+      padding: 8px 12px; /* More compact on mobile */
+      font-size: 13px; /* Smaller font on mobile */
+      /* flex: 1 0 calc(50% - 6px); Two buttons per row with gap accounted for */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .metricButtons .button {
+      padding: 6px 2px;
+      font-size: 12px;
     }
   }
   
@@ -338,7 +375,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1001;
   backdrop-filter: blur(4px);
 }
 
@@ -352,6 +389,11 @@
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   border: 1px solid #3a3a3a;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  min-height: 400px;
+  height: 80vh;
 }
 
 .modalTitle {
@@ -361,14 +403,16 @@
   text-align: center;
   padding-bottom: 10px;
   border-bottom: 1px solid #3a3a3a;
+  flex-shrink: 0;
 }
 
 .deviceListContainer {
-  max-height: 60vh;
+  flex: 1;
   overflow-y: auto;
   padding-right: 5px;
   scrollbar-width: thin;
   scrollbar-color: #e07789 #3a3a3a;
+  margin-bottom: 15px;
 }
 
 .deviceListContainer::-webkit-scrollbar {
@@ -394,6 +438,7 @@
   border-radius: 8px;
   transition: all 0.2s ease;
   border: 1px solid transparent;
+  position: relative;
 }
 
 .deviceListItem:hover {
@@ -401,7 +446,20 @@
   border-color: #3a3a3a;
 }
 
+.checkboxContainer {
+  position: relative;
+  z-index: 1001;
+  margin-right: 15px;
+}
+
+.checkboxContainer * {
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
 .deviceCheckbox {
+  position: relative;
+  z-index: 1002;
   appearance: none;
   -webkit-appearance: none;
   width: 18px;
@@ -441,9 +499,10 @@
 .deviceSelectorButtons {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: auto;
   padding-top: 15px;
   border-top: 1px solid #3a3a3a;
+  flex-shrink: 0;
 }
 
 .warningIcon {
@@ -472,7 +531,7 @@
   min-width: 200px;
   max-width: 300px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  z-index: 10;
+  z-index: 1002;
   display: none;
   border: 1px solid #5a5a5a;
 }
@@ -642,4 +701,62 @@
   margin: 0;
   max-width: 100%;
   overflow-x: auto;
+}
+
+/* Search box styles */
+.searchContainer {
+  margin-bottom: 15px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 15px 10px 38px; /* More left padding for icon */
+  border-radius: 6px;
+  border: 1px solid #3a3a3a;
+  background-color: #232222;
+  color: #eae6e2;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #e07789;
+  box-shadow: 0 0 0 2px rgba(224, 119, 137, 0.2);
+}
+
+.searchInput::placeholder {
+  color: #9a9a9a;
+  opacity: 1;
+}
+
+.modalContentWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Important for proper scrolling */
+}
+
+.noResults {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #9a9a9a;
+  font-style: italic;
+}
+
+.filterButtons {
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }

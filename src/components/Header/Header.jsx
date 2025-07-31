@@ -139,6 +139,15 @@ const Header = () => {
         const deviceUrl = `/${i18n.language}/device/${encodeURIComponent(device_id)}/?${decodeURIComponent(name)}`;
         navigate(deviceUrl);
         handleNavItemClick(); // Close the navbar
+        // Close all dropdown menus
+        const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+        dropdowns.forEach(dropdown => {
+            dropdown.classList.remove('show');
+        });
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle[aria-expanded="true"]');
+        dropdownToggles.forEach(toggle => {
+            toggle.setAttribute('aria-expanded', 'false');
+        });
     };
 
     const menuData = devices.reduce((acc, data) => {

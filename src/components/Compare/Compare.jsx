@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 import { Helmet } from "react-helmet";
 import styles from "./Compare.module.css";
-import WeatherDataGraphs from "./WeatherDataGraphs/WeatherDataGraphs";
+import CompareChart from "../CompareChart/CompareChart";
 import InnerPageFilter from "../InnerPageFilter/InnerPageFilter";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSortDown,
-  faSortUp,
-  faSort,
-} from "@fortawesome/free-solid-svg-icons";
+import Fuse from "fuse.js"
 import Loader from "react-js-loader";
-import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -44,7 +38,6 @@ const Compare = ({ initialDeviceIds = [] }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const itemsPerPage = 5;
-  const [chartData, setChartData] = useState(null);
   const [selectedDevices, setSelectedDevices] = useState([]);
   const [selectedMetric, setSelectedMetric] = useState("temperature");
   const [showDeviceSelector, setShowDeviceSelector] = useState(false);
@@ -60,16 +53,36 @@ const Compare = ({ initialDeviceIds = [] }) => {
   const [filterState, filterStateChange] = useState("Hourly");
   const [showWelcomeOverlay, setShowWelcomeOverlay] = useState(true);
   const [filterPressed, setFilterPressed] = useState(false);
-  const [selected_device_id, setSelected_device_id] = useState([]);
   const [weatherDataByDevice, setWeatherDataByDevice] = useState({});
-
-  const getCurrentDate = () => {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, "0");
-    const dd = String(today.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [allDevicesHaveIssues, setAllDevicesHaveIssues] = useState(false);
+  const [rawData, setRawData] = useState([]);
+  const modalRef = useRef(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const handleCloseDatePicker = () => {
+    setShowDatePicker(false);
   };
+  const [leftLoad, setLeftLoad] = useState(true);
+
+  const fuse = new Fuse(devices, {
+    keys: [
+      'generated_id',
+
+      'name_en',
+      'parent_name_en',
+      
+      'name_hy',
+      'parent_name_hy',
+    ],
+    threshold: 0.5, // Sensitivity: 0.0 = exact match, 1.0 = very loose
+    ignoreLocation: true, // Match anywhere in the string
+    includeScore: true, // Include score for potential sorting
+  });
+
+  // Update filteredDevices using fuse.js
+  const filteredDevices = searchTerm.trim()
+    ? fuse.search(searchTerm.trim()).map(result => result.item)
+    : devices;
 
   useEffect(() => {
     axios
@@ -83,9 +96,32 @@ const Compare = ({ initialDeviceIds = [] }) => {
       });
   }, [i18n.language]);
 
+  const getDateOnly = (date) => {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0'); // Ensure 2-digit format
+    const dd = String(date.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`; // Format required for <input type="date">
+  };
+
+  const getMinCreatedDate = (selectedDevices, allDevices) => {
+    if (!selectedDevices.length || !allDevices.length) return new Date();
+    
+    const selectedDeviceData = selectedDevices.map(device => 
+      allDevices.find(d => d.generated_id === device.value)
+    ).filter(Boolean);
+    
+    if (!selectedDeviceData.length) return new Date();
+    
+    const createdDates = selectedDeviceData.map(device => 
+      new Date(device.created_at)
+    );
+    
+    return new Date(Math.max(...createdDates));
+  };
+
   const getTimeSeriesEndpoint = (devId) => {
-    const start = startDate.toISOString().split("T")[0];
-    const end = endDate.toISOString().split("T")[0];
+    const start = getDateOnly(startDate);
+    const end = getDateOnly(endDate);
     return `/device_inner/graph/${devId}/period/?start_time_str=${start}&end_time_str=${end}`;
   };
 
@@ -116,19 +152,33 @@ const Compare = ({ initialDeviceIds = [] }) => {
     }
   }, [initialDeviceIds, devices, i18n.language]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showDeviceSelector && modalRef.current && !modalRef.current.contains(event.target)) {
+        handleCancelSelection();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDeviceSelector]);
+
   const handleTimeSeries = async () => {
     setError(null);
     setWeatherDataByDevice({});
-    setProblemDevices([]); // Reset problem devices
+    setProblemDevices([]);
+    setAllDevicesHaveIssues(false);
+  
     if (selectedDevices.length === 0) {
       setLoading(false);
       return;
     }
-    // setLoading(true);
-
+  
     try {
       const datasets = [];
-
+  
       // Map metric to issue IDs
       const metricToIssueMap = {
         temperature: [1], // Temperature, Humidity, Pressure
@@ -143,90 +193,100 @@ const Compare = ({ initialDeviceIds = [] }) => {
         rain: [5], // Rainfall Quantity
         // Power/Internet (6) affects all metrics
       };
-
-      // Filter devices to only include those without issues for the selected metric
-      const filteredDevices = selectedDevices.filter((device) => {
+  
+      // Create a map to track which devices have issues
+      const deviceIssuesMap = new Map();
+      const problematicDevices = [];
+      
+      selectedDevices.forEach((device) => {
         const deviceData = devices.find((d) => d.generated_id === device.value);
-        if (!deviceData) return false;
-
-        // Check for power/internet issues (always skip if present)
-        const hasPowerIssue = deviceData.issues?.some(
-          (issue) => issue.id === 6
-        );
-        if (hasPowerIssue) {
-          return false;
+        if (!deviceData) {
+          deviceIssuesMap.set(device.value, true);
+          return;
         }
-
+  
+        // Check for power/internet issues (always skip if present)
+        const hasPowerIssue = deviceData.issues?.some((issue) => issue.id === 6);
+        
         // Check if device has issues for the selected metric
         const relevantIssueIds = metricToIssueMap[selectedMetric] || [];
         const hasMetricIssue = deviceData.issues?.some((issue) =>
           relevantIssueIds.includes(issue.id)
         );
-        return !hasMetricIssue;
+        
+        const hasIssues = hasPowerIssue || hasMetricIssue;
+        deviceIssuesMap.set(device.value, hasIssues);
+        
+        if (hasIssues) {
+          problematicDevices.push(device.label);
+        }
       });
-
-      // Track problematic devices
-      const problematicDevices = selectedDevices
-        .filter((device) => {
-          const deviceData = devices.find(
-            (d) => d.generated_id === device.value
-          );
-          if (!deviceData) return false;
-
-          // Check for power/internet issues
-          const hasPowerIssue = deviceData.issues?.some(
-            (issue) => issue.id === 6
-          );
-          if (hasPowerIssue) return true;
-
-          // Check if device has issues for the selected metric
-          const relevantIssueIds = metricToIssueMap[selectedMetric] || [];
-          return deviceData.issues?.some((issue) =>
-            relevantIssueIds.includes(issue.id)
-          );
-        })
-        .map((d) => d.label);
-
+  
       // Show notification if there are problematic devices
       if (problematicDevices.length > 0) {
         setProblemDevices(problematicDevices);
         setShowNotification(true);
         setTimeout(() => setShowNotification(false), 5000);
       }
-
+  
+      // Filter devices for API calls (only devices without issues)
+      const devicesForApiCall = selectedDevices.filter(
+        (device) => !deviceIssuesMap.get(device.value)
+      );
+  
       // If no valid devices after filtering, return early
-      if (filteredDevices.length === 0) {
+      if (devicesForApiCall.length === 0) {
         setWeatherDataByDevice({});
+        setAllDevicesHaveIssues(true);
+        // Still set rawData with empty arrays for all selected devices
+        const emptyProcessedData = selectedDevices.map((device) => ({
+          data: [],
+          label: device.label,
+        }));
+        setRawData(emptyProcessedData);
         return;
       }
-
-      const deviceDataPromises = filteredDevices.map((device) =>
+  
+      // Make API calls only for devices without issues
+      const deviceDataPromises = devicesForApiCall.map((device) =>
         axios.get(getTimeSeriesEndpoint(device.value))
       );
-
+  
       const responses = await Promise.all(deviceDataPromises);
-
-      const processedData = responses.map((res, index) => {
+  
+      // Process responses for devices without issues
+      const apiResponseMap = new Map();
+      responses.forEach((res, index) => {
+        const device = devicesForApiCall[index];
         if (
           !Array.isArray(res.data) ||
           res.data.length === 0 ||
           res.data[0][selectedMetric] === null
         ) {
-          console.error(
-            `Invalid response format for device ${filteredDevices[index].label}:`,
-            res.data
-          );
-          return { data: [], label: filteredDevices[index].label };
+          console.error(`Invalid response format for device ${device.label}:`, res.data);
+          apiResponseMap.set(device.value, { data: [], label: device.label });
+        } else {
+          apiResponseMap.set(device.value, {
+            data: res.data.map((d) => ({
+              ...d,
+              time_interval: new Date(d.time_interval).toISOString(),
+            })),
+            label: device.label,
+          });
         }
-        return {
-          data: res.data.map((d) => ({
-            ...d,
-            time_interval: new Date(d.time_interval).toISOString(),
-          })),
-          label: filteredDevices[index].label,
-        };
       });
-
+  
+      // Create processedData maintaining the original selectedDevices order
+      const processedData = selectedDevices.map((device) => {
+        if (deviceIssuesMap.get(device.value)) {
+          // Device has issues, return empty data
+          return { data: [], label: device.label };
+        } else {
+          // Device doesn't have issues, get its data from API responses
+          return apiResponseMap.get(device.value) || { data: [], label: device.label };
+        }
+      });
+  
       const weatherData = processedData.reduce((acc, deviceData) => {
         acc[deviceData.label] = deviceData.data.map((d) => ({
           time_interval: d.time_interval,
@@ -234,8 +294,9 @@ const Compare = ({ initialDeviceIds = [] }) => {
         }));
         return acc;
       }, {});
-
+  
       setWeatherDataByDevice(weatherData);
+      setRawData(processedData);
     } catch (error) {
       setError(
         error.response?.data?.error || "Error fetching time series data."
@@ -244,6 +305,11 @@ const Compare = ({ initialDeviceIds = [] }) => {
       setLoading(false);
     }
   };
+
+  // TODO: Add null values between the time intervals where device didn't work
+  // useEffect(() => {
+  //   console.log(rawData);
+  // }, [rawData]);
 
   useEffect(() => {
     if (selectedDevices.length > 0) {
@@ -379,6 +445,30 @@ const Compare = ({ initialDeviceIds = [] }) => {
     }
   }, [loading]);
 
+  useEffect(() => {
+    const currentDate = new Date();
+    let start;
+    let end = currentDate;
+    switch (filterState) {
+      case "Hourly":
+        start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+        break;
+      case "Daily":
+        start = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case "Monthly":
+        start = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case "Range":
+        start = startDate;
+        end = endDate;
+        break;
+    }
+    setStartDate(start);
+    setEndDate(end);
+
+  }, [filterState]);
+
   return (
     <div className={`${styles.api_page} ${styles.darkTheme}`}>
       <div className={`${styles.container}`}>
@@ -398,11 +488,47 @@ const Compare = ({ initialDeviceIds = [] }) => {
           </button>
 
           {showDeviceSelector && (
-            <div className={styles.deviceSelectorModal}>
-              <div className={styles.deviceSelectorContent}>
-                <h3 className={styles.modalTitle}>Select Devices to Compare</h3>
-                <div className={styles.deviceListContainer}>
-                  {devices.map((device) => {
+            <div
+              className={styles.deviceSelectorModal}
+              onClick={handleCancelSelection}
+              ref={modalRef}  
+            >
+              <div 
+                className={styles.deviceSelectorContent}
+                onClick={(e) => e.stopPropagation()}
+              >
+              <h3 className={styles.modalTitle}>{t("compare.selectDevices")}</h3>
+              
+              <div className={styles.searchContainer}>
+                  <div className={styles.searchIcon}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#9a9a9a"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </div>
+
+                <input
+                  type="text"
+                  placeholder={t("compare.searchPlaceholder")}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value.trim())}
+                  className={styles.searchInput}
+                />
+              </div>
+        
+              <div className={styles.deviceListContainer}>
+              {filteredDevices.length > 0 ? (
+                filteredDevices.map((device) => {
                     const deviceOption = {
                       value: device.generated_id,
                       label:
@@ -427,13 +553,18 @@ const Compare = ({ initialDeviceIds = [] }) => {
                         className={styles.deviceListItem}
                         onClick={() => toggleDeviceSelection(deviceOption)}
                       >
-                        <input
-                          type="checkbox"
-                          className={styles.deviceCheckbox}
-                          checked={isChecked}
-                          onChange={() => {}}
-                          onClick={(e) => e.stopPropagation()}
-                        />
+                        <div className={styles.checkboxContainer}>
+                          <input
+                            type="checkbox"
+                            className={styles.deviceCheckbox}
+                            checked={isChecked}
+                            onChange={() => {}}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleDeviceSelection(deviceOption);
+                            }}
+                          />
+                        </div>
                         <div className={styles.deviceLabel}>
                           {deviceOption.label}
                           <div className={styles.parentLocation}>
@@ -477,7 +608,12 @@ const Compare = ({ initialDeviceIds = [] }) => {
                         )}
                       </div>
                     );
-                  })}
+                  })
+                  ) : (
+                    <div className={styles.noResults}>
+                      {t("compare.noResultsFound")}
+                    </div>
+                  )}
                 </div>
                 <div className={styles.deviceSelectorButtons}>
                   <button
@@ -531,37 +667,66 @@ const Compare = ({ initialDeviceIds = [] }) => {
             </div>
           )}
 
-          {weatherDataByDevice && !loading && selectedDevices.length > 0 && (
-            <div className={styles.chartContainer}>
-              <WeatherDataGraphs
-                types={selectedMetric}
-                time={
-                  Object.values(weatherDataByDevice)[0]?.map(
-                    (d) => d.time_interval
-                  ) || []
-                }
-                data={Object.values(weatherDataByDevice).map(
-                  (deviceData) => deviceData?.map((d) => d.value) || []
-                )}
-                timeline={filterState}
-                startDate={startDate}
-                endDate={endDate}
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-                filterChange={filterStateChange}
-                filterPressed={filterPressed}
-                setFilterPressed={setFilterPressed}
-                selected_device_id={selectedDevices.map((d) => d.value)}
-                showWelcomeOverlay={showWelcomeOverlay}
-                setShowWelcomeOverlay={setShowWelcomeOverlay}
-                filterState={filterState}
-                deviceLabel={selectedDevices.map((d) => d.label)}
-              />
+          {allDevicesHaveIssues && (
+            <div className={styles.noDevicesMessage}>
+              {t("compare.noValidDataMessage")}
             </div>
+          )}
+
+          {weatherDataByDevice && !loading && selectedDevices.length > 0 && (
+            <>
+              <div className={styles.chartContainer}>
+                <CompareChart
+                  types={selectedMetric}
+                  time={
+                    Object.values(weatherDataByDevice)[0]?.map(
+                      (d) => d.time_interval
+                    ) || []
+                  }
+                  data={Object.values(weatherDataByDevice).map(
+                    (deviceData) => deviceData?.map((d) => d.value) || []
+                  )}
+                  timeline={filterState}
+                  startDate={startDate}
+                  endDate={endDate}
+                  setStartDate={setStartDate}
+                  setEndDate={setEndDate}
+                  filterChange={filterStateChange}
+                  filterPressed={filterPressed}
+                  setFilterPressed={setFilterPressed}
+                  selected_device_id={selectedDevices.map((d) => d.value)}
+                  showWelcomeOverlay={showWelcomeOverlay}
+                  setShowWelcomeOverlay={setShowWelcomeOverlay}
+                  filterState={filterState}
+                  deviceLabel={selectedDevices.map((d) => d.label)}
+                  rawData={rawData}
+                  minDate={getMinCreatedDate(selectedDevices, devices)}
+                  // leftLoad={leftLoad}
+                  // setLeftLoad={setLeftLoad}
+                />
+              </div>
+              <div className={styles.filterButtons}>
+                <InnerPageFilter
+                  filterState={filterState}
+                  filterChange={filterStateChange}
+                  startDate={startDate}
+                  setStartDate={setStartDate}
+                  endDate={endDate}
+                  setEndDate={setEndDate}
+                  error={error}
+                  setError={setError}
+                  showDatePicker={showDatePicker}
+                  setShowDatePicker={setShowDatePicker}
+                  handleCloseDatePicker={handleCloseDatePicker}
+                  leftLoad={leftLoad}
+                  setLeftLoad={setLeftLoad}
+                />
+              </div>
+            </>
           )}
         </div>
 
-        {loading && (
+        {loading && !allDevicesHaveIssues && (
           <Loader
             type="spinner"
             bgColor={"#FFFFFF"}
@@ -587,7 +752,6 @@ const Compare = ({ initialDeviceIds = [] }) => {
           </div>
         )}
       </div>
-      <InnerPageFilter />
     </div>
   );
 };

@@ -10,12 +10,13 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import styles from "./WeatherDataGraphs.module.css";
+import styles from "./CompareChart.module.css";
+import scrollingDemoGif from '../../assets/Icons/Scroll-Down.gif';
 import DatePicker from "react-datepicker";
-import { weatherChartColors } from '../colors';
+import { weatherChartColors } from './colors';
 import { useTranslation } from "react-i18next";
 import { saveAs } from "file-saver";
-import "../../../i18n";
+import "../../i18n";
 import zoomPlugin from "chartjs-plugin-zoom";
 
 ChartJS.register(
@@ -273,7 +274,7 @@ const downloadButtonPlugin = (isMobile, toggleDropdown) => ({
 
 ChartJS.register(verticalLinePlugin);
 
-const WeatherDataGraphs = (props) => {
+const CompareChart = (props) => {
   const { t } = useTranslation();
   const chartRef = useRef(null);
   const today = new Date();
@@ -318,6 +319,12 @@ const WeatherDataGraphs = (props) => {
     props.data, // Array of data arrays (one per device)
     weatherChartColors.colors,
   );
+  useEffect(() => {
+    if (props.filterState === "Range") {
+      if (props.startDate !== appliedStartDate && props.endDate !== appliedEndDate)
+      setLoading(true);
+    }
+  }, [props.startDate, props.endDate]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -593,72 +600,80 @@ const WeatherDataGraphs = (props) => {
         )}.csv`
       );
     } else if (format === "All Measurments") {
-      const timestamps = props.weather_data.map((entry) => entry.time_interval);
-
-      const allMetrics = [
-        {
-          key: "temperature",
-          label: `${t("innerPageDynamicContent.temperature")} (°C)`,
-        },
-        {
-          key: "humidity",
-          label: `${t("innerPageDynamicContent.humidity")} (%)`,
-        },
-        {
-          key: "pressure",
-          label: `${t("innerPageDynamicContent.pressure")} (${t(
-            "linerStatusBar.hPa"
-          )})`,
-        },
-        { key: "uv", label: "UV" },
-        {
-          key: "lux",
-          label: `${t("innerPageDynamicContent.light_intensity")} (${t(
-            "linerStatusBar.lux"
-          )})`,
-        },
-        { key: "pm1", label: `PM1 ${t("about.pmMu")}` },
-        { key: "pm2_5", label: `PM2.5 ${t("about.pmMu")}` },
-        { key: "pm10", label: `PM10 ${t("about.pmMu")}` },
-        {
-          key: "speed",
-          label: `${t("innerPageDynamicContent.windSpeed")} (${t(
-            "linerStatusBar.kmhour"
-          )})`,
-        },
-        {
-          key: "rain",
-          label: `${t("innerPageDynamicContent.rain")} (${t(
-            "linerStatusBar.mm"
-          )})`,
-        },
+      const deviceData = props.rawData || [];
+      const deviceLabels = props.deviceLabel || [];
+      
+      // Get unique timestamps across all devices
+      const allTimestamps = [...new Set(
+        deviceData.flatMap(device => 
+          device.data?.map(entry => entry.time_interval) || []
+        )
+      )].sort();
+      
+      // Define the metrics we want to include (can be customized)
+      const metrics = [
+        { key: 'temperature', label: 'Temperature (°C)' },
+        { key: 'humidity', label: 'Humidity (%)' },
+        { key: 'pressure', label: 'Pressure (hPa)' },
+        { key: 'lux', label: 'Light (lux)' },
+        { key: 'uv', label: 'UV Index' },
+        { key: 'pm1', label: 'PM1 (µg/m³)' },
+        { key: 'pm2_5', label: 'PM2.5 (µg/m³)' },
+        { key: 'pm10', label: 'PM10 (µg/m³)' },
+        { key: 'rain', label: 'Rain (mm)' },
+        { key: 'speed', label: 'Wind Speed (km/h)' }
       ];
+      
+      // Prepare headers - main metric headers spanning device columns
+      const firstHeaderRow = ['Timestamp'];
+      const secondHeaderRow = [''];
+      
+      metrics.forEach(metric => {
+        firstHeaderRow.push(metric.label);
+        // Add empty cells for additional device columns
+        for (let i = 1; i < deviceLabels.length; i++) {
+          firstHeaderRow.push('');
+        }
+        
+        // Add device labels for this metric
+        deviceLabels.forEach(deviceLabel => {
+          secondHeaderRow.push(deviceLabel);
+        });
+      });
+      
+      // Prepare rows
+      const rows = allTimestamps.map(timestamp => {
+        const row = [formatTimestamp(timestamp)];
+        
+        // For each metric
+        metrics.forEach(metric => {
+          // For each device
+          deviceLabels.forEach((deviceLabel, deviceIndex) => {
+            // Find the entry for this timestamp and device
+            const deviceEntries = deviceData[deviceIndex]?.data || [];
+            const entry = deviceEntries.find(
+              e => e.time_interval === timestamp
+            );
+            
+            // Add the value or empty if not found
+            row.push(entry?.[metric.key] ?? '');
+          });
+        });
+        
+        return row;
+      });
 
-      const dataArrays = allMetrics.map((metric) =>
-        props.weather_data.map((entry) => entry[metric.key] || "0")
-      );
+      // Convert to CSV with multi-line headers
+      const csvContent = [
+        firstHeaderRow.join(','),
+        secondHeaderRow.join(','),
+        ...rows.map(row => row.join(','))
+      ].join('\n');
 
-      const allData = formatData(
-        isMobile,
-        props.types, // Single metric type (e.g., "temperature")
-        props.selected_device_id, // Array of device IDs
-        props.deviceLabel,
-        props.time, // Timestamps array
-        props.data, // Array of data arrays (one per device)
-        weatherChartColors.colors,
-      );
-
-      downloadCSV(
-        t,
-        allData.labels,
-        allData.datasets,
-        `All Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(
-          appliedEndDate
-        )}.csv`
-      );
+      // Download the file
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      saveAs(blob, `All Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(appliedEndDate)}.csv`);
     }
-
-    setIsDropdownOpen(false);
   };
 
   useEffect(() => {
@@ -672,13 +687,6 @@ const WeatherDataGraphs = (props) => {
     document.addEventListener("touchmove", preventZoom, { passive: false });
     return () => document.removeEventListener("touchmove", preventZoom);
   }, []);
-
-  const title_map = {
-    Monthly: t("chartTitles.monthly"),
-    Daily: t("chartTitles.daily"),
-    Hourly: t("chartTitles.hourly"),
-    Range: t("chartTitles.range"),
-  };
 
   // Calculate zoom limits based on data range
   const timestamps = props.time || [];
@@ -779,7 +787,7 @@ const WeatherDataGraphs = (props) => {
             enabled: false,
           },
           pan: {
-            enabled: false,
+            enabled: true,
           },
           mode: "x",
         },
@@ -791,14 +799,9 @@ const WeatherDataGraphs = (props) => {
               1,
               Math.floor(
                 data.labels.length * (oneDay / (maxTimestamp - minTimestamp))
-              )
+              ),
             ),
-            maxRange: Math.min(
-              data.labels.length - 1,
-              Math.floor(
-                data.labels.length * (oneMonth / (maxTimestamp - minTimestamp))
-              )
-            ),
+            maxRange: data.labels.length - 1,
           },
         },
       },
@@ -996,20 +999,7 @@ const WeatherDataGraphs = (props) => {
         },
       },
       title: {
-        display: true,
-        text: `${t("chartTitles.dataPer")}${title_map[props.timeline]}`,
-        align: isMobile ? "center" : "start",
-        color: "#FFFFFF",
-        font: {
-          family: "Arial, sans-serif",
-          size: 16,
-        },
-        padding: {
-          top: isMobile ? 15 : 0,
-          // bottom: 30,
-          left: 20,
-          right: 20,
-        },
+        display: false,
       },
     },
   };
@@ -1202,8 +1192,10 @@ const WeatherDataGraphs = (props) => {
                 }}
                 selected={selectedStartDate}
                 onSelect={handleStartDateSelect}
+                minDate={props.minDate.getTime()}
                 maxDate={today}
                 dateFormat="dd/MM/yyyy"
+                id="datePicker1"
               />
               <DatePicker
                 className={`${styles.pickerDropdown}`}
@@ -1223,9 +1215,13 @@ const WeatherDataGraphs = (props) => {
                 }}
                 selected={selectedEndDate}
                 onSelect={handleEndDateSelect}
-                minDate={new Date(selectedStartDate.getTime())}
+                minDate={(Math.max(
+                  new Date(selectedStartDate.getTime()),
+                  props.minDate.getTime()
+                ))}
                 maxDate={today}
                 dateFormat="dd/MM/yyyy"
+                id="datePicker2"
               />
               <button
                 className={`${styles.filterButton} ${
@@ -1325,6 +1321,11 @@ const WeatherDataGraphs = (props) => {
                   <br></br>
                   {t("chartTitles.zoomMessage.3")}
                 </span>
+              <img 
+                src={scrollingDemoGif}
+                alt="Scrolling demonstration"
+                className={styles.zoomGif}
+              />
               </div>
             </div>
           )}
@@ -1393,4 +1394,4 @@ const WeatherDataGraphs = (props) => {
   );
 };
 
-export default WeatherDataGraphs;
+export default CompareChart;

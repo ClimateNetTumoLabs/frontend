@@ -158,6 +158,7 @@ function InnerPageDynamicContent(props) {
                                     selected_device_id={props.selected_device_id}
                                     showWelcomeOverlay={showWelcomeOverlay}
                                     setShowWelcomeOverlay={setShowWelcomeOverlay}
+                                    minDate={props.minDate}
                                     selectedTab={selectedTab}
                                     stats={props.stats}
                                 />
@@ -188,6 +189,7 @@ function InnerPageDynamicContent(props) {
                                     selected_device_id={props.selected_device_id}
                                     showWelcomeOverlay={showWelcomeOverlay}
                                     setShowWelcomeOverlay={setShowWelcomeOverlay}
+                                    minDate={props.minDate}
                                     selectedTab={selectedTab}
                                     stats={props.stats}
                                 />
@@ -218,6 +220,7 @@ function InnerPageDynamicContent(props) {
                                     selected_device_id={props.selected_device_id}
                                     showWelcomeOverlay={showWelcomeOverlay}
                                     setShowWelcomeOverlay={setShowWelcomeOverlay}
+                                    minDate={props.minDate}
                                     selectedTab={selectedTab}
                                     stats={props.stats}
                                 />
@@ -248,6 +251,7 @@ function InnerPageDynamicContent(props) {
                                     selected_device_id={props.selected_device_id}
                                     showWelcomeOverlay={showWelcomeOverlay}
                                     setShowWelcomeOverlay={setShowWelcomeOverlay}
+                                    minDate={props.minDate}
                                     selectedTab={selectedTab}
                                     stats={props.stats}
                                 />
@@ -278,6 +282,7 @@ function InnerPageDynamicContent(props) {
                                     selected_device_id={props.selected_device_id}
                                     showWelcomeOverlay={showWelcomeOverlay}
                                     setShowWelcomeOverlay={setShowWelcomeOverlay}
+                                    minDate={props.minDate}
                                     selectedTab={selectedTab}
                                     stats={props.stats}
                                 />

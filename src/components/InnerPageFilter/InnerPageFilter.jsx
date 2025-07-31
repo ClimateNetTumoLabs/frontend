@@ -25,8 +25,45 @@ function InnerPageFilter(props) {
     }, 100);
   };
 
+  const dateValidation = () => {
+    const currentDate = new Date();
+    let start;
+    let end = currentDate;
+    switch (props.filterState) {
+      case "Hourly":
+        start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+        break;
+      case "Daily":
+        start = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case "Monthly":
+        start = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case "Range":
+        return true;
+    }
+
+    const getDateOnly = (date) => {
+      const yyyy = date.getFullYear();
+      const mm = String(date.getMonth() + 1).padStart(2, '0'); // Ensure 2-digit format
+      const dd = String(date.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`; // Format required for <input type="date">
+    };
+
+    if (getDateOnly(startDate) === getDateOnly(start) && getDateOnly(endDate) === getDateOnly(end)) {
+      return false;
+    }
+    return true;
+  };
+
   const handleApply = () => {
     if (props.startDate.getTime() == startDate.getTime() && props.endDate.getTime() == endDate.getTime()) {
+      scrollToChart();
+      props.setShowDatePicker(false);
+      setIsRangeActive(false);
+      return;
+    }
+    if (!dateValidation()) {
       scrollToChart();
       props.setShowDatePicker(false);
       setIsRangeActive(false);

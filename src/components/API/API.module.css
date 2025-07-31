@@ -244,11 +244,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
-/* Add these styles to API.module.css */
 .tabContainer {
     display: flex;
     margin-bottom: 20px;
     border-bottom: 1px solid #444;
+}
+
+.tabContent {
+  /* Base styles for tab content */
+}
+
+.tabContent.active {
+  display: block;
+}
+
+.tabContent.hidden {
+  display: none;
 }
 
 .tabButton {

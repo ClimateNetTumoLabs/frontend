@@ -1,6 +1,120 @@
-.inner_page  {
+.inner_page {
     display: flex;
     flex: 1;
+    position: relative;
+}
+
+/* Navigation Toggle Button */
+.navToggle {
+    position: absolute;
+    left: 320px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    width: 24px;
+    height: 48px;
+    background: rgba(42, 42, 42, 0.9);
+    color: #eae6e2;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.navToggle:hover {
+    background: rgba(224, 119, 137, 0.9);
+    width: 28px;
+}
+
+.navToggle.collapsed {
+    left: 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.navToggle::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    margin-left: -2px;
+    transition: transform 0.3s ease;
+}
+
+.navToggle.collapsed::after {
+    transform: rotate(-135deg);
+    margin-left: 2px;
+}
+
+/* Navigation Container */
+.navContainer {
+    width: 320px;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+    will-change: transform;
+    background-color: #272A2D;
+}
+
+.navContainer.collapsed {
+    width: 0px;
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Content Area Adjustment */
+.inner_page_content {
+    flex: 1;
+    transition: margin-left 0.3s ease;
+}
+
+.inner_page_content.expanded {
+    margin-left: 0;
+}
+
+@media (max-width: 767px) {
+    .not_data {
+        font-size: 35px;        
+    }
+    
+    .inner_page {
+        flex-direction: column; 
+    }
+    
+    /* Hide the toggle button on mobile */
+    .navToggle {
+        display: none;
+    }
+    
+    /* Nav container styles for mobile */
+    .navContainer {
+        width: 100%;
+        position: relative;
+        z-index: 900;
+        background: #2a2a2a;
+        transform: none !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        order: 2;
+    }
+    
+    /* Content area for mobile */
+    .inner_page_content {
+        order: 1; /* Make content appear first */
+        margin-left: 0;
+    }
+    
+    /* Remove collapsed styles for mobile */
+    .navContainer.collapsed {
+        width: 100%;
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
 
 .loading {
@@ -20,15 +134,4 @@
     font-size: 90px;
     flex-direction: column;
     flex: 1;
-
-}
-
-@media (max-width: 767px) {
-    .not_data {
-        font-size: 35px;        
-    }
-    .inner_page  {
-        display: flex;
-        flex-direction: column; 
-    }
 }

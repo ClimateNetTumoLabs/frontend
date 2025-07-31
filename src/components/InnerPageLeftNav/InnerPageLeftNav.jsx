@@ -14,21 +14,6 @@ function InnerPageLeftNav({device, ...props}) {
 				filterChange={props.filterChange}
                 error={props.error}
             />
-            <InnerPageFilter 
-                filterState={props.filterState}
-                filterChange={props.filterChange}
-                startDate={props.startDate}
-                setStartDate={props.setStartDate}
-                endDate={props.endDate}
-                setEndDate={props.setEndDate}
-                error={props.error}
-                showDatePicker={props.showDatePicker}
-                setShowDatePicker={props.setShowDatePicker}
-                handleCloseDatePicker={props.handleCloseDatePicker}
-                setError={props.setError}
-                leftLoad={props.leftLoad}
-                setLeftLoad={props.setLeftLoad}
-            />
         </div>
     )
 }

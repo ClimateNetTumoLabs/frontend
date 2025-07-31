@@ -147,11 +147,15 @@ const resources = {
                     conditionalCheckboxButton1: "Viewing",
                     conditionalCheckboxButton2: "device(s) (Click to change)",
                     noDevicesMessage: "Please select at least one device to display the chart.",
+                    noValidDataMessage: "No valid data in this metric.",
                     removeAll: "Remove All",
                     cancel: "Cancel",
                     apply: "Apply",
                     deviceIssues: "Device Issues",
                     devicesWithIssues: "These devices have issues:",
+                    selectDevices: "Select Devices to Compare",
+                    searchPlaceholder: "Search by ID, name or region...",
+                    noResultsFound: "No devices found",
                     chart: {
                         title: "Climate Data Comparison",
                         device1: "Device 1",
@@ -525,7 +529,8 @@ const resources = {
                     myum: "μm",
                     kmhour: "km/h",
                     micro: "micro",
-                    uv: "mW/cm2"
+                    uv: "mW/cm2",
+                    compareWithOtherDevices: "Compare the climate data with other devices"
                 },
                 nearbyDevicesItem: {
                     km: "km"
@@ -588,12 +593,11 @@ const resources = {
                     currentMeasur: "Current Data",
                     allMeasur: "All Data",
                     timestamp: "Timestamp",
-                    zoomLimit: "You've reached the limit, try zooming in the other direction",
                     zoomLimit: "You've reached the maximum/minimum zoom level",
                     zoomMessage: {
                         "1": "Click to zoom to area",
                         "2": "Double-click to reset zoom",
-                        "3": "Hold Alt/Option and scroll to zoom",
+                        "3": "Zoom: Alt/Opt ",
                     },
                 },
                 filterTooltips: {
@@ -776,6 +780,8 @@ const resources = {
                     apply: "Կիրառել",
                     deviceIssues: "Սարքի խնդիրներ",
                     devicesWithIssues: "Այս սարքերն ունեն խնդիրներ`",
+                    selectDevices: "Ընտրեք սարքեր համեմատության համար",
+                    searchPlaceholder: "Փնտրեք ID-ով, անունով կամ տեղանքով...",
                     chart: {
                         title: "Կլիմայի տվյալների համեմատություն",
                         device1: "Սարք 1",
@@ -1144,7 +1150,8 @@ const resources = {
                     mm: "մմ",
                     myum: "μմ",
                     kmhour: "կմ/ժ",
-                    micro: "միկրո"
+                    micro: "միկրո",
+                    compareWithOtherDevices: "Համեմատել կլիմայական տվյալները այլ տեղանքների հետ"
                 },
                 innerPageDynamicContent: {
                     tabTitles: {
@@ -1180,7 +1187,7 @@ const resources = {
                 innerPageNearbyDevices: {
                     titles: {
                         devicesNear: "Այլ սարքեր",
-                        devicesNearArm: "-ում",
+                        devicesNearArm: "ում",
                     },
                 },
                 innerPage: {
@@ -1205,7 +1212,7 @@ const resources = {
                     zoomMessage: {
                         "1": "Սեղմեք՝ տարածքը խոշորացնելու համար",
                         "2": "Կրկնակի սեղմեք՝ խոշորացումը վերականգնելու համար",
-                        "3": "Opt/Alt + մկնիկ խոշորացույցն ակտիվացնելու համար:",
+                        "3": "Խոշորացույցն ակտիվացնելու համար` Alt/Opt ",
                     },
                 },
                 filterTooltips: {

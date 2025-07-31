@@ -12,7 +12,7 @@ import DIY from "./components/DIY/DIY";
 import API from "./components/API/API";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { useTranslation } from 'react-i18next';
-import PrivacyPolicy from "./components/PrivacyAndpolicy/PrivacyAndPolicy";
+import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import CookieManager from "./components/CookieManager/CookieManager";
 import NotFound from "./components/NotFound/NotFound";
 import { useMemo } from 'react';

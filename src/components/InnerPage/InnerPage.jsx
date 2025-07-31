@@ -7,80 +7,91 @@ import InnerPageContent from "../InnerPageContent/InnerPageContent";
 import { PositionContext } from "../../context/PositionContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
+import InnerPageFilter from "../InnerPageFilter/InnerPageFilter";
 
-
-function InnerPage({ deviceId }) {
-    const { t, i18n } = useTranslation();
-    const params = useParams();
-    const [weather_data, change_weather_data] = useState([]);
-    const [filterState, filterStateChange] = useState('Hourly');
-    const { permissionGranted, setPosition, setPermissionGranted } = useContext(PositionContext);
-    const today = new Date();
-    const [startDateState, setStartDate] = useState(new Date(today.getTime() - 24 * 60 * 60 * 1000));
-    const [endDateState, setEndDate] = useState(new Date());
-    const [error, setError] = useState(null);
-    const [leftLoad, setLeftLoad] = useState(true);
-    const [lastData, setLastData] = useState([]);
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [filterPressed, setFilterPressed] = useState(false);
+function InnerPage({  deviceId  }) {
+  const {  t, i18n  } = useTranslation();
+  const params = useParams();
+  const [weather_data, change_weather_data] = useState([]);
+  const [filterState, filterStateChange] = useState("Hourly");
+  const {  permissionGranted, setPosition, setPermissionGranted  } =
+    useContext(PositionContext);
+  const today = new Date();
+  const [startDateState, setStartDate] = useState(
+    new Date(today.getTime() - 24 * 60 * 60 * 1000)
+  );
+  const [endDateState, setEndDate] = useState(new Date());
+  const [error, setError] = useState(null);
+  const [leftLoad, setLeftLoad] = useState(true);
+  const [lastData, setLastData] = useState([]);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [filterPressed, setFilterPressed] = useState(false);
     const [statsData, setStatsData] = useState({});
-    const prevUrlRef = useRef(null);
-    const [preferences] = useState(JSON.parse(localStorage.getItem('cookiePreferences')) || {});
-    const handleCloseDatePicker = () => {
-        setShowDatePicker(false);
-    };
+  const prevUrlRef = useRef(null);
+  const [preferences] = useState(
+    JSON.parse(localStorage.getItem("cookiePreferences")) || {}
+  );
+  const handleCloseDatePicker = () => {
+    setShowDatePicker(false);
+  };
+  const [minDate, setMinDate] = useState(new Date());
+  const [isNavOpen, setIsNavOpen] = useState(true);
 
-    const saveCookies = (longitude, latitude) => {
-        if (preferences?.location) {
-            document.cookie = `location=${longitude} ${latitude} ; path=/;`;
-        }
-    };
+  const saveCookies = (longitude, latitude) => {
+    if (preferences?.location) {
+      document.cookie = `location=${longitude} ${latitude} ; path=/;`;
+    }
+  };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                axios
-                    .get(`/device_inner/${params.id}/latest/`)
-                    .then(res => {
-                        setLastData(res.data);
-                    })
+  useEffect(() => {
+      
+      const fetchData = async () => {
+          try {
+              axios.get(`/device_inner/${params.id}/latest/`).then((res) => {
+                  setLastData(res.data);
+                });
             } catch (error) {
-                console.error('Error fetching devices:', error);
+                console.error("Error fetching devices:", error);
             }
         };
-
+        
         fetchData();
-    }, [params.id]);
+        filterStateChange("Hourly");
+  }, [params.id]);
 
-    const [device, setDevice] = useState({});
+  const [device, setDevice] = useState({});
 
-    useEffect(() => {
-        axios.get(`/device_inner/${params.id}/`)
-            .then(response => setDevice(response.data))
-            .catch(error => console.error('Error fetching device details:', error));
-    }, [params.id]);
+  useEffect(() => {
+    axios
+      .get(`/device_inner/${params.id}/`)
+      .then((response) => {
+        setDevice(response.data);
+        setMinDate(new Date(response.data.created_at));
+      })
+      .catch((error) => console.error("Error fetching device details:", error));
+  }, [params.id]);
 
-    useEffect(() => {
-        if (!permissionGranted) {
-            const askForPermissionAgain = () => {
-                if ("geolocation" in navigator) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        setPosition({
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude,
-                        });
-                        saveCookies(position.coords.longitude, position.coords.latitude)
-                        setPermissionGranted(true);
-                    });
-                } else {
-                    console.log("Geolocation is not available in your browser.");
-                }
-            };
-
-            askForPermissionAgain();
+  useEffect(() => {
+    if (!permissionGranted) {
+      const askForPermissionAgain = () => {
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            setPosition({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+            saveCookies(position.coords.longitude, position.coords.latitude);
+            setPermissionGranted(true);
+          });
+        } else {
+          console.log("Geolocation is not available in your browser.");
         }
-    }, [permissionGranted, setPosition, setPermissionGranted]);
+      };
+
+      askForPermissionAgain();
+    }
+  }, [permissionGranted, setPosition, setPermissionGranted]);
 
     useEffect(() => {
         const getDataUrl = (filterState, param) => {
@@ -145,71 +156,106 @@ function InnerPage({ deviceId }) {
             })
     }, [params.id, filterState, startDateState, endDateState]);
 
-    const formatDate = (date) => {
-        if (!(date instanceof Date) || isNaN(date)) {
-            return "";
-        }
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const day = date.getDate().toString().padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    };
-
-    if ((!weather_data || weather_data.length === 0)) {
-        if (leftLoad === false) {
-            return <div className={styles.not_data}>
-                {t('innerPage.data')}
-            </div>;
-        }
+  const formatDate = (date) => {
+    if (!(date instanceof Date) || isNaN(date)) {
+      return "";
     }
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
-    return (
-        <>
-            <div className={styles.inner_page}>
-                <Helmet>
-                    <title>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</title>
-                </Helmet>
-                <InnerPageLeftNav
-                    filterState={filterState}
-                    filterChange={filterStateChange}
-                    selected_device_id={params.id}
-                    startDate={startDateState}
-                    setStartDate={setStartDate}
-                    endDate={endDateState}
-                    setEndDate={setEndDate}
-                    error={error}
-                    showDatePicker={showDatePicker}
-                    setShowDatePicker={setShowDatePicker}
-                    handleCloseDatePicker={handleCloseDatePicker}
-                    setError={setError}
-                    weather_data={weather_data}
-                    leftLoad={leftLoad}
-                    setLeftLoad={setLeftLoad}
-                    device={device}
-                />
-                <InnerPageContent
-                    content={filterState}
-                    weather_data={weather_data}
-                    error={error}
-                    leftLoad={leftLoad}
-                    setLeftLoad={setLeftLoad}
-                    filterChange={filterStateChange}
-                    startDate={startDateState}
-                    setStartDate={setStartDate}
-                    endDate={endDateState}
-                    setEndDate={setEndDate}
-                    setError={setError}
-                    data={lastData}
-                    filterState={filterState}
-                    selected_device_id={params.id}
-                    filterPressed={filterPressed}
-                    setFilterPressed={setFilterPressed}
-                    device={device}
-                    stats={statsData}
-                />
-            </div>
-        </>
-    );
+  if (!weather_data || weather_data.length === 0) {
+    if (leftLoad === false) {
+      return <div className={styles.not_data}>{t("innerPage.data")}</div>;
+    }
+  }
+
+  return (
+    <>
+      <div className={styles.inner_page}>
+        <Helmet>
+          <title>
+            {device[i18n.language === "hy" ? "name_hy" : "name_en"]}
+          </title>
+        </Helmet>
+        <button
+          className={`${styles.navToggle} ${
+            !isNavOpen ? styles.collapsed : ""
+          }`}
+          onClick={() => setIsNavOpen(!isNavOpen)}
+        />
+        <div
+          className={`${styles.navContainer} ${
+            !isNavOpen ? styles.collapsed : ""
+          }`}
+        >
+          <InnerPageLeftNav
+            filterState={filterState}
+            filterChange={filterStateChange}
+            selected_device_id={params.id}
+            startDate={startDateState}
+            setStartDate={setStartDate}
+            endDate={endDateState}
+            setEndDate={setEndDate}
+            error={error}
+            showDatePicker={showDatePicker}
+            setShowDatePicker={setShowDatePicker}
+            handleCloseDatePicker={handleCloseDatePicker}
+            setError={setError}
+            weather_data={weather_data}
+            leftLoad={leftLoad}
+            setLeftLoad={setLeftLoad}
+            device={device}
+          />
+        </div>
+        <div
+          className={`${styles.inner_page_content} ${
+            !isNavOpen ? styles.expanded : ""
+          }`}
+        >
+          <InnerPageContent
+            content={filterState}
+            weather_data={weather_data}
+            error={error}
+            leftLoad={leftLoad}
+            setLeftLoad={setLeftLoad}
+            filterChange={filterStateChange}
+            startDate={startDateState}
+            setStartDate={setStartDate}
+            endDate={endDateState}
+            setEndDate={setEndDate}
+            setError={setError}
+            data={lastData}
+            filterState={filterState}
+            selected_device_id={params.id}
+            filterPressed={filterPressed}
+            setFilterPressed={setFilterPressed}
+            device={device}
+            minDate={minDate}
+            stats={statsData}
+          />
+        </div>
+        <InnerPageFilter
+          filterState={filterState}
+          filterChange={filterStateChange}
+          startDate={startDateState}
+          setStartDate={setStartDate}
+          endDate={endDateState}
+          setEndDate={setEndDate}
+          error={error}
+          showDatePicker={showDatePicker}
+          setShowDatePicker={setShowDatePicker}
+          handleCloseDatePicker={handleCloseDatePicker}
+          setError={setError}
+          leftLoad={leftLoad}
+          setLeftLoad={setLeftLoad}
+          stats={statsData}
+        />
+      </div>
+    </>
+  );
 }
 
 export default InnerPage;

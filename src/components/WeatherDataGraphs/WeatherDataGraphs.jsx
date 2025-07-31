@@ -11,6 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import styles from "./WeatherDataGraphs.module.css";
+import scrollingDemoGif from '../../assets/Icons/Scroll-Down.gif';
 import DatePicker from "react-datepicker";
 import { useTranslation } from "react-i18next";
 import { saveAs } from "file-saver";
@@ -328,9 +329,15 @@ const WeatherDataGraphs = (props) => {
 
   const data = formatData(isMobile, props.types, props.time, props.data, props.colors);
 
-  useEffect(() => {
-    setSelectedFilterButton("oneD");
-  }, [props.selected_device_id]);
+  useEffect(()=>{
+    setSelectedFilterButton(props.timeline === "Hourly"
+    ? "oneD"
+    : props.timeline === "Daily"
+    ? "oneW"
+    : props.timeline === "Monthly"
+    ? "oneM"
+    : "Range");
+  }, [props.filterState]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -641,13 +648,6 @@ const WeatherDataGraphs = (props) => {
     return () => document.removeEventListener('touchmove', preventZoom);
   }, []);
 
-  const title_map = {
-    Monthly: t("chartTitles.monthly"),
-    Daily: t("chartTitles.daily"),
-    Hourly: t("chartTitles.hourly"),
-    Range: t("chartTitles.range"),
-  };
-
   // Calculate zoom limits based on data range
   const timestamps = props.time || [];
   const minTimestamp = timestamps.length
@@ -957,20 +957,7 @@ const WeatherDataGraphs = (props) => {
         },
       },
       title: {
-        display: true,
-        text: `${t("chartTitles.dataPer")}${title_map[props.timeline]}`,
-        align: isMobile ? "center" : "start",
-        color: "#FFFFFF",
-        font: {
-          family: "Arial, sans-serif",
-          size: 16,
-        },
-        padding: {
-          top: isMobile ? 15 : 0,
-          // bottom: 30,
-          left: 20,
-          right: 20,
-        },
+        display: false,
       },
     },
   };
@@ -1027,6 +1014,8 @@ const WeatherDataGraphs = (props) => {
         const end = currentDate;
         setSelectedStartDate(start);
         setSelectedEndDate(end);
+        setAppliedStartDate(start);
+        setAppliedEndDate(end);
         setSelectedFilter("Hourly");
         props.filterChange("Hourly");
         props.setShowWelcomeOverlay(false);
@@ -1048,6 +1037,8 @@ const WeatherDataGraphs = (props) => {
         const end = currentDate;
         setSelectedStartDate(start);
         setSelectedEndDate(end);
+        setAppliedStartDate(start);
+        setAppliedEndDate(end);
         setSelectedFilter("Daily");
         props.filterChange("Daily");
         props.setShowWelcomeOverlay(false);
@@ -1071,6 +1062,8 @@ const WeatherDataGraphs = (props) => {
         const end = currentDate;
         setSelectedStartDate(start);
         setSelectedEndDate(end);
+        setAppliedStartDate(start);
+        setAppliedEndDate(end);
         setSelectedFilter("Monthly");
         props.filterChange("Monthly");
         props.setShowWelcomeOverlay(false);
@@ -1142,9 +1135,11 @@ const WeatherDataGraphs = (props) => {
                 }}
                 selected={selectedStartDate}
                 onSelect={handleStartDateSelect}
+                minDate={props.minDate.getTime()}
                 maxDate={today}
                 dateFormat="dd/MM/yyyy"
-              />
+                id="datePicker1"
+                />
               <DatePicker
                 className={`${styles.pickerDropdown}`}
                 value={selectedEndDate}
@@ -1159,9 +1154,13 @@ const WeatherDataGraphs = (props) => {
                 }}
                 selected={selectedEndDate}
                 onSelect={handleEndDateSelect}
-                minDate={new Date(selectedStartDate.getTime())}
+                minDate={(Math.max(
+                  new Date(selectedStartDate.getTime()),
+                  props.minDate.getTime()
+                ))}
                 maxDate={today}
                 dateFormat="dd/MM/yyyy"
+                id="datePicker2"
               />
               <button
                 className={`${styles.filterButton} ${selectedFilterButton === "filter" ? styles.activeFilter : ""
@@ -1278,12 +1277,12 @@ const WeatherDataGraphs = (props) => {
           <div className={styles.fullScreenPopup}>
             <div className={styles.popupContent}>
               <span>
-                {t("chartTitles.zoomMessage.1")}
-                <br></br>
-                {t("chartTitles.zoomMessage.2")}
-                <br></br>
-                {t("chartTitles.zoomMessage.3")}
-              </span>
+            {t("chartTitles.zoomMessage.1")}
+            <br></br>
+            {t("chartTitles.zoomMessage.2")}
+            <br></br>
+            {t("chartTitles.zoomMessage.3")}
+            </span>
             </div>
           </div>
         )}

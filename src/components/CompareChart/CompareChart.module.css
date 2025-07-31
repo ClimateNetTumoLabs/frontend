@@ -438,3 +438,10 @@ span {
     height: 100% !important;
     width: fit-content;
   }
+
+  .zoomGif {
+    width: 20px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }

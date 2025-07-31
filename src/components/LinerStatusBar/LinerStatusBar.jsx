@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './LinerStatusBar.module.css';
 import { useTranslation } from "react-i18next";
 import { Tooltip as ReactTooltip } from "react-tooltip";
@@ -8,6 +9,7 @@ import { Link } from 'react-router-dom';
 const ColoredProgressBar = (props) => {
     const { t } = useTranslation();
     const { i18n } = useTranslation();
+    const navigate = useNavigate();
     const [, setProgress] = useState(0);
     const [airQuality,setAirQuality] = useState(props.air_quality);
     
@@ -60,6 +62,10 @@ const ColoredProgressBar = (props) => {
         return 100; // If value exceeds the maximum
     };
 
+    const handleVersus = () => {
+        navigate(`/${i18n.language}/api?tab=compare&devices=${props.device_id}`)
+    }
+
     return (
         <div className={styles.progressBarContent}>
             <div>
@@ -78,6 +84,19 @@ const ColoredProgressBar = (props) => {
                     <Link to={`/${i18n.language}/about/#pm`} style={{ textDecoration: 'none' }}>
                         <span style={{ background: color }} className={styles.circle}>{number}</span>
                     </Link>
+                    <button 
+                        onClick={handleVersus} 
+                        className={styles.vsButton}
+                        data-tooltip-id="vs_button_tooltip"
+                    >
+                        VS
+                    </button>
+                    <ReactTooltip
+                        id="vs_button_tooltip"
+                        place="top"
+                        opacity="1"
+                        content={t('linerStatusBar.compareWithOtherDevices')}
+                    />
                 </div>
             </div>
             <div className={styles.progressBar}>
