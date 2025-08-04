@@ -1348,7 +1348,7 @@ const WeatherDataGraphs = (props) => {
               className={`d-flex flex-row w-100 justify-content-between py-2 ${styles.extremBtn}`}
               aria-expanded={showStats}
             >
-              <span>{showStats ? t("extrems.hide") : t("extrems.show")} {t("extrems.extrems")}</span>
+              <span>{showStats ? t("extremes.hide") : t("extremes.show")} {t("extremes.extremes")}</span>
               <span>
                 <FontAwesomeIcon className={`${styles.downicon} ${showStats ? styles.open : ''}`} icon={faChevronDown} />
               </span>

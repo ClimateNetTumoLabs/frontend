@@ -21,7 +21,6 @@ import 'leaflet-easybutton';
 import 'leaflet-easybutton/src/easy-button.css';
 import 'leaflet-easybutton/src/easy-button.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { createPortal } from 'react-dom';
 
 const iconUrl = "https://images-in-website.s3.us-east-1.amazonaws.com/Icons/map-marker.svg";
 const preloadedIcon = new Image();

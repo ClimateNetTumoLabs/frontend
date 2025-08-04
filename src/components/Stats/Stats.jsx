@@ -25,7 +25,7 @@ const Stats = ({ Tab, statsData, isMobile }) => {
     const measurements = tabMeasurements[Tab] || [];
     
     return (
-        <div className={`d-flex gap-3 flex-wrap mb-3 ${isMobile && 'justify-content-center'}`}>
+        <div className={`d-flex gap-2 flex-wrap ${isMobile && 'justify-content-center'}`}>
             {measurements.map((measurement) => (
                 ['min', 'max'].map((type) => (
                     <StatsCard

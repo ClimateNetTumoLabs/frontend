@@ -1,9 +1,9 @@
 .statsCard {
-  background-color: #232222;
-  border: 1px solid #eae6e2;
+  background-color: #3a3a3a;
   border-radius: 5px;
   color: #fff;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  min-width: auto;
 }
 
 .label {

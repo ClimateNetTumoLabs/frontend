@@ -31,9 +31,9 @@ export const StatsCard = ({type, measurement, value, timestamp, isMobile}) => {
     }
 
     return (
-        <div data-tooltip-id={`detail-${type}-${measurement}`} className={`card p-2 ${styles.statsCard}`} style={isMobile ? { minWidth: '120px' } : {minWidth: '180px'}}>
+        <div data-tooltip-id={`detail-${type}-${measurement}`} className={`card p-2 ${styles.statsCard}`} style={isMobile ? { minWidth: '140px' } : {minWidth: '180px'}}>
             <div className={isMobile ? 'd-flex flex-row justify-content-between text-center' : 'text-center'} >
-                <div className={`${styles.label}`} style={{marginRight : isMobile ? '2px' : '0px'}}>
+                <div className={`${styles.label}`} style={{marginRight : '0px'}}>
                     {type === 'min' ? t('min_max.min') : t('min_max.max')} {!isMobile && measurement}
                 </div>
                 <div style={{color:measurement_unit[measurement][1]}} className={styles.value}>{value} {measurement_unit[measurement][0]}</div>

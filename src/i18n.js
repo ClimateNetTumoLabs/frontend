@@ -634,15 +634,15 @@ const resources = {
                 },
                 min_max:
                 {
-                    min: "Min.",
-                    max: "Max."
+                    min: "Min",
+                    max: "Max"
                 },
-                extrems:
+                extremes:
                 {
                     show: "Show",
                     hide: "Hide",
-                    extrems: "extrems"
-                }
+                    extremes: "extremes"
+                },
             },
         },
 
@@ -1264,11 +1264,11 @@ const resources = {
                     min: "Մին.",
                     max: "Մաքս."
                 },
-                extrems:
+                extremes:
                 {
                     show: "Ցուցադրել",
                     hide: "Թաքցնել",
-                    extrems: "ծայրահեղությունները"
+                    extremes: "էքստրեմումները"
                 }
             },
         },
