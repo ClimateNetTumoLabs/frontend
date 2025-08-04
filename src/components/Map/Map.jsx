@@ -944,7 +944,9 @@ const MapArmenia = () => {
                 <div className={`${styles.compareBar} ${isMapVisible ? '' : styles.collapsed}`}>
                     {isMapVisible ? (
                         <>
-                            <div className={`${styles.deviceCountBadge} ${selectedDevices.length < 2 ? styles.disabled : ''}`}>
+                            <div
+                                className={`${styles.deviceCountBadge} ${selectedDevices.length < 2 ? styles.disabled : ''}`}
+                            >
                                 {selectedDevices.length}
                             </div>
                             <button
@@ -969,9 +971,24 @@ const MapArmenia = () => {
                             </div>
                         </>
                     ) : (
-                        <div className={styles.deviceCountBadge}>
-                            {selectedDevices.length}
-                        </div>
+                        <>
+                            <div className={styles.deviceCountBadge}>
+                                {selectedDevices.length}
+                            </div>
+                            <button className={styles.versues} onClick={handleCompare} disabled={selectedDevices.length < 2}>VS</button>
+                            <div className={styles.deviceList}>
+                                {selectedDevices.map(device => (
+                                    <div key={device.generated_id} className={styles.deviceListItem}>
+                                        <span>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</span>
+                                        <button
+                                            className={styles.removeDeviceButton}
+                                            onClick={() => handleRemoveDevice(device.generated_id)}>
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
             )}
