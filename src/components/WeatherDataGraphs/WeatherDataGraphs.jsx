@@ -50,10 +50,15 @@ const formatTimestamps = (timestamps) => {
 };
 
 // Function to convert chart data to CSV
+// Function to convert chart data to CSV
 const convertToCSV = (t, labels, datasets) => {
   const headers = [`${t("chartTitles.timestamp")}`, ...datasets.map((dataset) => dataset.label)];
   const rows = labels.map((label, index) => {
-    const rowData = datasets.map((dataset) => dataset.data[index] || "0");
+    const rowData = datasets.map((dataset) => {
+      const value = dataset.data[index];
+      // Return empty string for null/undefined, otherwise return the value (including 0)
+      return value === null || value === undefined ? "" : value;
+    });
     return [label, ...rowData];
   });
 
@@ -329,15 +334,7 @@ const WeatherDataGraphs = (props) => {
 
   const data = formatData(isMobile, props.types, props.time, props.data, props.colors);
 
-  useEffect(()=>{
-    setSelectedFilterButton(props.timeline === "Hourly"
-    ? "oneD"
-    : props.timeline === "Daily"
-    ? "oneW"
-    : props.timeline === "Monthly"
-    ? "oneM"
-    : "Range");
-  }, [props.filterState]);
+
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -367,76 +364,86 @@ const WeatherDataGraphs = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  
   useEffect(() => {
     const canvas = chartRef.current?.canvas;
     if (!canvas) return;
-
+  
+    // State tracking variables
     let clickTimeout = null;
-
+    let zoomHistory = [];
+    let isDragging = false;
+    let dragStartX = 0;
+    let initialZoomState = null;
+    let lastClickTime = 0;
+  
     const handleClick = (event) => {
+      // Ignore if this is part of a drag operation
+      if (isDragging) return;
+  
+      // Ignore clicks on download button (mobile)
       if (isMobile && chartRef.current?.downloadButton) {
         const { x, y, width, height } = chartRef.current.downloadButton;
         const rect = canvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
-
-        if (
-          clickX >= x &&
-          clickX <= x + width &&
-          clickY >= y &&
-          clickY <= y + height
-        ) {
-          // This is a download button click - ignore it
-          if (clickTimeout) {
-            clearTimeout(clickTimeout);
-            clickTimeout = null;
-          }
+  
+        if (clickX >= x && clickX <= x + width && clickY >= y && clickY <= y + height) {
+          clearClickTimeout();
           return;
         }
       }
-
+  
+      // Ignore clicks on header area
       if (chartRef.current) {
         const rect = canvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
-
-        if (
-          clickX >= 0 &&
-          clickX <= 1500 &&
-          clickY >= 0 &&
-          clickY <= 70
-        ) {
-          if (clickTimeout) {
-            clearTimeout(clickTimeout);
-            clickTimeout = null;
-          }
+  
+        if (clickX >= 0 && clickX <= 1500 && clickY >= 0 && clickY <= 70) {
+          clearClickTimeout();
           return;
         }
       }
-
-      if (clickTimeout) {
-        clearTimeout(clickTimeout);
-        clickTimeout = null;
+  
+      // Handle double click detection
+      const now = Date.now();
+      if (now - lastClickTime < 300) { // Double click threshold
+        clearClickTimeout();
+        lastClickTime = 0;
+        return;
       }
-
+      lastClickTime = now;
+  
+      // Set up zoom timeout
+      clearClickTimeout();
       clickTimeout = setTimeout(() => {
+        if (isDragging) return;
+  
         const chart = chartRef.current;
         if (!chart) return;
-
-        // Get mouse position relative to canvas
-        const rect = canvas.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-
-        // Get the value at the clicked position
+  
         const xAxis = chart.scales.x;
-        const value = xAxis.getValueForPixel(x);
-
-        // Calculate zoom window
-        const totalPoints = chart.data.labels.length;
-        const zoomWindow = Math.max(1, Math.floor(totalPoints * 0.1));
-        const min = Math.max(0, value - zoomWindow / 2);
-        const max = Math.min(totalPoints - 1, value + zoomWindow / 2);
-
+        const currentMin = xAxis.min;
+        const currentMax = xAxis.max;
+        const currentRange = currentMax - currentMin;
+        
+        // Don't zoom if already at minimum zoom level
+        if (currentRange <= 4) return;
+  
+        const rect = canvas.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const value = xAxis.getValueForPixel(clickX);
+  
+        const zoomFactor = 0.4;
+        const newRange = Math.max(4, currentRange * zoomFactor);
+        
+        const min = Math.max(0, value - newRange / 2);
+        const max = Math.min(chart.data.labels.length - 1, value + newRange / 2);
+  
+        // Save current view to history
+        zoomHistory.push({ min: currentMin, max: currentMax });
+  
         // Apply zoom
         chart.zoomScale('x', { min, max }, 'default');
         chart.tooltip.setActiveElements([], { x: 0, y: 0 });
@@ -444,29 +451,119 @@ const WeatherDataGraphs = (props) => {
         chart.update();
       }, 200);
     };
-
+  
     const handleDoubleClick = () => {
-      if (clickTimeout) {
-        clearTimeout(clickTimeout);
-        clickTimeout = null;
-      }
-
+      clearClickTimeout();
       const chart = chartRef.current;
       if (chart) {
+        zoomHistory = []; // Clear history
         chart.resetZoom();
         chart.tooltip.setActiveElements([], { x: 0, y: 0 });
         chart.setActiveElements([]);
         chart.update();
       }
     };
-
+  
+    const handleRightClick = (event) => {
+      event.preventDefault();
+      clearClickTimeout();
+      
+      const chart = chartRef.current;
+      if (!chart || zoomHistory.length === 0) return;
+  
+      // Get previous zoom state
+      const prevZoom = zoomHistory.pop();
+      
+      // Apply previous zoom
+      chart.zoomScale('x', { min: prevZoom.min, max: prevZoom.max }, 'default');
+      chart.tooltip.setActiveElements([], { x: 0, y: 0 });
+      chart.setActiveElements([]);
+      chart.update();
+    };
+  
+    const handleMouseDown = (event) => {
+      if (event.button !== 0) return; // Only left mouse button
+      
+      isDragging = true;
+      dragStartX = event.clientX;
+      const chart = chartRef.current;
+      
+      if (chart) {
+        const xAxis = chart.scales.x;
+        initialZoomState = { 
+          min: xAxis.min, 
+          max: xAxis.max,
+          pixelRange: xAxis.width
+        };
+      }
+      
+      canvas.style.cursor = 'grabbing';
+      clearClickTimeout();
+    };
+  
+    const handleMouseMove = (event) => {
+      if (!isDragging || !initialZoomState) return;
+      
+      const chart = chartRef.current;
+      if (!chart) return;
+  
+      const deltaX = event.clientX - dragStartX;
+      dragStartX = event.clientX;
+  
+      const dataRange = initialZoomState.max - initialZoomState.min;
+      const dataPerPixel = dataRange / initialZoomState.pixelRange;
+      const dataDelta = deltaX * dataPerPixel;
+  
+      const newMin = Math.max(0, initialZoomState.min - dataDelta);
+      const newMax = Math.min(chart.data.labels.length - 1, initialZoomState.max - dataDelta);
+  
+      // Update the initial state for smooth continuous dragging
+      initialZoomState.min = newMin;
+      initialZoomState.max = newMax;
+  
+      chart.zoomScale('x', { min: newMin, max: newMax }, 'default');
+      chart.update();
+    };
+  
+    const handleMouseUp = () => {
+      if (isDragging) {
+        isDragging = false;
+        canvas.style.cursor = '';
+      }
+    };
+  
+    const handleMouseLeave = () => {
+      if (isDragging) {
+        isDragging = false;
+        canvas.style.cursor = '';
+      }
+    };
+  
+    const clearClickTimeout = () => {
+      if (clickTimeout) {
+        clearTimeout(clickTimeout);
+        clickTimeout = null;
+      }
+    };
+  
+    // Add event listeners
     canvas.addEventListener("click", handleClick);
     canvas.addEventListener("dblclick", handleDoubleClick);
-
+    canvas.addEventListener("contextmenu", handleRightClick);
+    canvas.addEventListener("mousedown", handleMouseDown);
+    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mouseup", handleMouseUp);
+    canvas.addEventListener("mouseleave", handleMouseLeave);
+  
     return () => {
-      if (clickTimeout) clearTimeout(clickTimeout);
+      clearClickTimeout();
       canvas.removeEventListener("click", handleClick);
       canvas.removeEventListener("dblclick", handleDoubleClick);
+      canvas.removeEventListener("contextmenu", handleRightClick);
+      canvas.removeEventListener("mousedown", handleMouseDown);
+      canvas.removeEventListener("mousemove", handleMouseMove);
+      canvas.removeEventListener("mouseup", handleMouseUp);
+      canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [chartRef, isMobile]);
 
@@ -481,11 +578,7 @@ const WeatherDataGraphs = (props) => {
     if (!canvas) return;
 
     const handleWheel = (event) => {
-      // Detect if the user is on macOS
-      const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
-
-      // Check for the appropriate modifier key based on platform
-      const modifierPressed = isMac ? event.metaKey : event.ctrlKey;
+      const modifierPressed = event.shiftKey;
       if (modifierPressed) {
         event.preventDefault();
 
@@ -619,7 +712,9 @@ const WeatherDataGraphs = (props) => {
       ];
 
       const dataArrays = allMetrics.map((metric) =>
-        props.weather_data.map((entry) => entry[metric.key] || "0")
+        props.weather_data.map((entry) => 
+          entry[metric.key] === null || entry[metric.key] === undefined ? null : entry[metric.key]
+        )
       );
 
       const allData = formatData(
@@ -751,12 +846,7 @@ const WeatherDataGraphs = (props) => {
           x: {
             min: 0,
             max: data.labels.length - 1,
-            minRange: Math.max(
-              1,
-              Math.floor(
-                data.labels.length * (oneDay / (maxTimestamp - minTimestamp))
-              )
-            ),
+            minRange: 4,
             maxRange: Math.min(
               data.labels.length - 1,
               Math.floor(
@@ -1024,6 +1114,7 @@ const WeatherDataGraphs = (props) => {
         scrollToChart();
         resetDatasetVisibility();
       },
+      disabled: false
     },
     {
       key: "oneW",
@@ -1047,6 +1138,7 @@ const WeatherDataGraphs = (props) => {
         scrollToChart();
         resetDatasetVisibility();
       },
+      disabled: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000) < props.minDate
     },
     {
       key: "oneM",
@@ -1072,6 +1164,7 @@ const WeatherDataGraphs = (props) => {
         scrollToChart();
         resetDatasetVisibility();
       },
+      disabled: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000) < props.minDate
     },
   ];
 
@@ -1106,13 +1199,14 @@ const WeatherDataGraphs = (props) => {
                 : ""
                 }`}
             >
-              {filterButtons.map(({ key, label, action }) => (
+              {filterButtons.map(({ key, label, action, disabled }) => (
                 <button
                   key={key}
                   className={`${styles.filterButton} ${selectedFilterButton === key ? styles.activeFilter : ""
                     }`}
                   onClick={action}
-                  disabled={selectedFilterButton === key}
+                  disabled={selectedFilterButton === key || disabled}
+                  style={disabled || selectedFilterButton === key ? { pointerEvents: "none" } : {}}
                 >
                   {label}
                 </button>
@@ -1283,6 +1377,11 @@ const WeatherDataGraphs = (props) => {
             <br></br>
             {t("chartTitles.zoomMessage.3")}
             </span>
+            <img 
+                src={scrollingDemoGif}
+                alt="Scrolling demonstration"
+                className={styles.zoomGif}
+              />
             </div>
           </div>
         )}

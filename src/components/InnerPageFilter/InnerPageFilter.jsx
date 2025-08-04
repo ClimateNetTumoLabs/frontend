@@ -15,6 +15,10 @@ function InnerPageFilter(props) {
   const [startDate, endDate] = dateRange;
   const [isRangeActive, setIsRangeActive] = useState(false);
 
+  const isHourlyAvailable = true; // Always available
+  const isDailyAvailable = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000) >= props.minDate;
+  const isMonthlyAvailable = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000) >= props.minDate;
+
   const scrollToChart = () => {
     setTimeout(() => {
       const chartElement = document.getElementById("chart");
@@ -93,8 +97,13 @@ function InnerPageFilter(props) {
       <div
         className={`option ${styles.filterItemBlock} ${
           props.filterState === "Hourly" && !isRangeActive ? styles.active : ""
-        }`}
-        onClick={() => {!isRangeActive && props.filterChange("Hourly"); scrollToChart()}}
+        } ${!isHourlyAvailable ? styles.disabled : ""}`}
+        onClick={() => {
+          if (!isRangeActive && isHourlyAvailable) {
+            props.filterChange("Hourly");
+            scrollToChart();
+          }
+        }}
       >
         <Clock/>
         <span>{t("innerPageFilter.options.hourly")}</span>
@@ -102,8 +111,13 @@ function InnerPageFilter(props) {
       <div
         className={`option ${styles.filterItemBlock} ${
           props.filterState === "Daily" && !isRangeActive ? styles.active : ""
-        }`}
-        onClick={() => {!isRangeActive && props.filterChange("Daily"); scrollToChart()}}
+        } ${!isDailyAvailable ? styles.disabled : ""}`}
+        onClick={() => {
+          if (!isRangeActive && isDailyAvailable) {
+            props.filterChange("Daily");
+            scrollToChart();
+          }
+        }}
       >
         <Calendar/>
         <span>{t("innerPageFilter.options.daily")}</span>
@@ -111,8 +125,13 @@ function InnerPageFilter(props) {
       <div
         className={`option ${styles.filterItemBlock} ${
           props.filterState === "Monthly" && !isRangeActive ? styles.active : ""
-        }`}
-        onClick={() => {!isRangeActive && props.filterChange("Monthly"); scrollToChart()}}
+        } ${!isMonthlyAvailable ? styles.disabled : ""}`}
+        onClick={() => {
+          if (!isRangeActive && isMonthlyAvailable) {
+            props.filterChange("Monthly");
+            scrollToChart();
+          }
+        }}
       >
         <Calendar/>
         <span>{t("innerPageFilter.options.monthly")}</span>
@@ -143,6 +162,7 @@ function InnerPageFilter(props) {
               endDate={endDate}
               selectsRange
               inline
+              minDate={props.minDate}
               maxDate={today}
             />
             <button

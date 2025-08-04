@@ -409,17 +409,6 @@ const API = () => {
 
                     </p>
                     </div>
-                        {error && <p className={styles.error}>Error: {error}</p>}
-                        <p>
-                            {t("api.info_note3")}{" "}
-                            <a className={styles.link} href="mailto:labs@tumo.org">
-                                labs@tumo.org
-                            </a>
-                            .
-                        </p>
-                        <h2 className={styles.tag}>{t('api.info_note4')}
-                            <br/><code>&lt;p&gt;{t('api.info_note5')}&lt;/p&gt;</code></h2>
-                        <p className={styles.done}>{t('api.info_done')}</p>
                     </>
                     </div>
                     <div className={`${styles.tabContent} ${activeTab === 'compare' ? styles.active : styles.hidden}`}>

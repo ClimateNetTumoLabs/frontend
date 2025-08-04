@@ -197,6 +197,7 @@
         display: flex;
         flex-direction: column;
         padding-inline: 15px;
+        align-items: center;
     }
 
     .weatherInfo {
@@ -224,5 +225,51 @@
     .errorMessage {
         margin-right: 15px;
         font-size: 15px;
+    }
+}
+
+.noDataCard {
+    background-color: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.noDataIcon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #e07789;
+}
+
+.noDataCard h3 {
+    color: #e07789;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.noDataCard p {
+    color: #eae6e2;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+    .noDataCard {
+        padding: 15px;
+        margin-top: 15px;
+    }
+    
+    .noDataIcon {
+        font-size: 2rem;
+    }
+    
+    .noDataCard h3 {
+        font-size: 1.1rem;
     }
 }

@@ -63,6 +63,137 @@ const Compare = ({ initialDeviceIds = [] }) => {
     setShowDatePicker(false);
   };
   const [leftLoad, setLeftLoad] = useState(true);
+  const [parentLocations, setParentLocations] = useState([]);
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [locationError, setLocationError] = useState(null);
+  const [activeFilters, setActiveFilters] = useState({
+    hasIssues: null, // null = no filter, true = only with issues, false = only without
+    parentLocations: [], // Array of selected parent locations
+  });
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const filterDropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Handle device selector modal
+      if (showDeviceSelector && modalRef.current && !modalRef.current.contains(event.target)) {
+        handleCancelSelection();
+      }
+      
+      // Handle filter dropdown
+      if (showFilterDropdown && filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
+        // Check if click was on the filter button
+        const filterButton = document.querySelector(`.${styles.filterButton}`);
+        if (!filterButton?.contains(event.target)) {
+          setShowFilterDropdown(false);
+        }
+      }
+    };
+  
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDeviceSelector, showFilterDropdown]); 
+
+  const toggleFilterDropdown = () => {
+    setShowFilterDropdown(prev => !prev);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowFilterDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Earth's radius in km
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) *
+        Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in km
+  };
+
+  const handleGetLocation = () => {
+    setLocationLoading(true);
+    setLocationError(null);
+    
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser");
+      setLocationLoading(false);
+      return;
+    }
+  
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude: userLat, longitude: userLng } = position.coords;
+        
+        // Sort devices by distance from user's location
+        const sortedDevices = [...devices].sort((a, b) => {
+          const distanceA = calculateDistance(
+            userLat,
+            userLng,
+            parseFloat(a.latitude),
+            parseFloat(a.longitude)
+          );
+          const distanceB = calculateDistance(
+            userLat,
+            userLng,
+            parseFloat(b.latitude),
+            parseFloat(b.longitude)
+          );
+          return distanceA - distanceB;
+        });
+        
+        setDevices(sortedDevices);
+        setLocationLoading(false);
+      },
+      (error) => {
+        setLocationLoading(false);
+        console.error("Geolocation error:", error);
+        setLocationError("Unable to retrieve your location, try again later!");
+        if (error.message === "User denied Geolocation") {
+          setLocationError("Turn on the location access and try again!");
+        }
+      }
+    );
+  };
+
+  const sortDevicesWithSelectedFirst = (devices, selectedDevices) => {
+    const selectedIds = selectedDevices.map(d => d.value);
+    return [...devices].sort((a, b) => {
+      const aIsSelected = selectedIds.includes(a.generated_id);
+      const bIsSelected = selectedIds.includes(b.generated_id);
+      
+      if (aIsSelected && !bIsSelected) return -1;
+      if (!aIsSelected && bIsSelected) return 1;
+      return 0; // keep original order for both selected or both unselected
+    });
+  };
+
+  const toggleIssueFilter = () => {
+    setActiveFilters(prev => ({
+      ...prev,
+      hasIssues: prev.hasIssues === null ? true : prev.hasIssues === true ? false : null
+    }));
+  };
+  
+  const filterByParentLocation = (location) => {
+    setActiveFilters(prev => ({
+      ...prev,
+      parentLocation: prev.parentLocation === location ? null : location
+    }));
+  };
 
   const fuse = new Fuse(devices, {
     keys: [
@@ -79,22 +210,53 @@ const Compare = ({ initialDeviceIds = [] }) => {
     includeScore: true, // Include score for potential sorting
   });
 
-  // Update filteredDevices using fuse.js
   const filteredDevices = searchTerm.trim()
-    ? fuse.search(searchTerm.trim()).map(result => result.item)
-    : devices;
+  ? fuse.search(searchTerm.trim()).map(result => result.item)
+  : sortDevicesWithSelectedFirst(devices, tempSelectedDevices)
+    .filter(device => {
+      // Filter by issues
+      if (activeFilters.hasIssues !== null) {
+        const hasIssues = device.issues && device.issues.length > 0;
+        if (activeFilters.hasIssues !== hasIssues) return false;
+      }
+      
+      // Filter by parent locations (works for both languages)
+      if (activeFilters.parentLocations.length > 0) {
+        const parentFieldEn = 'parent_name_en';
+        const parentFieldHy = 'parent_name_hy';
+        const currentLanguageField = i18n.language === 'hy' ? parentFieldHy : parentFieldEn;
+        
+        // Check if either English or Armenian name matches any selected location
+        const matchesLocation = activeFilters.parentLocations.some(location => 
+          device[parentFieldEn] === location || device[parentFieldHy] === location
+        );
+        
+        if (!matchesLocation) return false;
+      }
+      return true;
+    });
 
-  useEffect(() => {
-    axios
-      .get(`/device_inner/list/`)
-      .then((response) => {
-        const fetchedDevices = response.data;
-        setDevices(fetchedDevices);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, [i18n.language]);
+    useEffect(() => {
+      axios
+        .get(`/device_inner/list/`)
+        .then((response) => {
+          const fetchedDevices = response.data;
+          setDevices(fetchedDevices);
+    
+          // Get unique parent locations from both English and Armenian names
+          const uniqueParents = [...new Set(
+            fetchedDevices.flatMap(device => [
+              device.parent_name_en, 
+              device.parent_name_hy
+            ])
+          )].filter(Boolean).sort();
+          
+          setParentLocations(uniqueParents);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }, [i18n.language]);
 
   const getDateOnly = (date) => {
     const yyyy = date.getFullYear();
@@ -165,6 +327,19 @@ const Compare = ({ initialDeviceIds = [] }) => {
     };
   }, [showDeviceSelector]);
 
+  const generateCompleteTimestamps = (startDate, endDate) => {
+    const timestamps = [];
+    const current = new Date(startDate);
+    const end = new Date(endDate);
+    
+    while (current <= end) {
+      timestamps.push(new Date(current).toISOString());
+      current.setMinutes(current.getMinutes() + 15);
+    }
+    
+    return timestamps;
+  };
+
   const handleTimeSeries = async () => {
     setError(null);
     setWeatherDataByDevice({});
@@ -205,10 +380,8 @@ const Compare = ({ initialDeviceIds = [] }) => {
           return;
         }
   
-        // Check for power/internet issues (always skip if present)
-        const hasPowerIssue = deviceData.issues?.some((issue) => issue.id === 6);
-        
-        // Check if device has issues for the selected metric
+        //TODO: Delete the 6 or 7 for the power Internet Issues
+        const hasPowerIssue = deviceData.issues?.some((issue) => (issue.id === 6 || issue.id === 7));
         const relevantIssueIds = metricToIssueMap[selectedMetric] || [];
         const hasMetricIssue = deviceData.issues?.some((issue) =>
           relevantIssueIds.includes(issue.id)
@@ -238,7 +411,6 @@ const Compare = ({ initialDeviceIds = [] }) => {
       if (devicesForApiCall.length === 0) {
         setWeatherDataByDevice({});
         setAllDevicesHaveIssues(true);
-        // Still set rawData with empty arrays for all selected devices
         const emptyProcessedData = selectedDevices.map((device) => ({
           data: [],
           label: device.label,
@@ -254,43 +426,61 @@ const Compare = ({ initialDeviceIds = [] }) => {
   
       const responses = await Promise.all(deviceDataPromises);
   
-      // Process responses for devices without issues
+      // Process responses and handle missing data points
       const apiResponseMap = new Map();
       responses.forEach((res, index) => {
         const device = devicesForApiCall[index];
-        if (
-          !Array.isArray(res.data) ||
-          res.data.length === 0 ||
-          res.data[0][selectedMetric] === null
-        ) {
+        if (!Array.isArray(res.data) || res.data.length === 0) {
           console.error(`Invalid response format for device ${device.label}:`, res.data);
           apiResponseMap.set(device.value, { data: [], label: device.label });
-        } else {
-          apiResponseMap.set(device.value, {
-            data: res.data.map((d) => ({
-              ...d,
-              time_interval: new Date(d.time_interval).toISOString(),
-            })),
-            label: device.label,
-          });
+          return;
         }
+
+        // Get the first and last timestamps from the response
+        const firstTimestamp = new Date(res.data[0].time_interval);
+        const lastTimestamp = new Date(res.data[res.data.length - 1].time_interval);
+        
+        // Generate complete timestamps at 15-minute intervals
+        const completeTimestamps = generateCompleteTimestamps(firstTimestamp, lastTimestamp);
+
+        // Create a map of existing data points for quick lookup
+        const dataMap = new Map();
+        res.data.forEach((d) => {
+          dataMap.set(new Date(d.time_interval).toISOString(), {
+            ...d,
+            time_interval: new Date(d.time_interval).toISOString(),
+          });
+        });
+
+        // Create complete data array with null for missing points
+        const completeData = completeTimestamps.map(timestamp => {
+          return dataMap.has(timestamp) ? dataMap.get(timestamp) : {"humidity": null, "lux": null, "pm1": null, "pm10": null, "pm2_5": null, "pressure": null, "rain": null, "speed": null, "temperature": null, "time_interval": timestamp, "uv": null};
+        });
+
+        apiResponseMap.set(device.value, {
+          data: completeData,
+          label: device.label,
+        });
       });
   
       // Create processedData maintaining the original selectedDevices order
       const processedData = selectedDevices.map((device) => {
         if (deviceIssuesMap.get(device.value)) {
-          // Device has issues, return empty data
           return { data: [], label: device.label };
         } else {
-          // Device doesn't have issues, get its data from API responses
           return apiResponseMap.get(device.value) || { data: [], label: device.label };
         }
       });
   
+      // Prepare data for the chart
       const weatherData = processedData.reduce((acc, deviceData) => {
+        if (!deviceData.data || deviceData.data.length === 0) {
+          return acc;
+        }    
+
         acc[deviceData.label] = deviceData.data.map((d) => ({
-          time_interval: d.time_interval,
-          value: d[selectedMetric],
+          time_interval: d?.time_interval || null,
+          value: d ? d[selectedMetric] : null,
         }));
         return acc;
       }, {});
@@ -305,11 +495,6 @@ const Compare = ({ initialDeviceIds = [] }) => {
       setLoading(false);
     }
   };
-
-  // TODO: Add null values between the time intervals where device didn't work
-  // useEffect(() => {
-  //   console.log(rawData);
-  // }, [rawData]);
 
   useEffect(() => {
     if (selectedDevices.length > 0) {
@@ -524,11 +709,145 @@ const Compare = ({ initialDeviceIds = [] }) => {
                   onChange={(e) => setSearchTerm(e.target.value.trim())}
                   className={styles.searchInput}
                 />
-              </div>
-        
+                <div className={styles.filterDropdownContainer} ref={filterDropdownRef}>
+                  <button 
+                    className={`${styles.filterButton} ${
+                      (activeFilters.hasIssues !== null || activeFilters.parentLocations.length > 0) 
+                        ? styles.activeFilter 
+                        : ''
+                    }`}
+                    onClick={toggleFilterDropdown}
+                    title={t("compare.filterDevices")}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke={(activeFilters.hasIssues !== null || activeFilters.parentLocations.length > 0) ? "#e07789" : "#9a9a9a"}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"></path>
+                      {(activeFilters.hasIssues !== null || activeFilters.parentLocations.length > 0) && (
+                        <circle cx="12" cy="9" r="3" fill="#e07789" />
+                      )}
+                    </svg>
+                    {(activeFilters.hasIssues !== null || activeFilters.parentLocations.length > 0) && (
+                      <span className={styles.filterIndicator}></span>
+                    )}
+                  </button>
+
+                  {showFilterDropdown && (
+                    <div className={styles.filterDropdown}>
+                      <div className={styles.filterSection}>
+                        <h4 className={styles.filterSectionTitle}>{t("compare.issueStatus")}</h4>
+                        <label className={styles.filterCheckbox}>
+                          <input
+                            type="checkbox"
+                            checked={activeFilters.hasIssues === true}
+                            onChange={() => setActiveFilters(prev => ({
+                              ...prev,
+                              hasIssues: prev.hasIssues === true ? null : true
+                            }))}
+                          />
+                          <span className={styles.checkmark}></span>
+                          <span className={styles.filterLabelText}>{t("compare.withIssues")}</span>
+                        </label>
+                        <label className={styles.filterCheckbox}>
+                          <input
+                            type="checkbox"
+                            checked={activeFilters.hasIssues === false}
+                            onChange={() => setActiveFilters(prev => ({
+                              ...prev,
+                              hasIssues: prev.hasIssues === false ? null : false
+                            }))}
+                          />
+                          <span className={styles.checkmark}></span>
+                          <span className={styles.filterLabelText}>{t("compare.withoutIssues")}</span>
+                        </label>
+                      </div>
+
+                      <div className={styles.filterSection}>
+                        <h4 className={styles.filterSectionTitle}>{t("compare.location")}</h4>
+                        {parentLocations
+                          .filter(location => {
+                            // Only show locations that exist in the current language
+                            const field = i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en';
+                            return devices.some(device => device[field] === location);
+                          })
+                          .map(location => (
+                            <label key={location} className={styles.filterCheckbox}>
+                              <input
+                                type="checkbox"
+                                checked={activeFilters.parentLocations.includes(location)}
+                                onChange={() => {
+                                  setActiveFilters(prev => {
+                                    const newLocations = prev.parentLocations.includes(location)
+                                      ? prev.parentLocations.filter(l => l !== location)
+                                      : [...prev.parentLocations, location];
+                                    return {
+                                      ...prev,
+                                      parentLocations: newLocations
+                                    };
+                                  });
+                                }}
+                              />
+                              <span className={styles.checkmark}></span>
+                              <span className={styles.filterLabelText}>{location}</span>
+                            </label>
+                          ))}
+                      </div>
+
+                      <div className={styles.filterActions}>
+                        <button
+                          className={styles.clearAllButton}
+                          onClick={() => setActiveFilters({
+                            hasIssues: null,
+                            parentLocations: []
+                          })}
+                        >
+                          {t("compare.clearAll")}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <button 
+                    className={styles.locationButton}
+                    onClick={handleGetLocation}
+                    disabled={locationLoading}
+                    title={t("compare.getMyLocation")}
+                  >
+                    {locationLoading ? (
+                      <div className={styles.locationLoader}>
+                        {/* <Loader type="spinner" size={20} color={"#9a9a9a"} /> */}
+                        <div className={styles.customSpinner}></div>
+                      </div>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#9a9a9a"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                      </svg>
+                    )}
+                  </button>
+                </div>
+                {locationError && <p className={styles.locationError}>{locationError}</p>}
               <div className={styles.deviceListContainer}>
               {filteredDevices.length > 0 ? (
-                filteredDevices.map((device) => {
+                filteredDevices.map((device, index) => {
                     const deviceOption = {
                       value: device.generated_id,
                       label:
@@ -550,7 +869,8 @@ const Compare = ({ initialDeviceIds = [] }) => {
                     return (
                       <div
                         key={device.generated_id}
-                        className={styles.deviceListItem}
+                        // className={styles.deviceListItem}
+                        className={`${styles.deviceListItem} ${index <= 2 ? styles.firstItem : ''}`}
                         onClick={() => toggleDeviceSelection(deviceOption)}
                       >
                         <div className={styles.checkboxContainer}>
@@ -568,12 +888,14 @@ const Compare = ({ initialDeviceIds = [] }) => {
                         <div className={styles.deviceLabel}>
                           {deviceOption.label}
                           <div className={styles.parentLocation}>
-                            {deviceOption.parent}
+                            {device[
+                              i18n.language === "hy" ? "parent_name_hy" : "parent_name_en"
+                            ]}
                           </div>
                         </div>
 
                         {hasIssues && (
-                          <div className={styles.warningIcon}>
+                          <div className={`${styles.warningIcon} ${index <= 2 ? styles.firstItemIcon : ''}`}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
@@ -673,7 +995,7 @@ const Compare = ({ initialDeviceIds = [] }) => {
             </div>
           )}
 
-          {weatherDataByDevice && !loading && selectedDevices.length > 0 && (
+          {!allDevicesHaveIssues && weatherDataByDevice && !loading && selectedDevices.length > 0 && (
             <>
               <div className={styles.chartContainer}>
                 <CompareChart
@@ -694,15 +1016,15 @@ const Compare = ({ initialDeviceIds = [] }) => {
                   filterChange={filterStateChange}
                   filterPressed={filterPressed}
                   setFilterPressed={setFilterPressed}
-                  selected_device_id={selectedDevices.map((d) => d.value)}
+                  selected_device_id={selectedDevices
+                    .filter(device => !problemDevices.includes(device.label))
+                    .map(device => device.value)}
                   showWelcomeOverlay={showWelcomeOverlay}
                   setShowWelcomeOverlay={setShowWelcomeOverlay}
                   filterState={filterState}
-                  deviceLabel={selectedDevices.map((d) => d.label)}
+                  deviceLabel={Object.keys(weatherDataByDevice)}
                   rawData={rawData}
                   minDate={getMinCreatedDate(selectedDevices, devices)}
-                  // leftLoad={leftLoad}
-                  // setLeftLoad={setLeftLoad}
                 />
               </div>
               <div className={styles.filterButtons}>
@@ -720,6 +1042,7 @@ const Compare = ({ initialDeviceIds = [] }) => {
                   handleCloseDatePicker={handleCloseDatePicker}
                   leftLoad={leftLoad}
                   setLeftLoad={setLeftLoad}
+                  minDate={getMinCreatedDate(selectedDevices, devices)}
                 />
               </div>
             </>

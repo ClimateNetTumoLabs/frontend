@@ -78,7 +78,7 @@
 
 @media (max-width: 767px) {
     .not_data {
-        font-size: 35px;        
+        font-size: 35px;
     }
     
     .inner_page {
@@ -134,4 +134,74 @@
     font-size: 90px;
     flex-direction: column;
     flex: 1;
+}
+
+@media (max-width: 1024px) {
+    .not_data {
+        font-size: 60px;
+    }
+}
+
+@media (max-width: 767px) {
+    .not_data {
+        font-size: 35px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .not_data {
+        font-size: 28px;
+        padding: 10px;
+    }
+}
+
+.powerInternetIssue{
+    height: 100%;
+    color: #eae6e2;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    font-size: 72px;
+    flex-direction: column;
+    flex: 1;
+}
+
+.powerInternetIssue p {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    font-size: 36px;
+}
+
+@media (max-width: 1024px) {
+    .powerInternetIssue {
+        font-size: 48px;
+    }
+}
+
+@media (max-width: 767px) {
+    .powerInternetIssue {
+        font-size: 24px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .powerInternetIssue {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+    .powerInternetIssue p {
+        padding: 15px;
+        font-size: 16px;
+    }
 }

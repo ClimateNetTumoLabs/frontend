@@ -202,6 +202,7 @@
   }
   
   .chartContainer {
+    touch-action: manipulation;
     margin: 20px 0;
     max-width: 100%;
     overflow-x: auto;
@@ -536,6 +537,25 @@
   border: 1px solid #5a5a5a;
 }
 
+/* .firstItem {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #3a3a3a;
+  color: #eae6e2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  min-width: 200px;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1002;
+  display: none;
+  border: 1px solid #5a5a5a;
+
+} */
+
+
 .warningIcon:hover .tooltip {
   display: block;
 }
@@ -579,6 +599,9 @@
   /* border: 1px solid #ff6b6b; */
   color: #e07789;
   border: 1px solid #d06677;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .removeAllButton:hover:not(:disabled) {
@@ -594,6 +617,7 @@
   background: transparent;
   color: #eae6e2;
   border: 1px solid #5a5a5a;
+  margin-left: 10px;
 }
 
 .cancelButton:hover {
@@ -672,6 +696,29 @@
   to {
     transform: translateX(0);
     opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .notification {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    width: calc(100% - 40px);
+    max-width: 400px;
+    animation: slideUp 0.5s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translate(-50%, 100%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
   }
 }
 
@@ -759,4 +806,283 @@
   position: absolute;
   bottom: 0;
   left: 0;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.locationError {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  margin-left: 4px;
+  margin-bottom: 10px;
+}
+
+.locationButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  width: 32px;
+  height: 32px;
+  max-width: 32px;
+}
+
+.locationButton svg {
+  cursor: pointer;
+}
+
+.locationLoader {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.locationLoader > * {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+.locationButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.locationButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.customSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #9a9a9a;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+/* Default positioning (for non-first items) */
+.warningIcon .tooltip {
+  bottom: 100%;
+  margin-bottom: 8px;
+}
+
+/* Positioning for first item */
+.firstItemIcon .tooltip {
+  top: calc(100% + 8px); /* Position below with more space */
+  margin-top: 0;
+  min-height: fit-content; /* Adjust height to content */
+}
+
+/* Filter dropdown styles */
+.filterDropdownContainer {
+  position: relative;
+  margin-right: 8px;
+}
+
+.filterButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  position: relative;
+  margin-left: 5px;
+}
+
+.filterButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.filterButton.activeFilter {
+  background-color: rgba(224, 119, 137, 0.1);
+}
+
+.filterIndicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  background-color: #e07789;
+  border-radius: 50%;
+}
+
+.filterDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  padding: 12px;
+  min-width: 200px;
+  z-index: 1003;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.filterSection {
+  margin-bottom: 12px;
+}
+
+.filterSectionTitle {
+  color: #e07789;
+  font-size: 0.85rem;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+.filterCheckbox {
+  display: block;
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #eae6e2;
+  user-select: none;
+}
+
+.filterCheckbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #232222;
+  border: 1px solid #5a5a5a;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.filterCheckbox:hover input ~ .checkmark {
+  border-color: #e07789;
+}
+
+.filterCheckbox input:checked ~ .checkmark {
+  background-color: #e07789;
+  border-color: #e07789;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.filterCheckbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.filterCheckbox .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.filterActions {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #3a3a3a;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.clearAllButton {
+  background: none;
+  border: none;
+  color: #e07789;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.clearAllButton:hover {
+  background-color: rgba(224, 119, 137, 0.1);
+}
+
+.filterLabelText {
+  color: #eae6e2;
+  font-size: 14px;
+}
+
+.filterSectionTitle {
+  color: #e07789; /* Pink color for section titles */
+  font-size: 0.85rem;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Make dropdown wider to accommodate longer location names */
+.filterDropdown {
+  min-width: 220px;
+  max-width: 300px;
+}
+
+/* Add active filter count indicator */
+.filterIndicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  background-color: #e07789;
+  border-radius: 50%;
+}
+
+.filterDropdownContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.filterDropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 5px;
+  z-index: 1000;
 }

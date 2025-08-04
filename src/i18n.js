@@ -152,10 +152,17 @@ const resources = {
                     cancel: "Cancel",
                     apply: "Apply",
                     deviceIssues: "Device Issues",
-                    devicesWithIssues: "These devices have issues:",
+                    devicesWithIssues: "These measurements are unavailable for these devices:",
                     selectDevices: "Select Devices to Compare",
                     searchPlaceholder: "Search by ID, name or region...",
                     noResultsFound: "No devices found",
+                    getMyLocation: "Get my location",
+                    filterDevices: "Filter devices",
+                    issueStatus: "Issue Status",
+                    withIssues: "With issues",
+                    withoutIssues: "Without issues",
+                    location: "Location",
+                    clearAll: "Clear all",
                     chart: {
                         title: "Climate Data Comparison",
                         device1: "Device 1",
@@ -556,6 +563,10 @@ const resources = {
                 innerPageStaticContent: {
                     issue: "⚠️ These measurements currently have technical issues: ",
                     issueMobile: "⚠️ Issues detected: ",
+                    noRecentData: {
+                        title: "No Recent Data Found",
+                        message: "This device hasn't reported any measurements recently. Please check back later."
+                    }
                 },
                 innerPageFilter: {
                     options: {
@@ -574,7 +585,9 @@ const resources = {
                     },
                 },
                 innerPage: {
-                    data: "Data Not Found"
+                    data: "Data Not Found",
+                    title: "No Recent Data",
+                    powerInternetIssue: "This device hasn’t sent any data recently. It may be offline or experiencing connectivity issues.",
                 },
                 downloadButton: {
                     download: "Download Full Data"
@@ -771,17 +784,24 @@ const resources = {
                 compare: {
                     title: "Համեմատել տեղանքները",
                     info: "Համեմատել տարբեր վայրերի կլիմայի տվյալները՝ օգտագործելով մեր Կլիմայի տվյալների API-ն:",
-                    checkboxButton: "Ընտրեք սարքեր համեմատության համար",
-                    conditionalCheckboxButton1: "Դիտվում է",
+                    checkboxButton: "Ընտրեք սարքեր համեմատելու համար",
+                    conditionalCheckboxButton1: "",
                     conditionalCheckboxButton2: "սարք (սեղմեք փոփոխելու համար)",
                     noDevicesMessage: "Խնդրում ենք ընտրել առնվազն մեկ սարք՝ գրաֆիկը ցուցադրելու համար:",
                     removeAll: "Հեռացնել բոլորը",
                     cancel: "Չեղարկել",
                     apply: "Կիրառել",
                     deviceIssues: "Սարքի խնդիրներ",
-                    devicesWithIssues: "Այս սարքերն ունեն խնդիրներ`",
+                    devicesWithIssues: "Ընթացիկ չափումները հասանելի չեն այս սարքերի համար`",
                     selectDevices: "Ընտրեք սարքեր համեմատության համար",
                     searchPlaceholder: "Փնտրեք ID-ով, անունով կամ տեղանքով...",
+                    getMyLocation: "Ստանալ իմ գտնվելու վայրը",
+                    filterDevices: "Ֆիլտրել սարքերը",
+                    issueStatus: "Խնդրի կարգավիճակ",
+                    withIssues: "Խնդիրներով",
+                    withoutIssues: "Առանց խնդիրների",
+                    location: "Տեղանք",
+                    clearAll: "Մաքրել բոլորը",
                     chart: {
                         title: "Կլիմայի տվյալների համեմատություն",
                         device1: "Սարք 1",
@@ -797,14 +817,14 @@ const resources = {
                         dataKeys: "Չափումներ",
                         xAxis: "Ժամանակ",
                         temperature: "Ջերմաստիճան",
-                        uv: "Ուլտրամանուշակագույն ինդեքս",
-                        lux: "Լույսի ինտենսիվություն",
+                        uv: "UV ինդեքս",
+                        lux: "Լույս",
                         pressure: "Ճնշում",
                         humidity: "Խոնավություն",
                         pm1: "PM1",
                         pm2_5: "PM2.5",
                         pm10: "PM10",
-                        speed: "Քամու արագություն",
+                        speed: "Քամի",
                         rain: "Անձրև"
                     },
                     select_devices: "Ընտրեք սարքեր համեմատության համար",
@@ -1172,7 +1192,11 @@ const resources = {
                 },
                 innerPageStaticContent: {
                     issue: "⚠️ Տվյալ չափումները այս պահին ունեն տեխնիկական խնդիրներ - ",
-                    issueMobile: "⚠️ Տեխնիկական խնդիրներ՝ "
+                    issueMobile: "⚠️ Տեխնիկական խնդիրներ՝ ",
+                    noRecentData: {
+                        title: "Վերջին տվյալներ չեն գտնվել",
+                        message: "Այս սարքը վերջերս չի հայտնել որևէ չափումների մասին: Խնդրում ենք ստուգել ավելի ուշ:"
+                    }
                 },
                 innerPageFilter: {
                     options: {
@@ -1191,7 +1215,9 @@ const resources = {
                     },
                 },
                 innerPage: {
-                    data: "Տվյալներ չեն գտնվել"
+                    data: "Տվյալներ չեն գտնվել",
+                    title: "Վերջին տվյալներ չկան",
+                    powerInternetIssue: "Սարքն այս ընթացքում տվյալներ չի ուղարկել։ Հնարավոր է՝ այն անջատված է կամ առկա է միացման խնդիր։",
                 },
                 downloadButton: {
                     download: "Ներբեռնել ամբողջական տվյալները"

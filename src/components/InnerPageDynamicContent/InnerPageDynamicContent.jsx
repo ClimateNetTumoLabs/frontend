@@ -23,6 +23,83 @@ function InnerPageDynamicContent(props) {
     const [WindSpeed, setWindSpeed] = useState([])
     const ChartsRef = useRef(null)
     const [showWelcomeOverlay, setShowWelcomeOverlay] = useState(true);
+    const [filteredWeatherData, setFilteredWeatherData] = useState([]);
+
+    // Function to generate complete weather data with 15-minute intervals and null values
+    const generateCompleteWeatherData = (data) => {
+      if (!data || data.length === 0) return [];
+
+      // Extract all valid timestamps from the data
+      const timestamps = data
+          .map(item => {
+              const dateStr = item["hour"] || item["date"] || item["time_interval"];
+              const date = new Date(dateStr);
+              return isNaN(date.getTime()) ? null : date;
+          })
+          .filter(date => date !== null);
+
+      if (timestamps.length === 0) return [];
+
+      // Find min and max timestamps
+      const minTime = new Date(Math.min(...timestamps.map(d => d.getTime())));
+      const maxTime = new Date(Math.max(...timestamps.map(d => d.getTime())));
+
+      // Round minTime down to the nearest 15-minute interval
+      minTime.setMinutes(Math.floor(minTime.getMinutes() / 15) * 15);
+      minTime.setSeconds(0);
+      minTime.setMilliseconds(0);
+
+      // Generate complete 15-minute intervals between min and max
+      const completeTime = [];
+      let currentTime = new Date(minTime);
+
+      while (currentTime <= maxTime) {
+          completeTime.push(new Date(currentTime));
+          currentTime = new Date(currentTime.getTime() + 15 * 60 * 1000); // Add 15 minutes
+      }
+
+      // Create a map of existing data points for quick lookup
+      const dataMap = {};
+      data.forEach(item => {
+          const dateStr = item["hour"] || item["date"] || item["time_interval"];
+          const date = new Date(dateStr);
+          if (!isNaN(date.getTime())) {
+              // Round to nearest 15 minutes to match our complete timeline
+              const roundedDate = new Date(date);
+              roundedDate.setMinutes(Math.floor(roundedDate.getMinutes() / 15) * 15);
+              roundedDate.setSeconds(0);
+              roundedDate.setMilliseconds(0);
+              dataMap[roundedDate.getTime()] = item;
+          }
+      });
+
+      // Generate the complete weather data array with null values for missing intervals
+      const completeWeatherData = completeTime.map(timestamp => {
+          const existingData = dataMap[timestamp.getTime()];
+          if (existingData) {
+              return existingData;
+          } else {
+              // Create a new entry with null values for all metrics
+              return {
+                  time_interval: timestamp.toISOString(),
+                  temperature: null,
+                  humidity: null,
+                  pressure: null,
+                  pm1: null,
+                  pm2_5: null,
+                  pm10: null,
+                  uv: null,
+                  lux: null,
+                  rain: null,
+                  speed: null,
+                  direction: null
+              };
+          }
+      });
+
+      return completeWeatherData;
+  };
+
     const toggleFullScreen = () => {
         const chartElement = ChartsRef.current;
       
@@ -37,9 +114,9 @@ function InnerPageDynamicContent(props) {
             document.exitFullscreen();
           }
         }
-      };
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         const handleFullscreenChange = () => {
           if (document.fullscreenElement) {
             // In fullscreen mode
@@ -54,9 +131,9 @@ function InnerPageDynamicContent(props) {
         return () => {
           document.removeEventListener('fullscreenchange', handleFullscreenChange);
         };
-      }, []);
+    }, []);
 
-      useEffect(() => {
+    useEffect(() => {
         const handleFullscreenChange = () => {
           const chartElement = ChartsRef.current;
           if (document.fullscreenElement) {
@@ -66,59 +143,63 @@ function InnerPageDynamicContent(props) {
       
         document.addEventListener('fullscreenchange', handleFullscreenChange);
         return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      }, []);
+    }, []);
 
-      const scrollToChart = () => {
+    const scrollToChart = () => {
         setTimeout(() => {
           const chartElement = document.getElementById("chart");
           if (chartElement) {
             chartElement.scrollIntoView({ behavior: "smooth", block: "start" });
-          } else {
           }
         }, 100);
-      };
+    };
 
     useEffect(() => {
-        let temperatureArray = [];
-        let humidityArray = [];
-        let pressureArray = [];
-        let timeArray = [];
-        let pm1Array = []
-        let pm2_5Array = []
-        let pm10Array = []
-        let UVIndexArray = []
-        let VisibleLightArray = []
-        let RainCountArray = []
-        let WindSpeedArray = []
-        let WindDirectionArray = []
-        props.weather_data.forEach((element) => {
-            temperatureArray.push(element["temperature"] || 0);
-            humidityArray.push(element["humidity"] || 0);
-            pressureArray.push(element["pressure"] || 0);
-            pm1Array.push(element['pm1'] || 0)
-            pm2_5Array.push(element['pm2_5'] || 0)
-            pm10Array.push(element['pm10'] || 0)
-            timeArray.push(element["hour"] || element["date"] || element["time_interval"] || 0);
-            UVIndexArray.push(element["uv"] || 0)
-            VisibleLightArray.push(element["lux"] || 0)
-            RainCountArray.push(element["rain"] || 0)
-            WindSpeedArray.push(element["speed"] || 0)
-            WindDirectionArray.push(element["direction"] || 0)
-        });
+      if (!props.weather_data) return;
+      
+      // Generate the complete weather data with filled intervals
+      const completeWeatherData = generateCompleteWeatherData(props.weather_data);
+      setFilteredWeatherData(completeWeatherData);
+      
+      // Process the data for the charts
+      const temperatureArray = [];
+      const humidityArray = [];
+      const pressureArray = [];
+      const timeArray = [];
+      const pm1Array = [];
+      const pm2_5Array = [];
+      const pm10Array = [];
+      const UVIndexArray = [];
+      const VisibleLightArray = [];
+      const RainCountArray = [];
+      const WindSpeedArray = [];
 
-        setTemperature(temperatureArray);
-        setHumidity(humidityArray);
-        setPressure(pressureArray);
-        setTime(timeArray);
-        setPm1(pm1Array)
-        setPm2_5(pm2_5Array)
-        setPm10(pm10Array)
-        setUV(UVIndexArray)
-        setVisibleLight(VisibleLightArray)
-        setRainCount(RainCountArray)
-        setWindSpeed(WindSpeedArray)
+      completeWeatherData.forEach((element) => {
+          temperatureArray.push(element.temperature);
+          humidityArray.push(element.humidity);
+          pressureArray.push(element.pressure);
+          pm1Array.push(element.pm1);
+          pm2_5Array.push(element.pm2_5);
+          pm10Array.push(element.pm10);
+          timeArray.push(element.time_interval);
+          UVIndexArray.push(element.uv);
+          VisibleLightArray.push(element.lux);
+          RainCountArray.push(element.rain);
+          WindSpeedArray.push(element.speed);
+      });
 
-    }, [props.weather_data]);
+      setTemperature(temperatureArray);
+      setHumidity(humidityArray);
+      setPressure(pressureArray);
+      setTime(timeArray);
+      setPm1(pm1Array);
+      setPm2_5(pm2_5Array);
+      setPm10(pm10Array);
+      setUV(UVIndexArray);
+      setVisibleLight(VisibleLightArray);
+      setRainCount(RainCountArray);
+      setWindSpeed(WindSpeedArray);
+  }, [props.weather_data]);
 
     return (
         <div ref={ChartsRef} className={`${styles.InnerPageDynamicContent}`}>
@@ -136,7 +217,7 @@ function InnerPageDynamicContent(props) {
                              title={t('innerPageDynamicContent.tabTitles.temperatureAndHumidity')}>
                             {selectedTab === "tem_and_hum" &&
                                 <WeatherDataGraphs
-                                    weather_data={props.weather_data}
+                                    weather_data={filteredWeatherData}
                                     startDate={props.startDate}
                                     endDate={props.endDate}
                                     setStartDate={props.setStartDate}
@@ -167,7 +248,7 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="pm" title={t('innerPageDynamicContent.tabTitles.airQuality')}>
                             {selectedTab === "pm" &&
                                 <WeatherDataGraphs
-                                    weather_data={props.weather_data}
+                                    weather_data={filteredWeatherData}
                                     startDate={props.startDate}
                                     endDate={props.endDate}
                                     setStartDate={props.setStartDate}
@@ -198,7 +279,7 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="pressure" title={t('innerPageDynamicContent.tabTitles.pressure')}>
                             {selectedTab === "pressure" &&
                                 <WeatherDataGraphs
-                                    weather_data={props.weather_data}
+                                    weather_data={filteredWeatherData}
                                     startDate={props.startDate}
                                     endDate={props.endDate}
                                     setStartDate={props.setStartDate}
@@ -229,7 +310,7 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="light" title={t('innerPageDynamicContent.tabTitles.light')}>
                             {selectedTab === "light" &&
                                 <WeatherDataGraphs
-                                    weather_data={props.weather_data}
+                                    weather_data={filteredWeatherData}
                                     startDate={props.startDate}
                                     endDate={props.endDate}
                                     setStartDate={props.setStartDate}
@@ -260,7 +341,7 @@ function InnerPageDynamicContent(props) {
                         <Tab eventKey="rain_wind" title={t('innerPageDynamicContent.tabTitles.rainAndWind')}>
                             {selectedTab === "rain_wind" &&
                                 <WeatherDataGraphs
-                                    weather_data={props.weather_data}
+                                    weather_data={filteredWeatherData}
                                     className={styles.graph}
                                     leftLoad={props.leftLoad}
                                     setLeftLoad={props.setLeftLoad}

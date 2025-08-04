@@ -37,12 +37,23 @@ function InnerPage({  deviceId  }) {
   };
   const [minDate, setMinDate] = useState(new Date());
   const [isNavOpen, setIsNavOpen] = useState(true);
+  const [hasPowerInternetIssue, setHasPowerInternetIssue] = useState(false);
 
   const saveCookies = (longitude, latitude) => {
     if (preferences?.location) {
       document.cookie = `location=${longitude} ${latitude} ; path=/;`;
     }
   };
+
+  const scrollToTop = () => {
+    setTimeout(() => {
+      const chartElement = document.getElementById("innerPageStaticContent");
+      if (chartElement) {
+        chartElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+      }
+    }, 100);
+  };    
 
   useEffect(() => {
       
@@ -57,7 +68,8 @@ function InnerPage({  deviceId  }) {
         };
         
         fetchData();
-        filterStateChange("Hourly");
+        scrollToTop();
+        // filterStateChange("Hourly");
   }, [params.id]);
 
   const [device, setDevice] = useState({});
@@ -68,6 +80,19 @@ function InnerPage({  deviceId  }) {
       .then((response) => {
         setDevice(response.data);
         setMinDate(new Date(response.data.created_at));
+        
+        // Check if device has power/internet issues
+        const hasIssue = response.data.issues?.some(
+          issue => issue.name === "Power/Internet" || 
+                  issue.name_en === "Power/Internet" || 
+                  issue.name_hy === "Հոսանք/Համացանց"
+        );
+        setHasPowerInternetIssue(hasIssue);
+        
+        if (hasIssue) {
+          // setLeftLoad(false);
+          setError("Power/Internet issue detected");
+        }
       })
       .catch((error) => console.error("Error fetching device details:", error));
   }, [params.id]);
@@ -177,7 +202,7 @@ function InnerPage({  deviceId  }) {
       <div className={styles.inner_page}>
         <Helmet>
           <title>
-            {device[i18n.language === "hy" ? "name_hy" : "name_en"]}
+            {device ? device[i18n.language === "hy" ? "name_hy" : "name_en"] : ''}
           </title>
         </Helmet>
         <button
@@ -235,6 +260,7 @@ function InnerPage({  deviceId  }) {
             device={device}
             minDate={minDate}
             stats={statsData}
+            hasPowerInternetIssue={hasPowerInternetIssue}
           />
         </div>
         <InnerPageFilter
@@ -252,6 +278,7 @@ function InnerPage({  deviceId  }) {
           leftLoad={leftLoad}
           setLeftLoad={setLeftLoad}
           stats={statsData}
+          minDate={minDate}
         />
       </div>
     </>

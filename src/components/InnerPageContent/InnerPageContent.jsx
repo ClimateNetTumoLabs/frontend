@@ -13,6 +13,8 @@ function InnerPageContent(props) {
                 leftLoad={props.leftLoad}
                 data={props.data}
                 device_id = {props.selected_device_id}
+                hasPowerInternetIssue={props.hasPowerInternetIssue}
+                device={props.device}
             />
             <InnerPageDynamicContent
                 period={props.content}
@@ -31,6 +33,7 @@ function InnerPageContent(props) {
                 filterState={props.filterState}
                 selected_device_id={props.selected_device_id}
                 minDate={props.minDate}
+                device={props.device}
                 stats={props.stats}
             />
         </div>
