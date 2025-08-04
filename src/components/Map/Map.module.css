@@ -95,12 +95,58 @@ a>span {
         padding: 0;
         margin-bottom: 50px;
     }
-    .popupContent{
+
+    .popupContent {
         max-width: 360px !important;
     }
 
     .mapContainer {
         padding: 0;
+    }
+}
+
+/* Adjust CompareBar sizing for mobile */
+@media (max-width: 768px) {
+    .compareBar {
+        bottom: 10px;
+        left: 10px;
+        padding: 8px;
+        max-height: 40px;
+        border-radius: 6px;
+    }
+
+    .compareBar.collapsed {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        padding: 0;
+    }
+
+    .compareButton {
+        padding: 6px 12px;
+        font-size: 13px;
+        min-width: 120px;
+    }
+
+    .deviceCountBadge {
+        width: 24px;
+        height: 24px;
+        font-size: 13px;
+        margin-right: 8px;
+    }
+
+    .compareBar.collapsed .deviceCountBadge {
+        top: -8px;
+        right: -12px;
+    }
+
+    .deviceList {
+        bottom: 50px;
+        min-width: 150px;
+    }
+
+    .deviceListItem {
+        font-size: 13px;
     }
 }
 
@@ -182,38 +228,82 @@ a>span {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
+    background-color: white;
     box-sizing: border-box;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.zoomResult.show {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+}
+
+:global(.leaflet-fullscreen) .zoomResult,
+:global(.leaflet-fullscreen) .zoomLens {
+    z-index: 10001 !important;
+}
+
+@media (min-width: 769px) {
+    .zoomResult {
+        transition:
+            opacity 0.2s ease-out,
+            transform 0.2s ease-out,
+            visibility 0s linear 0.2s;
+    }
+
+    .zoomResult.show {
+        transition:
+            opacity 0.2s ease-out,
+            transform 0.2s ease-out,
+            visibility 0s linear 0s;
+    }
 }
 
 .compareIconContainer {
     position: absolute;
-    top: 7%;
-    right: 12%;
-    transform: translateY(-50%);
+    top: 10px;
+    right: 25px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-
+    z-index: 1002;
 }
 
 .compareIconVS {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 25px;
+    height: 25px;
     background-color: #333;
     color: #fff;
     border-radius: 50%;
     font-size: 10px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .compareIconVS:hover {
     background-color: #e07789;
+}
+
+@media (max-width: 768px) {
+    .compareIconContainer {
+        top: 10px;
+        right: 30px;
+    }
+
+    .compareIconVS {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
 }
 
 .compareTooltip {
@@ -415,9 +505,16 @@ a>span {
     display: flex;
     align-items: center;
     padding: 10px;
-    z-index: 1000;
+    z-index: 10000;
     transition: width 0.3s ease, transform 0.3s ease;
     max-height: 50px;
+}
+
+:global(.leaflet-fullscreen) .compareBar {
+    z-index: 10000 !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 20px !important;
 }
 
 .compareBar.collapsed {
@@ -576,16 +673,16 @@ a>span {
 }
 
 
-.leaflet-control-custom {
-    border: 2px solid rgba(0,0,0,0.2) !important;
-    border-radius: 2px !important;
+:global(.leaflet-control-custom) {
+    border: 2px solid rgba(0, 0, 0, 0.2) !important;
+    border-radius: 4px !important;
     box-shadow: none !important;
+    overflow: hidden;
 }
 
 .leaflet-control-custom:hover {
     background-color: #f4f4f4 !important;
 }
-
 
 .infoButtonContainer {
     display: none !important;
@@ -593,4 +690,132 @@ a>span {
 
 .leaflet-control-custom.hidden {
     display: none !important;
+}
+
+.mobileImageModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.mobileImageContainer {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    transform: scale(0.8);
+    animation: zoomIn 0.3s ease forwards;
+}
+
+.mobileZoomedImage {
+    width: 100%;
+    height: auto;
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.mobileCloseButton {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 10001;
+    color: #333;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .deviceImage {
+        touch-action: none;
+        user-select: none;
+    }
+}
+
+@media (max-width: 768px) {
+    :global(.leaflet-popup-content-wrapper) {
+        max-width: 280px !important;
+        padding: 0;
+    }
+
+    .hoverCard {
+        padding: 15px !important;
+        max-width: 260px !important;
+    }
+
+    .imageZoomContainer {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 12px;
+        overflow: visible;
+    }
+
+    .deviceImage {
+        width: 100px !important;
+        height: 100px !important;
+    }
+
+    .hoverCard h3 {
+        font-size: 16px !important;
+        margin: 8px 0 !important;
+    }
+
+    .hoverCard p {
+        font-size: 13px !important;
+        margin: 6px 0 !important;
+    }
+
+    .hoverCard a {
+        padding: 8px 16px !important;
+        font-size: 13px !important;
+    }
+
+    .cardData {
+        font-size: 13px !important;
+    }
+
+    .cardTime i {
+        font-size: 11px !important;
+    }
 }

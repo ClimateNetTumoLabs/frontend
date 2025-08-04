@@ -1,13 +1,14 @@
-import React, {useState, useEffect, useRef} from "react";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Header.module.css";
 import logo from "../../assets/Logo/logo.svg";
 import axios from "axios";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
+import { faTransgender } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
-    const {t, i18n} = useTranslation();
+    const { t, i18n } = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
     const [isNavExpanded, setIsNavExpanded] = useState(false);
@@ -44,7 +45,7 @@ const Header = () => {
         }
     };
 
-    const NavItem = ({to, label}) => (
+    const NavItem = ({ to, label }) => (
         <li className="nav-item">
             <Link
                 to={to}
@@ -60,56 +61,32 @@ const Header = () => {
         const performScroll = () => {
             const targetElement = document.getElementById("Map");
             if (targetElement) {
-                void targetElement.offsetHeight;
-                
-                const rect = targetElement.getBoundingClientRect();
-                const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
-                
-                if (!isVisible) {
-                    targetElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
+                requestAnimationFrame(() => {
+                    const elementRect = targetElement.getBoundingClientRect();
+                    const absoluteElementTop = elementRect.top + window.pageYOffset;
+                    const middlePosition = absoluteElementTop - (window.innerHeight / 2) + (elementRect.height / 2);
+
+                    window.scrollTo({
+                        top: middlePosition,
+                        behavior: "smooth"
                     });
-                }
+                });
                 return true;
             }
             return false;
         };
 
-        if (performScroll()) {
-            return;
-        }
+        if (performScroll()) return;
 
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'childList' || mutation.type === 'attributes') {
-                    if (performScroll()) {
-                        observer.disconnect();
-                    }
-                }
-            });
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ['style', 'class']
-        });
-
-        let attempts = 0;
-        const interval = setInterval(() => {
-            attempts++;
-            if (performScroll() || attempts > 30) {
-                clearInterval(interval);
-                observer.disconnect();
+        const checkInterval = setInterval(() => {
+            if (performScroll()) {
+                clearInterval(checkInterval);
             }
         }, 100);
 
         setTimeout(() => {
-            observer.disconnect();
-            clearInterval(interval);
-        }, 5000);
+            clearInterval(checkInterval);
+        }, 3000);
     };
 
     useEffect(() => {
@@ -131,7 +108,7 @@ const Header = () => {
         i18n.changeLanguage(lng).then(() => {
             navigate(newPathname);
             setLanguageButtonText(lng === 'en' ? 'Հայ' : 'Eng');
-            handleNavItemClick(); 
+            handleNavItemClick();
         });
     };
 
@@ -139,7 +116,6 @@ const Header = () => {
         const deviceUrl = `/${i18n.language}/device/${encodeURIComponent(device_id)}/?${decodeURIComponent(name)}`;
         navigate(deviceUrl);
         handleNavItemClick(); // Close the navbar
-        // Close all dropdown menus
         const dropdowns = document.querySelectorAll('.dropdown-menu.show');
         dropdowns.forEach(dropdown => {
             dropdown.classList.remove('show');
@@ -154,12 +130,12 @@ const Header = () => {
         const parentTitle = data[i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name_en'];
         let menu = acc.find((menu) => menu.title === parentTitle);
         if (!menu) {
-            menu = {title: parentTitle, submenus: []};
+            menu = { title: parentTitle, submenus: [] };
             acc.push(menu);
         }
         const submenuTitle = data[i18n.language === 'hy' ? 'name_hy' : 'name_en'];
         if (!menu.submenus.some((submenu) => submenu.title === submenuTitle)) {
-            menu.submenus.push({title: submenuTitle, device_id: data.generated_id});
+            menu.submenus.push({ title: submenuTitle, device_id: data.generated_id });
         }
         return acc;
     }, []);
@@ -176,14 +152,14 @@ const Header = () => {
 
     return (
         <nav
-        className={`navbar navbar-expand-lg navbar-light ${styles.navigation} ${i18n.language === 'hy' ? 'armenianFont' : (i18n.language === 'en' ? 'englishFont' : '')}`}>
+            className={`navbar navbar-expand-lg navbar-light ${styles.navigation} ${i18n.language === 'hy' ? 'armenianFont' : (i18n.language === 'en' ? 'englishFont' : '')}`}>
             <div className="container-fluid">
                 <Link className="navbar-brand" to={`/${i18n.language}/`} onClick={handleNavItemClick}>
-                    <img loading="lazy" src={logo} alt="Logo" className={styles.page_logo}/>
+                    <img loading="lazy" src={logo} alt="Logo" className={styles.page_logo} />
                 </Link>
                 <div className={`d-lg-none ${styles.burgermenu}`} ref={buttonRef}>
                     <input type="checkbox" className={styles.check} id="check" checked={isNavExpanded}
-                           onChange={handleNavToggle}/>
+                        onChange={handleNavToggle} />
                     <label htmlFor="check" className={styles.label}>
                         <span className={styles.line_item}></span>
                         <span className={styles.line_item}></span>
@@ -191,14 +167,14 @@ const Header = () => {
                     </label>
                 </div>
                 <div className={`collapse navbar-collapse ${styles.navigation_bar_for_mobile}`} id="navbarNav"
-                     ref={navRef}>
+                    ref={navRef}>
                     <ul className="navbar-nav ms-auto">
-                        <NavItem to={`/${i18n.language}/about/`} label={t("header.navItems.about")}/>
-                        <NavItem to={`/${i18n.language}/diy/`} label={t("header.navItems.diy")}/>
-                        <NavItem to={`/${i18n.language}/api/`} label="API"/>
+                        <NavItem to={`/${i18n.language}/about/`} label={t("header.navItems.about")} />
+                        <NavItem to={`/${i18n.language}/diy/`} label={t("header.navItems.diy")} />
+                        <NavItem to={`/${i18n.language}/api/`} label="API" />
                         <li>
                             <Link className={`nav-link ${styles.nav_link} nav-item`} to={`/${i18n.language}/#Map`}
-                                  onClick={GoToSection}>
+                                onClick={GoToSection}>
                                 {t("header.navItems.map")}
                             </Link>
                         </li>
@@ -218,7 +194,7 @@ const Header = () => {
                                 {menuData.map((menu, menuIndex) => (
                                     <li className="dropstart" key={menuIndex}>
                                         <div className={`dropdown-item dropdown-toggle ${styles.dropdown__item}`}
-                                             data-bs-toggle="dropdown">
+                                            data-bs-toggle="dropdown">
                                             {menu.title}
                                             <ul className="dropdown-menu">
                                                 {menu.submenus.map((submenu, submenuIndex) => (
@@ -239,7 +215,7 @@ const Header = () => {
                         </li>
                         <li className="nav-item">
                             <span className={`nav-link ${styles.languageBtn}`}
-                                    onClick={() => changeLanguage(i18n.language === 'en' ? 'hy' : 'en')}>
+                                onClick={() => changeLanguage(i18n.language === 'en' ? 'hy' : 'en')}>
                                 {languageButtonText}
                             </span>
                         </li>

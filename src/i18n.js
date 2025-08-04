@@ -294,6 +294,7 @@ const resources = {
                     clickDetails: "Click for Details",
                     compareButton: "Start Comparing",
                     compareTooltip: "Click to add this device to the comparison list.",
+                    compareButtonMobile: "Compare"
                 },
                 contact: {
                     title1: "Contact Us",
@@ -933,6 +934,7 @@ const resources = {
                     clickDetails: "Ավելին",
                     compareButton: "Համեմատել",
                     compareTooltip: "Սեղմեք՝ այս սարքը համեմատության ցանկին ավելացնելու համար:",
+                    compareButtonMobile: "Համեմատել"
                 },
                 contact: {
                     title1: "Կապ մեզ հետ",

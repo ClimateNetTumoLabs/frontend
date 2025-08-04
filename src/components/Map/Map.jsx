@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, GeoJSON, useMapEvents, useMap, Marker } from "
 import axios from "axios";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import iconUrl from "../../assets/Icons/map-marker.svg";
+import { icon } from "leaflet";
 import location from "../../assets/Icons/circle.jpeg";
 import armeniaGeoJSON from "../../armenia.json";
 import { Route, Routes } from "react-router-dom";
@@ -21,6 +21,12 @@ import 'leaflet-easybutton';
 import 'leaflet-easybutton/src/easy-button.css';
 import 'leaflet-easybutton/src/easy-button.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { createPortal } from 'react-dom';
+
+const iconUrl = "https://images-in-website.s3.us-east-1.amazonaws.com/Icons/map-marker.svg";
+const preloadedIcon = new Image();
+preloadedIcon.src = iconUrl;
+
 
 function circleWithText2(latLng, txt, radius, borderWidth) {
     var size = radius;
@@ -84,6 +90,7 @@ const PolygonWithText = ({ coords, text, region, zoomLevel }) => {
         />
     ) : null;
 }
+
 
 const usePopupManager = () => {
     const activePopupsRef = useRef(new Map());
@@ -198,14 +205,15 @@ const MapArmenia = () => {
     const intervalRef = useRef(null);
     const [selectedDevices, setSelectedDevices] = useState([]);
     const [isMapVisible, setIsMapVisible] = useState(true);
+    const [mobileImageZoom, setMobileImageZoom] = useState(null);
     const lastFetchTime = useRef(null);
-    const deviceMap = useMemo(() => 
+    const deviceMap = useMemo(() =>
         devices.reduce((acc, d) => ({ ...acc, [d.generated_id]: d }), {}),
-    [devices]);
+        [devices]);
 
-    const selectedIds = useMemo(() => 
+    const selectedIds = useMemo(() =>
         new Set(selectedDevices.map(d => d.generated_id)),
-    [selectedDevices]);
+        [selectedDevices]);
 
     const regionCoordinatesMap = {
         "Aragatsotn": [40.5233, 44.4784],
@@ -314,12 +322,9 @@ const MapArmenia = () => {
         const controlRef = useRef(null);
 
         useEffect(() => {
-            if (hidden || !map) return;
+            if (!map) return;
 
-            // Wait for map to be fully ready
-            const timeout = setTimeout(() => {
-                if (!map || controlRef.current) return;
-
+            if (!controlRef.current) {
                 const infoControl = new InfoControl({
                     position: 'topright',
                     onClick: onClick
@@ -327,20 +332,37 @@ const MapArmenia = () => {
 
                 controlRef.current = infoControl;
                 map.addControl(infoControl);
-                
-                // Add safety check before invalidating size
-                if (map._size && map._panes) {
-                    map.invalidateSize();
+
+                const controlElement = infoControl.getContainer();
+                if (controlElement) {
+                    controlElement.style.display = hidden ? 'none' : 'flex';
                 }
-            }, 100);
+            } else {
+                const controlElement = controlRef.current.getContainer();
+                if (controlElement) {
+                    controlElement.style.display = hidden ? 'none' : 'flex';
+                }
+            }
 
             return () => {
-                clearTimeout(timeout);
-                if (controlRef.current && map) {
-                    map.removeControl(controlRef.current);
+                if (controlRef.current && map && map._container) {
+                    try {
+                        map.removeControl(controlRef.current);
+                        controlRef.current = null;
+                    } catch (e) {
+                    }
                 }
             };
-        }, [map, onClick, hidden]);
+        }, [map, onClick]);
+
+        useEffect(() => {
+            if (controlRef.current) {
+                const controlElement = controlRef.current.getContainer();
+                if (controlElement) {
+                    controlElement.style.display = hidden ? 'none' : 'flex';
+                }
+            }
+        }, [hidden]);
 
         return null;
     };
@@ -409,6 +431,17 @@ const MapArmenia = () => {
         });
 
         const image = popupElement.querySelector(`.${styles.deviceImage}`);
+        if (image) {
+            image.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (e.touches.length === 1) {
+                    setMobileImageZoom({
+                        src: image.src,
+                        alt: image.alt
+                    });
+                }
+            }, { passive: false });
+        }
         const lens = popupElement.querySelector(`.${styles.zoomLens}`);
         const result = popupElement.querySelector(`.${styles.zoomResult}`);
 
@@ -455,26 +488,28 @@ const MapArmenia = () => {
                     };
                 };
 
-                image.addEventListener('mousemove', moveLens);
                 image.addEventListener('mouseenter', () => {
                     lens.style.display = 'block';
                     result.style.display = 'block';
+                    setTimeout(() => result.classList.add('show'), 10);
                 });
+
                 image.addEventListener('mouseleave', () => {
-                    lens.style.display = 'none';
-                    result.style.display = 'none';
+                    result.classList.remove('show');
+                    setTimeout(() => {
+                        lens.style.display = 'none';
+                        result.style.display = 'none';
+                    }, 300);
                 });
-                image.addEventListener('touchstart', (e) => {
+
+                image.addEventListener('mousemove', moveLens);
+                image.addEventListener('touchmove', (e) => {
                     e.preventDefault();
-                    lens.style.display = 'block';
-                    result.style.display = 'block';
-                    moveLens(e);
-                });
-                image.addEventListener('touchmove', moveLens);
-                image.addEventListener('touchend', () => {
-                    lens.style.display = 'none';
-                    result.style.display = 'none';
-                });
+                }, { passive: false });
+
+                image.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                }, { passive: false });
 
                 popup.on('remove', () => {
                     image.removeEventListener('mousemove', moveLens);
@@ -628,7 +663,7 @@ const MapArmenia = () => {
                 fetchDeviceList();
             }
         }
-    }, [isMapVisible]); 
+    }, [isMapVisible]);
 
     useEffect(() => {
         const handleWheel = (e) => {
@@ -670,7 +705,7 @@ const MapArmenia = () => {
         const handleCompareDevice = (event) => {
             const id = Number(event?.detail?.id);
             if (!id || !deviceMap[id] || selectedIds.has(id)) return;
-            
+
             setSelectedDevices(prev => [...prev, deviceMap[id]]);
             popupManager.cleanup();
         };
@@ -741,7 +776,7 @@ const MapArmenia = () => {
         weight: 3,
     };
 
-    const customIcon = new L.Icon({
+    const customIcon = new icon({
         iconUrl,
         iconSize: [25, 25],
         iconAnchor: [15, 15],
@@ -771,6 +806,10 @@ const MapArmenia = () => {
             const ids = selectedDevices.map(d => d.generated_id).join(',');
             navigate(`/${i18n.language}/api?tab=compare&devices=${ids}`);
         }
+    };
+
+    const closeMobileZoom = () => {
+        setMobileImageZoom(null);
     };
 
     return (
@@ -905,9 +944,7 @@ const MapArmenia = () => {
                 <div className={`${styles.compareBar} ${isMapVisible ? '' : styles.collapsed}`}>
                     {isMapVisible ? (
                         <>
-                            <div
-                                className={`${styles.deviceCountBadge} ${selectedDevices.length < 2 ? styles.disabled : ''}`}
-                            >
+                            <div className={`${styles.deviceCountBadge} ${selectedDevices.length < 2 ? styles.disabled : ''}`}>
                                 {selectedDevices.length}
                             </div>
                             <button
@@ -915,7 +952,7 @@ const MapArmenia = () => {
                                 onClick={handleCompare}
                                 disabled={selectedDevices.length < 2}
                             >
-                                {t('map.compareButton')}
+                                {t(window.innerWidth <= 768 ? 'map.compareButtonMobile' : 'map.compareButton')}
                             </button>
                             <div className={styles.deviceList}>
                                 {selectedDevices.map(device => (
@@ -932,25 +969,24 @@ const MapArmenia = () => {
                             </div>
                         </>
                     ) : (
-                        <>
-                            <div className={styles.deviceCountBadge}>
-                                {selectedDevices.length}
-                            </div>
-                            <button className={styles.versues} onClick={handleCompare} disabled={selectedDevices.length < 2}>VS</button>
-                            <div className={styles.deviceList}>
-                                {selectedDevices.map(device => (
-                                    <div key={device.generated_id} className={styles.deviceListItem}>
-                                        <span>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</span>
-                                        <button
-                                            className={styles.removeDeviceButton}
-                                            onClick={() => handleRemoveDevice(device.generated_id)}>
-                                            ✕
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        </>
+                        <div className={styles.deviceCountBadge}>
+                            {selectedDevices.length}
+                        </div>
                     )}
+                </div>
+            )}
+            {mobileImageZoom && (
+                <div className={styles.mobileImageModal} onClick={closeMobileZoom}>
+                    <div className={styles.mobileImageContainer} onClick={(e) => e.stopPropagation()}>
+                        <button className={styles.mobileCloseButton} onClick={closeMobileZoom}>
+                            ✕
+                        </button>
+                        <img
+                            src={mobileImageZoom.src}
+                            alt={mobileImageZoom.alt}
+                            className={styles.mobileZoomedImage}
+                        />
+                    </div>
                 </div>
             )}
         </div>

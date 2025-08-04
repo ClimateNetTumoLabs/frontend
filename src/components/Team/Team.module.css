@@ -6,6 +6,15 @@
     height: inherit;
 }
 
+.team_section {
+    will-change: transform; /* Hint to browser about animations */
+    contain: content; /* Limits scope of reflows */
+}
+
+.team_member_image_block {
+    backface-visibility: hidden; 
+}
+
 .team_item {
     padding: 0 15px;
 }
@@ -93,7 +102,6 @@
 }
 
 .hovicon:before {
-    speak: none;
     font-size: 20px;
     line-height: 30px;
     font-style: normal;
