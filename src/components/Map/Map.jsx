@@ -208,11 +208,11 @@ const MapArmenia = () => {
     const lastFetchTime = useRef(null);
     lastFetchTime.current = new Date();
     const deviceMap = useMemo(() =>
-        devices.reduce((acc, d) => ({ ...acc, [d.generated_id]: d }), {}),
+            devices.reduce((acc, d) => ({ ...acc, [d.generated_id]: d }), {}),
         [devices]);
 
     const selectedIds = useMemo(() =>
-        new Set(selectedDevices.map(d => d.generated_id)),
+            new Set(selectedDevices.map(d => d.generated_id)),
         [selectedDevices]);
 
     const regionCoordinatesMap = {
@@ -449,7 +449,7 @@ const MapArmenia = () => {
             const initializeZoom = () => {
                 const imgRect = image.getBoundingClientRect();
                 const lensSize = 60;
-                const zoomFactor = 3;
+                const zoomFactor = 2;
                 const resultSize = 200;
 
                 result.style.backgroundImage = `url(${image.src})`;
@@ -657,7 +657,7 @@ const MapArmenia = () => {
                 clearInterval(intervalRef.current);
             }
         };
-    }, [devices]);
+    }, []);
 
     useEffect(() => {
         if (isMapVisible && isNewInterval()) {
