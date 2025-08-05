@@ -22,6 +22,7 @@ const API = () => {
     const [activeTab, setActiveTab] = useState(() => {
         return searchParams.get('tab') || sessionStorage.getItem('activeTab') || 'api';
     });
+    const [devicesLoading, setDevicesLoading] = useState(true);
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -59,9 +60,11 @@ const API = () => {
             .get(`/device_inner/list/`)
             .then((response) => {
                 setDevices(response.data);
+                setDevicesLoading(false);
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
+                setDevicesLoading(false);
             });
     }, []);
 
@@ -411,8 +414,21 @@ const API = () => {
                     </div>
                     </>
                     </div>
+                    
                     <div className={`${styles.tabContent} ${activeTab === 'compare' ? styles.active : styles.hidden}`}>
-                        <Compare initialDeviceIds={new URLSearchParams(window.location.search).get('devices')?.split(',') || []} />
+                        {devicesLoading ? (
+                            <Loader
+                                type="spinner"
+                                bgColor={"#FFFFFF"}
+                                color={"#FFFFFF"}
+                                size={60}
+                            />
+                        ) : (
+                            <Compare 
+                                initialDeviceIds={new URLSearchParams(window.location.search).get('devices')?.split(',') || []}
+                                devices={devices}
+                            />
+                        )}
                     </div>
             </div>
         </div>

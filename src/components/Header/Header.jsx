@@ -5,7 +5,6 @@ import styles from "./Header.module.css";
 import logo from "../../assets/Logo/logo.svg";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { faTransgender } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
     const { t, i18n } = useTranslation();

@@ -206,6 +206,7 @@ const MapArmenia = () => {
     const [isMapVisible, setIsMapVisible] = useState(false);
     const [mobileImageZoom, setMobileImageZoom] = useState(null);
     const lastFetchTime = useRef(null);
+    lastFetchTime.current = new Date();
     const deviceMap = useMemo(() =>
         devices.reduce((acc, d) => ({ ...acc, [d.generated_id]: d }), {}),
         [devices]);

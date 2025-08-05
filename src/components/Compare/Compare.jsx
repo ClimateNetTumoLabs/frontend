@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from 'react-router-dom';
 import "../../i18n";
 import { Helmet } from "react-helmet";
 import styles from "./Compare.module.css";
@@ -29,9 +30,11 @@ ChartJS.register(
   Legend
 );
 
-const Compare = ({ initialDeviceIds = [] }) => {
+const Compare = ({ initialDeviceIds = [], devices: propDevices = [] }) => {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [devices, setDevices] = useState([]);
@@ -72,6 +75,92 @@ const Compare = ({ initialDeviceIds = [] }) => {
   });
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const filterDropdownRef = useRef(null);
+
+  // Track if we're initializing to prevent unnecessary URL updates
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [urlUpdatePending, setUrlUpdatePending] = useState(false);
+
+  // Function to update URL with device IDs
+  const updateURLWithDeviceIds = (deviceIds) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    
+    if (deviceIds.length > 0) {
+      newSearchParams.set('devices', deviceIds.join(','));
+    } else {
+      newSearchParams.delete('devices');
+    }
+    
+    setSearchParams(newSearchParams, { replace: true });
+  };
+
+  // Initialize selected devices from URL on component mount
+  useEffect(() => {
+    if (devices.length === 0 || isInitialized) return; // Wait for devices to load and only run once
+    
+    const devicesFromURL = searchParams.get('devices');
+    
+    if (devicesFromURL) {
+      const deviceIds = devicesFromURL.split(',').filter(Boolean);
+      const urlSelectedDevices = devices
+        .filter((device) => deviceIds.includes(device.generated_id.toString()))
+        .map((device) => ({
+          value: device.generated_id,
+          label: device[i18n.language === "hy" ? "name_hy" : "name_en"] || device.generated_id,
+        }));
+
+      if (urlSelectedDevices.length > 0) {
+        setSelectedDevices(urlSelectedDevices);
+        setTempSelectedDevices(urlSelectedDevices);
+      }
+    } else if (initialDeviceIds.length > 0) {
+      // Fallback to initialDeviceIds if no URL params
+      const initialSelectedDevices = devices
+        .filter((device) =>
+          initialDeviceIds.includes(device.generated_id.toString())
+        )
+        .map((device) => ({
+          value: device.generated_id,
+          label:
+            device[i18n.language === "hy" ? "name_hy" : "name_en"] ||
+            device.generated_id,
+        }));
+
+      if (initialSelectedDevices.length > 0) {
+        setSelectedDevices(initialSelectedDevices);
+        setTempSelectedDevices(initialSelectedDevices);
+        // Mark that we need to update URL after initialization
+        setUrlUpdatePending(true);
+      }
+    }
+    
+    setIsInitialized(true);
+  }, [devices, i18n.language]); // Removed searchParams dependency to prevent loops
+
+  // Update URL when devices change, but only after initialization
+  useEffect(() => {
+    if (!isInitialized) return;
+    
+    // Handle pending URL update from initialization
+    if (urlUpdatePending) {
+      const deviceIds = selectedDevices.map(device => device.value.toString());
+      updateURLWithDeviceIds(deviceIds);
+      setUrlUpdatePending(false);
+      return;
+    }
+    
+    // Normal URL updates after user interactions
+    const deviceIds = selectedDevices.map(device => device.value.toString());
+    const currentDevicesParam = searchParams.get('devices');
+    const newDevicesParam = deviceIds.length > 0 ? deviceIds.join(',') : null;
+    
+    // Only update URL if the devices parameter actually changed
+    if (currentDevicesParam !== newDevicesParam) {
+      // Use setTimeout to ensure URL update doesn't interfere with other state updates
+      setTimeout(() => {
+        updateURLWithDeviceIds(deviceIds);
+      }, 0);
+    }
+  }, [selectedDevices, isInitialized, urlUpdatePending]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -156,14 +245,40 @@ const Compare = ({ initialDeviceIds = [] }) => {
         });
         
         setDevices(sortedDevices);
+        
+        // Update selected devices labels after sorting, but preserve selection
+        if (selectedDevices.length > 0) {
+          const updatedSelectedDevices = selectedDevices.map(selectedDevice => {
+            const deviceData = sortedDevices.find(d => d.generated_id === selectedDevice.value);
+            const newLabel = deviceData ? 
+              (deviceData[i18n.language === "hy" ? "name_hy" : "name_en"] || deviceData.generated_id) :
+              selectedDevice.label;
+            
+            return {
+              ...selectedDevice,
+              label: newLabel
+            };
+          });
+          
+          // Only update state if labels actually changed to avoid unnecessary re-renders
+          const labelsChanged = updatedSelectedDevices.some((device, index) => 
+            device.label !== selectedDevices[index]?.label
+          );
+          
+          if (labelsChanged) {
+            setSelectedDevices(updatedSelectedDevices);
+            setTempSelectedDevices(updatedSelectedDevices);
+          }
+        }
+        
         setLocationLoading(false);
       },
       (error) => {
         setLocationLoading(false);
         console.error("Geolocation error:", error);
-        setLocationError("Unable to retrieve your location, try again later!");
+        setLocationError(`${t("compare.locationError")}`);
         if (error.message === "User denied Geolocation") {
-          setLocationError("Turn on the location access and try again!");
+          setLocationError(`${t("compare.userDeniedLocation")}`);
         }
       }
     );
@@ -198,10 +313,8 @@ const Compare = ({ initialDeviceIds = [] }) => {
   const fuse = new Fuse(devices, {
     keys: [
       'generated_id',
-
       'name_en',
       'parent_name_en',
-      
       'name_hy',
       'parent_name_hy',
     ],
@@ -237,25 +350,34 @@ const Compare = ({ initialDeviceIds = [] }) => {
     });
 
     useEffect(() => {
-      axios
-        .get(`/device_inner/list/`)
-        .then((response) => {
-          const fetchedDevices = response.data;
-          setDevices(fetchedDevices);
+      setDevices(propDevices);
+      const uniqueParents = [...new Set(
+        propDevices.flatMap(device => [
+          device.parent_name_en, 
+          device.parent_name_hy
+        ])
+      )].filter(Boolean).sort();
+      
+      setParentLocations(uniqueParents);
+      // axios
+      //   .get(`/device_inner/list/`)
+      //   .then((response) => {
+      //     const fetchedDevices = response.data;
+      //     setDevices(fetchedDevices);
     
-          // Get unique parent locations from both English and Armenian names
-          const uniqueParents = [...new Set(
-            fetchedDevices.flatMap(device => [
-              device.parent_name_en, 
-              device.parent_name_hy
-            ])
-          )].filter(Boolean).sort();
+      //     // Get unique parent locations from both English and Armenian names
+      //     const uniqueParents = [...new Set(
+      //       fetchedDevices.flatMap(device => [
+      //         device.parent_name_en, 
+      //         device.parent_name_hy
+      //       ])
+      //     )].filter(Boolean).sort();
           
-          setParentLocations(uniqueParents);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+      //     setParentLocations(uniqueParents);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching data:", error);
+      //   });
     }, [i18n.language]);
 
   const getDateOnly = (date) => {
@@ -293,26 +415,6 @@ const Compare = ({ initialDeviceIds = [] }) => {
       setLoading(false);
     }
   }, [selectedDevices]);
-
-  useEffect(() => {
-    if (initialDeviceIds.length > 0 && devices.length > 0) {
-      const initialSelectedDevices = devices
-        .filter((device) =>
-          initialDeviceIds.includes(device.generated_id.toString())
-        )
-        .map((device) => ({
-          value: device.generated_id,
-          label:
-            device[i18n.language === "hy" ? "name_hy" : "name_en"] ||
-            device.generated_id,
-        }));
-
-      setSelectedDevices(initialSelectedDevices);
-
-      // Also set them in temp selection in case modal is opened
-      setTempSelectedDevices(initialSelectedDevices);
-    }
-  }, [initialDeviceIds, devices, i18n.language]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -395,19 +497,16 @@ const Compare = ({ initialDeviceIds = [] }) => {
         }
       });
   
-      // Show notification if there are problematic devices
       if (problematicDevices.length > 0) {
         setProblemDevices(problematicDevices);
         setShowNotification(true);
         setTimeout(() => setShowNotification(false), 5000);
       }
   
-      // Filter devices for API calls (only devices without issues)
       const devicesForApiCall = selectedDevices.filter(
         (device) => !deviceIssuesMap.get(device.value)
       );
   
-      // If no valid devices after filtering, return early
       if (devicesForApiCall.length === 0) {
         setWeatherDataByDevice({});
         setAllDevicesHaveIssues(true);
@@ -419,68 +518,90 @@ const Compare = ({ initialDeviceIds = [] }) => {
         return;
       }
   
-      // Make API calls only for devices without issues
       const deviceDataPromises = devicesForApiCall.map((device) =>
         axios.get(getTimeSeriesEndpoint(device.value))
       );
   
       const responses = await Promise.all(deviceDataPromises);
   
-      // Process responses and handle missing data points
+      // Process responses and collect all unique timestamps
+      const allTimestamps = new Set();
       const apiResponseMap = new Map();
+  
       responses.forEach((res, index) => {
         const device = devicesForApiCall[index];
-        if (!Array.isArray(res.data) || res.data.length === 0) {
+        if (!Array.isArray(res.data)) {
           console.error(`Invalid response format for device ${device.label}:`, res.data);
           apiResponseMap.set(device.value, { data: [], label: device.label });
           return;
         }
-
-        // Get the first and last timestamps from the response
-        const firstTimestamp = new Date(res.data[0].time_interval);
-        const lastTimestamp = new Date(res.data[res.data.length - 1].time_interval);
-        
-        // Generate complete timestamps at 15-minute intervals
-        const completeTimestamps = generateCompleteTimestamps(firstTimestamp, lastTimestamp);
-
-        // Create a map of existing data points for quick lookup
-        const dataMap = new Map();
-        res.data.forEach((d) => {
-          dataMap.set(new Date(d.time_interval).toISOString(), {
-            ...d,
-            time_interval: new Date(d.time_interval).toISOString(),
-          });
-        });
-
-        // Create complete data array with null for missing points
-        const completeData = completeTimestamps.map(timestamp => {
-          return dataMap.has(timestamp) ? dataMap.get(timestamp) : {"humidity": null, "lux": null, "pm1": null, "pm10": null, "pm2_5": null, "pressure": null, "rain": null, "speed": null, "temperature": null, "time_interval": timestamp, "uv": null};
-        });
-
+  
+        const deviceData = res.data.map(d => ({
+          ...d,
+          time_interval: new Date(d.time_interval).toISOString()
+        }));
+  
+        // Add all timestamps to the set
+        deviceData.forEach(d => allTimestamps.add(d.time_interval));
+  
         apiResponseMap.set(device.value, {
-          data: completeData,
+          data: deviceData,
           label: device.label,
         });
       });
+  
+      // Convert to sorted array
+      const sortedTimestamps = Array.from(allTimestamps).sort();
   
       // Create processedData maintaining the original selectedDevices order
       const processedData = selectedDevices.map((device) => {
         if (deviceIssuesMap.get(device.value)) {
           return { data: [], label: device.label };
         } else {
-          return apiResponseMap.get(device.value) || { data: [], label: device.label };
+          const deviceData = apiResponseMap.get(device.value) || { data: [], label: device.label };
+          
+          // Create a map of existing data points for quick lookup
+          const dataMap = new Map();
+          deviceData.data.forEach(d => {
+            dataMap.set(d.time_interval, d);
+          });
+  
+          // Create complete data array with null for missing points
+          const completeData = sortedTimestamps.map(timestamp => {
+            return dataMap.has(timestamp) 
+              ? dataMap.get(timestamp) 
+              : {
+                  time_interval: timestamp,
+                  [selectedMetric]: null,
+                  humidity: null,
+                  lux: null,
+                  pm1: null,
+                  pm10: null,
+                  pm2_5: null,
+                  pressure: null,
+                  rain: null,
+                  speed: null,
+                  temperature: null,
+                  uv: null
+                };
+          });
+  
+          return {
+            ...deviceData,
+            data: completeData
+          };
         }
       });
   
-      // Prepare data for the chart
+      // Prepare data for the chart with aligned timestamps
       const weatherData = processedData.reduce((acc, deviceData) => {
         if (!deviceData.data || deviceData.data.length === 0) {
           return acc;
         }    
-
+  
         acc[deviceData.label] = deviceData.data.map((d) => ({
-          time_interval: d?.time_interval || null,
-          value: d ? d[selectedMetric] : null,
+          time_interval: d.time_interval,
+          value: d[selectedMetric]
         }));
         return acc;
       }, {});
@@ -496,11 +617,23 @@ const Compare = ({ initialDeviceIds = [] }) => {
     }
   };
 
+  // Create a stable reference that only changes when device IDs change, not labels
+  const selectedDeviceIds = useMemo(() => 
+    selectedDevices.map(device => device.value).join(','), 
+    [selectedDevices]
+  );
+
+  // Separate effect for handling time series to avoid interference with other state
   useEffect(() => {
-    if (selectedDevices.length > 0) {
+    if (selectedDevices.length > 0 && isInitialized) {
+      // const minCreatedDate = getMinCreatedDate(selectedDevices, devices);
+      // if (startDate < minCreatedDate) {
+      //   console.log(minCreatedDate);
+      //   setStartDate(new Date(minCreatedDate));
+      // }
       handleTimeSeries();
     }
-  }, [selectedDevices, selectedMetric, startDate, endDate]);
+  }, [selectedDeviceIds, selectedMetric, startDate, endDate, isInitialized]); // Added isInitialized to prevent premature calls
 
   const handleSort = (key) => {
     let direction = "asc";
@@ -535,7 +668,17 @@ const Compare = ({ initialDeviceIds = [] }) => {
   };
 
   const handleApplySelection = () => {
-    setSelectedDevices(tempSelectedDevices);
+    // Use a callback to ensure we don't interfere with other state updates
+    setSelectedDevices(prev => {
+      // Only update if there's actually a change
+      const prevIds = prev.map(d => d.value).sort().join(',');
+      const newIds = tempSelectedDevices.map(d => d.value).sort().join(',');
+      
+      if (prevIds !== newIds) {
+        return tempSelectedDevices;
+      }
+      return prev;
+    });
     setShowDeviceSelector(false);
   };
 

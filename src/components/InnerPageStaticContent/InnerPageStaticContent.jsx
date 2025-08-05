@@ -4,7 +4,6 @@ import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import Loader from "react-js-loader";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 import  "../../i18n";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -139,7 +138,6 @@ function InnerPageStaticContent(props) {
     const { i18n } = useTranslation();
     const data = props.data[0]
     const [isMobile, setIsMobile] = useState(false);
-    const deviceId = props.device_id;
     const device = props.device;
 
     useEffect(() => {
