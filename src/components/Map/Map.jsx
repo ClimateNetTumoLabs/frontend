@@ -203,7 +203,7 @@ const MapArmenia = () => {
     const [isFetchingLatest, setIsFetchingLatest] = useState({});
     const intervalRef = useRef(null);
     const [selectedDevices, setSelectedDevices] = useState([]);
-    const [isMapVisible, setIsMapVisible] = useState(true);
+    const [isMapVisible, setIsMapVisible] = useState(false);
     const [mobileImageZoom, setMobileImageZoom] = useState(null);
     const lastFetchTime = useRef(null);
     const deviceMap = useMemo(() =>
@@ -352,7 +352,7 @@ const MapArmenia = () => {
                     }
                 }
             };
-        }, [map, onClick]);
+        }, [map, onClick, hidden]);
 
         useEffect(() => {
             if (controlRef.current) {
@@ -489,17 +489,21 @@ const MapArmenia = () => {
 
                 image.addEventListener('mouseenter', () => {
                     lens.style.display = 'block';
-                    result.style.display = 'block';
-                    setTimeout(() => result.classList.add('show'), 10);
+                    result.style.opacity = '1';
+                    result.style.transform = 'scale(1)';
+                    result.style.pointerEvents = 'auto';
                 });
 
                 image.addEventListener('mouseleave', () => {
-                    result.classList.remove('show');
+                    result.style.opacity = '0';
+                    result.style.transform = 'scale(0.9)';
+                    result.style.pointerEvents = 'none';
+
                     setTimeout(() => {
                         lens.style.display = 'none';
-                        result.style.display = 'none';
                     }, 300);
                 });
+
 
                 image.addEventListener('mousemove', moveLens);
                 image.addEventListener('touchmove', (e) => {
@@ -652,7 +656,7 @@ const MapArmenia = () => {
                 clearInterval(intervalRef.current);
             }
         };
-    }, []);
+    }, [devices]);
 
     useEffect(() => {
         if (isMapVisible && isNewInterval()) {

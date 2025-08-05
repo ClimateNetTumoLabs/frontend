@@ -105,7 +105,6 @@ a>span {
     }
 }
 
-/* Adjust CompareBar sizing for mobile */
 @media (max-width: 768px) {
     .compareBar {
         bottom: 10px;
@@ -221,7 +220,6 @@ a>span {
     width: 200px;
     height: 200px;
     border: 1px solid #ccc;
-    display: none;
     z-index: 1001;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -230,15 +228,10 @@ a>span {
     background-position: center;
     background-color: white;
     box-sizing: border-box;
-    opacity: 100%;
+    opacity: 0;
     transform: scale(0.9);
+    pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.zoomResult.show {
-    display: block;
-    opacity: 1;
-    transform: scale(1);
 }
 
 :global(.leaflet-fullscreen) .zoomResult,
