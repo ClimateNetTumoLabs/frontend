@@ -206,6 +206,7 @@ const MapArmenia = () => {
     const [isMapVisible, setIsMapVisible] = useState(false);
     const [mobileImageZoom, setMobileImageZoom] = useState(null);
     const lastFetchTime = useRef(null);
+    lastFetchTime.current = new Date();
     const deviceMap = useMemo(() =>
         devices.reduce((acc, d) => ({ ...acc, [d.generated_id]: d }), {}),
         [devices]);
@@ -448,7 +449,7 @@ const MapArmenia = () => {
             const initializeZoom = () => {
                 const imgRect = image.getBoundingClientRect();
                 const lensSize = 60;
-                const zoomFactor = 3;
+                const zoomFactor = 2;
                 const resultSize = 200;
 
                 result.style.backgroundImage = `url(${image.src})`;
@@ -532,13 +533,20 @@ const MapArmenia = () => {
         }
     };
 
+
     const isNewInterval = () => {
-        if (!lastFetchTime.current) return true;
+        if (!lastFetchTime.current) {
+            return true;
+        }
+
         const now = new Date();
         const last = new Date(lastFetchTime.current);
-        const currentInterval = Math.floor(now.getMinutes() / 15);
-        const lastInterval = Math.floor(last.getMinutes() / 15);
-        return now.getHours() !== last.getHours() || currentInterval !== lastInterval;
+
+        const currentQuarter = Math.floor(now.getMinutes() / 15);
+        const lastQuarter = Math.floor(last.getMinutes() / 15);
+        const isNewQuarter = now.getHours() !== last.getHours() || currentQuarter !== lastQuarter;
+
+        return isNewQuarter;
     };
 
     const fetchDeviceList = async () => {
@@ -592,6 +600,7 @@ const MapArmenia = () => {
             });
 
             const devicesWithLatest = await Promise.all(devicePromises);
+
             setDevices(devicesWithLatest);
             setIsFetchingLatest(prev => ({
                 ...prev,
@@ -600,7 +609,9 @@ const MapArmenia = () => {
                     [device.generated_id]: false
                 }), {})
             }));
+
             lastFetchTime.current = new Date();
+
         } catch (error) {
             setIsFetchingLatest(prev => ({
                 ...prev,
@@ -612,6 +623,7 @@ const MapArmenia = () => {
         }
     };
     useEffect(() => {
+
         const scheduleNextFetch = () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
@@ -622,32 +634,35 @@ const MapArmenia = () => {
             const seconds = now.getSeconds();
             const milliseconds = now.getMilliseconds();
             const minutesPastQuarter = minutes % 15;
-            const minutesToNextQuarter = minutesPastQuarter === 0 ? 0 : 15 - minutesPastQuarter;
+            const minutesToNextQuarter = minutesPastQuarter === 0 ? 15 : 15 - minutesPastQuarter;
             const delayMilliseconds = (minutesToNextQuarter * 60 * 1000) - (seconds * 1000) - milliseconds;
 
             const timeoutId = setTimeout(() => {
-                if (isMapVisible && isNewInterval()) {
+                if (isNewInterval()) {
                     if (devices.length > 0) {
                         fetchLatestData(devices);
                     } else {
                         fetchDeviceList();
                     }
                 }
+
                 intervalRef.current = setInterval(() => {
-                    if (isMapVisible && isNewInterval()) {
+                    if (isNewInterval()) {
                         if (devices.length > 0) {
                             fetchLatestData(devices);
                         } else {
                             fetchDeviceList();
                         }
                     }
-                }, 15 * 60 * 1000);
-            }, delayMilliseconds > 0 ? delayMilliseconds : 0);
+                }, 15 * 60 * 1000); // 15 minutes in milliseconds
+
+            }, delayMilliseconds);
 
             return timeoutId;
         };
 
         fetchDeviceList();
+
         const timeoutId = scheduleNextFetch();
 
         return () => {
@@ -656,10 +671,16 @@ const MapArmenia = () => {
                 clearInterval(intervalRef.current);
             }
         };
-    }, [devices]);
+    }, []);
 
     useEffect(() => {
-        if (isMapVisible && isNewInterval()) {
+        if (!isMapVisible || !lastFetchTime.current) return;
+
+        const now = new Date();
+        const timeSinceLastFetch = now - new Date(lastFetchTime.current);
+        const fifteenMinutes = 15 * 60 * 1000;
+
+        if (timeSinceLastFetch > fifteenMinutes && isNewInterval()) {
             if (devices.length > 0) {
                 fetchLatestData(devices);
             } else {
@@ -667,6 +688,7 @@ const MapArmenia = () => {
             }
         }
     }, [isMapVisible]);
+
 
     useEffect(() => {
         const handleWheel = (e) => {
