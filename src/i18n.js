@@ -163,6 +163,8 @@ const resources = {
                     withoutIssues: "Without issues",
                     location: "Location",
                     clearAll: "Clear all",
+                    locationError: "Unable to retrieve your location, try again later",
+                    userDeniedLocation: "Turn on the location access and try again!",
                     chart: {
                         title: "Climate Data Comparison",
                         device1: "Device 1",
@@ -803,6 +805,8 @@ const resources = {
                     withoutIssues: "Առանց խնդիրների",
                     location: "Տեղանք",
                     clearAll: "Մաքրել բոլորը",
+                    locationError: "Հնարավոր չէ ստանալ Ձեր գտնվելու վայրը, փորձեք կրկին ավելի ուշ",
+                    userDeniedLocation: "Միացրեք գտնվելու վայրի հասանելիությունը և կրկին փորձեք",
                     chart: {
                         title: "Կլիմայի տվյալների համեմատություն",
                         device1: "Սարք 1",

@@ -45,6 +45,8 @@ function InnerPageFilter(props) {
         break;
       case "Range":
         return true;
+      default:
+        break;
     }
 
     const getDateOnly = (date) => {
@@ -61,7 +63,7 @@ function InnerPageFilter(props) {
   };
 
   const handleApply = () => {
-    if (props.startDate.getTime() == startDate.getTime() && props.endDate.getTime() == endDate.getTime()) {
+    if (props.startDate.getTime() === startDate.getTime() && props.endDate.getTime() === endDate.getTime()) {
       scrollToChart();
       props.setShowDatePicker(false);
       setIsRangeActive(false);

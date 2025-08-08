@@ -48,6 +48,7 @@ function InnerPageNearbyDevices({ device, ...props }) {
                 // Apply both filters at once
                 let filteredDevices = allDevices
                     .filter(d => d.parent_name === parent_name)
+                    // eslint-disable-next-line eqeqeq
                     .filter(d => d.generated_id != props.selected_device_id)
 
 

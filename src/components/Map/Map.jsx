@@ -208,11 +208,11 @@ const MapArmenia = () => {
     const lastFetchTime = useRef(null);
     lastFetchTime.current = new Date();
     const deviceMap = useMemo(() =>
-        devices.reduce((acc, d) => ({ ...acc, [d.generated_id]: d }), {}),
+            devices.reduce((acc, d) => ({ ...acc, [d.generated_id]: d }), {}),
         [devices]);
 
     const selectedIds = useMemo(() =>
-        new Set(selectedDevices.map(d => d.generated_id)),
+            new Set(selectedDevices.map(d => d.generated_id)),
         [selectedDevices]);
 
     const regionCoordinatesMap = {

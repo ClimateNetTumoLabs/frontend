@@ -711,6 +711,28 @@ const CompareChart = (props) => {
     }
   }, [props.filterState]);
 
+  // After devices change the filter must go to 1 day, because if the device doesn't have enough data as it was selected it will show as much as it has but not at the right place
+  // useEffect(() => {
+  //   if (selectedFilterButton === "oneD") return;
+  //   setSelectedFilterButton("oneD");
+  //   const currentDate = new Date();
+  //   const start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+  //   const end = currentDate;
+  //   setSelectedFilter("Hourly");
+  //   setSelectedStartDate(start);
+  //   setSelectedEndDate(end);
+  //   setAppliedStartDate(start);
+  //   setAppliedEndDate(end);
+  //   props.setStartDate(start);
+  //   props.setEndDate(end);
+  //   props.filterChange("Hourly");
+  //   props.setShowWelcomeOverlay(false);
+  //   setDateChanged(false);
+  //   setLoading(true);
+  //   scrollToChart();
+  //   resetDatasetVisibility();
+  // }, [props.selected_device_id.length])
+  
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
