@@ -798,6 +798,7 @@ const resources = {
                     devicesWithIssues: "Ընթացիկ չափումները հասանելի չեն այս սարքերի համար`",
                     selectDevices: "Ընտրեք սարքեր համեմատության համար",
                     searchPlaceholder: "Փնտրեք ID-ով, անունով կամ տեղանքով...",
+                    noResultsFound: "Արդյունքներ չեն գտնվել",
                     getMyLocation: "Ստանալ իմ գտնվելու վայրը",
                     filterDevices: "Ֆիլտրել սարքերը",
                     issueStatus: "Խնդրի կարգավիճակ",
