@@ -4,7 +4,6 @@ import LinerStatusBar from "../LinerStatusBar/LinerStatusBar";
 import WindDirection from "../WindDirection/WindDirection";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import Loader from "react-js-loader";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 import  "../../i18n";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -139,18 +138,7 @@ function InnerPageStaticContent(props) {
     const { i18n } = useTranslation();
     const data = props.data[0]
     const [isMobile, setIsMobile] = useState(false);
-    const deviceId = props.device_id;
-    const [device, setDevice] = useState(null);
-
-    useEffect(() => {
-        axios.get(`/device_inner/${deviceId}/`)
-            .then(response => {
-                setDevice(response.data);  // Set state directly without shadowing
-            })
-            .catch(error => {
-                console.error('Error fetching device details:', error);
-            });
-    }, [deviceId]);
+    const device = props.device;
 
     useEffect(() => {
         const handleResize = () => {
@@ -166,6 +154,37 @@ function InnerPageStaticContent(props) {
         // Cleanup event listener
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    if (props.hasPowerInternetIssue) {
+        return (
+            <div className={styles.InnerPageStaticContent}>
+                <div className={`${styles.nameAndDevice} d-flex`}>
+                    <h2>{device[i18n.language === 'hy' ? 'name_hy' : 'name_en']}</h2>
+                </div>
+                <div className={styles.staticContent}>
+                        <div className={styles.noDataCard}>
+                            <div className={styles.noDataIcon}>⚠️</div>
+                            <h3>{t("innerPageStaticContent.noRecentData.title")}</h3>
+                            <p>{t("innerPageStaticContent.noRecentData.message")}</p>
+                        </div>
+                </div>
+            </div>
+        );
+    }
+    else if (!device || !data) {
+        return (
+            <div className={styles.InnerPageStaticContent}>
+                <div className={styles.loader}>
+                    <Loader
+                        type="spinner"
+                        bgColor={"#FFFFFF"}
+                        color={"#FFFFFF"}
+                        size={70}
+                    />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={`${styles.InnerPageStaticContent}`} id="innerPageStaticContent">
@@ -205,7 +224,7 @@ function InnerPageStaticContent(props) {
                             </div>
                             <div>
                                 <div className={styles.otherInformation}>
-                                    <LinerStatusBar air_quality={data.pm2_5} datetime={data} />
+                                    <LinerStatusBar air_quality={data.pm2_5} datetime={data} device_id={props.device_id}/>
                                     <DataTable data={data} />
                                 </div>
                             </div>

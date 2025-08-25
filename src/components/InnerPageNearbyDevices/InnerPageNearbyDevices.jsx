@@ -48,6 +48,7 @@ function InnerPageNearbyDevices({ device, ...props }) {
                 // Apply both filters at once
                 let filteredDevices = allDevices
                     .filter(d => d.parent_name === parent_name)
+                    // eslint-disable-next-line eqeqeq
                     .filter(d => d.generated_id != props.selected_device_id)
 
 
@@ -123,16 +124,6 @@ function InnerPageNearbyDevices({ device, ...props }) {
         );
     }
 
-    const scrollToTop = () => {
-        setTimeout(() => {
-          const chartElement = document.getElementById("innerPageStaticContent");
-          if (chartElement) {
-            chartElement.scrollIntoView({ behavior: "smooth", block: "start" });
-          } else {
-          }
-        }, 100);
-      };    
-
     const currentRegionName = device[i18n.language === 'hy' ? 'parent_name_hy' : 'parent_name'];
 
     return (
@@ -149,8 +140,7 @@ function InnerPageNearbyDevices({ device, ...props }) {
                     className={styles.link}
                     onClick={() => {
                         props.setLeftLoad(true);
-                        props.filterChange("Hourly");
-                        scrollToTop();
+                        // props.filterChange("Hourly");
                     }}
                 >
                     <NearbyDevicesItem

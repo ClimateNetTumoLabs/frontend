@@ -11,11 +11,15 @@ import {
   Legend,
 } from "chart.js";
 import styles from "./WeatherDataGraphs.module.css";
+import scrollingDemoGif from '../../assets/Icons/Scroll-Down.gif';
 import DatePicker from "react-datepicker";
 import { useTranslation } from "react-i18next";
 import { saveAs } from "file-saver";
 import "../../i18n";
 import zoomPlugin from "chartjs-plugin-zoom";
+import Stats from '../Stats/Stats'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 ChartJS.register(
   CategoryScale,
@@ -46,10 +50,15 @@ const formatTimestamps = (timestamps) => {
 };
 
 // Function to convert chart data to CSV
+// Function to convert chart data to CSV
 const convertToCSV = (t, labels, datasets) => {
   const headers = [`${t("chartTitles.timestamp")}`, ...datasets.map((dataset) => dataset.label)];
   const rows = labels.map((label, index) => {
-    const rowData = datasets.map((dataset) => dataset.data[index] || "0");
+    const rowData = datasets.map((dataset) => {
+      const value = dataset.data[index];
+      // Return empty string for null/undefined, otherwise return the value (including 0)
+      return value === null || value === undefined ? "" : value;
+    });
     return [label, ...rowData];
   });
 
@@ -112,10 +121,10 @@ const formatData = (isMobile, types, timestamps, dataArray, colors) => {
     const color =
       colors && colors[index]
         ? {
-            borderColor: colors[index].borderColor || colors[index],
-            backgroundColor:
-              colors[index].backgroundColor || `${colors[index]}`,
-          }
+          borderColor: colors[index].borderColor || colors[index],
+          backgroundColor:
+            colors[index].backgroundColor || `${colors[index]}`,
+        }
         : defaultColors[index % defaultColors.length];
 
     return {
@@ -295,10 +304,10 @@ const WeatherDataGraphs = (props) => {
     props.timeline === "Hourly"
       ? "oneD"
       : props.timeline === "Daily"
-      ? "oneW"
-      : props.timeline === "Monthly"
-      ? "oneM"
-      : "Range"
+        ? "oneW"
+        : props.timeline === "Monthly"
+          ? "oneM"
+          : "Range"
   );
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dataSize, setDataSize] = useState(0);
@@ -317,12 +326,15 @@ const WeatherDataGraphs = (props) => {
     window.matchMedia("(max-width: 767px)").matches
   );
   const [isFilterClickable, setIsFilterClickable] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const [showStats, setShowStats] = useState(false);
+
+  const toggleStats = () => setShowStats(prev => !prev);
 
   const data = formatData(isMobile, props.types, props.time, props.data, props.colors);
 
-  useEffect(() => {
-    setSelectedFilterButton("oneD");
-  }, [props.selected_device_id]);
+
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -352,76 +364,86 @@ const WeatherDataGraphs = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  
   useEffect(() => {
     const canvas = chartRef.current?.canvas;
     if (!canvas) return;
   
+    // State tracking variables
     let clickTimeout = null;
+    let zoomHistory = [];
+    let isDragging = false;
+    let dragStartX = 0;
+    let initialZoomState = null;
+    let lastClickTime = 0;
   
     const handleClick = (event) => {
+      // Ignore if this is part of a drag operation
+      if (isDragging) return;
+  
+      // Ignore clicks on download button (mobile)
       if (isMobile && chartRef.current?.downloadButton) {
         const { x, y, width, height } = chartRef.current.downloadButton;
         const rect = canvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
-        
-        if (
-          clickX >= x &&
-          clickX <= x + width &&
-          clickY >= y &&
-          clickY <= y + height
-        ) {
-          // This is a download button click - ignore it
-          if (clickTimeout) {
-            clearTimeout(clickTimeout);
-            clickTimeout = null;
-          }
+  
+        if (clickX >= x && clickX <= x + width && clickY >= y && clickY <= y + height) {
+          clearClickTimeout();
           return;
         }
       }
-      
+  
+      // Ignore clicks on header area
       if (chartRef.current) {
-          const rect = canvas.getBoundingClientRect();
-          const clickX = event.clientX - rect.left;
-          const clickY = event.clientY - rect.top;
-
-          if (
-            clickX >= 0 &&
-            clickX <= 1500 &&
-            clickY >= 0 &&
-            clickY <= 70
-          ) {
-            if (clickTimeout) {
-              clearTimeout(clickTimeout);
-              clickTimeout = null;
-            }
-            return;
-          }
+        const rect = canvas.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const clickY = event.clientY - rect.top;
+  
+        if (clickX >= 0 && clickX <= 1500 && clickY >= 0 && clickY <= 70) {
+          clearClickTimeout();
+          return;
         }
-
-      if (clickTimeout) {
-        clearTimeout(clickTimeout);
-        clickTimeout = null;
       }
   
+      // Handle double click detection
+      const now = Date.now();
+      if (now - lastClickTime < 300) { // Double click threshold
+        clearClickTimeout();
+        lastClickTime = 0;
+        return;
+      }
+      lastClickTime = now;
+  
+      // Set up zoom timeout
+      clearClickTimeout();
       clickTimeout = setTimeout(() => {
+        if (isDragging) return;
+  
         const chart = chartRef.current;
         if (!chart) return;
   
-        // Get mouse position relative to canvas
-        const rect = canvas.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        
-        // Get the value at the clicked position
         const xAxis = chart.scales.x;
-        const value = xAxis.getValueForPixel(x);
+        const currentMin = xAxis.min;
+        const currentMax = xAxis.max;
+        const currentRange = currentMax - currentMin;
         
-        // Calculate zoom window
-        const totalPoints = chart.data.labels.length;
-        const zoomWindow = Math.max(1, Math.floor(totalPoints * 0.1));
-        const min = Math.max(0, value - zoomWindow / 2);
-        const max = Math.min(totalPoints - 1, value + zoomWindow / 2);
+        // Don't zoom if already at minimum zoom level
+        if (currentRange <= 4) return;
+  
+        const rect = canvas.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const value = xAxis.getValueForPixel(clickX);
+  
+        const zoomFactor = 0.4;
+        const newRange = Math.max(4, currentRange * zoomFactor);
         
+        const min = Math.max(0, value - newRange / 2);
+        const max = Math.min(chart.data.labels.length - 1, value + newRange / 2);
+  
+        // Save current view to history
+        zoomHistory.push({ min: currentMin, max: currentMax });
+  
         // Apply zoom
         chart.zoomScale('x', { min, max }, 'default');
         chart.tooltip.setActiveElements([], { x: 0, y: 0 });
@@ -431,13 +453,10 @@ const WeatherDataGraphs = (props) => {
     };
   
     const handleDoubleClick = () => {
-      if (clickTimeout) {
-        clearTimeout(clickTimeout);
-        clickTimeout = null;
-      }
-  
+      clearClickTimeout();
       const chart = chartRef.current;
       if (chart) {
+        zoomHistory = []; // Clear history
         chart.resetZoom();
         chart.tooltip.setActiveElements([], { x: 0, y: 0 });
         chart.setActiveElements([]);
@@ -445,13 +464,106 @@ const WeatherDataGraphs = (props) => {
       }
     };
   
+    const handleRightClick = (event) => {
+      event.preventDefault();
+      clearClickTimeout();
+      
+      const chart = chartRef.current;
+      if (!chart || zoomHistory.length === 0) return;
+  
+      // Get previous zoom state
+      const prevZoom = zoomHistory.pop();
+      
+      // Apply previous zoom
+      chart.zoomScale('x', { min: prevZoom.min, max: prevZoom.max }, 'default');
+      chart.tooltip.setActiveElements([], { x: 0, y: 0 });
+      chart.setActiveElements([]);
+      chart.update();
+    };
+  
+    const handleMouseDown = (event) => {
+      if (event.button !== 0) return; // Only left mouse button
+      
+      isDragging = true;
+      dragStartX = event.clientX;
+      const chart = chartRef.current;
+      
+      if (chart) {
+        const xAxis = chart.scales.x;
+        initialZoomState = { 
+          min: xAxis.min, 
+          max: xAxis.max,
+          pixelRange: xAxis.width
+        };
+      }
+      
+      canvas.style.cursor = 'grabbing';
+      clearClickTimeout();
+    };
+  
+    const handleMouseMove = (event) => {
+      if (!isDragging || !initialZoomState) return;
+      
+      const chart = chartRef.current;
+      if (!chart) return;
+  
+      const deltaX = event.clientX - dragStartX;
+      dragStartX = event.clientX;
+  
+      const dataRange = initialZoomState.max - initialZoomState.min;
+      const dataPerPixel = dataRange / initialZoomState.pixelRange;
+      const dataDelta = deltaX * dataPerPixel;
+  
+      const newMin = Math.max(0, initialZoomState.min - dataDelta);
+      const newMax = Math.min(chart.data.labels.length - 1, initialZoomState.max - dataDelta);
+  
+      // Update the initial state for smooth continuous dragging
+      initialZoomState.min = newMin;
+      initialZoomState.max = newMax;
+  
+      chart.zoomScale('x', { min: newMin, max: newMax }, 'default');
+      chart.update();
+    };
+  
+    const handleMouseUp = () => {
+      if (isDragging) {
+        isDragging = false;
+        canvas.style.cursor = '';
+      }
+    };
+  
+    const handleMouseLeave = () => {
+      if (isDragging) {
+        isDragging = false;
+        canvas.style.cursor = '';
+      }
+    };
+  
+    const clearClickTimeout = () => {
+      if (clickTimeout) {
+        clearTimeout(clickTimeout);
+        clickTimeout = null;
+      }
+    };
+  
+    // Add event listeners
     canvas.addEventListener("click", handleClick);
     canvas.addEventListener("dblclick", handleDoubleClick);
-    
+    canvas.addEventListener("contextmenu", handleRightClick);
+    canvas.addEventListener("mousedown", handleMouseDown);
+    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mouseup", handleMouseUp);
+    canvas.addEventListener("mouseleave", handleMouseLeave);
+  
     return () => {
-      if (clickTimeout) clearTimeout(clickTimeout);
+      clearClickTimeout();
       canvas.removeEventListener("click", handleClick);
       canvas.removeEventListener("dblclick", handleDoubleClick);
+      canvas.removeEventListener("contextmenu", handleRightClick);
+      canvas.removeEventListener("mousedown", handleMouseDown);
+      canvas.removeEventListener("mousemove", handleMouseMove);
+      canvas.removeEventListener("mouseup", handleMouseUp);
+      canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [chartRef, isMobile]);
 
@@ -461,6 +573,80 @@ const WeatherDataGraphs = (props) => {
     }
   }, [selectedFilter, selectedStartDate, selectedEndDate]);
 
+  useEffect(() => {
+    const canvas = chartRef.current?.canvas;
+    if (!canvas) return;
+
+    const handleWheel = (event) => {
+      const modifierPressed = event.shiftKey;
+      if (modifierPressed) {
+        event.preventDefault();
+
+        const timeRanges = [
+          { key: "oneD", filter: "Hourly", label: t("filterTooltips.oneD") },
+          { key: "oneW", filter: "Daily", label: t("filterTooltips.oneW") },
+          { key: "oneM", filter: "Monthly", label: t("filterTooltips.oneM") },
+        ];
+
+        const currentIndex = timeRanges.findIndex(
+          (range) => range.key === selectedFilterButton
+        );
+
+        let nextIndex;
+        if (event.deltaY < 0) {
+          if (currentIndex <= 0) {
+            setShowPopup(true);
+            setTimeout(() => {
+              setShowPopup(false);
+            }, 2000);
+            return;
+          }
+          nextIndex = currentIndex - 1;
+          setShowPopup(false);
+        } else {
+          if (currentIndex >= timeRanges.length - 1) {
+            setShowPopup(true);
+            setTimeout(() => {
+              setShowPopup(false);
+            }, 2000);
+            return;
+          }
+          nextIndex = currentIndex + 1;
+          setShowPopup(false);
+        }
+
+        const nextRange = timeRanges[nextIndex];
+
+        setSelectedFilterButton(nextRange.key);
+        setSelectedFilter(nextRange.filter);
+
+        const currentDate = new Date();
+        let start;
+        if (nextRange.filter === "Hourly") {
+          start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000); // 1 day
+        } else if (nextRange.filter === "Daily") {
+          start = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days
+        } else if (nextRange.filter === "Monthly") {
+          start = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000); // 30 days
+        }
+
+        setSelectedStartDate(start);
+        setSelectedEndDate(currentDate);
+        setDateChanged(false);
+        setLoading(true);
+        props.setShowWelcomeOverlay(false);
+        props.filterChange(nextRange.filter);
+      }
+    };
+
+    canvas.addEventListener("wheel", handleWheel);
+
+    return () => {
+      canvas.removeEventListener("wheel", handleWheel);
+    };
+  }, [chartRef, selectedFilterButton, props, t]);
+
+  // Prevent page scrolling during Option/Alt + scroll
   useEffect(() => {
     const canvas = chartRef.current?.canvas;
     if (!canvas) return;
@@ -492,7 +678,7 @@ const WeatherDataGraphs = (props) => {
   }, [isMobile]);
 
   useEffect(() => {
-    if (isMobile){
+    if (isMobile) {
       setLoading(true);
     }
   }, [props.filterState]);
@@ -511,7 +697,7 @@ const WeatherDataGraphs = (props) => {
       downloadCSV(t, data.labels, data.datasets, `Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(appliedEndDate)}.csv`);
     } else if (format === "All Measurments") {
       const timestamps = props.weather_data.map((entry) => entry.time_interval);
-      
+
       const allMetrics = [
         { key: "temperature", label: `${t("innerPageDynamicContent.temperature")} (°C)` },
         { key: "humidity", label: `${t("innerPageDynamicContent.humidity")} (%)` },
@@ -524,9 +710,11 @@ const WeatherDataGraphs = (props) => {
         { key: "speed", label: `${t("innerPageDynamicContent.windSpeed")} (${t("linerStatusBar.kmhour")})` },
         { key: "rain", label: `${t("innerPageDynamicContent.rain")} (${t("linerStatusBar.mm")})` },
       ];
-  
+
       const dataArrays = allMetrics.map((metric) =>
-        props.weather_data.map((entry) => entry[metric.key] || "0")
+        props.weather_data.map((entry) => 
+          entry[metric.key] === null || entry[metric.key] === undefined ? null : entry[metric.key]
+        )
       );
 
       const allData = formatData(
@@ -536,10 +724,10 @@ const WeatherDataGraphs = (props) => {
         dataArrays,
         props.colors
       );
-  
+
       downloadCSV(t, allData.labels, allData.datasets, `All Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(appliedEndDate)}.csv`);
     }
-  
+
     setIsDropdownOpen(false);
   };
 
@@ -550,17 +738,10 @@ const WeatherDataGraphs = (props) => {
         e.stopPropagation();
       }
     };
-  
+
     document.addEventListener('touchmove', preventZoom, { passive: false });
     return () => document.removeEventListener('touchmove', preventZoom);
   }, []);
-
-  const title_map = {
-    Monthly: t("chartTitles.monthly"),
-    Daily: t("chartTitles.daily"),
-    Hourly: t("chartTitles.hourly"),
-    Range: t("chartTitles.range"),
-  };
 
   // Calculate zoom limits based on data range
   const timestamps = props.time || [];
@@ -583,7 +764,7 @@ const WeatherDataGraphs = (props) => {
     afterInit(chart, args, plugins) {
       const originalFit = chart.legend.fit;
       const margin = plugins.margin || 0;
-      chart.legend.fit = function fit () {
+      chart.legend.fit = function fit() {
         if (originalFit) {
           originalFit.call(this)
         }
@@ -612,7 +793,7 @@ const WeatherDataGraphs = (props) => {
       mode: "index",
       intersect: false,
     },
-    
+
     scales: {
       x: {
         ticks: {
@@ -665,12 +846,7 @@ const WeatherDataGraphs = (props) => {
           x: {
             min: 0,
             max: data.labels.length - 1,
-            minRange: Math.max(
-              1,
-              Math.floor(
-                data.labels.length * (oneDay / (maxTimestamp - minTimestamp))
-              )
-            ),
+            minRange: 4,
             maxRange: Math.min(
               data.labels.length - 1,
               Math.floor(
@@ -812,7 +988,7 @@ const WeatherDataGraphs = (props) => {
                   const b = parseInt(hex.slice(4, 6), 16);
                   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
                 }
-                
+
                 dataset.borderColor = hexToRGBA(dataset.originalBorderColor, 0.2);
                 dataset.backgroundColor = hexToRGBA(dataset.originalBackgroundColor, 0.2);
                 dataset.pointBackgroundColor = hexToRGBA(dataset.originalPointBackgroundColor, 0.2);
@@ -871,20 +1047,7 @@ const WeatherDataGraphs = (props) => {
         },
       },
       title: {
-        display: true,
-        text: `${t("chartTitles.dataPer")}${title_map[props.timeline]}`,
-        align: isMobile ? "center" : "start",
-        color: "#FFFFFF",
-        font: {
-          family: "Arial, sans-serif",
-          size: 16,
-        },
-        padding: {
-          top: isMobile ? 15 : 0,
-          // bottom: 30,
-          left: 20,
-          right: 20,
-        },
+        display: false,
       },
     },
   };
@@ -941,6 +1104,8 @@ const WeatherDataGraphs = (props) => {
         const end = currentDate;
         setSelectedStartDate(start);
         setSelectedEndDate(end);
+        setAppliedStartDate(start);
+        setAppliedEndDate(end);
         setSelectedFilter("Hourly");
         props.filterChange("Hourly");
         props.setShowWelcomeOverlay(false);
@@ -949,6 +1114,7 @@ const WeatherDataGraphs = (props) => {
         scrollToChart();
         resetDatasetVisibility();
       },
+      disabled: false
     },
     {
       key: "oneW",
@@ -962,6 +1128,8 @@ const WeatherDataGraphs = (props) => {
         const end = currentDate;
         setSelectedStartDate(start);
         setSelectedEndDate(end);
+        setAppliedStartDate(start);
+        setAppliedEndDate(end);
         setSelectedFilter("Daily");
         props.filterChange("Daily");
         props.setShowWelcomeOverlay(false);
@@ -970,6 +1138,7 @@ const WeatherDataGraphs = (props) => {
         scrollToChart();
         resetDatasetVisibility();
       },
+      disabled: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000) < props.minDate
     },
     {
       key: "oneM",
@@ -985,6 +1154,8 @@ const WeatherDataGraphs = (props) => {
         const end = currentDate;
         setSelectedStartDate(start);
         setSelectedEndDate(end);
+        setAppliedStartDate(start);
+        setAppliedEndDate(end);
         setSelectedFilter("Monthly");
         props.filterChange("Monthly");
         props.setShowWelcomeOverlay(false);
@@ -993,6 +1164,7 @@ const WeatherDataGraphs = (props) => {
         scrollToChart();
         resetDatasetVisibility();
       },
+      disabled: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000) < props.minDate
     },
   ];
 
@@ -1021,21 +1193,20 @@ const WeatherDataGraphs = (props) => {
         <div className={styles.toolbarAndFilter}>
           <div className={styles.FilterSection}>
             <div
-              className={`${styles.filterButtons} ${
-                !isMobile &&
+              className={`${styles.filterButtons} ${!isMobile &&
                 (loading || props.leftLoad || props.showWelcomeOverlay)
-                  ? styles.blur
-                  : ""
-              }`}
+                ? styles.blur
+                : ""
+                }`}
             >
-              {filterButtons.map(({ key, label, action }) => (
+              {filterButtons.map(({ key, label, action, disabled }) => (
                 <button
                   key={key}
-                  className={`${styles.filterButton} ${
-                    selectedFilterButton === key ? styles.activeFilter : ""
-                  }`}
+                  className={`${styles.filterButton} ${selectedFilterButton === key ? styles.activeFilter : ""
+                    }`}
                   onClick={action}
-                  disabled={selectedFilterButton === key}
+                  disabled={selectedFilterButton === key || disabled}
+                  style={disabled || selectedFilterButton === key ? { pointerEvents: "none" } : {}}
                 >
                   {label}
                 </button>
@@ -1052,15 +1223,17 @@ const WeatherDataGraphs = (props) => {
                   setIsFilterClickable(true);
                   setSelectedStartDate(date);
                   setDateChanged(true);
-                  if (date > selectedEndDate.getTime()){
+                  if (date > selectedEndDate.getTime()) {
                     setSelectedEndDate(date);
                   }
                 }}
                 selected={selectedStartDate}
                 onSelect={handleStartDateSelect}
+                minDate={props.minDate.getTime()}
                 maxDate={today}
                 dateFormat="dd/MM/yyyy"
-              />
+                id="datePicker1"
+                />
               <DatePicker
                 className={`${styles.pickerDropdown}`}
                 value={selectedEndDate}
@@ -1075,14 +1248,17 @@ const WeatherDataGraphs = (props) => {
                 }}
                 selected={selectedEndDate}
                 onSelect={handleEndDateSelect}
-                minDate={new Date(selectedStartDate.getTime())}
+                minDate={(Math.max(
+                  new Date(selectedStartDate.getTime()),
+                  props.minDate.getTime()
+                ))}
                 maxDate={today}
                 dateFormat="dd/MM/yyyy"
+                id="datePicker2"
               />
               <button
-                className={`${styles.filterButton} ${
-                  selectedFilterButton === "filter" ? styles.activeFilter : ""
-                }`}
+                className={`${styles.filterButton} ${selectedFilterButton === "filter" ? styles.activeFilter : ""
+                  }`}
                 onClick={() => {
                   if (isFilterClickable == false) {
                     return;
@@ -1138,7 +1314,7 @@ const WeatherDataGraphs = (props) => {
                 </button>
                 {isDropdownOpen && (
                   <ul className={styles.dropdownMenu}
-                    style={{fontSize: 14}}
+                    style={{ fontSize: 14 }}
                   >
                     <li
                       className={styles.dropdownItem}
@@ -1160,6 +1336,33 @@ const WeatherDataGraphs = (props) => {
         </div>
       </div>
 
+      {/* extrems Start */}
+
+      <div className={loading || props.leftLoad || (!isMobile && props.showWelcomeOverlay) ? styles.blur : "extrems"}>
+        {!isMobile ? (
+          <Stats Tab={props.selectedTab} statsData={props.stats} isMobile={isMobile} />
+        ) : props.selectedTab !== 'rain_wind' && (
+          <div className="d-flex flex-column justify-content-center my-2">
+            <button
+              onClick={toggleStats}
+              className={`d-flex flex-row w-100 justify-content-between py-2 ${styles.extremBtn}`}
+              aria-expanded={showStats}
+            >
+              <span>{showStats ? t("extremes.hide") : t("extremes.show")} {t("extremes.extremes")}</span>
+              <span>
+                <FontAwesomeIcon className={`${styles.downicon} ${showStats ? styles.open : ''}`} icon={faChevronDown} />
+              </span>
+            </button>
+            {showStats && (
+              <div className="d-flex flex-column align-items-center my-3">
+                <Stats Tab={props.selectedTab} statsData={props.stats} isMobile={isMobile} />
+              </div>)}
+          </div>
+        )}
+      </div>
+
+      {/* extrems End */}
+
       <div className={`${styles.chartContainer}`}>
         {(loading || props.leftLoad) && (
           <div className={styles.loadingOverlay}>{t("chartTitles.update")}</div>
@@ -1174,15 +1377,19 @@ const WeatherDataGraphs = (props) => {
             <br></br>
             {t("chartTitles.zoomMessage.3")}
             </span>
+            <img 
+                src={scrollingDemoGif}
+                alt="Scrolling demonstration"
+                className={styles.zoomGif}
+              />
             </div>
           </div>
         )}
         <div
-          className={`${styles.chartWrapper} ${
-            loading || props.leftLoad || (!isMobile && props.showWelcomeOverlay)
-              ? styles.blur
-              : ""
-          }`}
+          className={`${styles.chartWrapper} ${loading || props.leftLoad || (!isMobile && props.showWelcomeOverlay)
+            ? styles.blur
+            : ""
+            }`}
         >
           {(loading || props.leftLoad) && (
             <div className={styles.loadingOverlay}>
@@ -1201,7 +1408,7 @@ const WeatherDataGraphs = (props) => {
                   ...getDropdownPosition(),
                 }}
               >
-                <ul style={{ margin: 0, padding: 0, listStyle: "none", fontSize: 14}}>
+                <ul style={{ margin: 0, padding: 0, listStyle: "none", fontSize: 14 }}>
                   <li
                     className={styles.dropdownItem}
                     onClick={() => handleDownloadOption("Current Measurments")}

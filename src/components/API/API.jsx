@@ -10,7 +10,7 @@ import screenfull from "screenfull";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSortDown, faSortUp, faSort, faExpand, faCompress} from '@fortawesome/free-solid-svg-icons';
 import Loader from "react-js-loader";
-import Compare from "./Compare";
+import Compare from "../Compare/Compare";
 
 const API = () => {
     const {t} = useTranslation();
@@ -22,6 +22,7 @@ const API = () => {
     const [activeTab, setActiveTab] = useState(() => {
         return searchParams.get('tab') || sessionStorage.getItem('activeTab') || 'api';
     });
+    const [devicesLoading, setDevicesLoading] = useState(true);
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -59,9 +60,11 @@ const API = () => {
             .get(`/device_inner/list/`)
             .then((response) => {
                 setDevices(response.data);
+                setDevicesLoading(false);
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
+                setDevicesLoading(false);
             });
     }, []);
 
@@ -179,22 +182,22 @@ const API = () => {
                 </Helmet>
                 
                 {/* Tab Navigation */}
-                {/*<div className={styles.tabContainer}>*/}
-                {/*<button */}
-                {/*    className={`${styles.tabButton} ${activeTab === 'api' ? styles.activeTab : ''}`}*/}
-                {/*    onClick={() => handleTabChange('api')}*/}
-                {/*>*/}
-                {/*    {t("api.tab.api")}*/}
-                {/*</button>*/}
-                {/*<button */}
-                {/*    className={`${styles.tabButton} ${activeTab === 'compare' ? styles.activeTab : ''}`}*/}
-                {/*    onClick={() => handleTabChange('compare')}*/}
-                {/*>*/}
-                {/*    {t("api.tab.compare")}*/}
-                {/*</button>*/}
-                {/*</div>*/}
+                <div className={styles.tabContainer}>
+                <button
+                    className={`${styles.tabButton} ${activeTab === 'api' ? styles.activeTab : ''}`}
+                    onClick={() => handleTabChange('api')}
+                >
+                    {t("api.tab.api")}
+                </button>
+                <button 
+                    className={`${styles.tabButton} ${activeTab === 'compare' ? styles.activeTab : ''}`}
+                    onClick={() => handleTabChange('compare')}
+                >
+                    {t("api.tab.compare")}
+                </button>
+                </div>
 
-                {/*{activeTab === 'api' ? (*/}
+                <div className={`${styles.tabContent} ${activeTab === 'api' ? styles.active : styles.hidden}`}>
                     <>
                         <h2 className={styles.title}>{t("about.titleWeather")}</h2>
                         <p>{t("api.info")}</p>
@@ -410,9 +413,23 @@ const API = () => {
                     </p>
                     </div>
                     </>
-                {/*) : (*/}
-                {/*    <Compare initialDeviceIds={new URLSearchParams(window.location.search).get('devices')?.split(',') || []} />*/}
-                {/*)}*/}
+                    </div>
+                    
+                    <div className={`${styles.tabContent} ${activeTab === 'compare' ? styles.active : styles.hidden}`}>
+                        {devicesLoading ? (
+                            <Loader
+                                type="spinner"
+                                bgColor={"#FFFFFF"}
+                                color={"#FFFFFF"}
+                                size={60}
+                            />
+                        ) : (
+                            <Compare 
+                                initialDeviceIds={new URLSearchParams(window.location.search).get('devices')?.split(',') || []}
+                                devices={devices}
+                            />
+                        )}
+                    </div>
             </div>
         </div>
     );

@@ -147,11 +147,24 @@ const resources = {
                     conditionalCheckboxButton1: "Viewing",
                     conditionalCheckboxButton2: "device(s) (Click to change)",
                     noDevicesMessage: "Please select at least one device to display the chart.",
+                    noValidDataMessage: "No valid data in this metric.",
                     removeAll: "Remove All",
                     cancel: "Cancel",
                     apply: "Apply",
                     deviceIssues: "Device Issues",
-                    devicesWithIssues: "These devices have issues:",
+                    devicesWithIssues: "These measurements are unavailable for these devices:",
+                    selectDevices: "Select Devices to Compare",
+                    searchPlaceholder: "Search by ID, name or region...",
+                    noResultsFound: "No devices found",
+                    getMyLocation: "Get my location",
+                    filterDevices: "Filter devices",
+                    issueStatus: "Issue Status",
+                    withIssues: "With issues",
+                    withoutIssues: "Without issues",
+                    location: "Location",
+                    clearAll: "Clear all",
+                    locationError: "Unable to retrieve your location, try again later",
+                    userDeniedLocation: "Turn on the location access and try again!",
                     chart: {
                         title: "Climate Data Comparison",
                         device1: "Device 1",
@@ -283,6 +296,7 @@ const resources = {
                     clickDetails: "Click for Details",
                     compareButton: "Start Comparing",
                     compareTooltip: "Click to add this device to the comparison list.",
+                    compareButtonMobile: "Compare"
                 },
                 contact: {
                     title1: "Contact Us",
@@ -525,7 +539,8 @@ const resources = {
                     myum: "μm",
                     kmhour: "km/h",
                     micro: "micro",
-                    uv: "mW/cm2"
+                    uv: "mW/cm2",
+                    compareWithOtherDevices: "Compare the climate data with other devices"
                 },
                 nearbyDevicesItem: {
                     km: "km"
@@ -551,6 +566,10 @@ const resources = {
                 innerPageStaticContent: {
                     issue: "⚠️ These measurements currently have technical issues: ",
                     issueMobile: "⚠️ Issues detected: ",
+                    noRecentData: {
+                        title: "No Recent Data Found",
+                        message: "This device hasn't reported any measurements recently. Please check back later."
+                    }
                 },
                 innerPageFilter: {
                     options: {
@@ -569,7 +588,9 @@ const resources = {
                     },
                 },
                 innerPage: {
-                    data: "Data Not Found"
+                    data: "Data Not Found",
+                    title: "No Recent Data",
+                    powerInternetIssue: "This device hasn’t sent any data recently. It may be offline or experiencing connectivity issues.",
                 },
                 downloadButton: {
                     download: "Download Full Data"
@@ -588,12 +609,11 @@ const resources = {
                     currentMeasur: "Current Data",
                     allMeasur: "All Data",
                     timestamp: "Timestamp",
-                    zoomLimit: "You've reached the limit, try zooming in the other direction",
                     zoomLimit: "You've reached the maximum/minimum zoom level",
                     zoomMessage: {
                         "1": "Click to zoom to area",
                         "2": "Double-click to reset zoom",
-                        "3": "Hold Alt/Option and scroll to zoom",
+                        "3": "Zoom: Alt/Opt ",
                     },
                 },
                 filterTooltips: {
@@ -613,7 +633,18 @@ const resources = {
                 privacyPolicy: {
                     title: "Privacy Policy",
 
-                }
+                },
+                min_max:
+                {
+                    min: "Min",
+                    max: "Max"
+                },
+                extremes:
+                {
+                    show: "Show",
+                    hide: "Hide",
+                    extremes: "extremes"
+                },
             },
         },
 
@@ -756,15 +787,26 @@ const resources = {
                 compare: {
                     title: "Համեմատել տեղանքները",
                     info: "Համեմատել տարբեր վայրերի կլիմայի տվյալները՝ օգտագործելով մեր Կլիմայի տվյալների API-ն:",
-                    checkboxButton: "Ընտրեք սարքեր համեմատության համար",
-                    conditionalCheckboxButton1: "Դիտվում է",
+                    checkboxButton: "Ընտրեք սարքեր համեմատելու համար",
+                    conditionalCheckboxButton1: "",
                     conditionalCheckboxButton2: "սարք (սեղմեք փոփոխելու համար)",
                     noDevicesMessage: "Խնդրում ենք ընտրել առնվազն մեկ սարք՝ գրաֆիկը ցուցադրելու համար:",
                     removeAll: "Հեռացնել բոլորը",
                     cancel: "Չեղարկել",
                     apply: "Կիրառել",
                     deviceIssues: "Սարքի խնդիրներ",
-                    devicesWithIssues: "Այս սարքերն ունեն խնդիրներ`",
+                    devicesWithIssues: "Ընթացիկ չափումները հասանելի չեն այս սարքերի համար`",
+                    selectDevices: "Ընտրեք սարքեր համեմատության համար",
+                    searchPlaceholder: "Փնտրեք ID-ով, անունով կամ տեղանքով...",
+                    getMyLocation: "Ստանալ իմ գտնվելու վայրը",
+                    filterDevices: "Ֆիլտրել սարքերը",
+                    issueStatus: "Խնդրի կարգավիճակ",
+                    withIssues: "Խնդիրներով",
+                    withoutIssues: "Առանց խնդիրների",
+                    location: "Տեղանք",
+                    clearAll: "Մաքրել բոլորը",
+                    locationError: "Հնարավոր չէ ստանալ Ձեր գտնվելու վայրը, փորձեք կրկին ավելի ուշ",
+                    userDeniedLocation: "Միացրեք գտնվելու վայրի հասանելիությունը և կրկին փորձեք",
                     chart: {
                         title: "Կլիմայի տվյալների համեմատություն",
                         device1: "Սարք 1",
@@ -780,14 +822,14 @@ const resources = {
                         dataKeys: "Չափումներ",
                         xAxis: "Ժամանակ",
                         temperature: "Ջերմաստիճան",
-                        uv: "Ուլտրամանուշակագույն ինդեքս",
-                        lux: "Լույսի ինտենսիվություն",
+                        uv: "UV ինդեքս",
+                        lux: "Լույս",
                         pressure: "Ճնշում",
                         humidity: "Խոնավություն",
                         pm1: "PM1",
                         pm2_5: "PM2.5",
                         pm10: "PM10",
-                        speed: "Քամու արագություն",
+                        speed: "Քամի",
                         rain: "Անձրև"
                     },
                     select_devices: "Ընտրեք սարքեր համեմատության համար",
@@ -896,6 +938,7 @@ const resources = {
                     clickDetails: "Ավելին",
                     compareButton: "Համեմատել",
                     compareTooltip: "Սեղմեք՝ այս սարքը համեմատության ցանկին ավելացնելու համար:",
+                    compareButtonMobile: "Համեմատել"
                 },
                 contact: {
                     title1: "Կապ մեզ հետ",
@@ -1133,7 +1176,8 @@ const resources = {
                     mm: "մմ",
                     myum: "μմ",
                     kmhour: "կմ/ժ",
-                    micro: "միկրո"
+                    micro: "միկրո",
+                    compareWithOtherDevices: "Համեմատել կլիմայական տվյալները այլ տեղանքների հետ"
                 },
                 innerPageDynamicContent: {
                     tabTitles: {
@@ -1154,7 +1198,11 @@ const resources = {
                 },
                 innerPageStaticContent: {
                     issue: "⚠️ Տվյալ չափումները այս պահին ունեն տեխնիկական խնդիրներ - ",
-                    issueMobile: "⚠️ Տեխնիկական խնդիրներ՝ "
+                    issueMobile: "⚠️ Տեխնիկական խնդիրներ՝ ",
+                    noRecentData: {
+                        title: "Վերջին տվյալներ չեն գտնվել",
+                        message: "Այս սարքը վերջերս չի հայտնել որևէ չափումների մասին: Խնդրում ենք ստուգել ավելի ուշ:"
+                    }
                 },
                 innerPageFilter: {
                     options: {
@@ -1169,11 +1217,13 @@ const resources = {
                 innerPageNearbyDevices: {
                     titles: {
                         devicesNear: "Այլ սարքեր",
-                        devicesNearArm: "-ում",
+                        devicesNearArm: "ում",
                     },
                 },
                 innerPage: {
-                    data: "Տվյալներ չեն գտնվել"
+                    data: "Տվյալներ չեն գտնվել",
+                    title: "Վերջին տվյալներ չկան",
+                    powerInternetIssue: "Սարքն այս ընթացքում տվյալներ չի ուղարկել։ Հնարավոր է՝ այն անջատված է կամ առկա է միացման խնդիր։",
                 },
                 downloadButton: {
                     download: "Ներբեռնել ամբողջական տվյալները"
@@ -1194,7 +1244,7 @@ const resources = {
                     zoomMessage: {
                         "1": "Սեղմեք՝ տարածքը խոշորացնելու համար",
                         "2": "Կրկնակի սեղմեք՝ խոշորացումը վերականգնելու համար",
-                        "3": "Opt/Alt + մկնիկ խոշորացույցն ակտիվացնելու համար:",
+                        "3": "Խոշորացույցն ակտիվացնելու համար` Alt/Opt ",
                     },
                 },
                 filterTooltips: {
@@ -1212,6 +1262,17 @@ const resources = {
                     },
                 privacyPolicy: {
                     title: "Գաղտնիության քաղաքականություն",
+                },
+                min_max:
+                {
+                    min: "Մին.",
+                    max: "Մաքս."
+                },
+                extremes:
+                {
+                    show: "Ցուցադրել",
+                    hide: "Թաքցնել",
+                    extremes: "էքստրեմումները"
                 }
             },
         },

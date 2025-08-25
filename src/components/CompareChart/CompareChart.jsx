@@ -10,12 +10,13 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import styles from "./WeatherDataGraphs.module.css";
+import styles from "./CompareChart.module.css";
+import scrollingDemoGif from '../../assets/Icons/Scroll-Down.gif';
 import DatePicker from "react-datepicker";
-import { weatherChartColors } from '../colors';
+import { weatherChartColors } from './colors';
 import { useTranslation } from "react-i18next";
 import { saveAs } from "file-saver";
-import "../../../i18n";
+import "../../i18n";
 import zoomPlugin from "chartjs-plugin-zoom";
 
 ChartJS.register(
@@ -53,7 +54,7 @@ const convertToCSV = (t, labels, datasets) => {
     ...datasets.map((dataset) => dataset.label),
   ];
   const rows = labels.map((label, index) => {
-    const rowData = datasets.map((dataset) => dataset.data[index] || "0");
+    const rowData = datasets.map((dataset) => dataset.data[index] || "");
     return [label, ...rowData];
   });
 
@@ -271,9 +272,47 @@ const downloadButtonPlugin = (isMobile, toggleDropdown) => ({
   },
 });
 
-ChartJS.register(verticalLinePlugin);
+const missingDataPlugin = {
+  id: 'missingDataPlugin',
+  afterDatasetsDraw(chart) {
+    const { ctx, scales: { x, y } } = chart;
 
-const WeatherDataGraphs = (props) => {
+    chart.data.datasets.forEach((dataset, datasetIndex) => {
+      const meta = chart.getDatasetMeta(datasetIndex);
+      if (meta.type !== 'line' || meta.hidden) return;
+
+      const points = meta.data || [];
+      let lastDrawnPoint = null;
+
+      ctx.save();
+      ctx.beginPath();
+
+      points.forEach((point, index) => {
+        const value = dataset.data[index];
+        const isMissing = value === null || value === undefined;
+
+        if (!isMissing) {
+          if (lastDrawnPoint && lastDrawnPoint.index !== index - 1) {
+            // Draw connection from last point to current point
+            ctx.moveTo(lastDrawnPoint.x, lastDrawnPoint.y);
+            ctx.lineTo(point.x, point.y);
+          }
+          lastDrawnPoint = { x: point.x, y: point.y, index };
+        }
+      });
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 1)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([5, 3]); // Dashed pattern
+      ctx.stroke();
+      ctx.restore();
+    });
+  }
+};
+
+ChartJS.register(verticalLinePlugin, missingDataPlugin);
+
+const CompareChart = (props) => {
   const { t } = useTranslation();
   const chartRef = useRef(null);
   const today = new Date();
@@ -318,6 +357,12 @@ const WeatherDataGraphs = (props) => {
     props.data, // Array of data arrays (one per device)
     weatherChartColors.colors,
   );
+  useEffect(() => {
+    if (props.filterState === "Range") {
+      if (props.startDate !== appliedStartDate && props.endDate !== appliedEndDate)
+      setLoading(true);
+    }
+  }, [props.startDate, props.endDate]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -347,101 +392,206 @@ const WeatherDataGraphs = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   useEffect(() => {
     const canvas = chartRef.current?.canvas;
     if (!canvas) return;
-
+  
+    // State tracking variables
     let clickTimeout = null;
-
+    let zoomHistory = [];
+    let isDragging = false;
+    let dragStartX = 0;
+    let initialZoomState = null;
+    let lastClickTime = 0;
+  
     const handleClick = (event) => {
+      // Ignore if this is part of a drag operation
+      if (isDragging) return;
+  
+      // Ignore clicks on download button (mobile)
       if (isMobile && chartRef.current?.downloadButton) {
         const { x, y, width, height } = chartRef.current.downloadButton;
         const rect = canvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
-
-        if (
-          clickX >= x &&
-          clickX <= x + width &&
-          clickY >= y &&
-          clickY <= y + height
-        ) {
-          // This is a download button click - ignore it
-          if (clickTimeout) {
-            clearTimeout(clickTimeout);
-            clickTimeout = null;
-          }
+  
+        if (clickX >= x && clickX <= x + width && clickY >= y && clickY <= y + height) {
+          clearClickTimeout();
           return;
         }
       }
-
+  
+      // Ignore clicks on header area
       if (chartRef.current) {
         const rect = canvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
-
+  
         if (clickX >= 0 && clickX <= 1500 && clickY >= 0 && clickY <= 70) {
-          if (clickTimeout) {
-            clearTimeout(clickTimeout);
-            clickTimeout = null;
-          }
+          clearClickTimeout();
           return;
         }
       }
-
-      if (clickTimeout) {
-        clearTimeout(clickTimeout);
-        clickTimeout = null;
+  
+      // Handle double click detection
+      const now = Date.now();
+      if (now - lastClickTime < 300) { // Double click threshold
+        clearClickTimeout();
+        lastClickTime = 0;
+        return;
       }
-
+      lastClickTime = now;
+  
+      // Set up zoom timeout
+      clearClickTimeout();
       clickTimeout = setTimeout(() => {
+        if (isDragging) return;
+  
         const chart = chartRef.current;
         if (!chart) return;
-
-        // Get mouse position relative to canvas
-        const rect = canvas.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-
-        // Get the value at the clicked position
+  
         const xAxis = chart.scales.x;
-        const value = xAxis.getValueForPixel(x);
-
-        // Calculate zoom window
-        const totalPoints = chart.data.labels.length;
-        const zoomWindow = Math.max(1, Math.floor(totalPoints * 0.1));
-        const min = Math.max(0, value - zoomWindow / 2);
-        const max = Math.min(totalPoints - 1, value + zoomWindow / 2);
-
+        const currentMin = xAxis.min;
+        const currentMax = xAxis.max;
+        const currentRange = currentMax - currentMin;
+        
+        // Don't zoom if already at minimum zoom level
+        if (currentRange <= 4) return;
+  
+        const rect = canvas.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const value = xAxis.getValueForPixel(clickX);
+  
+        const zoomFactor = 0.4;
+        const newRange = Math.max(4, currentRange * zoomFactor);
+        
+        const min = Math.max(0, value - newRange / 2);
+        const max = Math.min(chart.data.labels.length - 1, value + newRange / 2);
+  
+        // Save current view to history
+        zoomHistory.push({ min: currentMin, max: currentMax });
+  
         // Apply zoom
-        chart.zoomScale("x", { min, max }, "default");
+        chart.zoomScale('x', { min, max }, 'default');
         chart.tooltip.setActiveElements([], { x: 0, y: 0 });
         chart.setActiveElements([]);
         chart.update();
       }, 200);
     };
-
+  
     const handleDoubleClick = () => {
-      if (clickTimeout) {
-        clearTimeout(clickTimeout);
-        clickTimeout = null;
-      }
-
+      clearClickTimeout();
       const chart = chartRef.current;
       if (chart) {
+        zoomHistory = []; // Clear history
         chart.resetZoom();
         chart.tooltip.setActiveElements([], { x: 0, y: 0 });
         chart.setActiveElements([]);
         chart.update();
       }
     };
-
+  
+    const handleRightClick = (event) => {
+      event.preventDefault();
+      clearClickTimeout();
+      
+      const chart = chartRef.current;
+      if (!chart || zoomHistory.length === 0) return;
+  
+      // Get previous zoom state
+      const prevZoom = zoomHistory.pop();
+      
+      // Apply previous zoom
+      chart.zoomScale('x', { min: prevZoom.min, max: prevZoom.max }, 'default');
+      chart.tooltip.setActiveElements([], { x: 0, y: 0 });
+      chart.setActiveElements([]);
+      chart.update();
+    };
+  
+    const handleMouseDown = (event) => {
+      if (event.button !== 0) return; // Only left mouse button
+      
+      isDragging = true;
+      dragStartX = event.clientX;
+      const chart = chartRef.current;
+      
+      if (chart) {
+        const xAxis = chart.scales.x;
+        initialZoomState = { 
+          min: xAxis.min, 
+          max: xAxis.max,
+          pixelRange: xAxis.width
+        };
+      }
+      
+      canvas.style.cursor = 'grabbing';
+      clearClickTimeout();
+    };
+  
+    const handleMouseMove = (event) => {
+      if (!isDragging || !initialZoomState) return;
+      
+      const chart = chartRef.current;
+      if (!chart) return;
+  
+      const deltaX = event.clientX - dragStartX;
+      dragStartX = event.clientX;
+  
+      const dataRange = initialZoomState.max - initialZoomState.min;
+      const dataPerPixel = dataRange / initialZoomState.pixelRange;
+      const dataDelta = deltaX * dataPerPixel;
+  
+      const newMin = Math.max(0, initialZoomState.min - dataDelta);
+      const newMax = Math.min(chart.data.labels.length - 1, initialZoomState.max - dataDelta);
+  
+      // Update the initial state for smooth continuous dragging
+      initialZoomState.min = newMin;
+      initialZoomState.max = newMax;
+  
+      chart.zoomScale('x', { min: newMin, max: newMax }, 'default');
+      chart.update();
+    };
+  
+    const handleMouseUp = () => {
+      if (isDragging) {
+        isDragging = false;
+        canvas.style.cursor = '';
+      }
+    };
+  
+    const handleMouseLeave = () => {
+      if (isDragging) {
+        isDragging = false;
+        canvas.style.cursor = '';
+      }
+    };
+  
+    const clearClickTimeout = () => {
+      if (clickTimeout) {
+        clearTimeout(clickTimeout);
+        clickTimeout = null;
+      }
+    };
+  
+    // Add event listeners
     canvas.addEventListener("click", handleClick);
     canvas.addEventListener("dblclick", handleDoubleClick);
-
+    canvas.addEventListener("contextmenu", handleRightClick);
+    canvas.addEventListener("mousedown", handleMouseDown);
+    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mouseup", handleMouseUp);
+    canvas.addEventListener("mouseleave", handleMouseLeave);
+  
     return () => {
-      if (clickTimeout) clearTimeout(clickTimeout);
+      clearClickTimeout();
       canvas.removeEventListener("click", handleClick);
       canvas.removeEventListener("dblclick", handleDoubleClick);
+      canvas.removeEventListener("contextmenu", handleRightClick);
+      canvas.removeEventListener("mousedown", handleMouseDown);
+      canvas.removeEventListener("mousemove", handleMouseMove);
+      canvas.removeEventListener("mouseup", handleMouseUp);
+      canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [chartRef, isMobile]);
 
@@ -456,11 +606,7 @@ const WeatherDataGraphs = (props) => {
     if (!canvas) return;
 
     const handleWheel = (event) => {
-      // Detect if the user is on macOS
-      const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
-
-      // Check for the appropriate modifier key based on platform
-      const modifierPressed = isMac ? event.metaKey : event.ctrlKey;
+      const modifierPressed = event.shiftKey;
       if (modifierPressed) {
         event.preventDefault();
 
@@ -565,6 +711,28 @@ const WeatherDataGraphs = (props) => {
     }
   }, [props.filterState]);
 
+  // After devices change the filter must go to 1 day, because if the device doesn't have enough data as it was selected it will show as much as it has but not at the right place
+  // useEffect(() => {
+  //   if (selectedFilterButton === "oneD") return;
+  //   setSelectedFilterButton("oneD");
+  //   const currentDate = new Date();
+  //   const start = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+  //   const end = currentDate;
+  //   setSelectedFilter("Hourly");
+  //   setSelectedStartDate(start);
+  //   setSelectedEndDate(end);
+  //   setAppliedStartDate(start);
+  //   setAppliedEndDate(end);
+  //   props.setStartDate(start);
+  //   props.setEndDate(end);
+  //   props.filterChange("Hourly");
+  //   props.setShowWelcomeOverlay(false);
+  //   setDateChanged(false);
+  //   setLoading(true);
+  //   scrollToChart();
+  //   resetDatasetVisibility();
+  // }, [props.selected_device_id.length])
+  
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -584,81 +752,110 @@ const WeatherDataGraphs = (props) => {
         props.data, // Array of data arrays (one per device)
         weatherChartColors.colors,
       );
+
+      const metrics = [
+        { key: 'temperature', label: 'Temperature' },
+        { key: 'humidity', label: 'Humidity' },
+        { key: 'pressure', label: 'Pressure' },
+        { key: 'lux', label: 'Light Intensity' },
+        { key: 'uv', label: 'UV Index' },
+        { key: 'pm1', label: 'Air Pollution (PM1)' },
+        { key: 'pm2_5', label: 'Air Pollution (PM2.5)' },
+        { key: 'pm10', label: 'Air Pollution (PM10)' },
+        { key: 'rain', label: 'Rain' },
+        { key: 'speed', label: 'Wind Speed' }
+      ];
+
+      const metricsMap = new Map(metrics.map(metric => [metric.key, metric]));
+
       downloadCSV(
         t,
         data.labels,
         data.datasets,
         `Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(
           appliedEndDate
-        )}.csv`
+        )} for ${metricsMap.get(props.types).label}.csv`
       );
     } else if (format === "All Measurments") {
-      const timestamps = props.weather_data.map((entry) => entry.time_interval);
+      const deviceLabels = props.deviceLabel || [];
+      const deviceData = (props.rawData || []).filter(device => 
+        device.data && device.data.length > 0
+      );
 
-      const allMetrics = [
-        {
-          key: "temperature",
-          label: `${t("innerPageDynamicContent.temperature")} (°C)`,
-        },
-        {
-          key: "humidity",
-          label: `${t("innerPageDynamicContent.humidity")} (%)`,
-        },
-        {
-          key: "pressure",
-          label: `${t("innerPageDynamicContent.pressure")} (${t(
-            "linerStatusBar.hPa"
-          )})`,
-        },
-        { key: "uv", label: "UV" },
-        {
-          key: "lux",
-          label: `${t("innerPageDynamicContent.light_intensity")} (${t(
-            "linerStatusBar.lux"
-          )})`,
-        },
-        { key: "pm1", label: `PM1 ${t("about.pmMu")}` },
-        { key: "pm2_5", label: `PM2.5 ${t("about.pmMu")}` },
-        { key: "pm10", label: `PM10 ${t("about.pmMu")}` },
-        {
-          key: "speed",
-          label: `${t("innerPageDynamicContent.windSpeed")} (${t(
-            "linerStatusBar.kmhour"
-          )})`,
-        },
-        {
-          key: "rain",
-          label: `${t("innerPageDynamicContent.rain")} (${t(
-            "linerStatusBar.mm"
-          )})`,
-        },
+      if (deviceData.length === 0) {
+        return;
+      }
+
+      // Get ALL timestamps across all devices (including duplicates)
+      const allTimestamps = deviceData.flatMap(device => 
+        device.data.map(entry => entry.time_interval)
+      );
+      
+      // Get unique timestamps and sort them properly
+      const uniqueTimestamps = [...new Set(allTimestamps)].sort((a, b) => 
+        new Date(a) - new Date(b)
+      );
+      
+      // Define the metrics we want to include (can be customized)
+      const metrics = [
+        { key: 'temperature', label: 'Temperature (°C)' },
+        { key: 'humidity', label: 'Humidity (%)' },
+        { key: 'pressure', label: 'Pressure (hPa)' },
+        { key: 'lux', label: 'Light (lux)' },
+        { key: 'uv', label: 'UV Index' },
+        { key: 'pm1', label: 'PM1 (µg/m³)' },
+        { key: 'pm2_5', label: 'PM2.5 (µg/m³)' },
+        { key: 'pm10', label: 'PM10 (µg/m³)' },
+        { key: 'rain', label: 'Rain (mm)' },
+        { key: 'speed', label: 'Wind Speed (km/h)' }
       ];
+      
+      // Prepare headers - main metric headers spanning device columns
+      const firstHeaderRow = ['Timestamp'];
+      const secondHeaderRow = [''];
+      
+      metrics.forEach(metric => {
+        firstHeaderRow.push(metric.label);
+        // Add empty cells for additional device columns
+        for (let i = 1; i < deviceLabels.length; i++) {
+          firstHeaderRow.push('');
+        }
+        
+        // Add device labels for this metric
+        deviceLabels.forEach(deviceLabel => {
+          secondHeaderRow.push(deviceLabel);
+        });
+      });
+      
+      // Prepare rows - ensure we include ALL timestamps
+      const rows = uniqueTimestamps.map(timestamp => {
+        const row = [formatTimestamp(timestamp)];
+        metrics.forEach(metric => {
+          deviceLabels.forEach((_, deviceIndex) => {
+            const deviceEntries = deviceData[deviceIndex]?.data || [];
+            const entry = deviceEntries.find(
+              e => e.time_interval === timestamp
+            );
+            
+            // Add the value or empty if not found
+            row.push(entry?.[metric.key] ?? '');
+          });
+        });
+        
+        return row;
+      });
 
-      const dataArrays = allMetrics.map((metric) =>
-        props.weather_data.map((entry) => entry[metric.key] || "0")
-      );
+      // Convert to CSV with multi-line headers
+      const csvContent = [
+        firstHeaderRow.join(','),
+        secondHeaderRow.join(','),
+        ...rows.map(row => row.join(','))
+      ].join('\n');
 
-      const allData = formatData(
-        isMobile,
-        props.types, // Single metric type (e.g., "temperature")
-        props.selected_device_id, // Array of device IDs
-        props.deviceLabel,
-        props.time, // Timestamps array
-        props.data, // Array of data arrays (one per device)
-        weatherChartColors.colors,
-      );
-
-      downloadCSV(
-        t,
-        allData.labels,
-        allData.datasets,
-        `All Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(
-          appliedEndDate
-        )}.csv`
-      );
+      // Download the file
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      saveAs(blob, `All Climate Data ${getDateOnly(appliedStartDate)} - ${getDateOnly(appliedEndDate)}.csv`);
     }
-
-    setIsDropdownOpen(false);
   };
 
   useEffect(() => {
@@ -672,13 +869,6 @@ const WeatherDataGraphs = (props) => {
     document.addEventListener("touchmove", preventZoom, { passive: false });
     return () => document.removeEventListener("touchmove", preventZoom);
   }, []);
-
-  const title_map = {
-    Monthly: t("chartTitles.monthly"),
-    Daily: t("chartTitles.daily"),
-    Hourly: t("chartTitles.hourly"),
-    Range: t("chartTitles.range"),
-  };
 
   // Calculate zoom limits based on data range
   const timestamps = props.time || [];
@@ -779,7 +969,7 @@ const WeatherDataGraphs = (props) => {
             enabled: false,
           },
           pan: {
-            enabled: false,
+            enabled: true,
           },
           mode: "x",
         },
@@ -787,12 +977,7 @@ const WeatherDataGraphs = (props) => {
           x: {
             min: 0,
             max: data.labels.length - 1,
-            minRange: Math.max(
-              1,
-              Math.floor(
-                data.labels.length * (oneDay / (maxTimestamp - minTimestamp))
-              )
-            ),
+            minRange: 4,
             maxRange: Math.min(
               data.labels.length - 1,
               Math.floor(
@@ -996,20 +1181,7 @@ const WeatherDataGraphs = (props) => {
         },
       },
       title: {
-        display: true,
-        text: `${t("chartTitles.dataPer")}${title_map[props.timeline]}`,
-        align: isMobile ? "center" : "start",
-        color: "#FFFFFF",
-        font: {
-          family: "Arial, sans-serif",
-          size: 16,
-        },
-        padding: {
-          top: isMobile ? 15 : 0,
-          // bottom: 30,
-          left: 20,
-          right: 20,
-        },
+        display: false,
       },
     },
   };
@@ -1078,6 +1250,7 @@ const WeatherDataGraphs = (props) => {
         scrollToChart();
         resetDatasetVisibility();
       },
+      disabled: false
     },
     {
       key: "oneW",
@@ -1103,6 +1276,7 @@ const WeatherDataGraphs = (props) => {
         scrollToChart();
         resetDatasetVisibility();
       },
+      disabled: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000) < props.minDate
     },
     {
       key: "oneM",
@@ -1130,6 +1304,7 @@ const WeatherDataGraphs = (props) => {
         scrollToChart();
         resetDatasetVisibility();
       },
+      disabled: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000) < props.minDate
     },
   ];
 
@@ -1169,14 +1344,15 @@ const WeatherDataGraphs = (props) => {
                   : ""
               }`}
             >
-              {filterButtons.map(({ key, label, action }) => (
+              {filterButtons.map(({ key, label, action, disabled }) => (
                 <button
                   key={key}
                   className={`${styles.filterButton} ${
                     selectedFilterButton === key ? styles.activeFilter : ""
                   }`}
                   onClick={action}
-                  disabled={selectedFilterButton === key}
+                  disabled={selectedFilterButton === key || disabled}
+                  style={disabled || selectedFilterButton === key ? { pointerEvents: "none" } : {}}
                 >
                   {label}
                 </button>
@@ -1202,8 +1378,10 @@ const WeatherDataGraphs = (props) => {
                 }}
                 selected={selectedStartDate}
                 onSelect={handleStartDateSelect}
+                minDate={props.minDate.getTime()}
                 maxDate={today}
                 dateFormat="dd/MM/yyyy"
+                id="datePicker1"
               />
               <DatePicker
                 className={`${styles.pickerDropdown}`}
@@ -1223,9 +1401,13 @@ const WeatherDataGraphs = (props) => {
                 }}
                 selected={selectedEndDate}
                 onSelect={handleEndDateSelect}
-                minDate={new Date(selectedStartDate.getTime())}
+                minDate={(Math.max(
+                  new Date(selectedStartDate.getTime()),
+                  props.minDate.getTime()
+                ))}
                 maxDate={today}
                 dateFormat="dd/MM/yyyy"
+                id="datePicker2"
               />
               <button
                 className={`${styles.filterButton} ${
@@ -1325,6 +1507,11 @@ const WeatherDataGraphs = (props) => {
                   <br></br>
                   {t("chartTitles.zoomMessage.3")}
                 </span>
+              <img 
+                src={scrollingDemoGif}
+                alt="Scrolling demonstration"
+                className={styles.zoomGif}
+              />
               </div>
             </div>
           )}
@@ -1393,4 +1580,4 @@ const WeatherDataGraphs = (props) => {
   );
 };
 
-export default WeatherDataGraphs;
+export default CompareChart;

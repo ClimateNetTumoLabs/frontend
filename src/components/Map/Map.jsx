@@ -1,10 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState, useMemo } from "react";
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, GeoJSON, useMapEvents, useMap, Marker } from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import iconUrl from "../../assets/Icons/map-marker.svg";
+import { icon } from "leaflet";
 import location from "../../assets/Icons/circle.jpeg";
 import armeniaGeoJSON from "../../armenia.json";
 import { Route, Routes } from "react-router-dom";
@@ -13,7 +13,6 @@ import "react-leaflet-fullscreen/styles.css";
 import { FullscreenControl } from "react-leaflet-fullscreen";
 import styles from "./Map.module.css";
 import { PositionContext } from "../../context/PositionContext";
-import clickIcon from "../../assets/Icons/clickonIcon.png";
 import { Polygon } from "react-leaflet";
 import { useTranslation } from "react-i18next";
 import ResetViewControl from '@20tab/react-leaflet-resetview';
@@ -22,6 +21,11 @@ import 'leaflet-easybutton';
 import 'leaflet-easybutton/src/easy-button.css';
 import 'leaflet-easybutton/src/easy-button.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+
+const iconUrl = "https://images-in-website.s3.us-east-1.amazonaws.com/Icons/map-marker.svg";
+const preloadedIcon = new Image();
+preloadedIcon.src = iconUrl;
+
 
 function circleWithText2(latLng, txt, radius, borderWidth) {
     var size = radius;
@@ -85,6 +89,7 @@ const PolygonWithText = ({ coords, text, region, zoomLevel }) => {
         />
     ) : null;
 }
+
 
 const usePopupManager = () => {
     const activePopupsRef = useRef(new Map());
@@ -198,7 +203,17 @@ const MapArmenia = () => {
     const [isFetchingLatest, setIsFetchingLatest] = useState({});
     const intervalRef = useRef(null);
     const [selectedDevices, setSelectedDevices] = useState([]);
-    const [isMapVisible, setIsMapVisible] = useState(true);
+    const [isMapVisible, setIsMapVisible] = useState(false);
+    const [mobileImageZoom, setMobileImageZoom] = useState(null);
+    const lastFetchTime = useRef(null);
+    lastFetchTime.current = new Date();
+    const deviceMap = useMemo(() =>
+            devices.reduce((acc, d) => ({ ...acc, [d.generated_id]: d }), {}),
+        [devices]);
+
+    const selectedIds = useMemo(() =>
+            new Set(selectedDevices.map(d => d.generated_id)),
+        [selectedDevices]);
 
     const regionCoordinatesMap = {
         "Aragatsotn": [40.5233, 44.4784],
@@ -304,22 +319,50 @@ const MapArmenia = () => {
 
     const InfoButton = ({ onClick, hidden }) => {
         const map = useMap();
+        const controlRef = useRef(null);
+
         useEffect(() => {
-            if (hidden) return;
+            if (!map) return;
 
-            const infoControl = new InfoControl({
-                position: 'topright',
-                onClick: onClick
-            });
+            if (!controlRef.current) {
+                const infoControl = new InfoControl({
+                    position: 'topright',
+                    onClick: onClick
+                });
 
-            map.addControl(infoControl);
-            map.invalidateSize();
+                controlRef.current = infoControl;
+                map.addControl(infoControl);
+
+                const controlElement = infoControl.getContainer();
+                if (controlElement) {
+                    controlElement.style.display = hidden ? 'none' : 'flex';
+                }
+            } else {
+                const controlElement = controlRef.current.getContainer();
+                if (controlElement) {
+                    controlElement.style.display = hidden ? 'none' : 'flex';
+                }
+            }
 
             return () => {
-                map.removeControl(infoControl);
-                map.invalidateSize();
+                if (controlRef.current && map && map._container) {
+                    try {
+                        map.removeControl(controlRef.current);
+                        controlRef.current = null;
+                    } catch (e) {
+                    }
+                }
             };
         }, [map, onClick, hidden]);
+
+        useEffect(() => {
+            if (controlRef.current) {
+                const controlElement = controlRef.current.getContainer();
+                if (controlElement) {
+                    controlElement.style.display = hidden ? 'none' : 'flex';
+                }
+            }
+        }, [hidden]);
 
         return null;
     };
@@ -353,6 +396,15 @@ const MapArmenia = () => {
                 <div class="${styles.zoomResult}"></div>
             </div>
             <h3> ${device[i18n.language === 'hy' ? 'name_hy' : 'name_en']} </h3>
+                <div class="${styles.compareIconContainer}">
+                    <div 
+                        class="${styles.compareIconVS}" 
+                        onclick="window.dispatchEvent(new CustomEvent('compareDevice', { detail: { id: '${device.generated_id}' } }))"
+                    >
+                        VS
+                    </div>
+                    <span class="${styles.compareTooltip}">${t('map.compareTooltip')}</span>
+                </div>
             ${isLoading ? `
                 <p>Loading...</p>
             ` : `
@@ -379,6 +431,17 @@ const MapArmenia = () => {
         });
 
         const image = popupElement.querySelector(`.${styles.deviceImage}`);
+        if (image) {
+            image.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (e.touches.length === 1) {
+                    setMobileImageZoom({
+                        src: image.src,
+                        alt: image.alt
+                    });
+                }
+            }, { passive: false });
+        }
         const lens = popupElement.querySelector(`.${styles.zoomLens}`);
         const result = popupElement.querySelector(`.${styles.zoomResult}`);
 
@@ -386,7 +449,7 @@ const MapArmenia = () => {
             const initializeZoom = () => {
                 const imgRect = image.getBoundingClientRect();
                 const lensSize = 60;
-                const zoomFactor = 3;
+                const zoomFactor = 2;
                 const resultSize = 200;
 
                 result.style.backgroundImage = `url(${image.src})`;
@@ -425,26 +488,32 @@ const MapArmenia = () => {
                     };
                 };
 
-                image.addEventListener('mousemove', moveLens);
                 image.addEventListener('mouseenter', () => {
                     lens.style.display = 'block';
-                    result.style.display = 'block';
+                    result.style.opacity = '1';
+                    result.style.transform = 'scale(1)';
+                    result.style.pointerEvents = 'auto';
                 });
+
                 image.addEventListener('mouseleave', () => {
-                    lens.style.display = 'none';
-                    result.style.display = 'none';
+                    result.style.opacity = '0';
+                    result.style.transform = 'scale(0.9)';
+                    result.style.pointerEvents = 'none';
+
+                    setTimeout(() => {
+                        lens.style.display = 'none';
+                    }, 300);
                 });
-                image.addEventListener('touchstart', (e) => {
+
+
+                image.addEventListener('mousemove', moveLens);
+                image.addEventListener('touchmove', (e) => {
                     e.preventDefault();
-                    lens.style.display = 'block';
-                    result.style.display = 'block';
-                    moveLens(e);
-                });
-                image.addEventListener('touchmove', moveLens);
-                image.addEventListener('touchend', () => {
-                    lens.style.display = 'none';
-                    result.style.display = 'none';
-                });
+                }, { passive: false });
+
+                image.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                }, { passive: false });
 
                 popup.on('remove', () => {
                     image.removeEventListener('mousemove', moveLens);
@@ -464,108 +533,136 @@ const MapArmenia = () => {
         }
     };
 
-    useEffect(() => {
-        const fetchDeviceList = async () => {
-            try {
-                const deviceListResponse = await axios.get(`/device_inner/list/`);
-                const deviceList = deviceListResponse.data.map(device => ({
-                    ...device,
-                    temperature: null,
-                    humidity: null
-                }));
-                setDevices(deviceList);
-                setIsFetchingLatest(deviceList.reduce((acc, device) => ({
+
+    const isNewInterval = () => {
+        if (!lastFetchTime.current) {
+            return true;
+        }
+
+        const now = new Date();
+        const last = new Date(lastFetchTime.current);
+
+        const currentQuarter = Math.floor(now.getMinutes() / 15);
+        const lastQuarter = Math.floor(last.getMinutes() / 15);
+        const isNewQuarter = now.getHours() !== last.getHours() || currentQuarter !== lastQuarter;
+
+        return isNewQuarter;
+    };
+
+    const fetchDeviceList = async () => {
+        try {
+            const deviceListResponse = await axios.get(`/device_inner/list/`);
+            const deviceList = deviceListResponse.data.map(device => ({
+                ...device,
+                temperature: null,
+                humidity: null
+            }));
+            setDevices(deviceList);
+            setIsFetchingLatest(deviceList.reduce((acc, device) => ({
+                ...acc,
+                [device.generated_id]: false
+            }), {}));
+            await fetchLatestData(deviceList);
+        } catch (error) {
+            setDevices([]);
+            setIsFetchingLatest({});
+        }
+    };
+    const fetchLatestData = async (deviceList) => {
+        try {
+            setIsFetchingLatest(prev => ({
+                ...prev,
+                ...deviceList.reduce((acc, device) => ({
                     ...acc,
-                    [device.generated_id]: false
-                }), {}));
-                await fetchLatestData(deviceList);
-            } catch (error) {
-                setDevices([]);
-                setIsFetchingLatest({});
-            }
-        };
+                    [device.generated_id]: true
+                }), {})
+            }));
 
-        const fetchLatestData = async (deviceList) => {
-            try {
-                setIsFetchingLatest(prev => ({
-                    ...prev,
-                    ...deviceList.reduce((acc, device) => ({
-                        ...acc,
-                        [device.generated_id]: true
-                    }), {})
-                }));
-
-                const devicePromises = deviceList.map(async (device) => {
-                    try {
-                        const latestResponse = await axios.get(`/device_inner/${device.generated_id}/latest/`);
-                        if (latestResponse.data.length > 0) {
-                            const apiTime = latestResponse.data[0].time;
-                            const date = new Date(apiTime);
-                            const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-                            return {
-                                ...device,
-                                temperature: latestResponse.data[0].temperature,
-                                humidity: latestResponse.data[0].humidity,
-                                time: formattedDate,
-                            };
-                        } else {
-                            return device;
-                        }
-                    } catch (error) {
+            const devicePromises = deviceList.map(async (device) => {
+                try {
+                    const latestResponse = await axios.get(`/device_inner/${device.generated_id}/latest/`);
+                    if (latestResponse.data.length > 0) {
+                        const apiTime = latestResponse.data[0].time;
+                        const date = new Date(apiTime);
+                        const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                        return {
+                            ...device,
+                            temperature: latestResponse.data[0].temperature,
+                            humidity: latestResponse.data[0].humidity,
+                            time: formattedDate,
+                        };
+                    } else {
                         return device;
                     }
-                });
+                } catch (error) {
+                    return device;
+                }
+            });
 
-                const devicesWithLatest = await Promise.all(devicePromises);
-                setDevices(devicesWithLatest);
-                setIsFetchingLatest(prev => ({
-                    ...prev,
-                    ...deviceList.reduce((acc, device) => ({
-                        ...acc,
-                        [device.generated_id]: false
-                    }), {})
-                }));
-            } catch (error) {
-                setIsFetchingLatest(prev => ({
-                    ...prev,
-                    ...deviceList.reduce((acc, device) => ({
-                        ...acc,
-                        [device.generated_id]: false
-                    }), {})
-                }));
-            }
-        };
+            const devicesWithLatest = await Promise.all(devicePromises);
+
+            setDevices(devicesWithLatest);
+            setIsFetchingLatest(prev => ({
+                ...prev,
+                ...deviceList.reduce((acc, device) => ({
+                    ...acc,
+                    [device.generated_id]: false
+                }), {})
+            }));
+
+            lastFetchTime.current = new Date();
+
+        } catch (error) {
+            setIsFetchingLatest(prev => ({
+                ...prev,
+                ...deviceList.reduce((acc, device) => ({
+                    ...acc,
+                    [device.generated_id]: false
+                }), {})
+            }));
+        }
+    };
+    useEffect(() => {
 
         const scheduleNextFetch = () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+
             const now = new Date();
             const minutes = now.getMinutes();
             const seconds = now.getSeconds();
             const milliseconds = now.getMilliseconds();
-
             const minutesPastQuarter = minutes % 15;
-            const minutesToNextQuarter = minutesPastQuarter === 0 ? 0 : 15 - minutesPastQuarter;
+            const minutesToNextQuarter = minutesPastQuarter === 0 ? 15 : 15 - minutesPastQuarter;
             const delayMilliseconds = (minutesToNextQuarter * 60 * 1000) - (seconds * 1000) - milliseconds;
 
             const timeoutId = setTimeout(() => {
-                if (devices.length > 0) {
-                    fetchLatestData(devices);
-                } else {
-                    fetchDeviceList();
-                }
-                const intervalId = setInterval(() => {
+                if (isNewInterval()) {
                     if (devices.length > 0) {
                         fetchLatestData(devices);
                     } else {
                         fetchDeviceList();
                     }
-                }, 15 * 60 * 1000);
-                intervalRef.current = intervalId;
-            }, delayMilliseconds > 0 ? delayMilliseconds : 0);
+                }
+
+                intervalRef.current = setInterval(() => {
+                    if (isNewInterval()) {
+                        if (devices.length > 0) {
+                            fetchLatestData(devices);
+                        } else {
+                            fetchDeviceList();
+                        }
+                    }
+                }, 15 * 60 * 1000); // 15 minutes in milliseconds
+
+            }, delayMilliseconds);
 
             return timeoutId;
         };
 
         fetchDeviceList();
+
         const timeoutId = scheduleNextFetch();
 
         return () => {
@@ -575,6 +672,23 @@ const MapArmenia = () => {
             }
         };
     }, []);
+
+    useEffect(() => {
+        if (!isMapVisible || !lastFetchTime.current) return;
+
+        const now = new Date();
+        const timeSinceLastFetch = now - new Date(lastFetchTime.current);
+        const fifteenMinutes = 15 * 60 * 1000;
+
+        if (timeSinceLastFetch > fifteenMinutes && isNewInterval()) {
+            if (devices.length > 0) {
+                fetchLatestData(devices);
+            } else {
+                fetchDeviceList();
+            }
+        }
+    }, [isMapVisible]);
+
 
     useEffect(() => {
         const handleWheel = (e) => {
@@ -614,12 +728,11 @@ const MapArmenia = () => {
 
     useEffect(() => {
         const handleCompareDevice = (event) => {
-            const { id } = event.detail;
-            const device = devices.find(d => d.generated_id === id);
-            if (device && !selectedDevices.find(d => d.generated_id === id)) {
-                setSelectedDevices(prev => [...prev, device]);
-                popupManager.cleanup();
-            }
+            const id = Number(event?.detail?.id);
+            if (!id || !deviceMap[id] || selectedIds.has(id)) return;
+
+            setSelectedDevices(prev => [...prev, deviceMap[id]]);
+            popupManager.cleanup();
         };
 
         window.addEventListener('compareDevice', handleCompareDevice);
@@ -688,7 +801,7 @@ const MapArmenia = () => {
         weight: 3,
     };
 
-    const customIcon = new L.Icon({
+    const customIcon = new icon({
         iconUrl,
         iconSize: [25, 25],
         iconAnchor: [15, 15],
@@ -718,6 +831,10 @@ const MapArmenia = () => {
             const ids = selectedDevices.map(d => d.generated_id).join(',');
             navigate(`/${i18n.language}/api?tab=compare&devices=${ids}`);
         }
+    };
+
+    const closeMobileZoom = () => {
+        setMobileImageZoom(null);
     };
 
     return (
@@ -829,7 +946,6 @@ const MapArmenia = () => {
                     />
                     <InfoButton
                         onClick={() => setShowMessage(true)}
-                        hidden={showMessage}
                     />
                     <Routes>
                         <Route path="/device/:id" element={<InnerPage />} />
@@ -842,7 +958,7 @@ const MapArmenia = () => {
                             <div className={styles.popupContent}>
                                 <span>
                                     {t('map.clickOnMap')}
-                                    <img className={styles.clickIcon} src={clickIcon} alt="Click icon" />
+                                    <img className={styles.clickIcon} src='https://images-in-website.s3.us-east-1.amazonaws.com/Icons/clickonIcon.png' alt="Click icon" />
                                 </span>
                             </div>
                         </div>
@@ -863,7 +979,7 @@ const MapArmenia = () => {
                                 onClick={handleCompare}
                                 disabled={selectedDevices.length < 2}
                             >
-                                {t('map.compareButton')}
+                                {t(window.innerWidth <= 768 ? 'map.compareButtonMobile' : 'map.compareButton')}
                             </button>
                             <div className={styles.deviceList}>
                                 {selectedDevices.map(device => (
@@ -899,6 +1015,20 @@ const MapArmenia = () => {
                             </div>
                         </>
                     )}
+                </div>
+            )}
+            {mobileImageZoom && (
+                <div className={styles.mobileImageModal} onClick={closeMobileZoom}>
+                    <div className={styles.mobileImageContainer} onClick={(e) => e.stopPropagation()}>
+                        <button className={styles.mobileCloseButton} onClick={closeMobileZoom}>
+                            ✕
+                        </button>
+                        <img
+                            src={mobileImageZoom.src}
+                            alt={mobileImageZoom.alt}
+                            className={styles.mobileZoomedImage}
+                        />
+                    </div>
                 </div>
             )}
         </div>

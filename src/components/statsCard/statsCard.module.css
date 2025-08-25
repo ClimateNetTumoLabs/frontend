@@ -1,0 +1,16 @@
+.statsCard {
+  background-color: #3a3a3a;
+  border-radius: 5px;
+  color: #fff;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  min-width: auto;
+}
+
+.label {
+  font-size: 14px;
+  color: #f8f8f8;
+}
+
+.value {
+  font-size: 14px;
+}

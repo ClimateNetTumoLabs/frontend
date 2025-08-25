@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import styles from './PrivacyAndPolicy.module.css';
+import styles from './PrivacyPolicy.module.css';
 import { useTranslation } from "react-i18next";
+import Loader from "react-js-loader";
 import "../../i18n";
 
 const PrivacyPolicy = () => {
@@ -17,8 +18,20 @@ const PrivacyPolicy = () => {
     }, []);
 
     if (privacyPolicies.length === 0) {
-        return <div>Loading...</div>;
-    }
+        return (
+        <>
+            <div className={styles.privacy_policy_section}>
+                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Loader
+                        type="spinner"
+                        bgColor={"#FFFFFF"}
+                        color={"#FFFFFF"}
+                        size={60}
+                    />
+                </div> 
+            </div>
+        </>  
+    )}
 
     return (
         <div className={styles.privacy_policy_section}>

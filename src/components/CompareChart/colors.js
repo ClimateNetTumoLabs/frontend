@@ -3,11 +3,11 @@ export const weatherChartColors = {
     "#FFFA75", // Yellowish
     "#77B6EA", // Cyanish
     "#FF6384", // Red
-    "#36A2EB", // Blue
     "#FFCE56", // Yellow
     "#4BC0C0", // Teal
     "#9966FF", // Purple
     "#FF9F40", // Orange
+    "#36A2EB", // Blue
     "rgba(255, 51, 51, 1)",   // Bright Red
     "rgba(255, 153, 0, 1)",   // Vivid Orange
     "rgba(255, 255, 0, 1)",   // Bright Yellow

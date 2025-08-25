@@ -70,3 +70,27 @@
     font-size: 14px;
     color: #C2C2C3;
 }
+
+.vsButton {
+    display: flex;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background-color: #e07789;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #e07789;
+    margin-left: auto;
+    transition: all 0.3s ease;
+}
+
+.vsButton:hover {
+    border-color: #e07789;
+    color: #e07789;
+    background: rgba(224, 119, 137, 0.1);
+    transition: all 0.3s ease;
+}
