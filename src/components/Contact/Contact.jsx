@@ -3,7 +3,7 @@ import styles from "./Contact.module.css";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 
-const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) => {
+const ContactForm = ({ name, subject_state, subject, showCoordinates = false}) => {
     const { t } = useTranslation();
     const translatedSubject = subject || t('contact.options.join');
 
@@ -36,21 +36,47 @@ const ContactForm = ({ name, subject_state, subject, showCoordinates = false }) 
     const labelClass = (inputName) =>
         `${styles.label_for_input} ${focusedInput === inputName || formData[inputName] ? styles.focused : ""}`;
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const { name,  message, coordinates } = formData;
-        const subjectToUse = subject_state ? formData.subject : subject;
+        const { name, email, subject, message, coordinates } = formData;
 
-        let templateMessage = `${t('contact.formFields.templateMessage')} \n\n ${message} \n\n ${t('contact.formFields.templateMessage2')} \n\n${name}`;
+        // Decide endpoint automatically
+        const url = showCoordinates
+            ? "http://localhost:8000/api/users/submit-form/"   // UserRequestManager
+            : "http://localhost:8000/api/contact/submit/";     // ContactUs
 
-        if (showCoordinates) {
-            templateMessage += `\n\n${t('contact.formFields.coordinates')}: ${coordinates}`;
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    subject,
+                    message,
+                    coordinates
+                }),
+            });
+
+            if (response.ok) {
+                alert("Your request has been submitted successfully!");
+                setFormData({
+                    name: "",
+                    email: "",
+                    subject: translatedSubject,
+                    message: "",
+                    coordinates: "",
+                });
+            } else {
+                alert("Something went wrong. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            alert("Failed to send request.");
         }
-
-        const mailtoLink = `mailto:labs@tumo.org?subject=${encodeURIComponent(subjectToUse)}&body=${encodeURIComponent(templateMessage)}`;
-
-        window.location.href = mailtoLink;
     };
 
     return (
